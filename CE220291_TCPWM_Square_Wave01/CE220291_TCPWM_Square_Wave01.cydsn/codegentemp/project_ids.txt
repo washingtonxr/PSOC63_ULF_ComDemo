@@ -1,0 +1,6 @@
+C:\Users\Tornado\Documents\PSoC Creator\CE220291_TCPWM_Square_Wave01\CE220291_TCPWM_Square_Wave01.cydsn\CE220291_TCPWM_Square_Wave01.cyprj|1a9c2304-eb8c-4cd2-96b9-c978df47ab94
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|2589a051-8a7b-4dc2-ade5-a97a70ad8dbf
+C:\Users\Tornado\Documents\PSoC Creator\4.2\Downloads ( 4.2).cylib\Downloads ( 4.2).cyprj|5525e312-6480-415c-95da-7ccfdd7a14e8
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|c72002ce-4b81-4837-a09b-a88feea2d0d8
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|821c460d-5e89-4a92-bf8d-f14aaffb2bd9
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|5a995777-e56d-41ef-b098-6705c0be5bc4
