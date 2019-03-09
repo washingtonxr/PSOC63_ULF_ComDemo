@@ -1,5 +1,5 @@
 # CE220291_TCPWM_Square_Wave01
-# 2019-03-07 02:45:25Z
+# 2019-03-08 10:07:03Z
 
 dont_use_location p4usbcell -1 -1 0
 dont_use_location USB -1 -1 0
@@ -16,3 +16,4 @@ set_io "Orange_LED(0)" iocell 1 5
 set_io "\UART_DEBUG:tx(0)\" iocell 5 1
 set_io "\UART_DEBUG:rx(0)\" iocell 5 0
 set_io "ULF_BO(0)" iocell 10 6
+set_io "ULF_nBO(0)" iocell 10 5

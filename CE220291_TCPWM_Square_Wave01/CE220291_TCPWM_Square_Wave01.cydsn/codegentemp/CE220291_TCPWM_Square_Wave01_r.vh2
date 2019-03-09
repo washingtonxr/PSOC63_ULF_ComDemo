@@ -1,5 +1,5 @@
 -- Project:   CE220291_TCPWM_Square_Wave01
--- Generated: 03/07/2019 10:45:26
+-- Generated: 03/08/2019 18:07:04
 -- PSoC Creator  4.2
 
 ENTITY CE220291_TCPWM_Square_Wave01 IS
@@ -12,7 +12,8 @@ ENTITY CE220291_TCPWM_Square_Wave01 IS
         Orange_LED(0)_PAD : OUT std_ulogic;
         \UART_DEBUG:tx(0)_PAD\ : OUT std_ulogic;
         \UART_DEBUG:rx(0)_PAD\ : IN std_ulogic;
-        ULF_BO(0)_PAD : OUT std_ulogic);
+        ULF_BO(0)_PAD : OUT std_ulogic;
+        ULF_nBO(0)_PAD : OUT std_ulogic);
     ATTRIBUTE voltage_VBACKUP OF __DEFAULT__ : ENTITY IS 3.3e0;
     ATTRIBUTE voltage_VDD_NS OF __DEFAULT__ : ENTITY IS 3.3e0;
     ATTRIBUTE voltage_VDDA_CSD OF __DEFAULT__ : ENTITY IS 3.3e0;
@@ -65,13 +66,13 @@ ARCHITECTURE __DEFAULT__ OF CE220291_TCPWM_Square_Wave01 IS
     SIGNAL Net_117 : bit;
     SIGNAL Net_125 : bit;
     SIGNAL Net_126 : bit;
-    SIGNAL Net_135 : bit;
     SIGNAL Net_137 : bit;
     SIGNAL Net_138 : bit;
     SIGNAL Net_139 : bit;
     SIGNAL Net_140_ff11 : bit;
     ATTRIBUTE global_signal OF Net_140_ff11 : SIGNAL IS true;
     SIGNAL Net_149 : bit;
+    SIGNAL Net_164 : bit;
     SIGNAL Net_21 : bit;
     SIGNAL Net_22 : bit;
     SIGNAL Net_23 : bit;
@@ -88,6 +89,7 @@ ARCHITECTURE __DEFAULT__ OF CE220291_TCPWM_Square_Wave01 IS
     SIGNAL ULF_BO(0)__PA : bit;
     SIGNAL ULF_IN(0)__PA : bit;
     SIGNAL ULF_OUT(0)__PA : bit;
+    SIGNAL ULF_nBO(0)__PA : bit;
     SIGNAL \System_Tick:Net_1\ : bit;
     SIGNAL \System_Tick:Net_2\ : bit;
     SIGNAL \UART_DEBUG:Net_1172\ : bit;
@@ -137,6 +139,8 @@ ARCHITECTURE __DEFAULT__ OF CE220291_TCPWM_Square_Wave01 IS
     ATTRIBUTE Location OF \UART_DEBUG:rx(0)\ : LABEL IS "P5[0]";
     ATTRIBUTE lib_model OF ULF_BO(0) : LABEL IS "iocell11";
     ATTRIBUTE Location OF ULF_BO(0) : LABEL IS "P10[6]";
+    ATTRIBUTE lib_model OF ULF_nBO(0) : LABEL IS "iocell12";
+    ATTRIBUTE Location OF ULF_nBO(0) : LABEL IS "P10[5]";
     ATTRIBUTE Location OF \ULF_Carrier:TCPWM\ : LABEL IS "F(TCPWM,3)";
     ATTRIBUTE Location OF SysInt_ULFCarrierCnt : LABEL IS "[IntrContainer=(0)][IntrId=(93)]";
     ATTRIBUTE Location OF \ULF_Counter:TCPWM\ : LABEL IS "F(TCPWM,2)";
@@ -757,7 +761,7 @@ BEGIN
         PORT MAP(
             pa_out => ULF_IN(0)__PA,
             oe => open,
-            fb => Net_135,
+            fb => Net_164,
             pad_in => ULF_IN(0)_PAD,
             in_clock => open,
             in_clock_en => open,
@@ -1148,6 +1152,60 @@ BEGIN
             out_clock_en => open,
             out_reset => open);
 
+    ULF_nBO:logicalport
+        GENERIC MAP(
+            cy_registers => "",
+            drive_mode => "110",
+            drive_strength => "0",
+            hotswap_needed => "0",
+            i2c_mode => "0",
+            ibuf_enabled => "0",
+            id => "05c113f4-54f0-437a-b503-54a987a94963",
+            init_dr_st => "0",
+            input_sync => "0",
+            intr_mode => "00",
+            io_voltage => "",
+            max_frequency => "100",
+            oe_conn => "0",
+            oe_sync => "0",
+            output_conn => "0",
+            output_current_cap => "8",
+            output_sync => "0",
+            pin_aliases => "",
+            pin_mode => "B",
+            sio_grp_cnt => 0,
+            slew_rate => "0",
+            use_annotation => "0",
+            vtrip => "00",
+            width => 1,
+            in_clk_inv => 0,
+            in_clken_inv => 0,
+            in_clken_mode => 1,
+            in_rst_inv => 0,
+            out_clk_inv => 0,
+            out_clken_inv => 0,
+            out_clken_mode => 1,
+            out_rst_inv => 0);
+
+    ULF_nBO(0):iocell
+        GENERIC MAP(
+            in_sync_mode => 0,
+            out_sync_mode => 0,
+            oe_sync_mode => 0,
+            logicalport => "ULF_nBO",
+            logicalport_pin_id => 0,
+            io_capabilities => "0000000000000000000000000000000000000000000000000000000000000001")
+        PORT MAP(
+            pa_out => ULF_nBO(0)__PA,
+            oe => open,
+            pad_in => ULF_nBO(0)_PAD,
+            in_clock => open,
+            in_clock_en => open,
+            in_reset => open,
+            out_clock => open,
+            out_clock_en => open,
+            out_reset => open);
+
     \ULF_Carrier:TCPWM\:TCPWM
         GENERIC MAP(
             cy_registers => "",
@@ -1281,7 +1339,7 @@ BEGIN
             width => 16)
         PORT MAP(
             clock => Net_140_ff11,
-            capture => Net_135,
+            capture => Net_164,
             count => '1',
             reload => '0',
             stop => '0',

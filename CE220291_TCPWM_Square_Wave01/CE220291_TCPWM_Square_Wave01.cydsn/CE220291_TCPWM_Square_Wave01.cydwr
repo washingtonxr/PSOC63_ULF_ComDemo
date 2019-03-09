@@ -18,6 +18,7 @@
     </Group>
     <Group key="Pin">
       <Data key="4cca878b-77b5-471d-8aeb-ad6925202455" value="SW2" />
+      <Data key="05c113f4-54f0-437a-b503-54a987a94963" value="ULF_nBO" />
       <Data key="9e94cdbb-df49-4335-b2cd-cde5f6ea9bf8" value="ULF_BO" />
       <Data key="882a4d54-6321-45a4-9a46-a77406a03b3a" value="Orange_LED" />
       <Data key="7520b3c1-2a28-4a48-9750-6ba5cf03ac56" value="Red_LED" />
@@ -6990,6 +6991,11 @@
     <Group key="4cca878b-77b5-471d-8aeb-ad6925202455">
       <Group key="0">
         <Data key="Port Format" value="0,4" />
+      </Group>
+    </Group>
+    <Group key="05c113f4-54f0-437a-b503-54a987a94963">
+      <Group key="0">
+        <Data key="Port Format" value="10,5" />
       </Group>
     </Group>
     <Group key="9e94cdbb-df49-4335-b2cd-cde5f6ea9bf8">

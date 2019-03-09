@@ -44,8 +44,9 @@ typedef enum{
 
 /* ULF Protocol type. */
 typedef enum{
-    ULF_PRO_4x00 = 1,
-    ULF_PRO_5x00
+    ULF_PRO_4100 = 1,
+    ULF_PRO_4200,
+    ULF_PRO_55xx
 }ulf_pro_t;
     
 /* ULF Transmit State. */

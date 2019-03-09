@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
   27:main_cm4.c    **** * of this Software except as specified above is prohibited without the express
   28:main_cm4.c    **** * written permission of Cypress.
   29:main_cm4.c    **** *
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 2
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 2
 
 
   30:main_cm4.c    **** * Disclaimer: THIS SOFTWARE IS PROVIDED AS-IS, WITH NO WARRANTY OF ANY KIND, 
@@ -83,12 +83,15 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
   49:main_cm4.c    **** ulf_ctrl_t ULF_CTRL;                    /* ULF Transmit Control. */
   50:main_cm4.c    **** ulf_user_db_t ULF_DB;                   /* ULF Control Database. */
   51:main_cm4.c    **** sys_LEDtimer_t Red_LED, Orange_LED;     /* LED Database.         */
-  52:main_cm4.c    **** unsigned int Sys_counter;               /* System Counter.       */
-  53:main_cm4.c    **** 
-  54:main_cm4.c    **** /* 10ms Timmer. */
-  55:main_cm4.c    **** void System_Tick_ISR()
-  56:main_cm4.c    **** {
-  29              		.loc 1 56 0
+  52:main_cm4.c    **** 
+  53:main_cm4.c    **** unsigned int Sys_counter;               /* System Counter.       */
+  54:main_cm4.c    **** #if 0
+  55:main_cm4.c    **** void Trace_Reader();
+  56:main_cm4.c    **** #endif
+  57:main_cm4.c    **** /* 10ms Timmer. */
+  58:main_cm4.c    **** void System_Tick_ISR()
+  59:main_cm4.c    **** {
+  29              		.loc 1 59 0
   30              		.cfi_startproc
   31              		@ args = 0, pretend = 0, frame = 0
   32              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -115,12 +118,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
   12:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * the software package with which this file was provided.
   13:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** *******************************************************************************/
   14:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 3
+
+
   15:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** /**
   16:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * \defgroup group_tcpwm Timer Counter PWM (TCPWM)
   17:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * \{
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 3
-
-
   18:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * \defgroup group_tcpwm_common  Common
   19:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * \defgroup group_tcpwm_counter Timer/Counter (TCPWM)
   20:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * \defgroup group_tcpwm_pwm     PWM (TCPWM)
@@ -175,12 +178,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
   69:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * \b PWM
   70:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** *
   71:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * Use this mode when an output square wave is needed with a specific 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 4
+
+
   72:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * period and duty cycle, such as:
   73:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * * Creating arbitrary square wave outputs
   74:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * * Driving an LED (changing the brightness)
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 4
-
-
   75:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * * Driving Motors (dead time assertion available)
   76:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** *
   77:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * The PWM has the following features:
@@ -235,12 +238,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  126:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * counters simultaneously for certain functions. These are listed in the 
  127:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * \ref group_tcpwm_functions_common 
  128:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * section of the TCPWM. You can enable, disable, or trigger (in various ways) 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 5
+
+
  129:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * multiple counters simultaneously. For these functions you provide a bit field 
  130:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * representing each counter in the TCPWM you want to control. You can 
  131:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * represent the bit field as an ORed mask of each counter, like 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 5
-
-
  132:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * ((1U << cntNumX) | (1U << cntNumX) | (1U << cntNumX)), where X is the counter 
  133:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * number from 0 to 31.
  134:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** *
@@ -295,12 +298,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  183:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** *   </tr>
  184:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * </table>
  185:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** */
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 6
+
+
  186:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** 
  187:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** /** \} group_tcpwm */
  188:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 6
-
-
  189:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** /**
  190:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * \addtogroup group_tcpwm_common
  191:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * Common API for the Timer Counter PWM Block.
@@ -355,12 +358,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  240:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** #define CY_TCPWM_INPUT_0                (0U)  /**< Input is tied to logic 0 */
  241:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** #define CY_TCPWM_INPUT_1                (1U)  /**< Input is tied to logic 1 */
  242:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** #define CY_TCPWM_INPUT_TRIG_0           (2U)  /**< Input is connected to the trigger input 0 */
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 7
+
+
  243:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** #define CY_TCPWM_INPUT_TRIG_1           (3U)  /**< Input is connected to the trigger input 1 */
  244:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** #define CY_TCPWM_INPUT_TRIG_2           (4U)  /**< Input is connected to the trigger input 2 */
  245:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** #define CY_TCPWM_INPUT_TRIG_3           (5U)  /**< Input is connected to the trigger input 3 */
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 7
-
-
  246:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** #define CY_TCPWM_INPUT_TRIG_4           (6U)  /**< Input is connected to the trigger input 4 */
  247:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** #define CY_TCPWM_INPUT_TRIG_5           (7U)  /**< Input is connected to the trigger input 5 */
  248:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** #define CY_TCPWM_INPUT_TRIG_6           (8U)  /**< Input is connected to the trigger input 6 */
@@ -415,12 +418,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  297:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** #define CY_TCPWM_CNT_CTRL_DEFAULT           (0x0U) /**< Default value for CTRL register */
  298:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** #define CY_TCPWM_CNT_COUNTER_DEFAULT        (0x0U) /**< Default value for COUNTER register */
  299:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** #define CY_TCPWM_CNT_CC_DEFAULT             (0xFFFFFFFFU) /**< Default value for CC register */
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 8
+
+
  300:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** #define CY_TCPWM_CNT_CC_BUFF_DEFAULT        (0xFFFFFFFFU) /**< Default value for CC_BUFF register *
  301:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** #define CY_TCPWM_CNT_PERIOD_DEFAULT         (0xFFFFFFFFU) /**< Default value for PERIOD register */
  302:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** #define CY_TCPWM_CNT_PERIOD_BUFF_DEFAULT    (0xFFFFFFFFU) /**< Default value for PERIOD_BUFF regist
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 8
-
-
  303:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** #define CY_TCPWM_CNT_TR_CTRL0_DEFAULT       (0x10U)  /**< Default value for TR_CTRL0 register */
  304:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** #define CY_TCPWM_CNT_TR_CTRL1_DEFAULT       (0x3FFU) /**< Default value for TR_CTRL1 register */
  305:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** #define CY_TCPWM_CNT_TR_CTRL2_DEFAULT       (0x3FU)  /**< Default value for TR_CTRL2 register */
@@ -475,12 +478,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  354:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** __STATIC_INLINE void Cy_TCPWM_SetInterrupt(TCPWM_Type *base, uint32_t cntNum, uint32_t source);
  355:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** __STATIC_INLINE void Cy_TCPWM_SetInterruptMask(TCPWM_Type *base, uint32_t cntNum, uint32_t mask);
  356:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** __STATIC_INLINE uint32_t Cy_TCPWM_GetInterruptMask(TCPWM_Type const *base, uint32_t cntNum);
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 9
+
+
  357:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** __STATIC_INLINE uint32_t Cy_TCPWM_GetInterruptStatusMasked(TCPWM_Type const *base, uint32_t cntNum)
  358:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** 
  359:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 9
-
-
  360:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** /*******************************************************************************
  361:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * Function Name: Cy_TCPWM_Enable_Multiple
  362:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** ****************************************************************************//**
@@ -535,12 +538,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  411:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** *
  412:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * \param base
  413:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * The pointer to a TCPWM instance.
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 10
+
+
  414:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** *
  415:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * \param counters
  416:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * A bit field representing each counter in the TCPWM block.
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 10
-
-
  417:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** *
  418:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * \funcusage
  419:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * \snippet tcpwm/tcpwm_v1_0_counter_sut_01.cydsn/main_cm4.c snippet_Cy_TCPWM_Enable_Multiple
@@ -595,12 +598,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  468:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h ****     base->CMD_STOP = counters;
  469:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** }
  470:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 11
+
+
  471:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** 
  472:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** /*******************************************************************************
  473:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * Function Name: Cy_TCPWM_TriggerCaptureOrSwap
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 11
-
-
  474:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** ****************************************************************************//**
  475:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** *
  476:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * Triggers a Capture in the Timer Counter mode, and a Swap in the PWM mode.
@@ -650,31 +653,31 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
   46              	.LBE44:
   47              	.LBE43:
   48              	.LBE42:
-  57:main_cm4.c    ****     int ret;
-  58:main_cm4.c    ****     static char System_HB;
-  59:main_cm4.c    ****     
-  60:main_cm4.c    ****     ret = System_Tick_GetInterruptStatus();
-  61:main_cm4.c    ****     //DEBUG_PRINTF("Counter_1_GetInterruptStatus = %d\n", ret);
-  62:main_cm4.c    **** #if 1
-  63:main_cm4.c    ****     /* Red LED routine. */
-  64:main_cm4.c    ****     if(Red_LED.sw){
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 12
+  60:main_cm4.c    ****     int ret;
+  61:main_cm4.c    ****     static char System_HB;
+  62:main_cm4.c    ****     
+  63:main_cm4.c    ****     ret = System_Tick_GetInterruptStatus();
+  64:main_cm4.c    ****     //DEBUG_PRINTF("Counter_1_GetInterruptStatus = %d\n", ret);
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 12
 
 
-  49              		.loc 1 64 0
+  65:main_cm4.c    **** #if 1
+  66:main_cm4.c    ****     /* Red LED routine. */
+  67:main_cm4.c    ****     if(Red_LED.sw){
+  49              		.loc 1 67 0
   50 0008 214B     		ldr	r3, .L9+4
   51 000a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
   52 000c 83B1     		cbz	r3, .L2
-  65:main_cm4.c    ****         if(Red_LED.counter++ >= LED_TO){
-  53              		.loc 1 65 0
+  68:main_cm4.c    ****         if(Red_LED.counter++ >= LED_TO){
+  53              		.loc 1 68 0
   54 000e 204A     		ldr	r2, .L9+4
   55 0010 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2
   56 0012 581C     		adds	r0, r3, #1
   57 0014 5070     		strb	r0, [r2, #1]
   58 0016 022B     		cmp	r3, #2
   59 0018 07D9     		bls	.L3
-  66:main_cm4.c    ****             Red_LED.counter = 0;
-  60              		.loc 1 66 0
+  69:main_cm4.c    ****             Red_LED.counter = 0;
+  60              		.loc 1 69 0
   61 001a 1346     		mov	r3, r2
   62 001c 0022     		movs	r2, #0
   63 001e 5A70     		strb	r2, [r3, #1]
@@ -715,12 +718,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
   31:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * - An entire port can be configured using \ref Cy_GPIO_Port_Init. Provide a filled 
   32:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *   cy_stc_gpio_prt_config_t structure. The values in the structure are 
   33:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *   bitfields representing the desired value for each pin in the port.
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 13
+
+
   34:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * - Pin configuration and management is based on the port address and pin number.
   35:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *   \ref Cy_GPIO_PortToAddr function can optionally be used to calculate the port
   36:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *   address from the port number at run-time.
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 13
-
-
   37:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
   38:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * Once the pin/port initialization is complete, each pin can be accessed by 
   39:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * specifying the port (GPIO_PRT_Type) and the pin (0-7) in the provided API 
@@ -775,12 +778,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
   88:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
   89:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *   <tr>
   90:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *     <td>1.10.1</td>
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 14
+
+
   91:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *     <td>Updated description for the functions: \ref Cy_GPIO_GetInterruptStatus, 
   92:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *         \ref Cy_GPIO_GetInterruptMask, \ref Cy_GPIO_GetInterruptStatusMasked.
   93:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *         Minor documentation edits.
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 14
-
-
   94:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *     </td>
   95:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *     <td>Documentation update and clarification</td>
   96:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *   </tr>
@@ -835,12 +838,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  145:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** /** \} group_gpio_macros */
  146:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** 
  147:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 15
+
+
  148:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** /***************************************
  149:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *       Enumerations
  150:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** ***************************************/
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 15
-
-
  151:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** /**
  152:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \addtogroup group_gpio_enums
  153:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \{
@@ -895,12 +898,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  202:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****     uint32_t vtripSel;       /**< SIO pair input buffer trip point */
  203:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****     uint32_t vrefSel;        /**< SIO pair reference voltage for input buffer trip point */
  204:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****     uint32_t vohSel;         /**< SIO pair regulated voltage output level */
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 16
+
+
  205:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** } cy_stc_gpio_pin_config_t;
  206:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** 
  207:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** /** \} group_gpio_data_structures */
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 16
-
-
  208:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** 
  209:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** /***************************************
  210:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *        Constants
@@ -955,12 +958,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  259:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** #define CY_GPIO_PINS_MAX                       (8UL)      /**< Number of pins in the port */
  260:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** #define CY_GPIO_PRT_PINS_MASK                  (0x0000000FFUL)
  261:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** #define CY_GPIO_PRT_INTR_CFG_EDGE_SEL_MASK     (GPIO_PRT_INTR_CFG_EDGE0_SEL_Msk | \
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 17
+
+
  262:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****                                                 GPIO_PRT_INTR_CFG_EDGE1_SEL_Msk | \
  263:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****                                                 GPIO_PRT_INTR_CFG_EDGE2_SEL_Msk | \
  264:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****                                                 GPIO_PRT_INTR_CFG_EDGE3_SEL_Msk | \
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 17
-
-
  265:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****                                                 GPIO_PRT_INTR_CFG_EDGE4_SEL_Msk | \
  266:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****                                                 GPIO_PRT_INTR_CFG_EDGE5_SEL_Msk | \
  267:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****                                                 GPIO_PRT_INTR_CFG_EDGE6_SEL_Msk | \
@@ -1015,12 +1018,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  316:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *        Function Constants
  317:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** ***************************************/
  318:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 18
+
+
  319:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** /**
  320:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \addtogroup group_gpio_macros
  321:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \{
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 18
-
-
  322:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** */
  323:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** 
  324:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** /**
@@ -1075,12 +1078,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  373:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** 
  374:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** /**
  375:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \defgroup group_gpio_interruptTrigger Interrupt trigger type
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 19
+
+
  376:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \{
  377:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * Constants to be used for setting the interrupt trigger type on the pin.
  378:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** */
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 19
-
-
  379:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** #define CY_GPIO_INTR_DISABLE                   (0x00UL) /**< \brief Disable the pin interrupt gener
  380:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** #define CY_GPIO_INTR_RISING                    (0x01UL) /**< \brief Rising-Edge interrupt */
  381:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** #define CY_GPIO_INTR_FALLING                   (0x02UL) /**< \brief Falling-Edge interrupt */
@@ -1135,12 +1138,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  430:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** #define CY_SIO_VOH_1_00                        (0x00UL) /**< \brief Voh = 1 x Reference */
  431:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** #define CY_SIO_VOH_1_25                        (0x01UL) /**< \brief Voh = 1.25 x Reference */
  432:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** #define CY_SIO_VOH_1_49                        (0x02UL) /**< \brief Voh = 1.49 x Reference */
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 20
+
+
  433:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** #define CY_SIO_VOH_1_67                        (0x03UL) /**< \brief Voh = 1.67 x Reference */
  434:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** #define CY_SIO_VOH_2_08                        (0x04UL) /**< \brief Voh = 2.08 x Reference */
  435:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** #define CY_SIO_VOH_2_50                        (0x05UL) /**< \brief Voh = 2.50 x Reference */
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 20
-
-
  436:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** #define CY_SIO_VOH_2_78                        (0x06UL) /**< \brief Voh = 2.78 x Reference */
  437:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** #define CY_SIO_VOH_4_16                        (0x07UL) /**< \brief Voh = 4.16 x Reference */
  438:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** /** \} */
@@ -1195,12 +1198,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  487:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** 
  488:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** /**
  489:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \addtogroup group_gpio_functions_sio
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 21
+
+
  490:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \{
  491:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** */
  492:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 21
-
-
  493:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** __STATIC_INLINE void Cy_GPIO_SetVregEn(GPIO_PRT_Type* base, uint32_t pinNum, uint32_t value);
  494:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** __STATIC_INLINE uint32_t Cy_GPIO_GetVregEn(GPIO_PRT_Type* base, uint32_t pinNum);
  495:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** __STATIC_INLINE void Cy_GPIO_SetIbufMode(GPIO_PRT_Type* base, uint32_t pinNum, uint32_t value);
@@ -1255,12 +1258,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  544:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** */
  545:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** 
  546:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** /*******************************************************************************
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 22
+
+
  547:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * Function Name: Cy_GPIO_SetHSIOM
  548:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** ****************************************************************************//**
  549:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 22
-
-
  550:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \brief Configures the HSIOM connection to the pin.
  551:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
  552:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * Connects the specified High-Speed Input Output Multiplexer (HSIOM) selection
@@ -1315,12 +1318,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  601:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** /*******************************************************************************
  602:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * Function Name: Cy_GPIO_GetHSIOM
  603:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** ****************************************************************************//**
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 23
+
+
  604:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
  605:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \brief Returns the current HSIOM multiplexer connection to the pin.
  606:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 23
-
-
  607:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \param base
  608:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * Pointer to the pin's port register base address
  609:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
@@ -1375,12 +1378,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  658:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * Base address of the port register structure
  659:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
  660:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \funcusage
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 24
+
+
  661:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \snippet gpio/gpio_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_GPIO_PortToAddr
  662:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
  663:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *******************************************************************************/
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 24
-
-
  664:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** __STATIC_INLINE GPIO_PRT_Type* Cy_GPIO_PortToAddr(uint32_t portNum)
  665:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** {
  666:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****     GPIO_PRT_Type* base;
@@ -1435,12 +1438,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  715:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** 
  716:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** /*******************************************************************************
  717:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * Function Name: Cy_GPIO_Write
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 25
+
+
  718:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** ****************************************************************************//**
  719:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
  720:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \brief Write a logic 0 or logic 1 state to the output driver.
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 25
-
-
  721:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
  722:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * This function should be used only for software driven pins. It does not have
  723:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * any effect on peripheral driven pins.
@@ -1495,12 +1498,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  772:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
  773:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \funcusage
  774:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \snippet gpio/gpio_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_GPIO_ReadOut
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 26
+
+
  775:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
  776:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *******************************************************************************/
  777:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** __STATIC_INLINE uint32_t Cy_GPIO_ReadOut(GPIO_PRT_Type* base, uint32_t pinNum)
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 26
-
-
  778:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** {
  779:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****     CY_ASSERT_L2(CY_GPIO_IS_PIN_VALID(pinNum));
  780:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** 
@@ -1542,9 +1545,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
   72              	.LVL3:
   73              	.LBE46:
   74              	.LBE45:
-  67:main_cm4.c    ****             Cy_GPIO_Set(Red_LED_PORT, Red_LED_NUM);
-  68:main_cm4.c    ****             Red_LED.sw = 0;
-  75              		.loc 1 68 0
+  70:main_cm4.c    ****             Cy_GPIO_Set(Red_LED_PORT, Red_LED_NUM);
+  71:main_cm4.c    ****             Red_LED.sw = 0;
+  75              		.loc 1 71 0
   76 0026 1A70     		strb	r2, [r3]
   77 0028 02E0     		b	.L2
   78              	.L3:
@@ -1555,12 +1558,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  813:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** 
  814:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** 
  815:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** /*******************************************************************************
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 27
+
+
  816:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * Function Name: Cy_GPIO_Clr
  817:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** ****************************************************************************//**
  818:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 27
-
-
  819:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \brief Set a pin output to logic state Low.
  820:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
  821:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * This function should be used only for software driven pins. It does not have
@@ -1592,35 +1595,35 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
   87              	.L2:
   88              	.LBE48:
   89              	.LBE47:
-  69:main_cm4.c    ****         }else{
-  70:main_cm4.c    ****             Cy_GPIO_Clr(Red_LED_PORT, Red_LED_NUM);
-  71:main_cm4.c    ****         }
-  72:main_cm4.c    ****     }
-  73:main_cm4.c    **** 
-  74:main_cm4.c    ****     /* Orange LED routine. */
-  75:main_cm4.c    ****     if(Orange_LED.sw){
-  90              		.loc 1 75 0
+  72:main_cm4.c    ****         }else{
+  73:main_cm4.c    ****             Cy_GPIO_Clr(Red_LED_PORT, Red_LED_NUM);
+  74:main_cm4.c    ****         }
+  75:main_cm4.c    ****     }
+  76:main_cm4.c    **** 
+  77:main_cm4.c    ****     /* Orange LED routine. */
+  78:main_cm4.c    ****     if(Orange_LED.sw){
+  90              		.loc 1 78 0
   91 0030 194B     		ldr	r3, .L9+12
   92 0032 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
   93 0034 83B1     		cbz	r3, .L4
-  76:main_cm4.c    ****         if(Orange_LED.counter++ >= LED_TO){
-  94              		.loc 1 76 0
+  79:main_cm4.c    ****         if(Orange_LED.counter++ >= LED_TO){
+  94              		.loc 1 79 0
   95 0036 184A     		ldr	r2, .L9+12
   96 0038 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2
   97 003a 581C     		adds	r0, r3, #1
   98 003c 5070     		strb	r0, [r2, #1]
   99 003e 022B     		cmp	r3, #2
  100 0040 07D9     		bls	.L5
-  77:main_cm4.c    ****             Orange_LED.counter = 0;
- 101              		.loc 1 77 0
+  80:main_cm4.c    ****             Orange_LED.counter = 0;
+ 101              		.loc 1 80 0
  102 0042 1346     		mov	r3, r2
  103 0044 0022     		movs	r2, #0
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 28
+
+
  104 0046 5A70     		strb	r2, [r3, #1]
  105              	.LVL6:
  106              	.LBB49:
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 28
-
-
  107              	.LBB50:
  811:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** }
  108              		.loc 3 811 0
@@ -1630,9 +1633,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  112              	.LVL7:
  113              	.LBE50:
  114              	.LBE49:
-  78:main_cm4.c    ****             Cy_GPIO_Set(Orange_LED_PORT, Orange_LED_NUM);
-  79:main_cm4.c    ****             Orange_LED.sw = 0;
- 115              		.loc 1 79 0
+  81:main_cm4.c    ****             Cy_GPIO_Set(Orange_LED_PORT, Orange_LED_NUM);
+  82:main_cm4.c    ****             Orange_LED.sw = 0;
+ 115              		.loc 1 82 0
  116 004e 1A70     		strb	r2, [r3]
  117 0050 02E0     		b	.L4
  118              	.L5:
@@ -1647,44 +1650,44 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  127              	.L4:
  128              	.LBE52:
  129              	.LBE51:
-  80:main_cm4.c    ****         }else{
-  81:main_cm4.c    ****             Cy_GPIO_Clr(Orange_LED_PORT, Orange_LED_NUM);
-  82:main_cm4.c    ****         }
-  83:main_cm4.c    ****     }
-  84:main_cm4.c    **** 
-  85:main_cm4.c    ****     /* Heard beat LED. */
-  86:main_cm4.c    ****     if(System_HB >= 100){
- 130              		.loc 1 86 0
+  83:main_cm4.c    ****         }else{
+  84:main_cm4.c    ****             Cy_GPIO_Clr(Orange_LED_PORT, Orange_LED_NUM);
+  85:main_cm4.c    ****         }
+  86:main_cm4.c    ****     }
+  87:main_cm4.c    **** 
+  88:main_cm4.c    ****     /* Heard beat LED. */
+  89:main_cm4.c    ****     if(System_HB >= 100){
+ 130              		.loc 1 89 0
  131 0058 114B     		ldr	r3, .L9+20
  132 005a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
  133 005c 632B     		cmp	r3, #99
  134 005e 06D9     		bls	.L6
-  87:main_cm4.c    ****         System_HB = 0;
- 135              		.loc 1 87 0
+  90:main_cm4.c    ****         System_HB = 0;
+ 135              		.loc 1 90 0
  136 0060 0022     		movs	r2, #0
  137 0062 0F4B     		ldr	r3, .L9+20
  138 0064 1A70     		strb	r2, [r3]
-  88:main_cm4.c    ****         Orange_LED.sw = 1;
- 139              		.loc 1 88 0
+  91:main_cm4.c    ****         Orange_LED.sw = 1;
+ 139              		.loc 1 91 0
  140 0066 0122     		movs	r2, #1
  141 0068 0B4B     		ldr	r3, .L9+12
  142 006a 1A70     		strb	r2, [r3]
  143 006c 02E0     		b	.L7
  144              	.L6:
-  89:main_cm4.c    ****     }else{
-  90:main_cm4.c    ****         System_HB++;
- 145              		.loc 1 90 0
+  92:main_cm4.c    ****     }else{
+  93:main_cm4.c    ****         System_HB++;
+ 145              		.loc 1 93 0
  146 006e 0133     		adds	r3, r3, #1
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 29
+
+
  147 0070 0B4A     		ldr	r2, .L9+20
  148 0072 1370     		strb	r3, [r2]
  149              	.L7:
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 29
-
-
-  91:main_cm4.c    ****     }
-  92:main_cm4.c    **** 
-  93:main_cm4.c    ****     Sys_counter++;
- 150              		.loc 1 93 0
+  94:main_cm4.c    ****     }
+  95:main_cm4.c    **** 
+  96:main_cm4.c    ****     Sys_counter++;
+ 150              		.loc 1 96 0
  151 0074 0B4A     		ldr	r2, .L9+24
  152 0076 1368     		ldr	r3, [r2]
  153 0078 0133     		adds	r3, r3, #1
@@ -1728,20 +1731,20 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  165              	.LBE55:
  166              	.LBE54:
  167              	.LBE53:
-  94:main_cm4.c    **** 
-  95:main_cm4.c    **** #else
-  96:main_cm4.c    ****     Cy_GPIO_Clr(Red_LED_PORT, Red_LED_NUM);
-  97:main_cm4.c    ****     Cy_SysLib_Delay(10);
-  98:main_cm4.c    ****     Cy_GPIO_Set(Red_LED_PORT, Red_LED_NUM);
-  99:main_cm4.c    ****     Cy_SysLib_Delay(10);
- 100:main_cm4.c    **** #endif
- 101:main_cm4.c    ****     System_Tick_ClearInterrupt(ret);
- 102:main_cm4.c    **** 
- 103:main_cm4.c    **** }
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 30
+  97:main_cm4.c    **** 
+  98:main_cm4.c    **** #else
+  99:main_cm4.c    ****     Cy_GPIO_Clr(Red_LED_PORT, Red_LED_NUM);
+ 100:main_cm4.c    ****     Cy_SysLib_Delay(10);
+ 101:main_cm4.c    ****     Cy_GPIO_Set(Red_LED_PORT, Red_LED_NUM);
+ 102:main_cm4.c    ****     Cy_SysLib_Delay(10);
+ 103:main_cm4.c    **** #endif
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 30
 
 
- 168              		.loc 1 103 0
+ 104:main_cm4.c    ****     System_Tick_ClearInterrupt(ret);
+ 105:main_cm4.c    **** 
+ 106:main_cm4.c    **** }
+ 168              		.loc 1 106 0
  169 0086 5DF8044B 		ldr	r4, [sp], #4
  170              		.cfi_restore 4
  171              		.cfi_def_cfa_offset 0
@@ -1766,10 +1769,10 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  190              		.type	SW2_ISR, %function
  191              	SW2_ISR:
  192              	.LFB627:
- 104:main_cm4.c    **** 
- 105:main_cm4.c    **** static void SW2_ISR()
- 106:main_cm4.c    **** {
- 193              		.loc 1 106 0
+ 107:main_cm4.c    **** 
+ 108:main_cm4.c    **** static void SW2_ISR()
+ 109:main_cm4.c    **** {
+ 193              		.loc 1 109 0
  194              		.cfi_startproc
  195              		@ args = 0, pretend = 0, frame = 0
  196              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -1795,12 +1798,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  857:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
  858:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \param pinNum
  859:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * Position of the pin bit-field within the port register
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 31
+
+
  860:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
  861:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \return
  862:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * void
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 31
-
-
  863:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
  864:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \funcusage
  865:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \snippet gpio/gpio_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_GPIO_Inv
@@ -1855,12 +1858,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  914:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** 
  915:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****     pinLoc = pinNum << CY_GPIO_DRIVE_MODE_OFFSET;
  916:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****     tempReg = (base->CFG & ~(CY_GPIO_CFG_DM_MASK << pinLoc));
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 32
+
+
  917:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****     base->CFG = tempReg | ((value & CY_GPIO_CFG_DM_MASK) << pinLoc);
  918:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** }
  919:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 32
-
-
  920:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** 
  921:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** /*******************************************************************************
  922:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * Function Name: Cy_GPIO_GetDrivemode
@@ -1915,12 +1918,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  971:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \snippet gpio/gpio_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_GPIO_SetVtrip
  972:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
  973:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *******************************************************************************/
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 33
+
+
  974:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** __STATIC_INLINE void Cy_GPIO_SetVtrip(GPIO_PRT_Type* base, uint32_t pinNum, uint32_t value)
  975:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** {
  976:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****     uint32_t tempReg;
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 33
-
-
  977:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** 
  978:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****     CY_ASSERT_L2(CY_GPIO_IS_PIN_VALID(pinNum));
  979:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****     CY_ASSERT_L2(CY_GPIO_IS_VALUE_VALID(value));
@@ -1975,12 +1978,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
 1028:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \return
 1029:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * void
 1030:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 34
+
+
 1031:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \note 
 1032:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * This function modifies a port register in a read-modify-write operation. It is
 1033:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * not thread safe as the resource is shared among multiple pins on a port.
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 34
-
-
 1034:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
 1035:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \funcusage
 1036:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \snippet gpio/gpio_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_GPIO_SetSlewRate
@@ -2035,12 +2038,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
 1085:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * Pointer to the pin's port register base address
 1086:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
 1087:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \param pinNum
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 35
+
+
 1088:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * Position of the pin bit-field within the port register
 1089:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
 1090:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \param value
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 35
-
-
 1091:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * Pin drive strength. Options are detailed in \ref group_gpio_driveStrength macros
 1092:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
 1093:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \return
@@ -2095,12 +2098,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
 1142:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****             & CY_GPIO_CFG_OUT_DRIVE_SEL_MASK);
 1143:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** }
 1144:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 36
+
+
 1145:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** /** \} group_gpio_functions_gpio */
 1146:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** 
 1147:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** /**
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 36
-
-
 1148:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \addtogroup group_gpio_functions_sio
 1149:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \{
 1150:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** */
@@ -2155,12 +2158,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
 1199:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
 1200:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * Note that this function has no effect on non-SIO pins.
 1201:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 37
+
+
 1202:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \param base
 1203:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * Pointer to the pin's port register base address
 1204:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 37
-
-
 1205:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \param pinNum
 1206:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * Position of the pin bit-field within the port register
 1207:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
@@ -2215,12 +2218,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
 1256:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****     CY_ASSERT_L2(CY_GPIO_IS_PIN_VALID(pinNum));
 1257:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****     CY_ASSERT_L2(CY_GPIO_IS_VALUE_VALID(value));
 1258:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 38
+
+
 1259:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****     pinLoc = ((pinNum & CY_GPIO_SIO_ODD_PIN_MASK) << CY_GPIO_CFG_SIO_OFFSET) + CY_GPIO_IBUF_SHIFT;
 1260:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****     tempReg = (base->CFG_SIO & ~(CY_GPIO_IBUF_MASK << pinLoc));
 1261:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****     base->CFG_SIO = tempReg | ((value & CY_GPIO_IBUF_MASK) << pinLoc);
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 38
-
-
 1262:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** }
 1263:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** 
 1264:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** 
@@ -2275,12 +2278,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
 1313:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
 1314:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \note 
 1315:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * This function modifies a port register in a read-modify-write operation. It is
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 39
+
+
 1316:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * not thread safe as the resource is shared among multiple pins on a port.
 1317:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
 1318:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \funcusage
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 39
-
-
 1319:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \snippet gpio/gpio_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_GPIO_SetVtripSel
 1320:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
 1321:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *******************************************************************************/
@@ -2335,12 +2338,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
 1370:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
 1371:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * Note that this function has no effect on non-SIO pins.
 1372:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 40
+
+
 1373:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \param base
 1374:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * Pointer to the pin's port register base address
 1375:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 40
-
-
 1376:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \param pinNum
 1377:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * Position of the pin bit-field within the port register
 1378:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
@@ -2395,12 +2398,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
 1427:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *******************************************************************************/
 1428:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** __STATIC_INLINE uint32_t Cy_GPIO_GetVrefSel(GPIO_PRT_Type* base, uint32_t pinNum)
 1429:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** {
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 41
+
+
 1430:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****     CY_ASSERT_L2(CY_GPIO_IS_PIN_VALID(pinNum));
 1431:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****     
 1432:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****     return (base->CFG_SIO >> (((pinNum & CY_GPIO_SIO_ODD_PIN_MASK) << CY_GPIO_CFG_SIO_OFFSET) + CY_
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 41
-
-
 1433:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** }
 1434:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** 
 1435:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** 
@@ -2455,12 +2458,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
 1484:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
 1485:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \brief Returns the regulated output reference multiplier for the SIO pin pair.
 1486:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 42
+
+
 1487:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * Note that this function has no effect on non-SIO pins.
 1488:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
 1489:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \param base
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 42
-
-
 1490:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * Pointer to the pin's port register base address
 1491:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** *
 1492:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** * \param pinNum
@@ -2515,26 +2518,26 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
 1541:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** __STATIC_INLINE uint32_t Cy_GPIO_GetInterruptStatus(GPIO_PRT_Type* base, uint32_t pinNum)
 1542:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** {
 1543:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****     CY_ASSERT_L2(CY_GPIO_IS_FILTER_PIN_VALID(pinNum));
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 43
+
+
 1544:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****     
 1545:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****     return (base->INTR >> pinNum) & CY_GPIO_INTR_STATUS_MASK;
  201              		.loc 3 1545 0
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 43
-
-
  202 0000 064B     		ldr	r3, .L13
  203 0002 5B69     		ldr	r3, [r3, #20]
  204              	.LVL13:
  205              	.LBE57:
  206              	.LBE56:
- 107:main_cm4.c    ****     {
- 108:main_cm4.c    ****         /* Optional check to determine if one pin in the port generated interrupt. */
- 109:main_cm4.c    ****         if(Cy_GPIO_GetInterruptStatus(SW2_PORT, SW2_NUM) == CY_GPIO_INTR_STATUS_MASK)
- 207              		.loc 1 109 0
+ 110:main_cm4.c    ****     {
+ 111:main_cm4.c    ****         /* Optional check to determine if one pin in the port generated interrupt. */
+ 112:main_cm4.c    ****         if(Cy_GPIO_GetInterruptStatus(SW2_PORT, SW2_NUM) == CY_GPIO_INTR_STATUS_MASK)
+ 207              		.loc 1 112 0
  208 0004 13F0100F 		tst	r3, #16
  209 0008 02D0     		beq	.L12
- 110:main_cm4.c    ****         {
- 111:main_cm4.c    ****             Orange_LED.sw = 1;
- 210              		.loc 1 111 0
+ 113:main_cm4.c    ****         {
+ 114:main_cm4.c    ****             Orange_LED.sw = 1;
+ 210              		.loc 1 114 0
  211 000a 0122     		movs	r2, #1
  212 000c 044B     		ldr	r3, .L13+4
  213 000e 1A70     		strb	r2, [r3]
@@ -2575,12 +2578,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  219 0010 024B     		ldr	r3, .L13
  220 0012 5A69     		ldr	r2, [r3, #20]
 1575:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 44
+
+
 1576:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****     base->INTR = CY_GPIO_INTR_STATUS_MASK << pinNum;
  221              		.loc 3 1576 0
  222 0014 1022     		movs	r2, #16
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 44
-
-
  223 0016 5A61     		str	r2, [r3, #20]
 1577:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h **** 
 1578:Generated_Source\PSoC6\pdl\drivers/peripheral/gpio/cy_gpio.h ****     /* This read ensures that the initial write has been flushed out to the hardware */
@@ -2607,15 +2610,15 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  243              		.type	HW_Startup, %function
  244              	HW_Startup:
  245              	.LFB628:
- 112:main_cm4.c    ****         }
- 113:main_cm4.c    ****     }
- 114:main_cm4.c    ****     /* Clear pin interrupt logic. Required to detect next interrupt */
- 115:main_cm4.c    ****     Cy_GPIO_ClearInterrupt(SW2_PORT, SW2_NUM);
- 116:main_cm4.c    **** }
- 117:main_cm4.c    **** 
- 118:main_cm4.c    **** void HW_Startup(void)
- 119:main_cm4.c    **** {
- 246              		.loc 1 119 0
+ 115:main_cm4.c    ****         }
+ 116:main_cm4.c    ****     }
+ 117:main_cm4.c    ****     /* Clear pin interrupt logic. Required to detect next interrupt */
+ 118:main_cm4.c    ****     Cy_GPIO_ClearInterrupt(SW2_PORT, SW2_NUM);
+ 119:main_cm4.c    **** }
+ 120:main_cm4.c    **** 
+ 121:main_cm4.c    **** void HW_Startup(void)
+ 122:main_cm4.c    **** {
+ 246              		.loc 1 122 0
  247              		.cfi_startproc
  248              		@ args = 0, pretend = 0, frame = 0
  249              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -2635,12 +2638,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
    7:Generated_Source\PSoC6\pdl\cmsis/include/cmsis_gcc.h **** /*
    8:Generated_Source\PSoC6\pdl\cmsis/include/cmsis_gcc.h ****  * Copyright (c) 2009-2017 ARM Limited. All rights reserved.
    9:Generated_Source\PSoC6\pdl\cmsis/include/cmsis_gcc.h ****  *
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 45
+
+
   10:Generated_Source\PSoC6\pdl\cmsis/include/cmsis_gcc.h ****  * SPDX-License-Identifier: Apache-2.0
   11:Generated_Source\PSoC6\pdl\cmsis/include/cmsis_gcc.h ****  *
   12:Generated_Source\PSoC6\pdl\cmsis/include/cmsis_gcc.h ****  * Licensed under the Apache License, Version 2.0 (the License); you may
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 45
-
-
   13:Generated_Source\PSoC6\pdl\cmsis/include/cmsis_gcc.h ****  * not use this file except in compliance with the License.
   14:Generated_Source\PSoC6\pdl\cmsis/include/cmsis_gcc.h ****  * You may obtain a copy of the License at
   15:Generated_Source\PSoC6\pdl\cmsis/include/cmsis_gcc.h ****  *
@@ -2695,12 +2698,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
   64:Generated_Source\PSoC6\pdl\cmsis/include/cmsis_gcc.h **** #ifndef   __PACKED
   65:Generated_Source\PSoC6\pdl\cmsis/include/cmsis_gcc.h ****   #define __PACKED                  __attribute__((packed, aligned(1)))
   66:Generated_Source\PSoC6\pdl\cmsis/include/cmsis_gcc.h **** #endif
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 46
+
+
   67:Generated_Source\PSoC6\pdl\cmsis/include/cmsis_gcc.h **** #ifndef   __PACKED_STRUCT
   68:Generated_Source\PSoC6\pdl\cmsis/include/cmsis_gcc.h ****   #define __PACKED_STRUCT           struct __attribute__((packed, aligned(1)))
   69:Generated_Source\PSoC6\pdl\cmsis/include/cmsis_gcc.h **** #endif
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 46
-
-
   70:Generated_Source\PSoC6\pdl\cmsis/include/cmsis_gcc.h **** 
   71:Generated_Source\PSoC6\pdl\cmsis/include/cmsis_gcc.h **** 
   72:Generated_Source\PSoC6\pdl\cmsis/include/cmsis_gcc.h **** /* ###########################  Core Function Access  ########################### */
@@ -2737,30 +2740,30 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  263              		.syntax unified
  264              	.LBE61:
  265              	.LBE60:
- 120:main_cm4.c    ****     __disable_irq();
- 121:main_cm4.c    **** 
- 122:main_cm4.c    ****     /* Enable Debug UART. */
- 123:main_cm4.c    ****     UART_DEBUG_Start();
- 266              		.loc 1 123 0
+ 123:main_cm4.c    ****     __disable_irq();
+ 124:main_cm4.c    **** 
+ 125:main_cm4.c    ****     /* Enable Debug UART. */
+ 126:main_cm4.c    ****     UART_DEBUG_Start();
+ 266              		.loc 1 126 0
  267 0004 FFF7FEFF 		bl	UART_DEBUG_Start
  268              	.LVL16:
- 124:main_cm4.c    ****     
- 125:main_cm4.c    ****     /* Configure CM4+ CPU interrupt vector for System Tick(1ms). */
- 126:main_cm4.c    ****     Cy_SysInt_Init(&SysInt_Tick_cfg, System_Tick_ISR);
- 269              		.loc 1 126 0
+ 127:main_cm4.c    ****     
+ 128:main_cm4.c    ****     /* Configure CM4+ CPU interrupt vector for System Tick(1ms). */
+ 129:main_cm4.c    ****     Cy_SysInt_Init(&SysInt_Tick_cfg, System_Tick_ISR);
+ 269              		.loc 1 129 0
  270 0008 234C     		ldr	r4, .L21
  271 000a 2449     		ldr	r1, .L21+4
  272 000c 2046     		mov	r0, r4
  273 000e FFF7FEFF 		bl	Cy_SysInt_Init
  274              	.LVL17:
- 127:main_cm4.c    ****     NVIC_ClearPendingIRQ(SysInt_Tick_cfg.intrSrc);
- 275              		.loc 1 127 0
+ 130:main_cm4.c    ****     NVIC_ClearPendingIRQ(SysInt_Tick_cfg.intrSrc);
+ 275              		.loc 1 130 0
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 47
+
+
  276 0012 B4F90030 		ldrsh	r3, [r4]
  277              	.LVL18:
  278              	.LBB62:
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 47
-
-
  279              	.LBB63:
  280              		.file 5 "Generated_Source\\PSoC6\\pdl\\cmsis/include/core_cm4.h"
    1:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** /**************************************************************************//**
@@ -2815,12 +2818,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
   50:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****    \li Advisory Rule 19.7, Function-like macro defined.<br>
   51:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****      Function-like macros are used to allow more efficient code.
   52:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****  */
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 48
+
+
   53:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
   54:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
   55:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** /*******************************************************************************
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 48
-
-
   56:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****  *                 CMSIS definitions
   57:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****  ******************************************************************************/
   58:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** /**
@@ -2875,12 +2878,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  107:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****     #define __FPU_USED         0U
  108:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   #endif
  109:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 49
+
+
  110:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #elif defined ( __ICCARM__ )
  111:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   #if defined __ARMVFP__
  112:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****     #if defined (__FPU_PRESENT) && (__FPU_PRESENT == 1U)
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 49
-
-
  113:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****       #define __FPU_USED       1U
  114:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****     #else
  115:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****       #error "Compiler generates FPU instructions for a device without an FPU (check __FPU_PRESENT)
@@ -2935,12 +2938,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  164:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** }
  165:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #endif
  166:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 50
+
+
  167:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #endif /* __CORE_CM4_H_GENERIC */
  168:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  169:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #ifndef __CMSIS_GENERIC
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 50
-
-
  170:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  171:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #ifndef __CORE_CM4_H_DEPENDANT
  172:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define __CORE_CM4_H_DEPENDANT
@@ -2995,12 +2998,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  221:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  222:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** /* following defines should be used for structure members */
  223:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define     __IM     volatile const      /*! Defines 'read only' structure member permissions */
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 51
+
+
  224:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define     __OM     volatile            /*! Defines 'write only' structure member permissions */
  225:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define     __IOM    volatile            /*! Defines 'read / write' structure member permissions */
  226:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 51
-
-
  227:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** /*@} end of group Cortex_M4 */
  228:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  229:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
@@ -3055,12 +3058,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  278:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define APSR_Z_Msk                         (1UL << APSR_Z_Pos)                            /*!< APSR
  279:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  280:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define APSR_C_Pos                         29U                                            /*!< APSR
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 52
+
+
  281:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define APSR_C_Msk                         (1UL << APSR_C_Pos)                            /*!< APSR
  282:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  283:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define APSR_V_Pos                         28U                                            /*!< APSR
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 52
-
-
  284:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define APSR_V_Msk                         (1UL << APSR_V_Pos)                            /*!< APSR
  285:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  286:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define APSR_Q_Pos                         27U                                            /*!< APSR
@@ -3115,12 +3118,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  335:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define xPSR_N_Pos                         31U                                            /*!< xPSR
  336:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define xPSR_N_Msk                         (1UL << xPSR_N_Pos)                            /*!< xPSR
  337:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 53
+
+
  338:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define xPSR_Z_Pos                         30U                                            /*!< xPSR
  339:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define xPSR_Z_Msk                         (1UL << xPSR_Z_Pos)                            /*!< xPSR
  340:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 53
-
-
  341:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define xPSR_C_Pos                         29U                                            /*!< xPSR
  342:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define xPSR_C_Msk                         (1UL << xPSR_C_Pos)                            /*!< xPSR
  343:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
@@ -3175,12 +3178,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  392:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  393:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  394:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** /**
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 54
+
+
  395:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   \ingroup    CMSIS_core_register
  396:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   \defgroup   CMSIS_NVIC  Nested Vectored Interrupt Controller (NVIC)
  397:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   \brief      Type definitions for the NVIC Registers
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 54
-
-
  398:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   @{
  399:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****  */
  400:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
@@ -3235,12 +3238,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  449:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   __IOM uint32_t HFSR;                   /*!< Offset: 0x02C (R/W)  HardFault Status Register */
  450:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   __IOM uint32_t DFSR;                   /*!< Offset: 0x030 (R/W)  Debug Fault Status Register */
  451:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   __IOM uint32_t MMFAR;                  /*!< Offset: 0x034 (R/W)  MemManage Fault Address Register
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 55
+
+
  452:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   __IOM uint32_t BFAR;                   /*!< Offset: 0x038 (R/W)  BusFault Address Register */
  453:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   __IOM uint32_t AFSR;                   /*!< Offset: 0x03C (R/W)  Auxiliary Fault Status Register 
  454:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   __IM  uint32_t PFR[2U];                /*!< Offset: 0x040 (R/ )  Processor Feature Register */
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 55
-
-
  455:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   __IM  uint32_t DFR;                    /*!< Offset: 0x048 (R/ )  Debug Feature Register */
  456:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   __IM  uint32_t ADR;                    /*!< Offset: 0x04C (R/ )  Auxiliary Feature Register */
  457:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   __IM  uint32_t MMFR[4U];               /*!< Offset: 0x050 (R/ )  Memory Model Feature Register */
@@ -3295,12 +3298,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  506:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  507:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define SCB_ICSR_VECTACTIVE_Pos             0U                                            /*!< SCB 
  508:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define SCB_ICSR_VECTACTIVE_Msk            (0x1FFUL /*<< SCB_ICSR_VECTACTIVE_Pos*/)       /*!< SCB 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 56
+
+
  509:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  510:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** /* SCB Vector Table Offset Register Definitions */
  511:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define SCB_VTOR_TBLOFF_Pos                 7U                                            /*!< SCB 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 56
-
-
  512:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define SCB_VTOR_TBLOFF_Msk                (0x1FFFFFFUL << SCB_VTOR_TBLOFF_Pos)           /*!< SCB 
  513:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  514:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** /* SCB Application Interrupt and Reset Control Register Definitions */
@@ -3355,12 +3358,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  563:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define SCB_CCR_NONBASETHRDENA_Msk         (1UL /*<< SCB_CCR_NONBASETHRDENA_Pos*/)        /*!< SCB 
  564:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  565:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** /* SCB System Handler Control and State Register Definitions */
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 57
+
+
  566:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define SCB_SHCSR_USGFAULTENA_Pos          18U                                            /*!< SCB 
  567:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define SCB_SHCSR_USGFAULTENA_Msk          (1UL << SCB_SHCSR_USGFAULTENA_Pos)             /*!< SCB 
  568:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 57
-
-
  569:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define SCB_SHCSR_BUSFAULTENA_Pos          17U                                            /*!< SCB 
  570:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define SCB_SHCSR_BUSFAULTENA_Msk          (1UL << SCB_SHCSR_BUSFAULTENA_Pos)             /*!< SCB 
  571:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
@@ -3415,12 +3418,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  620:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define SCB_CFSR_MMARVALID_Msk             (1UL << SCB_CFSR_MMARVALID_Pos)                /*!< SCB 
  621:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  622:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define SCB_CFSR_MLSPERR_Pos               (SCB_SHCSR_MEMFAULTACT_Pos + 5U)               /*!< SCB 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 58
+
+
  623:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define SCB_CFSR_MLSPERR_Msk               (1UL << SCB_CFSR_MLSPERR_Pos)                  /*!< SCB 
  624:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  625:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define SCB_CFSR_MSTKERR_Pos               (SCB_SHCSR_MEMFAULTACT_Pos + 4U)               /*!< SCB 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 58
-
-
  626:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define SCB_CFSR_MSTKERR_Msk               (1UL << SCB_CFSR_MSTKERR_Pos)                  /*!< SCB 
  627:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  628:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define SCB_CFSR_MUNSTKERR_Pos             (SCB_SHCSR_MEMFAULTACT_Pos + 3U)               /*!< SCB 
@@ -3475,12 +3478,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  677:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  678:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** /* SCB Hard Fault Status Register Definitions */
  679:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define SCB_HFSR_DEBUGEVT_Pos              31U                                            /*!< SCB 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 59
+
+
  680:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define SCB_HFSR_DEBUGEVT_Msk              (1UL << SCB_HFSR_DEBUGEVT_Pos)                 /*!< SCB 
  681:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  682:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define SCB_HFSR_FORCED_Pos                30U                                            /*!< SCB 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 59
-
-
  683:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define SCB_HFSR_FORCED_Msk                (1UL << SCB_HFSR_FORCED_Pos)                   /*!< SCB 
  684:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  685:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define SCB_HFSR_VECTTBL_Pos                1U                                            /*!< SCB 
@@ -3535,12 +3538,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  734:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  735:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define SCnSCB_ACTLR_DISFOLD_Pos            2U                                         /*!< ACTLR: 
  736:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define SCnSCB_ACTLR_DISFOLD_Msk           (1UL << SCnSCB_ACTLR_DISFOLD_Pos)           /*!< ACTLR: 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 60
+
+
  737:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  738:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define SCnSCB_ACTLR_DISDEFWBUF_Pos         1U                                         /*!< ACTLR: 
  739:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define SCnSCB_ACTLR_DISDEFWBUF_Msk        (1UL << SCnSCB_ACTLR_DISDEFWBUF_Pos)        /*!< ACTLR: 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 60
-
-
  740:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  741:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define SCnSCB_ACTLR_DISMCYCINT_Pos         0U                                         /*!< ACTLR: 
  742:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define SCnSCB_ACTLR_DISMCYCINT_Msk        (1UL /*<< SCnSCB_ACTLR_DISMCYCINT_Pos*/)    /*!< ACTLR: 
@@ -3595,12 +3598,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  791:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define SysTick_CALIB_SKEW_Msk             (1UL << SysTick_CALIB_SKEW_Pos)                /*!< SysT
  792:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  793:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define SysTick_CALIB_TENMS_Pos             0U                                            /*!< SysT
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 61
+
+
  794:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define SysTick_CALIB_TENMS_Msk            (0xFFFFFFUL /*<< SysTick_CALIB_TENMS_Pos*/)    /*!< SysT
  795:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  796:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** /*@} end of group CMSIS_SysTick */
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 61
-
-
  797:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  798:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  799:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** /**
@@ -3655,12 +3658,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  848:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  849:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** /* ITM Trace Control Register Definitions */
  850:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define ITM_TCR_BUSY_Pos                   23U                                            /*!< ITM 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 62
+
+
  851:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define ITM_TCR_BUSY_Msk                   (1UL << ITM_TCR_BUSY_Pos)                      /*!< ITM 
  852:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  853:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define ITM_TCR_TraceBusID_Pos             16U                                            /*!< ITM 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 62
-
-
  854:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define ITM_TCR_TraceBusID_Msk             (0x7FUL << ITM_TCR_TraceBusID_Pos)             /*!< ITM 
  855:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  856:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define ITM_TCR_GTSFREQ_Pos                10U                                            /*!< ITM 
@@ -3715,12 +3718,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  905:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   \brief    Type definitions for the Data Watchpoint and Trace (DWT)
  906:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   @{
  907:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****  */
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 63
+
+
  908:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  909:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** /**
  910:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   \brief  Structure type to access the Data Watchpoint and Trace Register (DWT).
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 63
-
-
  911:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****  */
  912:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** typedef struct
  913:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** {
@@ -3775,12 +3778,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  962:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define DWT_CTRL_LSUEVTENA_Msk             (0x1UL << DWT_CTRL_LSUEVTENA_Pos)           /*!< DWT CTR
  963:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  964:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define DWT_CTRL_SLEEPEVTENA_Pos           19U                                         /*!< DWT CTR
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 64
+
+
  965:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define DWT_CTRL_SLEEPEVTENA_Msk           (0x1UL << DWT_CTRL_SLEEPEVTENA_Pos)         /*!< DWT CTR
  966:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  967:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define DWT_CTRL_EXCEVTENA_Pos             18U                                         /*!< DWT CTR
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 64
-
-
  968:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define DWT_CTRL_EXCEVTENA_Msk             (0x1UL << DWT_CTRL_EXCEVTENA_Pos)           /*!< DWT CTR
  969:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
  970:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define DWT_CTRL_CPIEVTENA_Pos             17U                                         /*!< DWT CTR
@@ -3835,12 +3838,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
 1019:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define DWT_FUNCTION_MATCHED_Pos           24U                                         /*!< DWT FUN
 1020:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define DWT_FUNCTION_MATCHED_Msk           (0x1UL << DWT_FUNCTION_MATCHED_Pos)         /*!< DWT FUN
 1021:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 65
+
+
 1022:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define DWT_FUNCTION_DATAVADDR1_Pos        16U                                         /*!< DWT FUN
 1023:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define DWT_FUNCTION_DATAVADDR1_Msk        (0xFUL << DWT_FUNCTION_DATAVADDR1_Pos)      /*!< DWT FUN
 1024:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 65
-
-
 1025:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define DWT_FUNCTION_DATAVADDR0_Pos        12U                                         /*!< DWT FUN
 1026:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define DWT_FUNCTION_DATAVADDR0_Msk        (0xFUL << DWT_FUNCTION_DATAVADDR0_Pos)      /*!< DWT FUN
 1027:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
@@ -3895,12 +3898,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
 1076:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   __IM  uint32_t ITATBCTR0;              /*!< Offset: 0xEF8 (R/ )  ITATBCTR0 */
 1077:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   __IM  uint32_t FIFO1;                  /*!< Offset: 0xEFC (R/ )  Integration ITM Data */
 1078:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   __IOM uint32_t ITCTRL;                 /*!< Offset: 0xF00 (R/W)  Integration Mode Control */
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 66
+
+
 1079:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****         uint32_t RESERVED5[39U];
 1080:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   __IOM uint32_t CLAIMSET;               /*!< Offset: 0xFA0 (R/W)  Claim tag set */
 1081:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   __IOM uint32_t CLAIMCLR;               /*!< Offset: 0xFA4 (R/W)  Claim tag clear */
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 66
-
-
 1082:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****         uint32_t RESERVED7[8U];
 1083:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   __IM  uint32_t DEVID;                  /*!< Offset: 0xFC8 (R/ )  TPIU_DEVID */
 1084:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   __IM  uint32_t DEVTYPE;                /*!< Offset: 0xFCC (R/ )  TPIU_DEVTYPE */
@@ -3955,12 +3958,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
 1133:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define TPI_FIFO0_ETM2_Msk                 (0xFFUL << TPI_FIFO0_ETM2_Pos)              /*!< TPI FIF
 1134:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
 1135:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define TPI_FIFO0_ETM1_Pos                  8U                                         /*!< TPI FIF
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 67
+
+
 1136:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define TPI_FIFO0_ETM1_Msk                 (0xFFUL << TPI_FIFO0_ETM1_Pos)              /*!< TPI FIF
 1137:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
 1138:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define TPI_FIFO0_ETM0_Pos                  0U                                         /*!< TPI FIF
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 67
-
-
 1139:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define TPI_FIFO0_ETM0_Msk                 (0xFFUL /*<< TPI_FIFO0_ETM0_Pos*/)          /*!< TPI FIF
 1140:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
 1141:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** /* TPI ITATBCTR2 Register Definitions */
@@ -4015,12 +4018,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
 1190:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
 1191:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define TPI_DEVID_NrTraceInput_Pos          0U                                         /*!< TPI DEV
 1192:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define TPI_DEVID_NrTraceInput_Msk         (0x1FUL /*<< TPI_DEVID_NrTraceInput_Pos*/)  /*!< TPI DEV
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 68
+
+
 1193:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
 1194:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** /* TPI DEVTYPE Register Definitions */
 1195:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define TPI_DEVTYPE_MajorType_Pos           4U                                         /*!< TPI DEV
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 68
-
-
 1196:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define TPI_DEVTYPE_MajorType_Msk          (0xFUL << TPI_DEVTYPE_MajorType_Pos)        /*!< TPI DEV
 1197:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
 1198:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define TPI_DEVTYPE_SubType_Pos             0U                                         /*!< TPI DEV
@@ -4075,12 +4078,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
 1247:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define MPU_CTRL_ENABLE_Pos                 0U                                            /*!< MPU 
 1248:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define MPU_CTRL_ENABLE_Msk                (1UL /*<< MPU_CTRL_ENABLE_Pos*/)               /*!< MPU 
 1249:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 69
+
+
 1250:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** /* MPU Region Number Register Definitions */
 1251:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define MPU_RNR_REGION_Pos                  0U                                            /*!< MPU 
 1252:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define MPU_RNR_REGION_Msk                 (0xFFUL /*<< MPU_RNR_REGION_Pos*/)             /*!< MPU 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 69
-
-
 1253:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
 1254:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** /* MPU Region Base Address Register Definitions */
 1255:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define MPU_RBAR_ADDR_Pos                   5U                                            /*!< MPU 
@@ -4135,12 +4138,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
 1304:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****  */
 1305:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
 1306:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** /**
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 70
+
+
 1307:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   \brief  Structure type to access the Floating Point Unit (FPU).
 1308:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****  */
 1309:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** typedef struct
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 70
-
-
 1310:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** {
 1311:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****         uint32_t RESERVED0[1U];
 1312:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   __IOM uint32_t FPCCR;                  /*!< Offset: 0x004 (R/W)  Floating-Point Context Control R
@@ -4195,12 +4198,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
 1361:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define FPU_FPDSCR_RMode_Pos               22U                                            /*!< FPDS
 1362:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define FPU_FPDSCR_RMode_Msk               (3UL << FPU_FPDSCR_RMode_Pos)                  /*!< FPDS
 1363:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 71
+
+
 1364:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** /* Media and FP Feature Register 0 Definitions */
 1365:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define FPU_MVFR0_FP_rounding_modes_Pos    28U                                            /*!< MVFR
 1366:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define FPU_MVFR0_FP_rounding_modes_Msk    (0xFUL << FPU_MVFR0_FP_rounding_modes_Pos)     /*!< MVFR
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 71
-
-
 1367:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
 1368:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define FPU_MVFR0_Short_vectors_Pos        24U                                            /*!< MVFR
 1369:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define FPU_MVFR0_Short_vectors_Msk        (0xFUL << FPU_MVFR0_Short_vectors_Pos)         /*!< MVFR
@@ -4255,12 +4258,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
 1418:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   __OM  uint32_t DCRSR;                  /*!< Offset: 0x004 ( /W)  Debug Core Register Selector Reg
 1419:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   __IOM uint32_t DCRDR;                  /*!< Offset: 0x008 (R/W)  Debug Core Register Data Registe
 1420:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   __IOM uint32_t DEMCR;                  /*!< Offset: 0x00C (R/W)  Debug Exception and Monitor Cont
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 72
+
+
 1421:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** } CoreDebug_Type;
 1422:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
 1423:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** /* Debug Halting Control and Status Register Definitions */
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 72
-
-
 1424:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define CoreDebug_DHCSR_DBGKEY_Pos         16U                                            /*!< Core
 1425:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define CoreDebug_DHCSR_DBGKEY_Msk         (0xFFFFUL << CoreDebug_DHCSR_DBGKEY_Pos)       /*!< Core
 1426:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
@@ -4315,12 +4318,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
 1475:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define CoreDebug_DEMCR_MON_STEP_Msk       (1UL << CoreDebug_DEMCR_MON_STEP_Pos)          /*!< Core
 1476:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
 1477:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define CoreDebug_DEMCR_MON_PEND_Pos       17U                                            /*!< Core
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 73
+
+
 1478:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define CoreDebug_DEMCR_MON_PEND_Msk       (1UL << CoreDebug_DEMCR_MON_PEND_Pos)          /*!< Core
 1479:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
 1480:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define CoreDebug_DEMCR_MON_EN_Pos         16U                                            /*!< Core
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 73
-
-
 1481:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define CoreDebug_DEMCR_MON_EN_Msk         (1UL << CoreDebug_DEMCR_MON_EN_Pos)            /*!< Core
 1482:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
 1483:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #define CoreDebug_DEMCR_VC_HARDERR_Pos     10U                                            /*!< Core
@@ -4375,12 +4378,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
 1532:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
 1533:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** /*@} end of group CMSIS_core_bitfield */
 1534:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 74
+
+
 1535:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
 1536:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** /**
 1537:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   \ingroup    CMSIS_core_register
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 74
-
-
 1538:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   \defgroup   CMSIS_core_base     Core Definitions
 1539:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   \brief      Definitions for base addresses, unions, and structures.
 1540:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   @{
@@ -4435,12 +4438,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
 1589:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** /**
 1590:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   \ingroup  CMSIS_Core_FunctionInterface
 1591:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   \defgroup CMSIS_Core_NVICFunctions NVIC Functions
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 75
+
+
 1592:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   \brief    Functions that manage interrupts and exceptions via the NVIC.
 1593:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   @{
 1594:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****  */
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 75
-
-
 1595:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
 1596:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** #ifdef CMSIS_NVIC_VIRTUAL
 1597:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   #ifndef CMSIS_NVIC_VIRTUAL_HEADER_FILE
@@ -4495,12 +4498,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
 1646:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   reg_value  =  (reg_value                                   |
 1647:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****                 ((uint32_t)0x5FAUL << SCB_AIRCR_VECTKEY_Pos) |
 1648:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****                 (PriorityGroupTmp << 8U)                      );              /* Insert write key a
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 76
+
+
 1649:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   SCB->AIRCR =  reg_value;
 1650:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** }
 1651:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 76
-
-
 1652:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** 
 1653:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** /**
 1654:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   \brief   Get Priority Grouping
@@ -4555,12 +4558,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
 1703:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   \param [in]      IRQn  Device specific interrupt number.
 1704:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   \note    IRQn must not be negative.
 1705:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****  */
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 77
+
+
 1706:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** __STATIC_INLINE void __NVIC_DisableIRQ(IRQn_Type IRQn)
 1707:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** {
 1708:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   if ((int32_t)(IRQn) >= 0)
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 77
-
-
 1709:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   {
 1710:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****     NVIC->ICER[(((uint32_t)(int32_t)IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)(int32_t)IRQn) &
 1711:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****     __DSB();
@@ -4615,12 +4618,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
 1760:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h **** {
 1761:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   if ((int32_t)(IRQn) >= 0)
  281              		.loc 5 1761 0
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 78
+
+
  282 0016 002B     		cmp	r3, #0
  283 0018 08DB     		blt	.L16
 1762:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****   {
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 78
-
-
 1763:Generated_Source\PSoC6\pdl\cmsis/include/core_cm4.h ****     NVIC->ICPR[(((uint32_t)(int32_t)IRQn) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)(int32_t)IRQn) &
  284              		.loc 5 1763 0
  285 001a 5A09     		lsrs	r2, r3, #5
@@ -4653,18 +4656,18 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  310              	.LVL21:
  311              	.LBE65:
  312              	.LBE64:
- 128:main_cm4.c    ****     NVIC_EnableIRQ((IRQn_Type)SysInt_Tick_cfg.intrSrc);
- 129:main_cm4.c    **** 
- 130:main_cm4.c    ****     /* Configure CM4+ CPU interrupt vector for SW2. */
- 131:main_cm4.c    ****     Cy_SysInt_Init(&SysInt_SW_cfg, SW2_ISR);
- 313              		.loc 1 131 0
+ 131:main_cm4.c    ****     NVIC_EnableIRQ((IRQn_Type)SysInt_Tick_cfg.intrSrc);
+ 132:main_cm4.c    **** 
+ 133:main_cm4.c    ****     /* Configure CM4+ CPU interrupt vector for SW2. */
+ 134:main_cm4.c    ****     Cy_SysInt_Init(&SysInt_SW_cfg, SW2_ISR);
+ 313              		.loc 1 134 0
  314 0042 184C     		ldr	r4, .L21+12
  315 0044 1849     		ldr	r1, .L21+16
  316 0046 2046     		mov	r0, r4
  317 0048 FFF7FEFF 		bl	Cy_SysInt_Init
  318              	.LVL22:
- 132:main_cm4.c    ****     NVIC_ClearPendingIRQ(SysInt_SW_cfg.intrSrc);
- 319              		.loc 1 132 0
+ 135:main_cm4.c    ****     NVIC_ClearPendingIRQ(SysInt_SW_cfg.intrSrc);
+ 319              		.loc 1 135 0
  320 004c B4F90030 		ldrsh	r3, [r4]
  321              	.LVL23:
  322              	.LBB66:
@@ -4675,12 +4678,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  326 0052 08DB     		blt	.L18
  327              		.loc 5 1763 0
  328 0054 5A09     		lsrs	r2, r3, #5
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 79
+
+
  329 0056 03F01F00 		and	r0, r3, #31
  330 005a 0121     		movs	r1, #1
  331 005c 8140     		lsls	r1, r1, r0
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 79
-
-
  332 005e 6032     		adds	r2, r2, #96
  333 0060 0F48     		ldr	r0, .L21+8
  334 0062 40F82210 		str	r1, [r0, r2, lsl #2]
@@ -4719,31 +4722,31 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  364              		.syntax unified
  365              	.LBE71:
  366              	.LBE70:
- 133:main_cm4.c    ****     NVIC_EnableIRQ((IRQn_Type)SysInt_SW_cfg.intrSrc);
- 134:main_cm4.c    **** 
- 135:main_cm4.c    ****     __enable_irq(); /* Enable global interrupts. */
- 136:main_cm4.c    **** 
- 137:main_cm4.c    ****     System_Tick_Start();    /* Enable System Tick. */
- 367              		.loc 1 137 0
+ 136:main_cm4.c    ****     NVIC_EnableIRQ((IRQn_Type)SysInt_SW_cfg.intrSrc);
+ 137:main_cm4.c    **** 
+ 138:main_cm4.c    ****     __enable_irq(); /* Enable global interrupts. */
+ 139:main_cm4.c    **** 
+ 140:main_cm4.c    ****     System_Tick_Start();    /* Enable System Tick. */
+ 367              		.loc 1 140 0
  368 007e FFF7FEFF 		bl	System_Tick_Start
  369              	.LVL27:
- 138:main_cm4.c    **** 
- 139:main_cm4.c    ****     /* Shine for testing. */
- 140:main_cm4.c    ****     Red_LED.sw = 1;
- 370              		.loc 1 140 0
+ 141:main_cm4.c    **** 
+ 142:main_cm4.c    ****     /* Shine for testing. */
+ 143:main_cm4.c    ****     Red_LED.sw = 1;
+ 370              		.loc 1 143 0
  371 0082 0123     		movs	r3, #1
  372 0084 094A     		ldr	r2, .L21+20
  373 0086 1370     		strb	r3, [r2]
- 141:main_cm4.c    ****     Orange_LED.sw = 1;
- 374              		.loc 1 141 0
+ 144:main_cm4.c    ****     Orange_LED.sw = 1;
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 80
+
+
+ 374              		.loc 1 144 0
  375 0088 094A     		ldr	r2, .L21+24
  376 008a 1370     		strb	r3, [r2]
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 80
-
-
- 142:main_cm4.c    ****     
- 143:main_cm4.c    ****     DEBUG_PRINTF("Info(%08x):Hardware init done.\n", Sys_counter);
- 377              		.loc 1 143 0
+ 145:main_cm4.c    ****     
+ 146:main_cm4.c    ****     DEBUG_PRINTF("Info(%08x):Hardware init done.\n", Sys_counter);
+ 377              		.loc 1 146 0
  378 008c 094B     		ldr	r3, .L21+28
  379 008e 1968     		ldr	r1, [r3]
  380 0090 0948     		ldr	r0, .L21+32
@@ -4773,34 +4776,42 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  404              		.type	main, %function
  405              	main:
  406              	.LFB629:
- 144:main_cm4.c    **** 
- 145:main_cm4.c    ****     return;
- 146:main_cm4.c    **** }
  147:main_cm4.c    **** 
- 148:main_cm4.c    **** /*******************************************************************************
- 149:main_cm4.c    **** * Function Name: main
- 150:main_cm4.c    **** ********************************************************************************
- 151:main_cm4.c    **** *
- 152:main_cm4.c    **** * Summary: This is the system entrance point for Cortex-M4.
- 153:main_cm4.c    **** * This function initializes the PSoC Components and puts the Cortex-M4 CPU
- 154:main_cm4.c    **** * in Sleep mode to save power.
- 155:main_cm4.c    **** *
- 156:main_cm4.c    **** * Parameters:
- 157:main_cm4.c    **** *  None
- 158:main_cm4.c    **** *
- 159:main_cm4.c    **** * Return:
- 160:main_cm4.c    **** *  None
- 161:main_cm4.c    **** *
- 162:main_cm4.c    **** * Side Effects:
- 163:main_cm4.c    **** *  None  
- 164:main_cm4.c    **** *
- 165:main_cm4.c    **** *******************************************************************************/
- 166:main_cm4.c    **** int main(void)
- 167:main_cm4.c    **** {
- 407              		.loc 1 167 0
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 81
+ 148:main_cm4.c    ****     return;
+ 149:main_cm4.c    **** }
+ 150:main_cm4.c    **** #if 0
+ 151:main_cm4.c    **** void Trace_Reader(){
+ 152:main_cm4.c    ****     unsigned char i;
+ 153:main_cm4.c    ****     unsigned char data[] = {0xAA,0x01,0x02,0x01,0x85,0x87,0xBB};
+ 154:main_cm4.c    ****     for(i = 0; i < 7; i++){
+ 155:main_cm4.c    ****         UART_DEBUG_PUT_CHAR(data[i]);
+ 156:main_cm4.c    ****     }
+ 157:main_cm4.c    **** }
+ 158:main_cm4.c    **** #endif
+ 159:main_cm4.c    **** /*******************************************************************************
+ 160:main_cm4.c    **** * Function Name: main
+ 161:main_cm4.c    **** ********************************************************************************
+ 162:main_cm4.c    **** *
+ 163:main_cm4.c    **** * Summary: This is the system entrance point for Cortex-M4.
+ 164:main_cm4.c    **** * This function initializes the PSoC Components and puts the Cortex-M4 CPU
+ 165:main_cm4.c    **** * in Sleep mode to save power.
+ 166:main_cm4.c    **** *
+ 167:main_cm4.c    **** * Parameters:
+ 168:main_cm4.c    **** *  None
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 81
 
 
+ 169:main_cm4.c    **** *
+ 170:main_cm4.c    **** * Return:
+ 171:main_cm4.c    **** *  None
+ 172:main_cm4.c    **** *
+ 173:main_cm4.c    **** * Side Effects:
+ 174:main_cm4.c    **** *  None  
+ 175:main_cm4.c    **** *
+ 176:main_cm4.c    **** *******************************************************************************/
+ 177:main_cm4.c    **** int main(void)
+ 178:main_cm4.c    **** {
+ 407              		.loc 1 178 0
  408              		.cfi_startproc
  409              		@ Volatile: function does not return.
  410              		@ args = 0, pretend = 0, frame = 0
@@ -4809,44 +4820,47 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  413              		.cfi_def_cfa_offset 8
  414              		.cfi_offset 3, -8
  415              		.cfi_offset 14, -4
- 168:main_cm4.c    **** 
- 169:main_cm4.c    ****     HW_Startup();   /* Initialize Hardware.      */
- 416              		.loc 1 169 0
+ 179:main_cm4.c    **** 
+ 180:main_cm4.c    ****     HW_Startup();   /* Initialize Hardware.      */
+ 416              		.loc 1 180 0
  417 0002 FFF7FEFF 		bl	HW_Startup
  418              	.LVL29:
- 170:main_cm4.c    **** #if 0
- 171:main_cm4.c    ****     ULF_Init();     /* Initialize ULF functions. */
- 172:main_cm4.c    **** 
- 173:main_cm4.c    ****     DEBUG_PRINTF("Info(%08x):Info:Hello world.\n", Sys_counter);
- 174:main_cm4.c    **** 
- 175:main_cm4.c    ****     ULF_CTRL.ULF_TRANSMIT_START = 1;
- 176:main_cm4.c    **** 
- 177:main_cm4.c    ****     ULF_Test();     /* Testing ULF module. */
- 178:main_cm4.c    ****     
- 179:main_cm4.c    ****     /* Infinite loop */
- 180:main_cm4.c    ****     for(;;)
- 181:main_cm4.c    ****     {
- 182:main_cm4.c    ****         ULF_Routine();
- 183:main_cm4.c    ****         /* Put the CPU into Sleep mode to save power */
- 184:main_cm4.c    ****         //Cy_SysPm_Sleep(CY_SYSPM_WAIT_FOR_INTERRUPT);
- 185:main_cm4.c    ****     }
- 186:main_cm4.c    **** #else
- 187:main_cm4.c    ****     ULF_Init2();     /* Initialize ULF2 functions. */
- 419              		.loc 1 187 0
+ 181:main_cm4.c    **** #if 0
+ 182:main_cm4.c    ****     ULF_Init();     /* Initialize ULF functions. */
+ 183:main_cm4.c    **** 
+ 184:main_cm4.c    ****     DEBUG_PRINTF("Info(%08x):Info:Hello world.\n", Sys_counter);
+ 185:main_cm4.c    **** 
+ 186:main_cm4.c    ****     ULF_CTRL.ULF_TRANSMIT_START = 1;
+ 187:main_cm4.c    **** 
+ 188:main_cm4.c    ****     ULF_Test();     /* Testing ULF module. */
+ 189:main_cm4.c    ****     
+ 190:main_cm4.c    ****     /* Infinite loop */
+ 191:main_cm4.c    ****     for(;;)
+ 192:main_cm4.c    ****     {
+ 193:main_cm4.c    ****         ULF_Routine();
+ 194:main_cm4.c    ****         /* Put the CPU into Sleep mode to save power */
+ 195:main_cm4.c    ****         //Cy_SysPm_Sleep(CY_SYSPM_WAIT_FOR_INTERRUPT);
+ 196:main_cm4.c    ****     }
+ 197:main_cm4.c    **** #else
+ 198:main_cm4.c    ****     ULF_Init2();     /* Initialize ULF2 functions. */
+ 419              		.loc 1 198 0
  420 0006 FFF7FEFF 		bl	ULF_Init2
  421              	.LVL30:
  422              	.L24:
- 188:main_cm4.c    **** 
- 189:main_cm4.c    ****     /* Infinite loop */
- 190:main_cm4.c    ****     for(;;)
- 191:main_cm4.c    ****     {
- 192:main_cm4.c    ****         ULF_Routine();
- 423              		.loc 1 192 0 discriminator 1
+ 199:main_cm4.c    **** 
+ 200:main_cm4.c    ****     /* Infinite loop */
+ 201:main_cm4.c    ****     for(;;)
+ 202:main_cm4.c    ****     {
+ 203:main_cm4.c    ****         ULF_Routine();
+ 423              		.loc 1 203 0 discriminator 1
  424 000a FFF7FEFF 		bl	ULF_Routine
  425              	.LVL31:
  426 000e FCE7     		b	.L24
  427              		.cfi_endproc
  428              	.LFE629:
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 82
+
+
  429              		.size	main, .-main
  430              		.comm	Sys_counter,4,4
  431              		.comm	Orange_LED,2,4
@@ -4858,17 +4872,14 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  437              	.LC0:
  438 0000 496E666F 		.ascii	"Info(%08x):Hardware init done.\012\000"
  438      28253038 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 82
-
-
  438      78293A48 
  438      61726477 
  438      61726520 
  439              		.bss
  440              		.set	.LANCHOR0,. + 0
- 441              		.type	System_HB.15719, %object
- 442              		.size	System_HB.15719, 1
- 443              	System_HB.15719:
+ 441              		.type	System_HB.15720, %object
+ 442              		.size	System_HB.15720, 1
+ 443              	System_HB.15720:
  444 0000 00       		.space	1
  445              		.text
  446              	.Letext0:
@@ -4907,6 +4918,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  479 0021 00000000 		.4byte	.Ldebug_line0
  480 0025 02       		.uleb128 0x2
  481 0026 02       		.byte	0x2
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 83
+
+
  482 0027 E6030000 		.4byte	0x3e6
  483 002b 06       		.byte	0x6
  484 002c 24       		.byte	0x24
@@ -4918,9 +4932,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  490 0038 F4140000 		.4byte	.LASF1
  491 003c 72       		.sleb128 -14
  492 003d 03       		.uleb128 0x3
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 83
-
-
  493 003e CB1A0000 		.4byte	.LASF2
  494 0042 73       		.sleb128 -13
  495 0043 03       		.uleb128 0x3
@@ -4967,6 +4978,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  536 0096 06       		.byte	0x6
  537 0097 04       		.uleb128 0x4
  538 0098 0F070000 		.4byte	.LASF17
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 84
+
+
  539 009c 07       		.byte	0x7
  540 009d 04       		.uleb128 0x4
  541 009e 58160000 		.4byte	.LASF18
@@ -4978,9 +4992,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  547 00aa 820C0000 		.4byte	.LASF20
  548 00ae 0A       		.byte	0xa
  549 00af 04       		.uleb128 0x4
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 84
-
-
  550 00b0 A4090000 		.4byte	.LASF21
  551 00b4 0B       		.byte	0xb
  552 00b5 04       		.uleb128 0x4
@@ -5027,6 +5038,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  593 0108 19       		.byte	0x19
  594 0109 04       		.uleb128 0x4
  595 010a 14010000 		.4byte	.LASF36
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 85
+
+
  596 010e 1A       		.byte	0x1a
  597 010f 04       		.uleb128 0x4
  598 0110 7E0A0000 		.4byte	.LASF37
@@ -5038,9 +5052,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  604 011c 8F190000 		.4byte	.LASF39
  605 0120 1D       		.byte	0x1d
  606 0121 04       		.uleb128 0x4
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 85
-
-
  607 0122 590F0000 		.4byte	.LASF40
  608 0126 1E       		.byte	0x1e
  609 0127 04       		.uleb128 0x4
@@ -5087,6 +5098,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  650 017a 2C       		.byte	0x2c
  651 017b 04       		.uleb128 0x4
  652 017c C8070000 		.4byte	.LASF55
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 86
+
+
  653 0180 2D       		.byte	0x2d
  654 0181 04       		.uleb128 0x4
  655 0182 3F100000 		.4byte	.LASF56
@@ -5098,9 +5112,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  661 018e 97130000 		.4byte	.LASF58
  662 0192 30       		.byte	0x30
  663 0193 04       		.uleb128 0x4
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 86
-
-
  664 0194 141C0000 		.4byte	.LASF59
  665 0198 31       		.byte	0x31
  666 0199 04       		.uleb128 0x4
@@ -5147,6 +5158,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  707 01ec 3F       		.byte	0x3f
  708 01ed 04       		.uleb128 0x4
  709 01ee F8160000 		.4byte	.LASF74
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 87
+
+
  710 01f2 40       		.byte	0x40
  711 01f3 04       		.uleb128 0x4
  712 01f4 9F0C0000 		.4byte	.LASF75
@@ -5158,9 +5172,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  718 0200 53190000 		.4byte	.LASF77
  719 0204 43       		.byte	0x43
  720 0205 04       		.uleb128 0x4
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 87
-
-
  721 0206 A20D0000 		.4byte	.LASF78
  722 020a 44       		.byte	0x44
  723 020b 04       		.uleb128 0x4
@@ -5207,6 +5218,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  764 025e 52       		.byte	0x52
  765 025f 04       		.uleb128 0x4
  766 0260 2F1C0000 		.4byte	.LASF93
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 88
+
+
  767 0264 53       		.byte	0x53
  768 0265 04       		.uleb128 0x4
  769 0266 4F1D0000 		.4byte	.LASF94
@@ -5218,9 +5232,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  775 0272 AD110000 		.4byte	.LASF96
  776 0276 56       		.byte	0x56
  777 0277 04       		.uleb128 0x4
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 88
-
-
  778 0278 54070000 		.4byte	.LASF97
  779 027c 57       		.byte	0x57
  780 027d 04       		.uleb128 0x4
@@ -5267,6 +5278,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  821 02d0 65       		.byte	0x65
  822 02d1 04       		.uleb128 0x4
  823 02d2 25090000 		.4byte	.LASF112
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 89
+
+
  824 02d6 66       		.byte	0x66
  825 02d7 04       		.uleb128 0x4
  826 02d8 5E180000 		.4byte	.LASF113
@@ -5278,9 +5292,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  832 02e4 0A030000 		.4byte	.LASF115
  833 02e8 69       		.byte	0x69
  834 02e9 04       		.uleb128 0x4
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 89
-
-
  835 02ea 23130000 		.4byte	.LASF116
  836 02ee 6A       		.byte	0x6a
  837 02ef 04       		.uleb128 0x4
@@ -5327,6 +5338,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  878 0342 78       		.byte	0x78
  879 0343 04       		.uleb128 0x4
  880 0344 9E170000 		.4byte	.LASF131
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 90
+
+
  881 0348 79       		.byte	0x79
  882 0349 04       		.uleb128 0x4
  883 034a 1D1B0000 		.4byte	.LASF132
@@ -5338,9 +5352,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  889 0356 A0060000 		.4byte	.LASF134
  890 035a 7C       		.byte	0x7c
  891 035b 04       		.uleb128 0x4
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 90
-
-
  892 035c 2F190000 		.4byte	.LASF135
  893 0360 7D       		.byte	0x7d
  894 0361 04       		.uleb128 0x4
@@ -5387,6 +5398,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  935 03b4 8B       		.byte	0x8b
  936 03b5 04       		.uleb128 0x4
  937 03b6 A50B0000 		.4byte	.LASF150
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 91
+
+
  938 03ba 8C       		.byte	0x8c
  939 03bb 04       		.uleb128 0x4
  940 03bc 6E090000 		.4byte	.LASF151
@@ -5398,9 +5412,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  946 03c8 2E110000 		.4byte	.LASF153
  947 03cc 8F       		.byte	0x8f
  948 03cd 04       		.uleb128 0x4
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 91
-
-
  949 03ce 57080000 		.4byte	.LASF154
  950 03d2 90       		.byte	0x90
  951 03d3 04       		.uleb128 0x4
@@ -5447,6 +5458,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  992 0423 05       		.uleb128 0x5
  993 0424 04       		.byte	0x4
  994 0425 05       		.byte	0x5
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 92
+
+
  995 0426 B2140000 		.4byte	.LASF165
  996 042a 06       		.uleb128 0x6
  997 042b 6F190000 		.4byte	.LASF166
@@ -5458,9 +5472,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1003 0437 07       		.byte	0x7
  1004 0438 05180000 		.4byte	.LASF167
  1005 043c 05       		.uleb128 0x5
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 92
-
-
  1006 043d 08       		.byte	0x8
  1007 043e 05       		.byte	0x5
  1008 043f CD0F0000 		.4byte	.LASF168
@@ -5507,6 +5518,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1049 0495 05       		.byte	0x5
  1050 0496 9701     		.2byte	0x197
  1051 0498 56050000 		.4byte	0x556
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 93
+
+
  1052 049c 20       		.byte	0x20
  1053 049d 09       		.uleb128 0x9
  1054 049e E2190000 		.4byte	.LASF176
@@ -5518,9 +5532,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1060 04ab DD070000 		.4byte	.LASF177
  1061 04af 05       		.byte	0x5
  1062 04b0 9901     		.2byte	0x199
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 93
-
-
  1063 04b2 56050000 		.4byte	0x556
  1064 04b6 A0       		.byte	0xa0
  1065 04b7 0A       		.uleb128 0xa
@@ -5567,6 +5578,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1106 0516 0003     		.2byte	0x300
  1107 0518 0A       		.uleb128 0xa
  1108 0519 5C140000 		.4byte	.LASF184
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 94
+
+
  1109 051d 05       		.byte	0x5
  1110 051e A101     		.2byte	0x1a1
  1111 0520 A4050000 		.4byte	0x5a4
@@ -5578,9 +5592,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1117 052e 4C050000 		.4byte	0x54c
  1118 0532 000E     		.2byte	0xe00
  1119 0534 00       		.byte	0
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 94
-
-
  1120 0535 0C       		.uleb128 0xc
  1121 0536 4C050000 		.4byte	0x54c
  1122 053a 45050000 		.4byte	0x545
@@ -5627,6 +5638,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1163 0599 00       		.byte	0
  1164 059a 0E       		.uleb128 0xe
  1165 059b 58040000 		.4byte	0x458
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 95
+
+
  1166 059f 0E       		.uleb128 0xe
  1167 05a0 8A050000 		.4byte	0x58a
  1168 05a4 0C       		.uleb128 0xc
@@ -5638,9 +5652,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1174 05b4 00       		.byte	0
  1175 05b5 10       		.uleb128 0x10
  1176 05b6 D2160000 		.4byte	.LASF187
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 95
-
-
  1177 05ba 05       		.byte	0x5
  1178 05bb A301     		.2byte	0x1a3
  1179 05bd 79040000 		.4byte	0x479
@@ -5687,6 +5698,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1220 0612 09       		.byte	0x9
  1221 0613 27       		.byte	0x27
  1222 0614 C1050000 		.4byte	0x5c1
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 96
+
+
  1223 0618 10       		.byte	0x10
  1224 0619 14       		.uleb128 0x14
  1225 061a 120C0000 		.4byte	.LASF191
@@ -5698,9 +5712,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1231 0626 400C0000 		.4byte	.LASF192
  1232 062a 09       		.byte	0x9
  1233 062b 29       		.byte	0x29
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 96
-
-
  1234 062c 4C050000 		.4byte	0x54c
  1235 0630 18       		.byte	0x18
  1236 0631 14       		.uleb128 0x14
@@ -5747,6 +5758,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1277 0684 34       		.byte	0x34
  1278 0685 14       		.uleb128 0x14
  1279 0686 ED050000 		.4byte	.LASF199
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 97
+
+
  1280 068a 09       		.byte	0x9
  1281 068b 31       		.byte	0x31
  1282 068c C1050000 		.4byte	0x5c1
@@ -5758,9 +5772,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1288 0698 4C050000 		.4byte	0x54c
  1289 069c 3C       		.byte	0x3c
  1290 069d 14       		.uleb128 0x14
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 97
-
-
  1291 069e 34140000 		.4byte	.LASF201
  1292 06a2 09       		.byte	0x9
  1293 06a3 33       		.byte	0x33
@@ -5807,6 +5818,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1334 06f9 0840     		.2byte	0x4008
  1335 06fb 16       		.uleb128 0x16
  1336 06fc 71000000 		.4byte	.LASF206
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 98
+
+
  1337 0700 09       		.byte	0x9
  1338 0701 3E       		.byte	0x3e
  1339 0702 C1050000 		.4byte	0x5c1
@@ -5818,9 +5832,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1345 070f C1050000 		.4byte	0x5c1
  1346 0713 1040     		.2byte	0x4010
  1347 0715 16       		.uleb128 0x16
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 98
-
-
  1348 0716 4C0B0000 		.4byte	.LASF208
  1349 071a 09       		.byte	0x9
  1350 071b 40       		.byte	0x40
@@ -5867,6 +5878,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1391 0772 0A       		.byte	0xa
  1392 0773 23       		.byte	0x23
  1393 0774 4C050000 		.4byte	0x54c
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 99
+
+
  1394 0778 00       		.byte	0
  1395 0779 14       		.uleb128 0x14
  1396 077a 8D1C0000 		.4byte	.LASF214
@@ -5878,9 +5892,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1402 0786 0A1D0000 		.4byte	.LASF215
  1403 078a 0A       		.byte	0xa
  1404 078b 25       		.byte	0x25
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 99
-
-
  1405 078c 4C050000 		.4byte	0x54c
  1406 0790 08       		.byte	0x8
  1407 0791 13       		.uleb128 0x13
@@ -5927,6 +5938,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1448 07e3 24       		.byte	0x24
  1449 07e4 14       		.uleb128 0x14
  1450 07e5 D81B0000 		.4byte	.LASF221
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 100
+
+
  1451 07e9 0A       		.byte	0xa
  1452 07ea 2D       		.byte	0x2d
  1453 07eb 4C050000 		.4byte	0x54c
@@ -5938,9 +5952,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1459 07f7 C1050000 		.4byte	0x5c1
  1460 07fb 2C       		.byte	0x2c
  1461 07fc 14       		.uleb128 0x14
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 100
-
-
  1462 07fd 120C0000 		.4byte	.LASF191
  1463 0801 0A       		.byte	0xa
  1464 0802 2F       		.byte	0x2f
@@ -5987,6 +5998,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1505 0853 3A       		.byte	0x3a
  1506 0854 4C050000 		.4byte	0x54c
  1507 0858 04       		.byte	0x4
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 101
+
+
  1508 0859 14       		.uleb128 0x14
  1509 085a 440D0000 		.4byte	.LASF224
  1510 085e 0A       		.byte	0xa
@@ -5998,9 +6012,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1516 086a 0A       		.byte	0xa
  1517 086b 3C       		.byte	0x3c
  1518 086c 4C050000 		.4byte	0x54c
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 101
-
-
  1519 0870 0C       		.byte	0xc
  1520 0871 14       		.uleb128 0x14
  1521 0872 A7020000 		.4byte	.LASF226
@@ -6047,6 +6058,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1562 08c9 37       		.byte	0x37
  1563 08ca 00       		.byte	0
  1564 08cb 0E       		.uleb128 0xe
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 102
+
+
  1565 08cc BB080000 		.4byte	0x8bb
  1566 08d0 11       		.uleb128 0x11
  1567 08d1 CB080000 		.4byte	0x8cb
@@ -6058,9 +6072,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1573 08e3 1F       		.byte	0x1f
  1574 08e4 00       		.byte	0
  1575 08e5 06       		.uleb128 0x6
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 102
-
-
  1576 08e6 D00C0000 		.4byte	.LASF230
  1577 08ea 0A       		.byte	0xa
  1578 08eb 43       		.byte	0x43
@@ -6107,6 +6118,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1619 0939 06       		.uleb128 0x6
  1620 093a 32000000 		.4byte	.LASF238
  1621 093e 0C       		.byte	0xc
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 103
+
+
  1622 093f F1       		.byte	0xf1
  1623 0940 18090000 		.4byte	0x918
  1624 0944 18       		.uleb128 0x18
@@ -6118,9 +6132,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1630 094d 19       		.uleb128 0x19
  1631 094e 461B0000 		.4byte	.LASF260
  1632 0952 4C       		.byte	0x4c
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 103
-
-
  1633 0953 0D       		.byte	0xd
  1634 0954 2B       		.byte	0x2b
  1635 0955 3E0A0000 		.4byte	0xa3e
@@ -6167,6 +6178,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1676 09a8 6E040000 		.4byte	0x46e
  1677 09ac 18       		.byte	0x18
  1678 09ad 14       		.uleb128 0x14
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 104
+
+
  1679 09ae A0140000 		.4byte	.LASF247
  1680 09b2 0D       		.byte	0xd
  1681 09b3 36       		.byte	0x36
@@ -6178,9 +6192,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1687 09bf 38       		.byte	0x38
  1688 09c0 6E040000 		.4byte	0x46e
  1689 09c4 20       		.byte	0x20
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 104
-
-
  1690 09c5 14       		.uleb128 0x14
  1691 09c6 85090000 		.4byte	.LASF249
  1692 09ca 0D       		.byte	0xd
@@ -6227,6 +6238,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1733 0a1a AB190000 		.4byte	.LASF256
  1734 0a1e 0D       		.byte	0xd
  1735 0a1f 44       		.byte	0x44
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 105
+
+
  1736 0a20 6E040000 		.4byte	0x46e
  1737 0a24 40       		.byte	0x40
  1738 0a25 14       		.uleb128 0x14
@@ -6238,9 +6252,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1744 0a31 14       		.uleb128 0x14
  1745 0a32 84190000 		.4byte	.LASF258
  1746 0a36 0D       		.byte	0xd
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 105
-
-
  1747 0a37 47       		.byte	0x47
  1748 0a38 6E040000 		.4byte	0x46e
  1749 0a3c 48       		.byte	0x48
@@ -6287,6 +6298,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1790 0a8c 6E040000 		.4byte	0x46e
  1791 0a90 10       		.byte	0x10
  1792 0a91 14       		.uleb128 0x14
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 106
+
+
  1793 0a92 54100000 		.4byte	.LASF265
  1794 0a96 0E       		.byte	0xe
  1795 0a97 33       		.byte	0x33
@@ -6298,9 +6312,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1801 0aa3 34       		.byte	0x34
  1802 0aa4 6E040000 		.4byte	0x46e
  1803 0aa8 18       		.byte	0x18
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 106
-
-
  1804 0aa9 14       		.uleb128 0x14
  1805 0aaa DB0F0000 		.4byte	.LASF267
  1806 0aae 0E       		.byte	0xe
@@ -6347,6 +6358,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1847 0afe 97140000 		.4byte	.LASF270
  1848 0b02 0E       		.byte	0xe
  1849 0b03 3D       		.byte	0x3d
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 107
+
+
  1850 0b04 6E040000 		.4byte	0x46e
  1851 0b08 38       		.byte	0x38
  1852 0b09 14       		.uleb128 0x14
@@ -6358,9 +6372,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1858 0b15 14       		.uleb128 0x14
  1859 0b16 3A0B0000 		.4byte	.LASF272
  1860 0b1a 0E       		.byte	0xe
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 107
-
-
  1861 0b1b 40       		.byte	0x40
  1862 0b1c 6E040000 		.4byte	0x46e
  1863 0b20 40       		.byte	0x40
@@ -6407,6 +6418,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1904 0b70 6E040000 		.4byte	0x46e
  1905 0b74 5C       		.byte	0x5c
  1906 0b75 14       		.uleb128 0x14
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 108
+
+
  1907 0b76 84190000 		.4byte	.LASF258
  1908 0b7a 0E       		.byte	0xe
  1909 0b7b 4C       		.byte	0x4c
@@ -6418,9 +6432,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1915 0b87 0E       		.byte	0xe
  1916 0b88 4D       		.byte	0x4d
  1917 0b89 490A0000 		.4byte	0xa49
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 108
-
-
  1918 0b8d 1A       		.uleb128 0x1a
  1919 0b8e 04       		.byte	0x4
  1920 0b8f 930B0000 		.4byte	0xb93
@@ -6467,6 +6478,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1961 0be8 04       		.byte	0x4
  1962 0be9 04       		.uleb128 0x4
  1963 0bea C90A0000 		.4byte	.LASF283
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 109
+
+
  1964 0bee 05       		.byte	0x5
  1965 0bef 04       		.uleb128 0x4
  1966 0bf0 64100000 		.4byte	.LASF284
@@ -6478,9 +6492,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  1972 0bfc 7C100000 		.4byte	.LASF286
  1973 0c00 08       		.byte	0x8
  1974 0c01 00       		.byte	0
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 109
-
-
  1975 0c02 10       		.uleb128 0x10
  1976 0c03 250C0000 		.4byte	.LASF287
  1977 0c07 0F       		.byte	0xf
@@ -6527,6 +6538,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2018 0c5c 3A0C0000 		.4byte	0xc3a
  2019 0c60 10       		.uleb128 0x10
  2020 0c61 750F0000 		.4byte	.LASF295
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 110
+
+
  2021 0c65 0F       		.byte	0xf
  2022 0c66 AB01     		.2byte	0x1ab
  2023 0c68 8D0B0000 		.4byte	0xb8d
@@ -6538,9 +6552,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2029 0c75 BF0D0000 		.4byte	0xdbf
  2030 0c79 09       		.uleb128 0x9
  2031 0c7a 99160000 		.4byte	.LASF297
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 110
-
-
  2032 0c7e 0F       		.byte	0xf
  2033 0c7f B101     		.2byte	0x1b1
  2034 0c81 BE0B0000 		.4byte	0xbbe
@@ -6587,6 +6598,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2075 0cda DB01     		.2byte	0x1db
  2076 0cdc 46090000 		.4byte	0x946
  2077 0ce0 10       		.byte	0x10
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 111
+
+
  2078 0ce1 09       		.uleb128 0x9
  2079 0ce2 3E1D0000 		.4byte	.LASF305
  2080 0ce6 0F       		.byte	0xf
@@ -6598,9 +6612,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2086 0cf3 0F       		.byte	0xf
  2087 0cf4 E701     		.2byte	0x1e7
  2088 0cf6 46090000 		.4byte	0x946
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 111
-
-
  2089 0cfa 12       		.byte	0x12
  2090 0cfb 09       		.uleb128 0x9
  2091 0cfc 920D0000 		.4byte	.LASF307
@@ -6647,6 +6658,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2132 0d56 09       		.uleb128 0x9
  2133 0d57 EC190000 		.4byte	.LASF314
  2134 0d5b 0F       		.byte	0xf
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 112
+
+
  2135 0d5c 1502     		.2byte	0x215
  2136 0d5e 540C0000 		.4byte	0xc54
  2137 0d62 21       		.byte	0x21
@@ -6658,9 +6672,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2143 0d6f 24       		.byte	0x24
  2144 0d70 09       		.uleb128 0x9
  2145 0d71 2E080000 		.4byte	.LASF316
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 112
-
-
  2146 0d75 0F       		.byte	0xf
  2147 0d76 1E02     		.2byte	0x21e
  2148 0d78 540C0000 		.4byte	0xc54
@@ -6707,6 +6718,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2189 0dd1 0F       		.byte	0xf
  2190 0dd2 4702     		.2byte	0x247
  2191 0dd4 8F0E0000 		.4byte	0xe8f
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 113
+
+
  2192 0dd8 09       		.uleb128 0x9
  2193 0dd9 98010000 		.4byte	.LASF324
  2194 0ddd 0F       		.byte	0xf
@@ -6718,9 +6732,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2200 0dea 0F       		.byte	0xf
  2201 0deb 4B02     		.2byte	0x24b
  2202 0ded 4C050000 		.4byte	0x54c
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 113
-
-
  2203 0df1 04       		.byte	0x4
  2204 0df2 09       		.uleb128 0x9
  2205 0df3 3D130000 		.4byte	.LASF326
@@ -6767,6 +6778,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2246 0e4d 09       		.uleb128 0x9
  2247 0e4e E1120000 		.4byte	.LASF333
  2248 0e52 0F       		.byte	0xf
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 114
+
+
  2249 0e53 5602     		.2byte	0x256
  2250 0e55 44090000 		.4byte	0x944
  2251 0e59 24       		.byte	0x24
@@ -6778,9 +6792,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2257 0e66 28       		.byte	0x28
  2258 0e67 09       		.uleb128 0x9
  2259 0e68 7E150000 		.4byte	.LASF335
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 114
-
-
  2260 0e6c 0F       		.byte	0xf
  2261 0e6d 5802     		.2byte	0x258
  2262 0e6f 4C050000 		.4byte	0x54c
@@ -6806,30 +6817,33 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2282 0e9b 12       		.uleb128 0x12
  2283 0e9c 0F       		.byte	0xf
  2284 0e9d 10       		.byte	0x10
- 2285 0e9e 41       		.byte	0x41
+ 2285 0e9e 42       		.byte	0x42
  2286 0e9f D40E0000 		.4byte	0xed4
  2287 0ea3 14       		.uleb128 0x14
  2288 0ea4 A20A0000 		.4byte	.LASF339
  2289 0ea8 10       		.byte	0x10
- 2290 0ea9 43       		.byte	0x43
+ 2290 0ea9 44       		.byte	0x44
  2291 0eaa 0A040000 		.4byte	0x40a
  2292 0eae 00       		.byte	0
  2293 0eaf 14       		.uleb128 0x14
  2294 0eb0 000E0000 		.4byte	.LASF340
  2295 0eb4 10       		.byte	0x10
- 2296 0eb5 44       		.byte	0x44
+ 2296 0eb5 45       		.byte	0x45
  2297 0eb6 D40E0000 		.4byte	0xed4
  2298 0eba 01       		.byte	0x1
  2299 0ebb 14       		.uleb128 0x14
  2300 0ebc E0080000 		.4byte	.LASF341
  2301 0ec0 10       		.byte	0x10
- 2302 0ec1 45       		.byte	0x45
+ 2302 0ec1 46       		.byte	0x46
  2303 0ec2 E40E0000 		.4byte	0xee4
  2304 0ec6 0A       		.byte	0xa
  2305 0ec7 14       		.uleb128 0x14
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 115
+
+
  2306 0ec8 1C140000 		.4byte	.LASF342
  2307 0ecc 10       		.byte	0x10
- 2308 0ecd 46       		.byte	0x46
+ 2308 0ecd 47       		.byte	0x47
  2309 0ece F40E0000 		.4byte	0xef4
  2310 0ed2 0B       		.byte	0xb
  2311 0ed3 00       		.byte	0
@@ -6838,9 +6852,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2314 0ed9 E40E0000 		.4byte	0xee4
  2315 0edd 0D       		.uleb128 0xd
  2316 0ede 45050000 		.4byte	0x545
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 115
-
-
  2317 0ee2 08       		.byte	0x8
  2318 0ee3 00       		.byte	0
  2319 0ee4 0C       		.uleb128 0xc
@@ -6860,107 +6871,107 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2333 0f04 06       		.uleb128 0x6
  2334 0f05 4A160000 		.4byte	.LASF343
  2335 0f09 10       		.byte	0x10
- 2336 0f0a 48       		.byte	0x48
+ 2336 0f0a 49       		.byte	0x49
  2337 0f0b 9B0E0000 		.4byte	0xe9b
  2338 0f0f 12       		.uleb128 0x12
  2339 0f10 20       		.byte	0x20
  2340 0f11 10       		.byte	0x10
- 2341 0f12 5E       		.byte	0x5e
+ 2341 0f12 5F       		.byte	0x5f
  2342 0f13 B40F0000 		.4byte	0xfb4
  2343 0f17 14       		.uleb128 0x14
  2344 0f18 24060000 		.4byte	.LASF344
  2345 0f1c 10       		.byte	0x10
- 2346 0f1d 60       		.byte	0x60
+ 2346 0f1d 61       		.byte	0x61
  2347 0f1e 0A040000 		.4byte	0x40a
  2348 0f22 00       		.byte	0
  2349 0f23 14       		.uleb128 0x14
  2350 0f24 3F090000 		.4byte	.LASF345
  2351 0f28 10       		.byte	0x10
- 2352 0f29 61       		.byte	0x61
+ 2352 0f29 62       		.byte	0x62
  2353 0f2a 0A040000 		.4byte	0x40a
  2354 0f2e 01       		.byte	0x1
  2355 0f2f 14       		.uleb128 0x14
  2356 0f30 A90F0000 		.4byte	.LASF346
  2357 0f34 10       		.byte	0x10
- 2358 0f35 62       		.byte	0x62
+ 2358 0f35 63       		.byte	0x63
  2359 0f36 51040000 		.4byte	0x451
  2360 0f3a 04       		.byte	0x4
  2361 0f3b 14       		.uleb128 0x14
  2362 0f3c 121D0000 		.4byte	.LASF347
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 116
+
+
  2363 0f40 10       		.byte	0x10
- 2364 0f41 63       		.byte	0x63
+ 2364 0f41 64       		.byte	0x64
  2365 0f42 51040000 		.4byte	0x451
  2366 0f46 08       		.byte	0x8
  2367 0f47 14       		.uleb128 0x14
  2368 0f48 BE0D0000 		.4byte	.LASF348
  2369 0f4c 10       		.byte	0x10
- 2370 0f4d 64       		.byte	0x64
+ 2370 0f4d 65       		.byte	0x65
  2371 0f4e 0A040000 		.4byte	0x40a
  2372 0f52 0C       		.byte	0xc
  2373 0f53 14       		.uleb128 0x14
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 116
-
-
  2374 0f54 75020000 		.4byte	.LASF349
  2375 0f58 10       		.byte	0x10
- 2376 0f59 65       		.byte	0x65
+ 2376 0f59 66       		.byte	0x66
  2377 0f5a 0A040000 		.4byte	0x40a
  2378 0f5e 0D       		.byte	0xd
  2379 0f5f 14       		.uleb128 0x14
  2380 0f60 85080000 		.4byte	.LASF350
  2381 0f64 10       		.byte	0x10
- 2382 0f65 66       		.byte	0x66
+ 2382 0f65 67       		.byte	0x67
  2383 0f66 0A040000 		.4byte	0x40a
  2384 0f6a 0E       		.byte	0xe
  2385 0f6b 14       		.uleb128 0x14
  2386 0f6c FD1B0000 		.4byte	.LASF351
  2387 0f70 10       		.byte	0x10
- 2388 0f71 67       		.byte	0x67
+ 2388 0f71 68       		.byte	0x68
  2389 0f72 51040000 		.4byte	0x451
  2390 0f76 10       		.byte	0x10
  2391 0f77 14       		.uleb128 0x14
  2392 0f78 E7120000 		.4byte	.LASF352
  2393 0f7c 10       		.byte	0x10
- 2394 0f7d 69       		.byte	0x69
+ 2394 0f7d 6A       		.byte	0x6a
  2395 0f7e 0A040000 		.4byte	0x40a
  2396 0f82 14       		.byte	0x14
  2397 0f83 14       		.uleb128 0x14
  2398 0f84 C1090000 		.4byte	.LASF353
  2399 0f88 10       		.byte	0x10
- 2400 0f89 6A       		.byte	0x6a
+ 2400 0f89 6B       		.byte	0x6b
  2401 0f8a 51040000 		.4byte	0x451
  2402 0f8e 18       		.byte	0x18
  2403 0f8f 14       		.uleb128 0x14
  2404 0f90 621B0000 		.4byte	.LASF354
  2405 0f94 10       		.byte	0x10
- 2406 0f95 6B       		.byte	0x6b
+ 2406 0f95 6C       		.byte	0x6c
  2407 0f96 0A040000 		.4byte	0x40a
  2408 0f9a 1C       		.byte	0x1c
  2409 0f9b 14       		.uleb128 0x14
  2410 0f9c 5C020000 		.4byte	.LASF355
  2411 0fa0 10       		.byte	0x10
- 2412 0fa1 6C       		.byte	0x6c
+ 2412 0fa1 6D       		.byte	0x6d
  2413 0fa2 0A040000 		.4byte	0x40a
  2414 0fa6 1D       		.byte	0x1d
  2415 0fa7 14       		.uleb128 0x14
  2416 0fa8 E3150000 		.4byte	.LASF356
  2417 0fac 10       		.byte	0x10
- 2418 0fad 6D       		.byte	0x6d
+ 2418 0fad 6E       		.byte	0x6e
  2419 0fae 0A040000 		.4byte	0x40a
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 117
+
+
  2420 0fb2 1E       		.byte	0x1e
  2421 0fb3 00       		.byte	0
  2422 0fb4 06       		.uleb128 0x6
  2423 0fb5 150F0000 		.4byte	.LASF357
  2424 0fb9 10       		.byte	0x10
- 2425 0fba 6E       		.byte	0x6e
+ 2425 0fba 6F       		.byte	0x6f
  2426 0fbb 0F0F0000 		.4byte	0xf0f
  2427 0fbf 12       		.uleb128 0x12
  2428 0fc0 02       		.byte	0x2
  2429 0fc1 11       		.byte	0x11
  2430 0fc2 11       		.byte	0x11
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 117
-
-
  2431 0fc3 DF0F0000 		.4byte	0xfdf
  2432 0fc7 13       		.uleb128 0x13
  2433 0fc8 737700   		.ascii	"sw\000"
@@ -7007,6 +7018,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2474 1020 B1100000 		.4byte	.LASF363
  2475 1024 02       		.byte	0x2
  2476 1025 1A02     		.2byte	0x21a
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 118
+
+
  2477 1027 03       		.byte	0x3
  2478 1028 51100000 		.4byte	0x1051
  2479 102c 20       		.uleb128 0x20
@@ -7018,9 +7032,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2485 1039 74160000 		.4byte	.LASF361
  2486 103d 02       		.byte	0x2
  2487 103e 1A02     		.2byte	0x21a
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 118
-
-
  2488 1040 6E040000 		.4byte	0x46e
  2489 1044 20       		.uleb128 0x20
  2490 1045 B6160000 		.4byte	.LASF362
@@ -7067,6 +7078,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2531 109e CE000000 		.4byte	.LASF360
  2532 10a2 03       		.byte	0x3
  2533 10a3 4503     		.2byte	0x345
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 119
+
+
  2534 10a5 8A100000 		.4byte	0x108a
  2535 10a9 20       		.uleb128 0x20
  2536 10aa 9A1A0000 		.4byte	.LASF365
@@ -7078,9 +7092,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2542 10b7 A1040000 		.4byte	.LASF367
  2543 10bb 12       		.byte	0x12
  2544 10bc 8501     		.2byte	0x185
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 119
-
-
  2545 10be 03       		.byte	0x3
  2546 10bf D0100000 		.4byte	0x10d0
  2547 10c3 20       		.uleb128 0x20
@@ -7127,6 +7138,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2588 1120 23       		.uleb128 0x23
  2589 1121 36150000 		.4byte	.LASF371
  2590 1125 04       		.byte	0x4
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 120
+
+
  2591 1126 53       		.byte	0x53
  2592 1127 03       		.byte	0x3
  2593 1128 23       		.uleb128 0x23
@@ -7138,9 +7152,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2599 1131 C0180000 		.4byte	.LASF373
  2600 1135 05       		.byte	0x5
  2601 1136 8606     		.2byte	0x686
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 120
-
-
  2602 1138 03       		.byte	0x3
  2603 1139 4A110000 		.4byte	0x114a
  2604 113d 20       		.uleb128 0x20
@@ -7164,7 +7175,7 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2622 1164 24       		.uleb128 0x24
  2623 1165 84030000 		.4byte	.LASF401
  2624 1169 01       		.byte	0x1
- 2625 116a 37       		.byte	0x37
+ 2625 116a 3A       		.byte	0x3a
  2626 116b 00000000 		.4byte	.LFB626
  2627 116f A8000000 		.4byte	.LFE626-.LFB626
  2628 1173 01       		.uleb128 0x1
@@ -7173,24 +7184,27 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2631 1179 25       		.uleb128 0x25
  2632 117a 72657400 		.ascii	"ret\000"
  2633 117e 01       		.byte	0x1
- 2634 117f 39       		.byte	0x39
+ 2634 117f 3C       		.byte	0x3c
  2635 1180 4A040000 		.4byte	0x44a
  2636 1184 01       		.uleb128 0x1
  2637 1185 51       		.byte	0x51
  2638 1186 26       		.uleb128 0x26
  2639 1187 BE070000 		.4byte	.LASF376
  2640 118b 01       		.byte	0x1
- 2641 118c 3A       		.byte	0x3a
+ 2641 118c 3D       		.byte	0x3d
  2642 118d 03090000 		.4byte	0x903
  2643 1191 05       		.uleb128 0x5
  2644 1192 03       		.byte	0x3
- 2645 1193 00000000 		.4byte	System_HB.15719
+ 2645 1193 00000000 		.4byte	System_HB.15720
  2646 1197 27       		.uleb128 0x27
  2647 1198 57100000 		.4byte	0x1057
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 121
+
+
  2648 119c 02000000 		.4byte	.LBB42
  2649 11a0 06000000 		.4byte	.LBE42-.LBB42
  2650 11a4 01       		.byte	0x1
- 2651 11a5 3C       		.byte	0x3c
+ 2651 11a5 3F       		.byte	0x3f
  2652 11a6 CE110000 		.4byte	0x11ce
  2653 11aa 28       		.uleb128 0x28
  2654 11ab EA0F0000 		.4byte	0xfea
@@ -7198,9 +7212,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2656 11b3 06000000 		.4byte	.LBE43-.LBB43
  2657 11b7 12       		.byte	0x12
  2658 11b8 7A01     		.2byte	0x17a
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 121
-
-
  2659 11ba 29       		.uleb128 0x29
  2660 11bb 07100000 		.4byte	0x1007
  2661 11bf 00000000 		.4byte	.LLST0
@@ -7214,7 +7225,7 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2669 11d3 20000000 		.4byte	.LBB45
  2670 11d7 06000000 		.4byte	.LBE45-.LBB45
  2671 11db 01       		.byte	0x1
- 2672 11dc 43       		.byte	0x43
+ 2672 11dc 46       		.byte	0x46
  2673 11dd F4110000 		.4byte	0x11f4
  2674 11e1 29       		.uleb128 0x29
  2675 11e2 7D100000 		.4byte	0x107d
@@ -7228,7 +7239,7 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2683 11f9 2A000000 		.4byte	.LBB47
  2684 11fd 06000000 		.4byte	.LBE47-.LBB47
  2685 1201 01       		.byte	0x1
- 2686 1202 46       		.byte	0x46
+ 2686 1202 49       		.byte	0x49
  2687 1203 1A120000 		.4byte	0x121a
  2688 1207 29       		.uleb128 0x29
  2689 1208 A9100000 		.4byte	0x10a9
@@ -7242,11 +7253,14 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2697 121f 48000000 		.4byte	.LBB49
  2698 1223 06000000 		.4byte	.LBE49-.LBB49
  2699 1227 01       		.byte	0x1
- 2700 1228 4E       		.byte	0x4e
+ 2700 1228 51       		.byte	0x51
  2701 1229 40120000 		.4byte	0x1240
  2702 122d 29       		.uleb128 0x29
  2703 122e 7D100000 		.4byte	0x107d
  2704 1232 84000000 		.4byte	.LLST6
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 122
+
+
  2705 1236 29       		.uleb128 0x29
  2706 1237 71100000 		.4byte	0x1071
  2707 123b 98000000 		.4byte	.LLST7
@@ -7256,11 +7270,8 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2711 1245 52000000 		.4byte	.LBB51
  2712 1249 06000000 		.4byte	.LBE51-.LBB51
  2713 124d 01       		.byte	0x1
- 2714 124e 51       		.byte	0x51
+ 2714 124e 54       		.byte	0x54
  2715 124f 66120000 		.4byte	0x1266
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 122
-
-
  2716 1253 29       		.uleb128 0x29
  2717 1254 A9100000 		.4byte	0x10a9
  2718 1258 B0000000 		.4byte	.LLST8
@@ -7273,7 +7284,7 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2725 126b 7C000000 		.4byte	.LBB53
  2726 126f 0A000000 		.4byte	.LBE53-.LBB53
  2727 1273 01       		.byte	0x1
- 2728 1274 65       		.byte	0x65
+ 2728 1274 68       		.byte	0x68
  2729 1275 29       		.uleb128 0x29
  2730 1276 C3100000 		.4byte	0x10c3
  2731 127a DC000000 		.4byte	.LLST10
@@ -7298,7 +7309,7 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2750 12ac 2B       		.uleb128 0x2b
  2751 12ad 440B0000 		.4byte	.LASF402
  2752 12b1 01       		.byte	0x1
- 2753 12b2 69       		.byte	0x69
+ 2753 12b2 6C       		.byte	0x6c
  2754 12b3 00000000 		.4byte	.LFB627
  2755 12b7 24000000 		.4byte	.LFE627-.LFB627
  2756 12bb 01       		.uleb128 0x1
@@ -7307,9 +7318,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2759 12c1 27       		.uleb128 0x27
  2760 12c2 D0100000 		.4byte	0x10d0
  2761 12c6 00000000 		.4byte	.LBB56
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 123
+
+
  2762 12ca 04000000 		.4byte	.LBE56-.LBB56
  2763 12ce 01       		.byte	0x1
- 2764 12cf 6D       		.byte	0x6d
+ 2764 12cf 70       		.byte	0x70
  2765 12d0 E7120000 		.4byte	0x12e7
  2766 12d4 29       		.uleb128 0x29
  2767 12d5 ED100000 		.4byte	0x10ed
@@ -7318,15 +7332,12 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2770 12de E1100000 		.4byte	0x10e1
  2771 12e2 2F010000 		.4byte	.LLST15
  2772 12e6 00       		.byte	0
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 123
-
-
  2773 12e7 2A       		.uleb128 0x2a
  2774 12e8 FA100000 		.4byte	0x10fa
  2775 12ec 10000000 		.4byte	.LBB58
  2776 12f0 14000000 		.4byte	.LBE58-.LBB58
  2777 12f4 01       		.byte	0x1
- 2778 12f5 73       		.byte	0x73
+ 2778 12f5 76       		.byte	0x76
  2779 12f6 29       		.uleb128 0x29
  2780 12f7 13110000 		.4byte	0x1113
  2781 12fb 47010000 		.4byte	.LLST16
@@ -7338,7 +7349,7 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2787 130a 2C       		.uleb128 0x2c
  2788 130b 88020000 		.4byte	.LASF403
  2789 130f 01       		.byte	0x1
- 2790 1310 76       		.byte	0x76
+ 2790 1310 79       		.byte	0x79
  2791 1311 00000000 		.4byte	.LFB628
  2792 1315 BC000000 		.4byte	.LFE628-.LFB628
  2793 1319 01       		.uleb128 0x1
@@ -7349,13 +7360,13 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2798 1324 02000000 		.4byte	.LBB60
  2799 1328 02000000 		.4byte	.LBE60-.LBB60
  2800 132c 01       		.byte	0x1
- 2801 132d 78       		.byte	0x78
+ 2801 132d 7B       		.byte	0x7b
  2802 132e 27       		.uleb128 0x27
  2803 132f 4A110000 		.4byte	0x114a
  2804 1333 16000000 		.4byte	.LBB62
  2805 1337 16000000 		.4byte	.LBE62-.LBB62
  2806 133b 01       		.byte	0x1
- 2807 133c 7F       		.byte	0x7f
+ 2807 133c 82       		.byte	0x82
  2808 133d 4B130000 		.4byte	0x134b
  2809 1341 29       		.uleb128 0x29
  2810 1342 57110000 		.4byte	0x1157
@@ -7366,7 +7377,10 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2815 1350 2C000000 		.4byte	.LBB64
  2816 1354 16000000 		.4byte	.LBE64-.LBB64
  2817 1358 01       		.byte	0x1
- 2818 1359 80       		.byte	0x80
+ 2818 1359 83       		.byte	0x83
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 124
+
+
  2819 135a 68130000 		.4byte	0x1368
  2820 135e 29       		.uleb128 0x29
  2821 135f 3D110000 		.4byte	0x113d
@@ -7377,10 +7391,7 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2826 136d 50000000 		.4byte	.LBB66
  2827 1371 16000000 		.4byte	.LBE66-.LBB66
  2828 1375 01       		.byte	0x1
- 2829 1376 84       		.byte	0x84
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 124
-
-
+ 2829 1376 87       		.byte	0x87
  2830 1377 85130000 		.4byte	0x1385
  2831 137b 29       		.uleb128 0x29
  2832 137c 57110000 		.4byte	0x1157
@@ -7391,7 +7402,7 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2837 138a 66000000 		.4byte	.LBB68
  2838 138e 16000000 		.4byte	.LBE68-.LBB68
  2839 1392 01       		.byte	0x1
- 2840 1393 85       		.byte	0x85
+ 2840 1393 88       		.byte	0x88
  2841 1394 A2130000 		.4byte	0x13a2
  2842 1398 29       		.uleb128 0x29
  2843 1399 3D110000 		.4byte	0x113d
@@ -7402,7 +7413,7 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2848 13a7 7C000000 		.4byte	.LBB70
  2849 13ab 02000000 		.4byte	.LBE70-.LBB70
  2850 13af 01       		.byte	0x1
- 2851 13b0 87       		.byte	0x87
+ 2851 13b0 8A       		.byte	0x8a
  2852 13b1 2E       		.uleb128 0x2e
  2853 13b2 08000000 		.4byte	.LVL16
  2854 13b6 18150000 		.4byte	0x1518
@@ -7427,6 +7438,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2873 13d8 4C000000 		.4byte	.LVL22
  2874 13dc 23150000 		.4byte	0x1523
  2875 13e0 F4130000 		.4byte	0x13f4
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 125
+
+
  2876 13e4 30       		.uleb128 0x30
  2877 13e5 01       		.uleb128 0x1
  2878 13e6 50       		.byte	0x50
@@ -7438,9 +7452,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2884 13ec 51       		.byte	0x51
  2885 13ed 05       		.uleb128 0x5
  2886 13ee 03       		.byte	0x3
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 125
-
-
  2887 13ef 00000000 		.4byte	SW2_ISR
  2888 13f3 00       		.byte	0
  2889 13f4 2E       		.uleb128 0x2e
@@ -7460,7 +7471,7 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2903 1411 32       		.uleb128 0x32
  2904 1412 8A1B0000 		.4byte	.LASF404
  2905 1416 01       		.byte	0x1
- 2906 1417 A6       		.byte	0xa6
+ 2906 1417 B1       		.byte	0xb1
  2907 1418 4A040000 		.4byte	0x44a
  2908 141c 00000000 		.4byte	.LFB629
  2909 1420 10000000 		.4byte	.LFE629-.LFB629
@@ -7487,6 +7498,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2930 1457 34       		.uleb128 0x34
  2931 1458 9A120000 		.4byte	.LASF378
  2932 145c 13       		.byte	0x13
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 126
+
+
  2933 145d 1C       		.byte	0x1c
  2934 145e 62140000 		.4byte	0x1462
  2935 1462 11       		.uleb128 0x11
@@ -7498,9 +7512,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2941 146e 62140000 		.4byte	0x1462
  2942 1472 34       		.uleb128 0x34
  2943 1473 DF0E0000 		.4byte	.LASF380
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 126
-
-
  2944 1477 14       		.byte	0x14
  2945 1478 1F       		.byte	0x1f
  2946 1479 7D140000 		.4byte	0x147d
@@ -7547,6 +7558,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2987 14d5 DD000000 		.4byte	.LASF387
  2988 14d9 01       		.byte	0x1
  2989 14da 32       		.byte	0x32
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 127
+
+
  2990 14db 040F0000 		.4byte	0xf04
  2991 14df 05       		.uleb128 0x5
  2992 14e0 03       		.byte	0x3
@@ -7554,13 +7568,10 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  2994 14e5 35       		.uleb128 0x35
  2995 14e6 D30E0000 		.4byte	.LASF388
  2996 14ea 01       		.byte	0x1
- 2997 14eb 34       		.byte	0x34
+ 2997 14eb 35       		.byte	0x35
  2998 14ec 51040000 		.4byte	0x451
  2999 14f0 05       		.uleb128 0x5
  3000 14f1 03       		.byte	0x3
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 127
-
-
  3001 14f2 00000000 		.4byte	Sys_counter
  3002 14f6 35       		.uleb128 0x35
  3003 14f7 C6000000 		.4byte	.LASF389
@@ -7602,12 +7613,15 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3039 1546 D3000000 		.4byte	.LASF395
  3040 154a D3000000 		.4byte	.LASF395
  3041 154e 10       		.byte	0x10
- 3042 154f 77       		.byte	0x77
+ 3042 154f 78       		.byte	0x78
  3043 1550 36       		.uleb128 0x36
  3044 1551 37180000 		.4byte	.LASF396
  3045 1555 37180000 		.4byte	.LASF396
  3046 1559 10       		.byte	0x10
- 3047 155a 7A       		.byte	0x7a
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 128
+
+
+ 3047 155a 7B       		.byte	0x7b
  3048 155b 00       		.byte	0
  3049              		.section	.debug_abbrev,"",%progbits
  3050              	.Ldebug_abbrev0:
@@ -7618,9 +7632,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3055 0004 0E       		.uleb128 0xe
  3056 0005 13       		.uleb128 0x13
  3057 0006 0B       		.uleb128 0xb
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 128
-
-
  3058 0007 03       		.uleb128 0x3
  3059 0008 0E       		.uleb128 0xe
  3060 0009 1B       		.uleb128 0x1b
@@ -7667,6 +7678,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3101 0032 00       		.byte	0
  3102 0033 00       		.byte	0
  3103 0034 05       		.uleb128 0x5
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 129
+
+
  3104 0035 24       		.uleb128 0x24
  3105 0036 00       		.byte	0
  3106 0037 0B       		.uleb128 0xb
@@ -7678,9 +7692,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3112 003d 00       		.byte	0
  3113 003e 00       		.byte	0
  3114 003f 06       		.uleb128 0x6
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 129
-
-
  3115 0040 16       		.uleb128 0x16
  3116 0041 00       		.byte	0
  3117 0042 03       		.uleb128 0x3
@@ -7727,6 +7738,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3158 006b 3B       		.uleb128 0x3b
  3159 006c 05       		.uleb128 0x5
  3160 006d 49       		.uleb128 0x49
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 130
+
+
  3161 006e 13       		.uleb128 0x13
  3162 006f 38       		.uleb128 0x38
  3163 0070 0B       		.uleb128 0xb
@@ -7738,9 +7752,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3169 0076 03       		.uleb128 0x3
  3170 0077 0E       		.uleb128 0xe
  3171 0078 3A       		.uleb128 0x3a
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 130
-
-
  3172 0079 0B       		.uleb128 0xb
  3173 007a 3B       		.uleb128 0x3b
  3174 007b 05       		.uleb128 0x5
@@ -7787,6 +7798,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3215 00a4 35       		.uleb128 0x35
  3216 00a5 00       		.byte	0
  3217 00a6 49       		.uleb128 0x49
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 131
+
+
  3218 00a7 13       		.uleb128 0x13
  3219 00a8 00       		.byte	0
  3220 00a9 00       		.byte	0
@@ -7798,9 +7812,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3226 00af 2F       		.uleb128 0x2f
  3227 00b0 05       		.uleb128 0x5
  3228 00b1 00       		.byte	0
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 131
-
-
  3229 00b2 00       		.byte	0
  3230 00b3 10       		.uleb128 0x10
  3231 00b4 16       		.uleb128 0x16
@@ -7847,6 +7858,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3272 00dd 49       		.uleb128 0x49
  3273 00de 13       		.uleb128 0x13
  3274 00df 38       		.uleb128 0x38
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 132
+
+
  3275 00e0 0B       		.uleb128 0xb
  3276 00e1 00       		.byte	0
  3277 00e2 00       		.byte	0
@@ -7858,9 +7872,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3283 00e8 3A       		.uleb128 0x3a
  3284 00e9 0B       		.uleb128 0xb
  3285 00ea 3B       		.uleb128 0x3b
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 132
-
-
  3286 00eb 0B       		.uleb128 0xb
  3287 00ec 49       		.uleb128 0x49
  3288 00ed 13       		.uleb128 0x13
@@ -7907,6 +7918,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3329 0116 0B       		.uleb128 0xb
  3330 0117 49       		.uleb128 0x49
  3331 0118 13       		.uleb128 0x13
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 133
+
+
  3332 0119 38       		.uleb128 0x38
  3333 011a 05       		.uleb128 0x5
  3334 011b 00       		.byte	0
@@ -7918,9 +7932,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3340 0121 0B       		.uleb128 0xb
  3341 0122 00       		.byte	0
  3342 0123 00       		.byte	0
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 133
-
-
  3343 0124 19       		.uleb128 0x19
  3344 0125 13       		.uleb128 0x13
  3345 0126 01       		.byte	0x1
@@ -7967,6 +7978,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3386 014f 0B       		.uleb128 0xb
  3387 0150 0B       		.uleb128 0xb
  3388 0151 49       		.uleb128 0x49
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 134
+
+
  3389 0152 13       		.uleb128 0x13
  3390 0153 3A       		.uleb128 0x3a
  3391 0154 0B       		.uleb128 0xb
@@ -7978,9 +7992,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3397 015a 00       		.byte	0
  3398 015b 1E       		.uleb128 0x1e
  3399 015c 13       		.uleb128 0x13
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 134
-
-
  3400 015d 01       		.byte	0x1
  3401 015e 03       		.uleb128 0x3
  3402 015f 0E       		.uleb128 0xe
@@ -8027,6 +8038,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3443 0188 00       		.byte	0
  3444 0189 00       		.byte	0
  3445 018a 21       		.uleb128 0x21
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 135
+
+
  3446 018b 2E       		.uleb128 0x2e
  3447 018c 01       		.byte	0x1
  3448 018d 03       		.uleb128 0x3
@@ -8038,9 +8052,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3454 0193 27       		.uleb128 0x27
  3455 0194 19       		.uleb128 0x19
  3456 0195 20       		.uleb128 0x20
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 135
-
-
  3457 0196 0B       		.uleb128 0xb
  3458 0197 01       		.uleb128 0x1
  3459 0198 13       		.uleb128 0x13
@@ -8087,6 +8098,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3500 01c1 0E       		.uleb128 0xe
  3501 01c2 3A       		.uleb128 0x3a
  3502 01c3 0B       		.uleb128 0xb
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 136
+
+
  3503 01c4 3B       		.uleb128 0x3b
  3504 01c5 0B       		.uleb128 0xb
  3505 01c6 11       		.uleb128 0x11
@@ -8098,9 +8112,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3511 01cc 9742     		.uleb128 0x2117
  3512 01ce 19       		.uleb128 0x19
  3513 01cf 01       		.uleb128 0x1
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 136
-
-
  3514 01d0 13       		.uleb128 0x13
  3515 01d1 00       		.byte	0
  3516 01d2 00       		.byte	0
@@ -8147,6 +8158,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3557 01fb 0B       		.uleb128 0xb
  3558 01fc 59       		.uleb128 0x59
  3559 01fd 0B       		.uleb128 0xb
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 137
+
+
  3560 01fe 01       		.uleb128 0x1
  3561 01ff 13       		.uleb128 0x13
  3562 0200 00       		.byte	0
@@ -8158,9 +8172,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3568 0206 13       		.uleb128 0x13
  3569 0207 11       		.uleb128 0x11
  3570 0208 01       		.uleb128 0x1
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 137
-
-
  3571 0209 12       		.uleb128 0x12
  3572 020a 06       		.uleb128 0x6
  3573 020b 58       		.uleb128 0x58
@@ -8207,6 +8218,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3614 0234 12       		.uleb128 0x12
  3615 0235 06       		.uleb128 0x6
  3616 0236 40       		.uleb128 0x40
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 138
+
+
  3617 0237 18       		.uleb128 0x18
  3618 0238 9742     		.uleb128 0x2117
  3619 023a 19       		.uleb128 0x19
@@ -8218,9 +8232,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3625 0240 2E       		.uleb128 0x2e
  3626 0241 01       		.byte	0x1
  3627 0242 3F       		.uleb128 0x3f
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 138
-
-
  3628 0243 19       		.uleb128 0x19
  3629 0244 03       		.uleb128 0x3
  3630 0245 0E       		.uleb128 0xe
@@ -8267,6 +8278,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3671 0271 00       		.byte	0
  3672 0272 00       		.byte	0
  3673 0273 2F       		.uleb128 0x2f
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 139
+
+
  3674 0274 898201   		.uleb128 0x4109
  3675 0277 01       		.byte	0x1
  3676 0278 11       		.uleb128 0x11
@@ -8278,9 +8292,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3682 027e 00       		.byte	0
  3683 027f 00       		.byte	0
  3684 0280 30       		.uleb128 0x30
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 139
-
-
  3685 0281 8A8201   		.uleb128 0x410a
  3686 0284 00       		.byte	0
  3687 0285 02       		.uleb128 0x2
@@ -8327,6 +8338,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3728 02b3 13       		.uleb128 0x13
  3729 02b4 00       		.byte	0
  3730 02b5 00       		.byte	0
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 140
+
+
  3731 02b6 33       		.uleb128 0x33
  3732 02b7 34       		.uleb128 0x34
  3733 02b8 00       		.byte	0
@@ -8338,9 +8352,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3739 02be 05       		.uleb128 0x5
  3740 02bf 49       		.uleb128 0x49
  3741 02c0 13       		.uleb128 0x13
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 140
-
-
  3742 02c1 3F       		.uleb128 0x3f
  3743 02c2 19       		.uleb128 0x19
  3744 02c3 3C       		.uleb128 0x3c
@@ -8387,6 +8398,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3785 02ec 3F       		.uleb128 0x3f
  3786 02ed 19       		.uleb128 0x19
  3787 02ee 3C       		.uleb128 0x3c
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 141
+
+
  3788 02ef 19       		.uleb128 0x19
  3789 02f0 6E       		.uleb128 0x6e
  3790 02f1 0E       		.uleb128 0xe
@@ -8398,9 +8412,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3796 02f7 0B       		.uleb128 0xb
  3797 02f8 00       		.byte	0
  3798 02f9 00       		.byte	0
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 141
-
-
  3799 02fa 37       		.uleb128 0x37
  3800 02fb 2E       		.uleb128 0x2e
  3801 02fc 00       		.byte	0
@@ -8447,6 +8458,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3842 0038 00000000 		.4byte	0
  3843 003c 00000000 		.4byte	0
  3844              	.LLST3:
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 142
+
+
  3845 0040 20000000 		.4byte	.LVL2
  3846 0044 26000000 		.4byte	.LVL3
  3847 0048 0600     		.2byte	0x6
@@ -8458,9 +8472,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3853              	.LLST4:
  3854 0058 2A000000 		.4byte	.LVL4
  3855 005c 30000000 		.4byte	.LVL5
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 142
-
-
  3856 0060 0200     		.2byte	0x2
  3857 0062 37       		.byte	0x37
  3858 0063 9F       		.byte	0x9f
@@ -8507,6 +8518,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3899 00ce 0C       		.byte	0xc
  3900 00cf 80003240 		.4byte	0x40320080
  3901 00d3 9F       		.byte	0x9f
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 143
+
+
  3902 00d4 00000000 		.4byte	0
  3903 00d8 00000000 		.4byte	0
  3904              	.LLST10:
@@ -8518,9 +8532,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3910 00eb 00000000 		.4byte	0
  3911              	.LLST12:
  3912 00ef 7C000000 		.4byte	.LVL10
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 143
-
-
  3913 00f3 86000000 		.4byte	.LVL11
  3914 00f7 0200     		.2byte	0x2
  3915 00f9 30       		.byte	0x30
@@ -8567,6 +8578,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3956 0163 0600     		.2byte	0x6
  3957 0165 0C       		.byte	0xc
  3958 0166 00003240 		.4byte	0x40320000
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 144
+
+
  3959 016a 9F       		.byte	0x9f
  3960 016b 00000000 		.4byte	0
  3961 016f 00000000 		.4byte	0
@@ -8578,9 +8592,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  3967 017e 00000000 		.4byte	0
  3968 0182 00000000 		.4byte	0
  3969              	.LLST19:
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 144
-
-
  3970 0186 2C000000 		.4byte	.LVL19
  3971 018a 36000000 		.4byte	.LVL20
  3972 018e 0100     		.2byte	0x1
@@ -8627,6 +8638,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4013 0024 BC000000 		.4byte	.LFE628-.LFB628
  4014 0028 00000000 		.4byte	.LFB629
  4015 002c 10000000 		.4byte	.LFE629-.LFB629
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 145
+
+
  4016 0030 00000000 		.4byte	0
  4017 0034 00000000 		.4byte	0
  4018              		.section	.debug_ranges,"",%progbits
@@ -8638,9 +8652,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4024 0010 00000000 		.4byte	.LFB628
  4025 0014 BC000000 		.4byte	.LFE628
  4026 0018 00000000 		.4byte	.LFB629
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 145
-
-
  4027 001c 10000000 		.4byte	.LFE629
  4028 0020 00000000 		.4byte	0
  4029 0024 00000000 		.4byte	0
@@ -8687,6 +8698,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4047              	.LASF206:
  4048 0071 494E5452 		.ascii	"INTR_CAUSE3\000"
  4048      5F434155 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 146
+
+
  4048      53453300 
  4049              	.LASF123:
  4050 007d 74637077 		.ascii	"tcpwm_1_interrupts_15_IRQn\000"
@@ -8698,9 +8712,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4052 0098 434D445F 		.ascii	"CMD_CAPTURE\000"
  4052      43415054 
  4052      55524500 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 146
-
-
  4053              	.LASF398:
  4054 00a4 6D61696E 		.ascii	"main_cm4.c\000"
  4054      5F636D34 
@@ -8747,6 +8758,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4073              	.LASF399:
  4074 0130 433A5C55 		.ascii	"C:\\Users\\Tornado\\Documents\\PSoC Creator\\CE2202"
  4074      73657273 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 147
+
+
  4074      5C546F72 
  4074      6E61646F 
  4074      5C446F63 
@@ -8758,9 +8772,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4076 0190 312E6379 		.ascii	"1.cydsn\000"
  4076      64736E00 
  4077              	.LASF324:
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 147
-
-
  4078 0198 74785374 		.ascii	"txStatus\000"
  4078      61747573 
  4078      00
@@ -8807,6 +8818,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4094 0240 70776D41 		.ascii	"pwmAlignment\000"
  4094      6C69676E 
  4094      6D656E74 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 148
+
+
  4094      00
  4095              	.LASF392:
  4096 024d 43795F53 		.ascii	"Cy_SysInt_Init\000"
@@ -8818,9 +8832,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4098      52454345 
  4098      4956455F 
  4098      50414745 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 148
-
-
  4098      00
  4099              	.LASF242:
  4100 026d 72756E4D 		.ascii	"runMode\000"
@@ -8867,6 +8878,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4118 02f1 656E6162 		.ascii	"enableMutliProcessorMode\000"
  4118      6C654D75 
  4118      746C6950 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 149
+
+
  4118      726F6365 
  4118      73736F72 
  4119              	.LASF115:
@@ -8878,9 +8892,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4121              	.LASF121:
  4122 0324 74637077 		.ascii	"tcpwm_1_interrupts_13_IRQn\000"
  4122      6D5F315F 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 149
-
-
  4122      696E7465 
  4122      72727570 
  4122      74735F31 
@@ -8927,6 +8938,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4140 03d4 63707573 		.ascii	"cpuss_interrupts_dw0_13_IRQn\000"
  4140      735F696E 
  4140      74657272 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 150
+
+
  4140      75707473 
  4140      5F647730 
  4141              	.LASF303:
@@ -8938,9 +8952,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4143              	.LASF327:
  4144 0403 72785269 		.ascii	"rxRingBufSize\000"
  4144      6E674275 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 150
-
-
  4144      6653697A 
  4144      6500
  4145              	.LASF25:
@@ -8987,6 +8998,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4160      436C6561 
  4160      72496E74 
  4161              	.LASF76:
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 151
+
+
  4162 04bc 63707573 		.ascii	"cpuss_interrupts_dw1_0_IRQn\000"
  4162      735F696E 
  4162      74657272 
@@ -8998,9 +9012,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4164      696D6572 
  4164      5F7400
  4165              	.LASF126:
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 151
-
-
  4166 04e7 74637077 		.ascii	"tcpwm_1_interrupts_18_IRQn\000"
  4166      6D5F315F 
  4166      696E7465 
@@ -9047,6 +9058,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4179      74735F30 
  4180              	.LASF199:
  4181 05ed 52455345 		.ascii	"RESERVED\000"
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 152
+
+
  4181      52564544 
  4181      00
  4182              	.LASF261:
@@ -9058,9 +9072,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4184              	.LASF139:
  4185 060e 7564625F 		.ascii	"udb_interrupts_7_IRQn\000"
  4185      696E7465 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 152
-
-
  4185      72727570 
  4185      74735F37 
  4185      5F495251 
@@ -9107,6 +9118,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4201 06b6 696E7465 		.ascii	"interruptSources\000"
  4201      72727570 
  4201      74536F75 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 153
+
+
  4201      72636573 
  4201      00
  4202              	.LASF278:
@@ -9118,9 +9132,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4204              	.LASF173:
  4205 06d8 75696E74 		.ascii	"uint32_t\000"
  4205      33325F74 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 153
-
-
  4205      00
  4206              	.LASF318:
  4207 06e1 72784669 		.ascii	"rxFifoTriggerLevel\000"
@@ -9167,6 +9178,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4221      5F636F6E 
  4221      66696700 
  4222              	.LASF64:
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 154
+
+
  4223 0788 63707573 		.ascii	"cpuss_interrupts_dw0_4_IRQn\000"
  4223      735F696E 
  4223      74657272 
@@ -9178,9 +9192,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4225      63625F75 
  4225      6172745F 
  4225      636F6E74 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 154
-
-
  4226              	.LASF376:
  4227 07be 53797374 		.ascii	"System_HB\000"
  4227      656D5F48 
@@ -9227,6 +9238,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4244              	.LASF154:
  4245 0857 7573625F 		.ascii	"usb_interrupt_med_IRQn\000"
  4245      696E7465 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 155
+
+
  4245      72727570 
  4245      745F6D65 
  4245      645F4952 
@@ -9238,9 +9252,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4247      65642069 
  4248              	.LASF350:
  4249 0885 554C465F 		.ascii	"ULF_TRANSMIT_BIT\000"
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 155
-
-
  4249      5452414E 
  4249      534D4954 
  4249      5F424954 
@@ -9287,6 +9298,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4265 0925 74637077 		.ascii	"tcpwm_1_interrupts_4_IRQn\000"
  4265      6D5F315F 
  4265      696E7465 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 156
+
+
  4265      72727570 
  4265      74735F34 
  4266              	.LASF345:
@@ -9298,9 +9312,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4268              	.LASF269:
  4269 0951 696E7665 		.ascii	"invertPWMOutN\000"
  4269      72745057 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 156
-
-
  4269      4D4F7574 
  4269      4E00
  4270              	.LASF253:
@@ -9347,6 +9358,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4285      00
  4286              	.LASF197:
  4287 09e9 4346475F 		.ascii	"CFG_OUT\000"
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 157
+
+
  4287      4F555400 
  4288              	.LASF325:
  4289 09f1 72785374 		.ascii	"rxStatus\000"
@@ -9358,9 +9372,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4292              	.LASF92:
  4293 0a00 63707573 		.ascii	"cpuss_interrupts_fault_0_IRQn\000"
  4293      735F696E 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 157
-
-
  4293      74657272 
  4293      75707473 
  4293      5F666175 
@@ -9407,6 +9418,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4310              	.LASF104:
  4311 0aaf 74637077 		.ascii	"tcpwm_0_interrupts_4_IRQn\000"
  4311      6D5F305F 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 158
+
+
  4311      696E7465 
  4311      72727570 
  4311      74735F34 
@@ -9418,9 +9432,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4313      5F424954 
  4314              	.LASF372:
  4315 0ae3 5F5F6469 		.ascii	"__disable_irq\000"
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 158
-
-
  4315      7361626C 
  4315      655F6972 
  4315      7100
@@ -9467,6 +9478,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4334              	.LASF109:
  4335 0b6e 74637077 		.ascii	"tcpwm_1_interrupts_1_IRQn\000"
  4335      6D5F315F 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 159
+
+
  4335      696E7465 
  4335      72727570 
  4335      74735F31 
@@ -9478,9 +9492,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4339      696E7465 
  4339      72727570 
  4339      74735F34 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 159
-
-
  4339      5F495251 
  4340              	.LASF150:
  4341 0ba5 61756469 		.ascii	"audioss_interrupt_pdm_IRQn\000"
@@ -9527,6 +9538,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4357 0c40 494E5452 		.ascii	"INTR_MASK\000"
  4357      5F4D4153 
  4357      4B00
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 160
+
+
  4358              	.LASF66:
  4359 0c4a 63707573 		.ascii	"cpuss_interrupts_dw0_6_IRQn\000"
  4359      735F696E 
@@ -9538,9 +9552,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4361      5F696E74 
  4361      65727275 
  4361      7074735F 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 160
-
-
  4361      6770696F 
  4362              	.LASF20:
  4363 0c82 696F7373 		.ascii	"ioss_interrupts_gpio_10_IRQn\000"
@@ -9587,6 +9598,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4378              	.LASF61:
  4379 0d28 63707573 		.ascii	"cpuss_interrupts_dw0_1_IRQn\000"
  4379      735F696E 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 161
+
+
  4379      74657272 
  4379      75707473 
  4379      5F647730 
@@ -9598,9 +9612,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4383 0d4d 434D445F 		.ascii	"CMD_START\000"
  4383      53544152 
  4383      5400
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 161
-
-
  4384              	.LASF329:
  4385 0d57 72785269 		.ascii	"rxRingBufTail\000"
  4385      6E674275 
@@ -9647,6 +9658,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4399      72436170 
  4399      74757265 
  4399      00
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 162
+
+
  4400              	.LASF241:
  4401 0df1 636C6F63 		.ascii	"clockPrescaler\000"
  4401      6B507265 
@@ -9658,9 +9672,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4403      5F50494F 
  4403      4C5400
  4404              	.LASF45:
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 162
-
-
  4405 0e0f 63707573 		.ascii	"cpuss_interrupts_ipc_10_IRQn\000"
  4405      735F696E 
  4405      74657272 
@@ -9707,6 +9718,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4420              	.LASF145:
  4421 0eb4 7564625F 		.ascii	"udb_interrupts_13_IRQn\000"
  4421      696E7465 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 163
+
+
  4421      72727570 
  4421      74735F31 
  4421      335F4952 
@@ -9718,9 +9732,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4425      636F756E 
  4425      74657200 
  4426              	.LASF380:
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 163
-
-
  4427 0edf 554C465F 		.ascii	"ULF_Carrier_config\000"
  4427      43617272 
  4427      6965725F 
@@ -9767,6 +9778,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4443      72745F68 
  4443      616E646C 
  4444              	.LASF312:
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 164
+
+
  4445 0f94 736D6172 		.ascii	"smartCardRetryOnNack\000"
  4445      74436172 
  4445      64526574 
@@ -9778,9 +9792,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4447      534D4954 
  4447      5F54494D 
  4447      4500
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 164
-
-
  4448              	.LASF304:
  4449 0fbb 64726F70 		.ascii	"dropOnParityError\000"
  4449      4F6E5061 
@@ -9827,6 +9838,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4463      7570745F 
  4463      4952516E 
  4464              	.LASF265:
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 165
+
+
  4465 1054 70657269 		.ascii	"period0\000"
  4465      6F643000 
  4466              	.LASF266:
@@ -9838,9 +9852,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4469      4152545F 
  4469      53544F50 
  4469      5F424954 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 165
-
-
  4470              	.LASF286:
  4471 107c 43595F53 		.ascii	"CY_SCB_UART_STOP_BITS_4\000"
  4471      43425F55 
@@ -9887,6 +9898,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4485      5F495251 
  4486              	.LASF251:
  4487 111e 72656C6F 		.ascii	"reloadInputMode\000"
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 166
+
+
  4487      6164496E 
  4487      7075744D 
  4487      6F646500 
@@ -9898,9 +9912,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4489      5F495251 
  4490              	.LASF52:
  4491 1144 7363625F 		.ascii	"scb_1_interrupt_IRQn\000"
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 166
-
-
  4491      315F696E 
  4491      74657272 
  4491      7570745F 
@@ -9947,6 +9958,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4505      54595F4F 
  4506              	.LASF149:
  4507 1200 61756469 		.ascii	"audioss_interrupt_i2s_IRQn\000"
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 167
+
+
  4507      6F73735F 
  4507      696E7465 
  4507      72727570 
@@ -9958,9 +9972,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4509      75707473 
  4509      5F647730 
  4510              	.LASF11:
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 167
-
-
  4511 1237 696F7373 		.ascii	"ioss_interrupts_gpio_1_IRQn\000"
  4511      5F696E74 
  4511      65727275 
@@ -10007,6 +10018,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4527      6600
  4528              	.LASF352:
  4529 12e7 554C465F 		.ascii	"ULF_RECEIVE_START\000"
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 168
+
+
  4529      52454345 
  4529      4956455F 
  4529      53544152 
@@ -10018,9 +10032,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4531      4B454400 
  4532              	.LASF275:
  4533 1309 63795F73 		.ascii	"cy_stc_tcpwm_pwm_config_t\000"
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 168
-
-
  4533      74635F74 
  4533      6370776D 
  4533      5F70776D 
@@ -10067,6 +10078,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4549      4952516E 
  4550              	.LASF138:
  4551 13ac 7564625F 		.ascii	"udb_interrupts_6_IRQn\000"
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 169
+
+
  4551      696E7465 
  4551      72727570 
  4551      74735F36 
@@ -10078,9 +10092,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4555 13c7 63795F73 		.ascii	"cy_stc_tcpwm_counter_config_t\000"
  4555      74635F74 
  4555      6370776D 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 169
-
-
  4555      5F636F75 
  4555      6E746572 
  4556              	.LASF124:
@@ -10127,6 +10138,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4574              	.LASF22:
  4575 1466 696F7373 		.ascii	"ioss_interrupts_gpio_12_IRQn\000"
  4575      5F696E74 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 170
+
+
  4575      65727275 
  4575      7074735F 
  4575      6770696F 
@@ -10138,9 +10152,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4577      61736B00 
  4578              	.LASF270:
  4579 1497 6B696C6C 		.ascii	"killMode\000"
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 170
-
-
  4579      4D6F6465 
  4579      00
  4580              	.LASF247:
@@ -10187,6 +10198,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4595      69636B5F 
  4595      636F6E66 
  4595      696700
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 171
+
+
  4596              	.LASF371:
  4597 1536 5F5F656E 		.ascii	"__enable_irq\000"
  4597      61626C65 
@@ -10198,9 +10212,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4599      436C6561 
  4599      72496E74 
  4599      65727275 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 171
-
-
  4600              	.LASF57:
  4601 155a 7363625F 		.ascii	"scb_6_interrupt_IRQn\000"
  4601      365F696E 
@@ -10247,6 +10258,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4615      4500
  4616              	.LASF379:
  4617 15f5 53797349 		.ascii	"SysInt_SW_cfg\000"
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 172
+
+
  4617      6E745F53 
  4617      575F6366 
  4617      6700
@@ -10258,9 +10272,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4620              	.LASF368:
  4621 1611 43795F54 		.ascii	"Cy_TCPWM_GetInterruptStatus\000"
  4621      4350574D 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 172
-
-
  4621      5F476574 
  4621      496E7465 
  4621      72727570 
@@ -10307,6 +10318,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4639 16b6 736F7572 		.ascii	"source\000"
  4639      636500
  4640              	.LASF53:
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 173
+
+
  4641 16bd 7363625F 		.ascii	"scb_2_interrupt_IRQn\000"
  4641      325F696E 
  4641      74657272 
@@ -10318,9 +10332,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4643      6500
  4644              	.LASF13:
  4645 16dc 696F7373 		.ascii	"ioss_interrupts_gpio_3_IRQn\000"
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 173
-
-
  4645      5F696E74 
  4645      65727275 
  4645      7074735F 
@@ -10367,6 +10378,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4661      75707473 
  4661      5F647730 
  4662              	.LASF131:
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 174
+
+
  4663 179e 74637077 		.ascii	"tcpwm_1_interrupts_23_IRQn\000"
  4663      6D5F315F 
  4663      696E7465 
@@ -10378,9 +10392,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4665      72697479 
  4665      00
  4666              	.LASF144:
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 174
-
-
  4667 17c6 7564625F 		.ascii	"udb_interrupts_12_IRQn\000"
  4667      696E7465 
  4667      72727570 
@@ -10427,6 +10438,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4683      6E746572 
  4683      72757074 
  4684              	.LASF113:
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 175
+
+
  4685 185e 74637077 		.ascii	"tcpwm_1_interrupts_5_IRQn\000"
  4685      6D5F315F 
  4685      696E7465 
@@ -10438,9 +10452,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4687      72727570 
  4687      74735F38 
  4687      5F495251 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 175
-
-
  4688              	.LASF320:
  4689 188e 74784669 		.ascii	"txFifoTriggerLevel\000"
  4689      666F5472 
@@ -10487,6 +10498,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4704              	.LASF282:
  4705 1917 43595F53 		.ascii	"CY_SCB_UART_STOP_BITS_2\000"
  4705      43425F55 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 176
+
+
  4705      4152545F 
  4705      53544F50 
  4705      5F424954 
@@ -10498,9 +10512,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4707      5F495251 
  4708              	.LASF162:
  4709 1945 756E7369 		.ascii	"unsigned char\000"
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 176
-
-
  4709      676E6564 
  4709      20636861 
  4709      7200
@@ -10547,6 +10558,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4726              	.LASF176:
  4727 19e2 49434552 		.ascii	"ICER\000"
  4727      00
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 177
+
+
  4728              	.LASF182:
  4729 19e7 49414252 		.ascii	"IABR\000"
  4729      00
@@ -10558,9 +10572,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4733 19f8 696F7373 		.ascii	"ioss_interrupt_vdd_IRQn\000"
  4733      5F696E74 
  4733      65727275 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 177
-
-
  4733      70745F76 
  4733      64645F49 
  4734              	.LASF322:
@@ -10607,6 +10618,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4751 1aa1 63707573 		.ascii	"cpuss_interrupts_dw0_8_IRQn\000"
  4751      735F696E 
  4751      74657272 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 178
+
+
  4751      75707473 
  4751      5F647730 
  4752              	.LASF209:
@@ -10618,9 +10632,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4755 1acb 48617264 		.ascii	"HardFault_IRQn\000"
  4755      4661756C 
  4755      745F4952 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 178
-
-
  4755      516E00
  4756              	.LASF159:
  4757 1ada 7369676E 		.ascii	"signed char\000"
@@ -10667,6 +10678,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4771      49435F43 
  4771      6C656172 
  4771      50656E64 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 179
+
+
  4771      696E6749 
  4772              	.LASF404:
  4773 1b8a 6D61696E 		.ascii	"main\000"
@@ -10678,9 +10692,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4775      72727570 
  4775      74735F31 
  4776              	.LASF15:
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 179
-
-
  4777 1baa 696F7373 		.ascii	"ioss_interrupts_gpio_5_IRQn\000"
  4777      5F696E74 
  4777      65727275 
@@ -10727,6 +10738,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4795      735F696E 
  4795      74657272 
  4795      75707473 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 180
+
+
  4795      5F666175 
  4796              	.LASF235:
  4797 1c4d 646F7562 		.ascii	"double\000"
@@ -10738,9 +10752,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4799      7074735F 
  4799      6770696F 
  4800              	.LASF71:
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 180
-
-
  4801 1c70 63707573 		.ascii	"cpuss_interrupts_dw0_11_IRQn\000"
  4801      735F696E 
  4801      74657272 
@@ -10787,6 +10798,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4819 1d12 554C465F 		.ascii	"ULF_TRANSMIT_CNT\000"
  4819      5452414E 
  4819      534D4954 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 181
+
+
  4819      5F434E54 
  4819      00
  4820              	.LASF311:
@@ -10798,9 +10812,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4822              	.LASF305:
  4823 1d3e 64726F70 		.ascii	"dropOnFrameError\000"
  4823      4F6E4672 
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 181
-
-
  4823      616D6545 
  4823      72726F72 
  4823      00
@@ -10847,6 +10858,9 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4840              	.LASF213:
  4841 1ddf 4354524C 		.ascii	"CTRL\000"
  4841      00
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccEkezwh.s 			page 182
+
+
  4842              	.LASF98:
  4843 1de4 63707573 		.ascii	"cpuss_interrupts_cm4_cti_0_IRQn\000"
  4843      735F696E 
@@ -10858,9 +10872,6 @@ ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 1
  4845      74496E70 
  4845      757400
  4846              	.LASF110:
-ARM GAS  C:\Users\Tornado\AppData\Local\Temp\ccTvq5h1.s 			page 182
-
-
  4847 1e0f 74637077 		.ascii	"tcpwm_1_interrupts_2_IRQn\000"
  4847      6D5F315F 
  4847      696E7465 

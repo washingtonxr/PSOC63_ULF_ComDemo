@@ -24,5 +24,6 @@ set_io "ULF_BB(0)" iocell 6 3
 set_io "Red_LED(0)" iocell 13 7
 set_io "Orange_LED(0)" iocell 1 5
 set_io "ULF_BO(0)" iocell 10 6
+set_io "ULF_nBO(0)" iocell 10 5
 set_location "SysInt_SW" interrupt -1 -1 122
 set_location "CPUSS" CPUSS -1 -1 0

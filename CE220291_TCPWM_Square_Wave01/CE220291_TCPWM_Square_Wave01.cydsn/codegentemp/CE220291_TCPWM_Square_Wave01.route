@@ -51,7 +51,18 @@ net Net_116
 	switch ":ioport6:smartio_mux_in2.smartio_mux_in==>:ioport6:pin2.pin_input"
 	term   ":ioport6:pin2.pin_input"
 end Net_116
-net Net_135
+net Net_140_ff11
+	term   ":Clockcontainer:Clock[0].ff_div_12"
+	switch ":Clockcontainer:Clock[0].ff_div_12==>:Clockcontainer:ff_permute.ff_div_12"
+	switch ":Clockcontainer:ff_permute.Clock[0]ff_div_20==>:TCPWMcontainer:TCPWM[1].clock"
+	term   ":TCPWMcontainer:TCPWM[1].clock"
+end Net_140_ff11
+net Net_149
+	term   ":TCPWMcontainer:TCPWM[1].interrupt"
+	switch ":TCPWMcontainer:TCPWM[1].interrupt==>:intc_0:interrupt91.interrupt"
+	term   ":intc_0:interrupt91.interrupt"
+end Net_149
+net Net_164
 	term   ":ioport13:pin6.fb"
 	switch ":ioport13:pin6.fb==>:ioport13:smartio_mux_out6.direct_in"
 	switch ":ioport13:smartio_mux_out6.smartio_mux_out==>:IO[13]_out[6]_input_permute.ioport13_dsiOut6"
@@ -64,18 +75,7 @@ net Net_135
 	switch ":tr_group_permute_2.out_0_limit==>:TCPWMcontainer:permute[1].0"
 	switch ":TCPWMcontainer:permute[1].capture==>:TCPWMcontainer:TCPWM[1].capture"
 	term   ":TCPWMcontainer:TCPWM[1].capture"
-end Net_135
-net Net_140_ff11
-	term   ":Clockcontainer:Clock[0].ff_div_12"
-	switch ":Clockcontainer:Clock[0].ff_div_12==>:Clockcontainer:ff_permute.ff_div_12"
-	switch ":Clockcontainer:ff_permute.Clock[0]ff_div_20==>:TCPWMcontainer:TCPWM[1].clock"
-	term   ":TCPWMcontainer:TCPWM[1].clock"
-end Net_140_ff11
-net Net_149
-	term   ":TCPWMcontainer:TCPWM[1].interrupt"
-	switch ":TCPWMcontainer:TCPWM[1].interrupt==>:intc_0:interrupt91.interrupt"
-	term   ":intc_0:interrupt91.interrupt"
-end Net_149
+end Net_164
 net Net_32
 	term   ":TCPWMcontainer:TCPWM[3].interrupt"
 	switch ":TCPWMcontainer:TCPWM[3].interrupt==>:intc_0:interrupt93.interrupt"

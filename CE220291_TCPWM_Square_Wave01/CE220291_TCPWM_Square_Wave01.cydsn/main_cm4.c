@@ -49,8 +49,11 @@
 ulf_ctrl_t ULF_CTRL;                    /* ULF Transmit Control. */
 ulf_user_db_t ULF_DB;                   /* ULF Control Database. */
 sys_LEDtimer_t Red_LED, Orange_LED;     /* LED Database.         */
-unsigned int Sys_counter;               /* System Counter.       */
 
+unsigned int Sys_counter;               /* System Counter.       */
+#if 0
+void Trace_Reader();
+#endif
 /* 10ms Timmer. */
 void System_Tick_ISR()
 {
@@ -144,7 +147,15 @@ void HW_Startup(void)
 
     return;
 }
-
+#if 0
+void Trace_Reader(){
+    unsigned char i;
+    unsigned char data[] = {0xAA,0x01,0x02,0x01,0x85,0x87,0xBB};
+    for(i = 0; i < 7; i++){
+        UART_DEBUG_PUT_CHAR(data[i]);
+    }
+}
+#endif
 /*******************************************************************************
 * Function Name: main
 ********************************************************************************

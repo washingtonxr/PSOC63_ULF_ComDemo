@@ -1,6 +1,6 @@
 // ======================================================================
 // CE220291_TCPWM_Square_Wave01.v generated from TopDesign.cysch
-// 03/07/2019 at 10:45
+// 03/08/2019 at 18:06
 // This file is auto generated. ANY EDITS YOU MAKE MAY BE LOST WHEN THIS FILE IS REGENERATED!!!
 // ======================================================================
 
@@ -559,11 +559,11 @@ module top ;
           wire  Net_17;
           wire  Net_16;
           wire  Net_15;
-          wire  Net_135;
+          wire  Net_164;
+          wire  Net_116;
           wire  Net_151;
           wire  Net_149;
           wire  Net_140;
-          wire  Net_116;
           wire  Net_97;
           wire  Net_96;
           wire  Net_114;
@@ -663,7 +663,7 @@ module top ;
 		ULF_IN
 		 (.oe({1'b1}),
 		  .y({1'b0}),
-		  .fb({Net_135}),
+		  .fb({Net_164}),
 		  .io({tmpIO_0__ULF_IN_net[0:0]}),
 		  .siovref(tmpSIOVREF__ULF_IN_net));
 
@@ -896,7 +896,7 @@ module top ;
         .reload(1'b0),
         .start(1'b0),
         .count(1'b1),
-        .capture(Net_135),
+        .capture(Net_164),
         .interrupt(Net_149),
         .ovrflw(Net_137),
         .undrflw(Net_138),
@@ -957,6 +957,42 @@ module top ;
 		  .fb({tmpFB_0__ULF_BO_net[0:0]}),
 		  .io({tmpIO_0__ULF_BO_net[0:0]}),
 		  .siovref(tmpSIOVREF__ULF_BO_net));
+
+
+	wire [0:0] tmpFB_0__ULF_nBO_net;
+	wire [0:0] tmpIO_0__ULF_nBO_net;
+	electrical [0:0] tmpSIOVREF__ULF_nBO_net;
+
+	cy_mxs40_gpio_v1_0
+		#(.id("05c113f4-54f0-437a-b503-54a987a94963"),
+		  .width(1),
+		  .sio_grp_cnt(0),
+		  .drive_mode("6"),
+		  .ibuf_enabled("0"),
+		  .init_dr_st("0"),
+		  .input_sync("0"),
+		  .intr_mode("0"),
+		  .io_voltage(""),
+		  .output_conn("0"),
+		  .oe_conn("0"),
+		  .output_sync("0"),
+		  .oe_sync("0"),
+		  .drive_strength("0"),
+		  .max_frequency("100"),
+		  .i2c_mode("0"),
+		  .output_current_cap("8"),
+		  .pin_aliases(""),
+		  .pin_mode("O"),
+		  .slew_rate("0"),
+		  .vtrip("0"),
+		  .use_annotation("0"),
+		  .hotswap_needed("0"))
+		ULF_nBO
+		 (.oe({1'b1}),
+		  .y({1'b0}),
+		  .fb({tmpFB_0__ULF_nBO_net[0:0]}),
+		  .io({tmpIO_0__ULF_nBO_net[0:0]}),
+		  .siovref(tmpSIOVREF__ULF_nBO_net));
 
 
 
