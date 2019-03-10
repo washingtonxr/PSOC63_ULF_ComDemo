@@ -107,10 +107,10 @@ static void ULF_CarrierCnt_Isr()
                 
                 if(ULF_BO_BIT){
                     Cy_GPIO_Set(ULF_BO_PORT, ULF_BO_NUM);
-                    Cy_GPIO_Clr(ULF_nBO_PORT, ULF_nBO_NUM);
+                    //Cy_GPIO_Clr(ULF_nBO_PORT, ULF_nBO_NUM);
                 }else{
                     Cy_GPIO_Clr(ULF_BO_PORT, ULF_BO_NUM);
-                    Cy_GPIO_Set(ULF_nBO_PORT, ULF_nBO_NUM);
+                    //Cy_GPIO_Set(ULF_nBO_PORT, ULF_nBO_NUM);
                 }
             }else
             if(ULF_CTRL.ULF_TRANSMIT_CNT == ULF_MANCHISTER_P1){
@@ -119,10 +119,10 @@ static void ULF_CarrierCnt_Isr()
                 
                 if(ULF_BO_BIT){
                     Cy_GPIO_Clr(ULF_BO_PORT, ULF_BO_NUM);
-                    Cy_GPIO_Set(ULF_nBO_PORT, ULF_nBO_NUM);
+                    //Cy_GPIO_Set(ULF_nBO_PORT, ULF_nBO_NUM);
                 }else{
                     Cy_GPIO_Set(ULF_BO_PORT, ULF_BO_NUM);
-                    Cy_GPIO_Clr(ULF_nBO_PORT, ULF_nBO_NUM);
+                    //Cy_GPIO_Clr(ULF_nBO_PORT, ULF_nBO_NUM);
                 }
             }else
             if(ULF_CTRL.ULF_TRANSMIT_CNT == ULF_MANCHISTER_P2){
@@ -317,12 +317,18 @@ static void ULF_Baseband_GetData(){
 static unsigned char ULF_Baseband_GetPeriod(unsigned int Curr_data, \
                                                     unsigned int Post_data)
 {
-    if((ULF_RECV_LOW_TH0 < (Curr_data - Post_data)) && \
-        ((Curr_data - Post_data) < ULF_RECV_LOW_TH1)){
+    unsigned int temp;
+    
+    if(Curr_data < Post_data){
+        temp = (0xffff - Post_data) + Curr_data;
+    }else{
+        temp = Curr_data - Post_data;
+    }
+    
+    if((ULF_RECV_LOW_TH0 < temp) && (temp < ULF_RECV_LOW_TH1)){
         return 1;
     }else 
-    if((ULF_RECV_HIGH_TH0 < (Curr_data - Post_data)) && \
-        ((Curr_data - Post_data) < ULF_RECV_HIGH_TH1)){
+    if((ULF_RECV_HIGH_TH0 < temp) &&  (temp < ULF_RECV_HIGH_TH1)){
         return 2;
     }
     return 0;
@@ -355,6 +361,7 @@ static void ULF_BasebandCnt_Isr()
                         ULF_CTRL.ULF_RECEIVE_START = 1;
                     }
                 }else{
+#if 0
                     if(ULF_Recv_Val.ULF_RecvPiolt_Num < ULF_RECV_PIOLT_CIR1){
                         if(1 == Isr_Period){
                             ULF_Recv_Val.ULF_RecvPiolt_Num++;
@@ -369,6 +376,11 @@ static void ULF_BasebandCnt_Isr()
 
                             ULF_Recv_Val.ULF_RecvValue[ULF_CTRL.ULF_RECEIVE_PAGE] <<= 1;
                             ULF_Recv_Val.ULF_RecvValue[ULF_CTRL.ULF_RECEIVE_PAGE] += 0;
+#if 1
+                            Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
+                            CyDelayUs(1);
+                            Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
+#endif
 
                             ULF_CTRL.ULF_RECEIVE_START = 0;
                             ULF_CTRL.ULF_RECEIVE_STATE = 1;
@@ -377,21 +389,62 @@ static void ULF_BasebandCnt_Isr()
                             goto Piolt_err;
                         }
                     }
+#else
+                    if(ULF_Recv_Val.ULF_RecvPiolt_Num < ULF_RECV_PIOLT_CIR1){
+                        if(1 == Isr_Period){
+                            ULF_Recv_Val.ULF_RecvPiolt_Num++;
+                        }else{
+                            goto Piolt_err;
+                        }
+                        if(ULF_RECV_PIOLT_CIR1 == ULF_Recv_Val.ULF_RecvPiolt_Num){
+#if 1
+                            Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
+                            CyDelayUs(1);
+                            Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
+#endif
+                            ULF_CTRL.ULF_RECEIVE_START = 0;
+                            ULF_CTRL.ULF_RECEIVE_STATE = 1;
+                            ULF_CTRL.ULF_RECEIVE_CNT = 0;
+                            ULF_Recv_Val.ULF_RecvBitNum = 0;
+
+                        }
+                    }
+#endif
                 }
             }
         break;
 
         case 1:
+            /* Get Counter. */
             ULF_Recv_Val.ULF_RecvCurr_Data = ULF_Capture_GetCounter();
+
             Isr_Period = ULF_Baseband_GetPeriod(ULF_Recv_Val.ULF_RecvCurr_Data, \
                                                 ULF_Recv_Val.ULF_RecvPost_Data);
-#if 1
-            Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
-            CyDelayUs(1);
-            Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
+            ULF_Recv_Val.ULF_RecvPost_Data = ULF_Recv_Val.ULF_RecvCurr_Data;   /* Move forward. */
+#if 0
+            if(1 == Isr_Period){
+                Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
+                CyDelayUs(1);
+                Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
+            }else if(2 == Isr_Period){
+                Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
+                CyDelayUs(1);
+                Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
+                CyDelayUs(1);
+                Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
+                CyDelayUs(1);
+                Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
+            }
 #endif
-
-            goto Piolt_err;
+            ULF_Recv_Val.ULF_RecvBitNum += Isr_Period;
+            if(55*2 <= ULF_Recv_Val.ULF_RecvBitNum){
+#if 1
+                Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
+                CyDelayUs(1);
+                Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
+#endif
+                goto Piolt_err;
+            }
         break;
 
         default:
