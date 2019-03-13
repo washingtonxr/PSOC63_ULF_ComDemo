@@ -27,7 +27,7 @@ static ulf_recv_value_t ULF_Recv_Val;
 static ulf_trans_value_t ULF_Trans_Val;
 
 static unsigned int ulf_transmit_id[2] = {0xff824006, 0x18C350BC};
-    
+
 void ULF_SysInt_BasebandIn_start();
 void ULF_SysInt_BasebandIn_stop();
 void ULF_Carrier_Stop();
@@ -338,11 +338,12 @@ static void ULF_BasebandCnt_Isr()
 {
     int ret;
     unsigned char Isr_Period = 0;
-    
+
     ret = ULF_Capture_GetInterruptStatus();
 
     switch(ULF_CTRL.ULF_RECEIVE_STATE){
-        case 0:     /* Latch Piolt. */
+        /* Latch Piolt. */
+        case 0:
             /* Get Counter. */
             ULF_Recv_Val.ULF_RecvCurr_Data = ULF_Capture_GetCounter();
 
@@ -350,77 +351,77 @@ static void ULF_BasebandCnt_Isr()
                 ULF_Recv_Val.ULF_RecvPost_Data = ULF_Recv_Val.ULF_RecvCurr_Data;
                 ULF_Recv_Val.ULF_RecvLock = 1;
             }else{
-                
+
                 Isr_Period = ULF_Baseband_GetPeriod(ULF_Recv_Val.ULF_RecvCurr_Data, \
                                                     ULF_Recv_Val.ULF_RecvPost_Data);
 
-                ULF_Recv_Val.ULF_RecvPost_Data = ULF_Recv_Val.ULF_RecvCurr_Data;   /* Move forward. */
+                ULF_Recv_Val.ULF_RecvPost_Data = ULF_Recv_Val.ULF_RecvCurr_Data;        /* Move forward. */
 
                 if(0 == ULF_CTRL.ULF_RECEIVE_START){
                     if(2 == Isr_Period){
                         ULF_CTRL.ULF_RECEIVE_START = 1;
                     }
                 }else{
-#if 0
                     if(ULF_Recv_Val.ULF_RecvPiolt_Num < ULF_RECV_PIOLT_CIR1){
                         if(1 == Isr_Period){
                             ULF_Recv_Val.ULF_RecvPiolt_Num++;
-                        }else{
-                            goto Piolt_err;
+                        }else{                                                          /* Restart Collect Piolt. */
+                            ULF_Recv_Val.ULF_RecvPiolt_Num = 0;
+                            break;                                                      /* Touch & Go. */
                         }
-                    }else
-                    if(ULF_Recv_Val.ULF_RecvPiolt_Num >= ULF_RECV_PIOLT_CIR1){
-                        if(2 == Isr_Period){
-                            ULF_Recv_Num++;                                         /* Set off 1. */
-                            ULF_Recv_Val.ULF_RecvBitNum++;
 
-                            ULF_Recv_Val.ULF_RecvValue[ULF_CTRL.ULF_RECEIVE_PAGE] <<= 1;
-                            ULF_Recv_Val.ULF_RecvValue[ULF_CTRL.ULF_RECEIVE_PAGE] += 0;
-#if 1
-                            Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
-                            CyDelayUs(1);
-                            Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
-#endif
-
-                            ULF_CTRL.ULF_RECEIVE_START = 0;
-                            ULF_CTRL.ULF_RECEIVE_STATE = 1;
-                            ULF_CTRL.ULF_RECEIVE_CNT = 0;
-                        }else{
-                            goto Piolt_err;
-                        }
-                    }
-#else
-                    if(ULF_Recv_Val.ULF_RecvPiolt_Num < ULF_RECV_PIOLT_CIR1){
-                        if(1 == Isr_Period){
-                            ULF_Recv_Val.ULF_RecvPiolt_Num++;
-                        }else{
-                            goto Piolt_err;
-                        }
                         if(ULF_RECV_PIOLT_CIR1 == ULF_Recv_Val.ULF_RecvPiolt_Num){
-#if 1
+                            ULF_CTRL.ULF_RECEIVE_START = 0;
+                            ULF_CTRL.ULF_RECEIVE_STATE = 1;
+                            ULF_CTRL.ULF_RECEIVE_CNT = 0;
+                            
+                            ULF_Recv_Val.ULF_RecvBitNum = 0;
+#if 0
                             Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
                             CyDelayUs(1);
                             Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
 #endif
-                            ULF_CTRL.ULF_RECEIVE_START = 0;
-                            ULF_CTRL.ULF_RECEIVE_STATE = 1;
-                            ULF_CTRL.ULF_RECEIVE_CNT = 0;
-                            ULF_Recv_Val.ULF_RecvBitNum = 0;
-
                         }
                     }
-#endif
                 }
             }
         break;
-
+        /* Latch Data. */
         case 1:
             /* Get Counter. */
             ULF_Recv_Val.ULF_RecvCurr_Data = ULF_Capture_GetCounter();
-
+            
             Isr_Period = ULF_Baseband_GetPeriod(ULF_Recv_Val.ULF_RecvCurr_Data, \
                                                 ULF_Recv_Val.ULF_RecvPost_Data);
-            ULF_Recv_Val.ULF_RecvPost_Data = ULF_Recv_Val.ULF_RecvCurr_Data;   /* Move forward. */
+#if 1
+            if(Isr_Period <= 0){
+#if 0
+                Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
+                CyDelayUs(1);
+                Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
+#endif
+                goto Piolt_err;
+            }
+#endif
+            ULF_Recv_Val.ULF_RecvPost_Data = ULF_Recv_Val.ULF_RecvCurr_Data;            /* Move forward. */
+
+            ULF_Recv_Val.ULF_Recv_PeriodBuf[ULF_Recv_Val.ULF_RecvPeri_Num++] = Isr_Period;
+
+            ULF_Recv_Val.ULF_Recv_PeriHNum += Isr_Period;
+            
+            if(ULF_Recv_Val.ULF_Recv_PeriHNum >= ((64-9)*2)){
+#if 0
+                Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
+                CyDelayUs(1);
+                Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
+#endif
+                ULF_CTRL.ULF_RECEIVE_NOTE = 1;
+                ULF_CTRL.ULF_RECEIVE_STATE = 2;
+                ULF_Recv_Num = 0;
+            }
+
+            
+#if 0
 #if 0
             if(1 == Isr_Period){
                 Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
@@ -436,17 +437,118 @@ static void ULF_BasebandCnt_Isr()
                 Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
             }
 #endif
+#if 1
             ULF_Recv_Val.ULF_RecvBitNum += Isr_Period;
-            if(55*2 <= ULF_Recv_Val.ULF_RecvBitNum){
+            if(ULF_Recv_Val.ULF_RecvBitNum >= ((64-9)*2)){
 #if 1
                 Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
                 CyDelayUs(1);
                 Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
 #endif
-                goto Piolt_err;
+            goto Piolt_err;
             }
-        break;
+#endif
+#endif
+#if 0
+            if(0 == ULF_Recv_Val.ULF_RecvLock_Bit){
+                if(1 == Isr_Period){
+                    ULF_Recv_Val.ULF_RecvPeri_Num = 0;
+                }else if(2 == Isr_Period){
+                    ULF_Recv_Val.ULF_RecvPeri_Num = 1;
+                    ULF_Recv_Val.ULF_RecvPost_Period = Isr_Period;
+                }
+                
+                ULF_Recv_Val.ULF_RecvLock_Bit = 1;
+                ULF_Recv_Val.ULF_RecvPost_Bit = 1;
+            }else{
+            
+                if(ULF_Recv_Val.ULF_RecvPeri_Num){
+                    
+                    ULF_Recv_Val.ULF_RecvCurr_Period = Isr_Period;
+                    
+                    if(1 == Isr_Period){
+                        ULF_Recv_Val.ULF_RecvPeri_Num = 0;
+                    }
+                    
+                    ULF_Recv_Val.ULF_RecvValue[ULF_Recv_Val.ULF_RecvBitNum] <<= 1;
+                
+                    if(ULF_Recv_Val.ULF_RecvPost_Period != ULF_Recv_Val.ULF_RecvCurr_Period){
+                        
+                        if((1 == ULF_Recv_Val.ULF_RecvPost_Period) && (2 == ULF_Recv_Val.ULF_RecvCurr_Period)){
+                            
+                            ULF_Recv_Val.ULF_RecvValue[ULF_Recv_Val.ULF_RecvBitNum] += ULF_Recv_Val.ULF_RecvPost_Bit;
+                            
+                        }else if((2 == ULF_Recv_Val.ULF_RecvPost_Period) && (1 == ULF_Recv_Val.ULF_RecvCurr_Period)){
+                            
+                            if(1 == ULF_Recv_Val.ULF_RecvPost_Bit){
+                                ULF_Recv_Val.ULF_RecvValue[ULF_Recv_Val.ULF_RecvBitNum] += 0;
+                                ULF_Recv_Val.ULF_RecvPost_Bit = 0;
+                            }else{
+                                ULF_Recv_Val.ULF_RecvValue[ULF_Recv_Val.ULF_RecvBitNum] += 1;
+                                ULF_Recv_Val.ULF_RecvPost_Bit = 1;
+                            }
+                            
+                        }
+                        
+                    }else{
+                    
+                        if(1 == ULF_Recv_Val.ULF_RecvPost_Period){
+                            
+                            ULF_Recv_Val.ULF_RecvValue[ULF_Recv_Val.ULF_RecvBitNum] += ULF_Recv_Val.ULF_RecvPost_Bit;
+                            
+                        }else if(2 == ULF_Recv_Val.ULF_RecvPost_Period){
+                            
+                            if(1 == ULF_Recv_Val.ULF_RecvPost_Bit){
+                                ULF_Recv_Val.ULF_RecvValue[ULF_Recv_Val.ULF_RecvBitNum] += 0;
+                                ULF_Recv_Val.ULF_RecvPost_Bit = 0;
+                            }else{
+                                ULF_Recv_Val.ULF_RecvValue[ULF_Recv_Val.ULF_RecvBitNum] += 1;
+                                ULF_Recv_Val.ULF_RecvPost_Bit = 1;
+                            }
+                            
+                        }
+                        
+                    }
 
+#if 0
+                    Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
+                    CyDelayUs(1);
+                    Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
+#endif
+                    ULF_Recv_Num++;
+                    if(ULF_Recv_Num >= 32){
+                        ULF_Recv_Num = 0;
+                        ULF_CTRL.ULF_RECEIVE_PAGE++;
+                    }
+
+                    ULF_Recv_Val.ULF_RecvBitNum ++;
+                    if(ULF_Recv_Val.ULF_RecvBitNum >= 55){
+                        ULF_Recv_Val.ULF_RecvBitNum = 0;
+#if 1
+                        //ULF_Recv_Num = 0;
+#if 1
+                        Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
+                        CyDelayUs(1);
+                        Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
+#endif
+                        //ULF_CTRL.ULF_RECEIVE_NOTE = 1;
+                        //ULF_CTRL.ULF_RECEIVE_STATE = 2;
+#endif
+                        goto Piolt_err;
+                    }
+                    
+                }
+                else
+                {
+                    ULF_Recv_Val.ULF_RecvPost_Period = Isr_Period;
+                    ULF_Recv_Val.ULF_RecvPeri_Num = 1;
+                }
+            }
+#endif
+        break;
+        case 2:
+        break;
+        /* Not suppose to be here. */
         default:
         break;
     }
@@ -454,10 +556,23 @@ static void ULF_BasebandCnt_Isr()
     ULF_Capture_ClearInterrupt(ret);
     return;
 Piolt_err:
+    /* Reset all things. */
     ULF_Recv_Num = 0;
     memset(&ULF_Recv_Val, 0, sizeof(ULF_Recv_Val));
     memset(&ULF_CTRL, 0, sizeof(ULF_CTRL));
     return;
+Latch_test1:
+#if 1
+    ULF_Recv_Val.ULF_RecvBitNum += Isr_Period;
+    if(ULF_Recv_Val.ULF_RecvBitNum >= ((64-9)*2)){
+#if 1
+        Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
+        CyDelayUs(1);
+        Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
+#endif
+    goto Piolt_err;
+    }
+#endif
 }
 
 static void ULF_BasebandIn_Isr()
@@ -583,23 +698,186 @@ unsigned int ULF_Encode()
     return 0;
 }
 
+unsigned int ULF_Decode_L1()
+{
+    unsigned short i;
+    unsigned char tempbuf = 0;
+    unsigned char ULF_Decode_start = 0;
+    unsigned char ULF_RecvLock_Bit = 0;
+    unsigned char ULF_RecvCurr_Period = 0;
+    unsigned char ULF_RecvPost_Period = 0;
+    unsigned char ULF_RecvPost_Bit = 0;
+#if 0
+    DEBUG_PRINTF("Info(%08x):ULF_Recv_PeriodBuf\n", Sys_counter);
+    for(i = 0; i<= ULF_Recv_Val.ULF_RecvPeri_Num; i++){
+        DEBUG_PRINTF("%d ", ULF_Recv_Val.ULF_Recv_PeriodBuf[i]);
+    }
+    DEBUG_PRINTF("\n");
+#endif
+    for(i = 0; i<= ULF_Recv_Val.ULF_RecvPeri_Num; i++){
+        
+        tempbuf = ULF_Recv_Val.ULF_Recv_PeriodBuf[i];
+    
+        if(0 == ULF_RecvLock_Bit){
+            if(1 == tempbuf){
+                ULF_Decode_start = 0;
+            }else 
+            if(2 == tempbuf){
+                ULF_Decode_start = 1;
+                ULF_RecvPost_Period = tempbuf;
+            }
+            
+            ULF_RecvLock_Bit = 1;
+            ULF_RecvPost_Bit = 1;
+        }else{
+            if(ULF_Decode_start){
+
+                ULF_Decode_start = 0;
+                
+                ULF_RecvCurr_Period = tempbuf;
+                
+                ULF_Recv_Val.ULF_RecvValue[ULF_CTRL.ULF_RECEIVE_PAGE] <<= 1;
+                
+                if(ULF_RecvPost_Period != ULF_RecvCurr_Period){
+                    if((1 == ULF_RecvPost_Period) && (2 == ULF_RecvCurr_Period)){
+                        ULF_Recv_Val.ULF_RecvValue[ULF_CTRL.ULF_RECEIVE_PAGE] += ULF_RecvPost_Bit;
+                        ULF_RecvPost_Period = 2;
+                        ULF_Decode_start = 1;
+                    }else
+                    if((2 == ULF_RecvPost_Period) && (1 == ULF_RecvCurr_Period)){
+                        
+                        if(1 == ULF_RecvPost_Bit){
+                            ULF_Recv_Val.ULF_RecvValue[ULF_CTRL.ULF_RECEIVE_PAGE] += 0;
+                            ULF_RecvPost_Bit = 0;
+                        }else{
+                            ULF_Recv_Val.ULF_RecvValue[ULF_CTRL.ULF_RECEIVE_PAGE] += 1;
+                            ULF_RecvPost_Bit = 1;
+                        }
+                    }
+                }else{
+                    if(1 == ULF_RecvPost_Period){
+                        ULF_Recv_Val.ULF_RecvValue[ULF_CTRL.ULF_RECEIVE_PAGE] += ULF_RecvPost_Bit;
+                    }else
+                    if(2 == ULF_RecvPost_Period){
+                        if(1 == ULF_RecvPost_Bit){
+                            ULF_Recv_Val.ULF_RecvValue[ULF_CTRL.ULF_RECEIVE_PAGE] += 0;
+                            ULF_RecvPost_Bit = 0;
+                        }else{
+                            ULF_Recv_Val.ULF_RecvValue[ULF_CTRL.ULF_RECEIVE_PAGE] += 1;
+                            ULF_RecvPost_Bit = 1;
+                        }
+                        ULF_RecvPost_Period = 2;
+                        ULF_Decode_start = 1;
+                    }
+                }
+                
+                ULF_Recv_Val.ULF_RecvBitNum ++;
+
+                ULF_Recv_Num++;
+                if(ULF_Recv_Num >= 32){
+                    ULF_Recv_Num = 0;
+                    ULF_CTRL.ULF_RECEIVE_PAGE++;
+                }
+            }else{
+                ULF_RecvPost_Period = tempbuf;
+                ULF_Decode_start = 1;
+            }
+        }
+    }
+#if 0
+    DEBUG_PRINTF("\n");
+    DEBUG_PRINTF("Info(%08x):Card RAW data:\n", Sys_counter);
+    for(i = 0; i<= ULF_CTRL.ULF_RECEIVE_PAGE; i++){
+        DEBUG_PRINTF("%08x ", ULF_Recv_Val.ULF_RecvValue[i]);
+    }
+    DEBUG_PRINTF("\n");
+#endif
+    return 0;
+}
+
 unsigned int ULF_Decode_4100()
 {
 
-    unsigned int i;
-    unsigned int CARD_RAW_DATA[2] = {0, 0};                /* First 9 Piolt bits. */
+    unsigned char i, j;
+    unsigned int CARD_RAW_DATA[2] = {0, 0};                                 /* First 9 Piolt bits.  */
+    unsigned char CARD_SDATA[11] = {0,};
+    unsigned char CARD_DATA[10] = {0,};
+    unsigned char CRCx[11] = {0,}, CRCy[4] = {0,};
     
-    CARD_RAW_DATA[0] = 0xFF800000;
-    CARD_RAW_DATA[0] ^= ULF_Recv_Val.ULF_RecvValue[0] >> 9;           /* Block 1 20bits.     */
+    CARD_RAW_DATA[0] = ULF_Recv_Val.ULF_RecvValue[0] >> 9;                 /* Block 1:(23)bits.     */
+    CARD_RAW_DATA[0] ^= 0xFF800000;
 
-    CARD_RAW_DATA[1] = (ULF_Recv_Val.ULF_RecvValue[0] & 0x3FF);     /* 5bits. */
+    CARD_RAW_DATA[1] = (ULF_Recv_Val.ULF_RecvValue[0] & 0x1FF);        /* Block 2:(23 + 9)bits. */
     CARD_RAW_DATA[1] <<= 23;
-    CARD_RAW_DATA[1] ^= ULF_Recv_Val.ULF_RecvValue[1];              /* 27bit. */
-    
-    for(i = 0; i<= 1; i++){
+    CARD_RAW_DATA[1] ^= ULF_Recv_Val.ULF_RecvValue[1];
+#if 0
+    for(i = 0; i<= ULF_CTRL.ULF_RECEIVE_PAGE; i++){
         DEBUG_PRINTF("%08x ", CARD_RAW_DATA[i]);
     }
     DEBUG_PRINTF("\n");
+#endif
+    for(i = 0; i < 6; i++){
+        CARD_SDATA[i] = (ULF_Recv_Val.ULF_RecvValue[0] >> (32 - 5*(1+i))) & 0x1F;
+    }
+    
+    CARD_SDATA[6] = (ULF_Recv_Val.ULF_RecvValue[0] & 0x03);
+    CARD_SDATA[6] <<= 3;
+    CARD_SDATA[6] += ULF_Recv_Val.ULF_RecvValue[1] >> 20;
+    
+    for(i = 0; i < 3; i++){
+        CARD_SDATA[7 + i] += (ULF_Recv_Val.ULF_RecvValue[1] >> (5*(3-i))) & 0x1F;
+    }
+    
+    CARD_SDATA[10] = ULF_Recv_Val.ULF_RecvValue[1] & 0x1F;
+#if 0
+    for(i = 0; i < 11; i++){
+        DEBUG_PRINTF("%02d:%08x\n", i, CARD_SDATA[i]);
+    }
+#endif
+    /* Check CRC for each column. */
+    for(i = 0; i < 10; i++){
+        CRCx[i] ^= ( CARD_SDATA[i] & 0x10) >> 4;
+        CRCx[i] ^= ( CARD_SDATA[i] & 0x8 ) >> 3;
+        CRCx[i] ^= ( CARD_SDATA[i] & 0x4 ) >> 2;
+        CRCx[i] ^= ( CARD_SDATA[i] & 0x2 ) >> 1;
+        CRCx[i] ^= ( CARD_SDATA[i] & 0x1 ) >> 0;
+        if(0 != CRCx[i]){
+            return 0;
+        }
+    }
+    /* Check CRC for each row. */
+    for(i = 0; i < 4; i++){
+        for(j = 0; j < 11; j++){
+            CRCy[i] ^= ( CARD_SDATA[j] & (0x10>>(2*i))) >> (4-i);
+        }
+        if(0 != CRCy[i]){
+            return 0;
+        }
+    }
+#if 0
+    for(i = 0; i < 10; i++){
+        DEBUG_PRINTF("%02x ", CRCx[i]);
+    }
+    DEBUG_PRINTF("\n");
+    for(i = 0; i < 4; i++){
+        DEBUG_PRINTF("%02x ", CRCy[i]);
+    }
+    DEBUG_PRINTF("\n");
+#endif
+
+    for(i = 0; i < 10; i++){
+        CARD_DATA[i] = CARD_SDATA[i] >> 1;
+    }
+    DEBUG_PRINTF("Info(%08x):Card ID:\n", Sys_counter);
+    for(i = 0; i < 10; i++){
+        DEBUG_PRINTF("%1x",CARD_DATA[i]);
+    }
+    DEBUG_PRINTF("\n");
+#if 1
+    Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
+    CyDelayUs(5);
+    Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
+#endif
 
     return 0;
 }
@@ -675,7 +953,7 @@ unsigned int ULF_Test()
 }
 
 int ULF_Routine()
-{   
+{
 #if 0    
     if(ULF_CTRL.ULF_RECEIVE_NOTE){
         ULF_CTRL.ULF_RECEIVE_NOTE = 0;
@@ -709,7 +987,9 @@ int ULF_Routine()
     if(ULF_CTRL.ULF_RECEIVE_NOTE){
         ULF_CTRL.ULF_RECEIVE_NOTE = 0;
 
+        ULF_Decode_L1();
         ULF_Decode_4100();
+        //ULF_Decode_4100();
 #if 0
         //DEBUG_PRINTF("Info(%08x):ULF_RECEIVE_NOTE\n", Sys_counter);
         for(i = 0; i<= ULF_CTRL.ULF_RECEIVE_PAGE; i++){

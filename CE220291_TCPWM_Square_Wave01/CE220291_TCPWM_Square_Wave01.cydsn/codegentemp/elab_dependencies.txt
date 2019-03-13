@@ -1,4 +1,4 @@
-D:\Git_sources\LD_PSOC63_ULF_ComDemo\CE220291_TCPWM_Square_Wave01\CE220291_TCPWM_Square_Wave01.cydsn\TopDesign\TopDesign.cysch
+C:\Users\Tornado\Documents\PSoC Creator\CE220291_TCPWM_Square_Wave01\CE220291_TCPWM_Square_Wave01.cydsn\TopDesign\TopDesign.cysch
 C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyComponentLibrary\CyComponentLibrary.cylib\TCPWM_PWM_PDL_v1_0\TCPWM_PWM_PDL_v1_0.cystate
 C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyComponentLibrary\CyComponentLibrary.cylib\TCPWM_PWM_PDL_v1_0\TCPWM_PWM_PDL_v1_0.cysym
 C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyComponentLibrary\CyComponentLibrary.cylib\TCPWM_PWM_PDL_v1_0\TCPWM_PWM_PDL_v1_0.pdf
@@ -120,4 +120,4 @@ C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyPrim
 C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\cy_mxs40_scb_v1_10\cy_mxs40_scb_v1_10.cysym
 C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\cy_mxs40_scb_v1_10\version.cypatch
 C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\cy_mxs40_scb_v1_10\PSoC6\cy_mxs40_scb_v1_10.cyprimitive
-D:\Git_sources\LD_PSOC63_ULF_ComDemo\CE220291_TCPWM_Square_Wave01\CE220291_TCPWM_Square_Wave01.cydsn\CE220291_TCPWM_Square_Wave01.cydwr
+C:\Users\Tornado\Documents\PSoC Creator\CE220291_TCPWM_Square_Wave01\CE220291_TCPWM_Square_Wave01.cydsn\CE220291_TCPWM_Square_Wave01.cydwr

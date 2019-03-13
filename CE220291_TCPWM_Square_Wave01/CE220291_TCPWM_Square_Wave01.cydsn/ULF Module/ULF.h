@@ -22,7 +22,7 @@
 
 #define ULF_TRANS_GAP           3
 
-#define ULF_RECV_BUF_DEPTH      8
+#define ULF_RECV_BUF_DEPTH      4
 #define ULF_RECV_D_OFFSET       (32 + 16)
 #define ULF_RECV_LOW_TH0        (256 - 64)
 #define ULF_RECV_LOW_TH1        (256 + 64)
@@ -76,11 +76,15 @@ typedef struct{
     unsigned char ULF_RecvVal_CNT;
     unsigned int ULF_RecvTick;
     unsigned int ULF_RecvValue[ULF_RECV_BUF_DEPTH];
-    unsigned int ULF_RecvBitNum;
     unsigned char ULF_RecvLock;
     unsigned char ULF_RecvPiolt_Num;
     unsigned int ULF_RecvCurr_Data;
     unsigned int ULF_RecvPost_Data;
+    unsigned short ULF_RecvBitNum;
+    unsigned short ULF_RecvPeri_Num;
+    unsigned char ULF_RecvPost_Phase;
+    unsigned char ULF_Recv_PeriodBuf[256];
+    unsigned short ULF_Recv_PeriHNum;
 }ulf_recv_value_t;
 
 typedef struct{
@@ -97,14 +101,15 @@ typedef struct{
     unsigned char ULF_TRANSMIT_START;                           /* Transmit start sign.  */
     unsigned char ULF_TRANSMIT_BUSY;                            /* Transmit busy.        */
     unsigned int ULF_TRANSMIT_TIME;                             /* Transmit time.        */
-    unsigned int ULF_TRANSMIT_CNT;                              /* Transmit Counter.     */
+    unsigned short ULF_TRANSMIT_CNT;                            /* Transmit Counter.     */
     unsigned char ULF_TRANSMIT_CMD;                             /* Transmit Command.     */
     unsigned char ULF_TRANSMIT_STATE;                           /* Transmit State.       */
     unsigned char ULF_TRANSMIT_BIT;                             /* Transmit Current bit. */
-    unsigned int ULF_TRANSMIT_DLEN;                             /* Transmit Data Length. */
+    unsigned short ULF_TRANSMIT_DLEN;                           /* Transmit Data Length. */
     /* Receiver Parameter. */
     unsigned char ULF_RECEIVE_START;                            /* Receive start sign.   */
-    unsigned int ULF_RECEIVE_CNT;                               /* Receive Counter.      */
+    unsigned char ULF_RECEIVE_BITEN;
+    unsigned short ULF_RECEIVE_CNT;                             /* Receive Counter.      */
     unsigned char ULF_RECEIVE_NOTE;                             /* Receive Notice.       */
     unsigned char ULF_RECEIVE_PAGE;                             /* Baseband data page.   */
     unsigned char ULF_RECEIVE_STATE;                            /* Receive State.        */

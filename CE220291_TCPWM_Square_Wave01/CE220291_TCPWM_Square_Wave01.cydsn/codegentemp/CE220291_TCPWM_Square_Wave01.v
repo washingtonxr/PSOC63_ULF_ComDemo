@@ -1,6 +1,6 @@
 // ======================================================================
 // CE220291_TCPWM_Square_Wave01.v generated from TopDesign.cysch
-// 03/10/2019 at 16:44
+// 03/12/2019 at 18:26
 // This file is auto generated. ANY EDITS YOU MAKE MAY BE LOST WHEN THIS FILE IS REGENERATED!!!
 // ======================================================================
 
@@ -514,14 +514,14 @@ endmodule
 // top
 module top ;
 
-          wire  Net_144;
-          wire  Net_139;
-          wire  Net_138;
-          wire  Net_137;
-          wire  Net_134;
-          wire  Net_133;
-          wire  Net_132;
-          wire  Net_131;
+          wire  Net_248;
+          wire  Net_247;
+          wire  Net_246;
+          wire  Net_245;
+          wire  Net_244;
+          wire  Net_243;
+          wire  Net_242;
+          wire  Net_241;
           wire  Net_129;
           wire  Net_128;
           wire  Net_127;
@@ -559,11 +559,11 @@ module top ;
           wire  Net_17;
           wire  Net_16;
           wire  Net_15;
+          wire  Net_140;
+          wire  Net_149;
           wire  Net_164;
           wire  Net_116;
           wire  Net_151;
-          wire  Net_149;
-          wire  Net_140;
           wire  Net_97;
           wire  Net_96;
           wire  Net_114;
@@ -898,9 +898,9 @@ module top ;
         .count(1'b1),
         .capture(Net_164),
         .interrupt(Net_149),
-        .ovrflw(Net_137),
-        .undrflw(Net_138),
-        .compare(Net_139),
+        .ovrflw(Net_245),
+        .undrflw(Net_246),
+        .compare(Net_247),
         .clock(Net_140));
 
 

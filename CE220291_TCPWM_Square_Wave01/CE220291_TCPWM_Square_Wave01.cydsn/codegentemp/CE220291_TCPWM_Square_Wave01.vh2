@@ -2,7 +2,7 @@
 --	Conversion of CE220291_TCPWM_Square_Wave01.v to vh2:
 --
 --	Cypress Semiconductor - WARP Version 6.3 IR 41
---	Sun Mar 10 16:44:07 2019
+--	Tue Mar 12 18:26:46 2019
 --
 
 USE cypress.cypress.all;
@@ -105,9 +105,9 @@ SIGNAL \ULF_Capture:count\ : bit;
 SIGNAL \ULF_Capture:reload\ : bit;
 SIGNAL \ULF_Capture:stop\ : bit;
 SIGNAL \ULF_Capture:start\ : bit;
-SIGNAL Net_138 : bit;
-SIGNAL Net_139 : bit;
-SIGNAL Net_137 : bit;
+SIGNAL Net_246 : bit;
+SIGNAL Net_247 : bit;
+SIGNAL Net_245 : bit;
 SIGNAL \ULF_Capture:Net_1\ : bit;
 SIGNAL \ULF_Capture:Net_2\ : bit;
 SIGNAL Net_149 : bit;
@@ -517,9 +517,9 @@ SysInt_Tick:cy_mxs40_isr_v1_0
 		reload=>zero,
 		stop=>zero,
 		start=>zero,
-		tr_underflow=>Net_138,
-		tr_compare_match=>Net_139,
-		tr_overflow=>Net_137,
+		tr_underflow=>Net_246,
+		tr_compare_match=>Net_247,
+		tr_overflow=>Net_245,
 		line_compl=>\ULF_Capture:Net_1\,
 		line=>\ULF_Capture:Net_2\,
 		interrupt=>Net_149);

@@ -6221,10 +6221,10 @@
     <Group key="LocalClks">
       <Group key="942ae398-75c4-47c8-9af6-6fa57fac65ba">
         <Data key="check_tolerance" value="False" />
-        <Data key="derive_type" value="NAMED_FREQ" />
-        <Data key="desired_freq" value="1" />
+        <Data key="derive_type" value="NAMED_DIVIDER" />
+        <Data key="desired_freq" value="50" />
         <Data key="desired_unit" value="6" />
-        <Data key="divider" value="50" />
+        <Data key="divider" value="0" />
         <Data key="enabled" value="True" />
         <Data key="fract_divider_denominator" value="0" />
         <Data key="fract_divider_numerator" value="0" />
@@ -6240,6 +6240,7 @@
         <Data key="src_clk_id" value="2FB4EC85-8328-4C5A-9ED9-8B63060178EB" />
         <Data key="src_clk_name" value="Clk_Peri" />
         <Data key="start_on_reset" value="True" />
+        <Data key="sync_to_hf_clock" value="False" />
         <Data key="uses_fract_divider" value="False" />
       </Group>
       <Group key="a368800e-ab5c-421c-a161-daae557802f6">
@@ -6428,7 +6429,7 @@
         <Data key="check_tolerance" value="False" />
         <Data key="derive_type" value="BUILTIN" />
         <Data key="desired_freq" value="0" />
-        <Data key="desired_unit" value="15" />
+        <Data key="desired_unit" value="0" />
         <Data key="divider" value="0" />
         <Data key="enabled" value="False" />
         <Data key="minus_tolerance" value="0" />
@@ -6499,9 +6500,9 @@
       <Group key="5C4F238B-1818-4FC7-84C6-4E205116253D">
         <Data key="check_tolerance" value="False" />
         <Data key="derive_type" value="BUILTIN" />
-        <Data key="desired_freq" value="1" />
+        <Data key="desired_freq" value="100" />
         <Data key="desired_unit" value="6" />
-        <Data key="divider" value="8" />
+        <Data key="divider" value="1" />
         <Data key="enabled" value="False" />
         <Data key="minus_tolerance" value="0" />
         <Data key="name" value="Clk_HF1" />
@@ -6510,8 +6511,8 @@
         <Data key="scope" value="BUILTIN" />
         <Data key="sourceClk_minus_acuracy_name" value="1" />
         <Data key="sourceClk_plus_acuracy_name" value="1" />
-        <Data key="src_clk_id" value="2A8967C4-B635-4C8A-8C91-90EE65E329AC" />
-        <Data key="src_clk_name" value="PathMux1" />
+        <Data key="src_clk_id" value="343F3593-1AA2-4B14-BFF9-C9A56BDE27C9" />
+        <Data key="src_clk_name" value="FLL" />
         <Data key="start_on_reset" value="False" />
       </Group>
       <Group key="6EACA723-B6E0-41AC-AE21-41E3ED0E6CA7">
@@ -6739,13 +6740,13 @@
         <Data key="sourceClk_plus_acuracy_name" value="2.4" />
         <Data key="src_clk_id" value="90A0AFF0-F028-4772-9ECA-35D832B188BB" />
         <Data key="src_clk_name" value="PathMux0" />
-        <Data key="start_on_reset" value="False" />
+        <Data key="start_on_reset" value="True" />
       </Group>
       <Group key="627FD272-4308-4363-80FD-BD4E238E9E1E">
         <Data key="check_tolerance" value="False" />
         <Data key="derive_type" value="BUILTIN" />
         <Data key="desired_freq" value="0" />
-        <Data key="desired_unit" value="15" />
+        <Data key="desired_unit" value="0" />
         <Data key="divider" value="0" />
         <Data key="enabled" value="False" />
         <Data key="minus_tolerance" value="0" />
@@ -6875,8 +6876,8 @@
         <Data key="desired_unit" value="6" />
         <Data key="divider" value="0" />
         <Data key="enabled" value="False" />
-        <Data key="FEEDBACK" value="25" />
-        <Data key="LOW_FREQUENCY" value="True" />
+        <Data key="FEEDBACK" value="22" />
+        <Data key="LOW_FREQUENCY" value="False" />
         <Data key="MANUAL" value="False" />
         <Data key="minus_tolerance" value="0" />
         <Data key="name" value="PLL0" />
@@ -6886,8 +6887,8 @@
         <Data key="plus_tolerance" value="0" />
         <Data key="REFERENCE" value="1" />
         <Data key="scope" value="BUILTIN" />
-        <Data key="sourceClk_minus_acuracy_name" value="1" />
-        <Data key="sourceClk_plus_acuracy_name" value="1" />
+        <Data key="sourceClk_minus_acuracy_name" value="0" />
+        <Data key="sourceClk_plus_acuracy_name" value="0" />
         <Data key="src_clk_id" value="2A8967C4-B635-4C8A-8C91-90EE65E329AC" />
         <Data key="src_clk_name" value="PathMux1" />
         <Data key="start_on_reset" value="False" />

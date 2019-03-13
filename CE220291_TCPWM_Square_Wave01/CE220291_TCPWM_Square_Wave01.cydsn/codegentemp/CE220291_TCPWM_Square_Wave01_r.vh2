@@ -1,5 +1,5 @@
 -- Project:   CE220291_TCPWM_Square_Wave01
--- Generated: 03/10/2019 16:44:19
+-- Generated: 03/12/2019 18:26:53
 -- PSoC Creator  4.2
 
 ENTITY CE220291_TCPWM_Square_Wave01 IS
@@ -66,9 +66,6 @@ ARCHITECTURE __DEFAULT__ OF CE220291_TCPWM_Square_Wave01 IS
     SIGNAL Net_117 : bit;
     SIGNAL Net_125 : bit;
     SIGNAL Net_126 : bit;
-    SIGNAL Net_137 : bit;
-    SIGNAL Net_138 : bit;
-    SIGNAL Net_139 : bit;
     SIGNAL Net_140_ff11 : bit;
     ATTRIBUTE global_signal OF Net_140_ff11 : SIGNAL IS true;
     SIGNAL Net_149 : bit;
@@ -76,6 +73,9 @@ ARCHITECTURE __DEFAULT__ OF CE220291_TCPWM_Square_Wave01 IS
     SIGNAL Net_21 : bit;
     SIGNAL Net_22 : bit;
     SIGNAL Net_23 : bit;
+    SIGNAL Net_245 : bit;
+    SIGNAL Net_246 : bit;
+    SIGNAL Net_247 : bit;
     SIGNAL Net_32 : bit;
     SIGNAL Net_90 : bit;
     SIGNAL Net_91 : bit;
@@ -1344,9 +1344,9 @@ BEGIN
             reload => '0',
             stop => '0',
             start => '0',
-            tr_underflow => Net_138,
-            tr_compare_match => Net_139,
-            tr_overflow => Net_137,
+            tr_underflow => Net_246,
+            tr_compare_match => Net_247,
+            tr_overflow => Net_245,
             line_compl => \ULF_Capture:Net_1\,
             line => \ULF_Capture:Net_2\,
             interrupt => Net_149);

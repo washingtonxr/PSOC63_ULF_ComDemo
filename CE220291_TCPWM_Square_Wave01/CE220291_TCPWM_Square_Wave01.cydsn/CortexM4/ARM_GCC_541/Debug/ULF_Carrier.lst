@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
   27:Generated_Source\PSoC6/ULF_Carrier.c **** *  associated ULF_Carrier_Init() function.
   28:Generated_Source\PSoC6/ULF_Carrier.c **** */ 
   29:Generated_Source\PSoC6/ULF_Carrier.c **** cy_stc_tcpwm_pwm_config_t const ULF_Carrier_config =
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 2
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 2
 
 
   30:Generated_Source\PSoC6/ULF_Carrier.c **** {
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
   39 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
   40 0006 3BB9     		cbnz	r3, .L2
   74:Generated_Source\PSoC6/ULF_Carrier.c ****     {
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 3
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 3
 
 
   75:Generated_Source\PSoC6/ULF_Carrier.c ****         (void) Cy_TCPWM_PWM_Init(ULF_Carrier_HW, ULF_Carrier_CNT_NUM, &ULF_Carrier_config);
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
   37:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * index). 
   38:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** *
   39:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * The TCPWM supports three operating modes:
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 4
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 4
 
 
   40:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * * Timer/Counter
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
   94:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * A quadrature decoder is used to decode the output of a quadrature encoder. 
   95:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * A quadrature encoder senses the position, velocity, and direction of 
   96:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * an object (for example a rotating axle, or a spinning mouse ball). 
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 5
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 5
 
 
   97:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * A quadrature decoder can also be used for precision measurement of speed, 
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  151:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** *
  152:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * \section group_tcpwm_MISRA MISRA-C Compliance 
  153:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * <table class="doxtable">
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 6
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 6
 
 
  154:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** *   <tr>
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  208:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** 
  209:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** #ifndef CY_IP_MXTCPWM
  210:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h ****     #error "The TCPWM driver is not supported on this device"
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 7
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 7
 
 
  211:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** #endif
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  265:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** */
  266:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** /** A rising edge triggers the event (Capture, Start, Reload, etc..) */
  267:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** #define CY_TCPWM_INPUT_RISINGEDGE       (0U)
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 8
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 8
 
 
  268:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** /** A falling edge triggers the event (Capture, Start, Reload, etc..) */
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  322:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h ****  ******************************************************************************/
  323:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** 
  324:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h ****  /**
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 9
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 9
 
 
  325:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h **** * \addtogroup group_tcpwm_enums
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  379:Generated_Source\PSoC6\pdl\drivers/peripheral/tcpwm/cy_tcpwm.h ****     base->CTRL_SET = counters;
   56              		.loc 2 379 0
   57 0018 044B     		ldr	r3, .L4+8
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 10
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 10
 
 
   58 001a 0822     		movs	r2, #8
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
   67              	.LVL3:
   68 0020 08BD     		pop	{r3, pc}
   69              	.L5:
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 11
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 11
 
 
   70 0022 00BF     		.align	2
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  124              		.file 4 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
  125              		.file 5 "Generated_Source\\PSoC6\\pdl\\devices/psoc6/ip/cyip_tcpwm.h"
  126              		.file 6 "Generated_Source\\PSoC6\\pdl\\drivers/peripheral/tcpwm/cy_tcpwm_pwm.h"
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 12
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 12
 
 
  127              		.file 7 "Generated_Source\\PSoC6\\pdl\\cmsis/include/core_cm4.h"
@@ -672,7 +672,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  135 000c E7000000 		.4byte	.LASF78
  136 0010 0C       		.byte	0xc
  137 0011 4D000000 		.4byte	.LASF79
- 138 0015 3C030000 		.4byte	.LASF80
+ 138 0015 05040000 		.4byte	.LASF80
  139 0019 00000000 		.4byte	.Ldebug_ranges0+0
  140 001d 00000000 		.4byte	0
  141 0021 00000000 		.4byte	.Ldebug_line0
@@ -696,16 +696,16 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  159 0045 02       		.uleb128 0x2
  160 0046 02       		.byte	0x2
  161 0047 07       		.byte	0x7
- 162 0048 C2030000 		.4byte	.LASF3
+ 162 0048 6A030000 		.4byte	.LASF3
  163 004c 03       		.uleb128 0x3
- 164 004d 60040000 		.4byte	.LASF5
+ 164 004d FB030000 		.4byte	.LASF5
  165 0051 03       		.byte	0x3
  166 0052 3F       		.byte	0x3f
  167 0053 57000000 		.4byte	0x57
  168 0057 02       		.uleb128 0x2
  169 0058 04       		.byte	0x4
  170 0059 05       		.byte	0x5
- 171 005a DA030000 		.4byte	.LASF6
+ 171 005a 82030000 		.4byte	.LASF6
  172 005e 03       		.uleb128 0x3
  173 005f B2010000 		.4byte	.LASF7
  174 0063 03       		.byte	0x3
@@ -714,11 +714,11 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  177 0069 02       		.uleb128 0x2
  178 006a 04       		.byte	0x4
  179 006b 07       		.byte	0x7
- 180 006c 2E040000 		.4byte	.LASF8
+ 180 006c C9030000 		.4byte	.LASF8
  181 0070 02       		.uleb128 0x2
  182 0071 08       		.byte	0x8
  183 0072 05       		.byte	0x5
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 13
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 13
 
 
  184 0073 4D020000 		.4byte	.LASF9
@@ -733,14 +733,14 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  193 0085 02       		.uleb128 0x2
  194 0086 04       		.byte	0x4
  195 0087 07       		.byte	0x7
- 196 0088 17040000 		.4byte	.LASF11
+ 196 0088 3C030000 		.4byte	.LASF11
  197 008c 03       		.uleb128 0x3
  198 008d E5010000 		.4byte	.LASF12
  199 0091 04       		.byte	0x4
  200 0092 18       		.byte	0x18
  201 0093 33000000 		.4byte	0x33
  202 0097 03       		.uleb128 0x3
- 203 0098 F2030000 		.4byte	.LASF13
+ 203 0098 9A030000 		.4byte	.LASF13
  204 009c 04       		.byte	0x4
  205 009d 2C       		.byte	0x2c
  206 009e 4C000000 		.4byte	0x4c
@@ -775,10 +775,10 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  235 00d9 B9000000 		.4byte	0xb9
  236 00dd 04       		.byte	0x4
  237 00de 08       		.uleb128 0x8
- 238 00df 98040000 		.4byte	.LASF18
+ 238 00df 9B040000 		.4byte	.LASF18
  239 00e3 05       		.byte	0x5
  240 00e4 25       		.byte	0x25
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 14
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 14
 
 
  241 00e5 B4000000 		.4byte	0xb4
@@ -808,7 +808,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  265 0114 B4000000 		.4byte	0xb4
  266 0118 18       		.byte	0x18
  267 0119 08       		.uleb128 0x8
- 268 011a A8040000 		.4byte	.LASF22
+ 268 011a AB040000 		.4byte	.LASF22
  269 011e 05       		.byte	0x5
  270 011f 2A       		.byte	0x2a
  271 0120 B9000000 		.4byte	0xb9
@@ -832,16 +832,16 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  289 0144 B4000000 		.4byte	0xb4
  290 0148 28       		.byte	0x28
  291 0149 08       		.uleb128 0x8
- 292 014a 24040000 		.4byte	.LASF26
+ 292 014a BF030000 		.4byte	.LASF26
  293 014e 05       		.byte	0x5
  294 014f 2E       		.byte	0x2e
  295 0150 B9000000 		.4byte	0xb9
  296 0154 2C       		.byte	0x2c
  297 0155 08       		.uleb128 0x8
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 15
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 15
 
 
- 298 0156 00040000 		.4byte	.LASF27
+ 298 0156 A8030000 		.4byte	.LASF27
  299 015a 05       		.byte	0x5
  300 015b 2F       		.byte	0x2f
  301 015c B4000000 		.4byte	0xb4
@@ -853,7 +853,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  307 0168 B4000000 		.4byte	0xb4
  308 016c 34       		.byte	0x34
  309 016d 08       		.uleb128 0x8
- 310 016e B8030000 		.4byte	.LASF29
+ 310 016e 60030000 		.4byte	.LASF29
  311 0172 05       		.byte	0x5
  312 0173 31       		.byte	0x31
  313 0174 B4000000 		.4byte	0xb4
@@ -882,7 +882,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  336 01a1 B4000000 		.4byte	0xb4
  337 01a5 00       		.byte	0
  338 01a6 08       		.uleb128 0x8
- 339 01a7 6A040000 		.4byte	.LASF32
+ 339 01a7 6D040000 		.4byte	.LASF32
  340 01ab 05       		.byte	0x5
  341 01ac 3A       		.byte	0x3a
  342 01ad B4000000 		.4byte	0xb4
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  352 01c3 05       		.byte	0x5
  353 01c4 3C       		.byte	0x3c
  354 01c5 B4000000 		.4byte	0xb4
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 16
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 16
 
 
  355 01c9 0C       		.byte	0xc
@@ -909,7 +909,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  360 01d1 B4000000 		.4byte	0xb4
  361 01d5 10       		.byte	0x10
  362 01d6 08       		.uleb128 0x8
- 363 01d7 AF030000 		.4byte	.LASF36
+ 363 01d7 57030000 		.4byte	.LASF36
  364 01db 05       		.byte	0x5
  365 01dc 3E       		.byte	0x3e
  366 01dd B4000000 		.4byte	0xb4
@@ -927,7 +927,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  378 01f5 B9000000 		.4byte	0xb9
  379 01f9 1C       		.byte	0x1c
  380 01fa 08       		.uleb128 0x8
- 381 01fb A8040000 		.4byte	.LASF22
+ 381 01fb AB040000 		.4byte	.LASF22
  382 01ff 05       		.byte	0x5
  383 0200 41       		.byte	0x41
  384 0201 29020000 		.4byte	0x229
@@ -958,10 +958,10 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  409 023c 1F       		.byte	0x1f
  410 023d 00       		.byte	0
  411 023e 03       		.uleb128 0x3
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 17
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 17
 
 
- 412 023f D7040000 		.4byte	.LASF39
+ 412 023f DA040000 		.4byte	.LASF39
  413 0243 05       		.byte	0x5
  414 0244 43       		.byte	0x43
  415 0245 91010000 		.4byte	0x191
@@ -972,7 +972,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  420 0250 02       		.uleb128 0x2
  421 0251 01       		.byte	0x1
  422 0252 08       		.byte	0x8
- 423 0253 D5030000 		.4byte	.LASF41
+ 423 0253 7D030000 		.4byte	.LASF41
  424 0257 02       		.uleb128 0x2
  425 0258 04       		.byte	0x4
  426 0259 04       		.byte	0x4
@@ -980,7 +980,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  428 025e 02       		.uleb128 0x2
  429 025f 08       		.byte	0x8
  430 0260 04       		.byte	0x4
- 431 0261 40040000 		.4byte	.LASF43
+ 431 0261 DB030000 		.4byte	.LASF43
  432 0265 0E       		.uleb128 0xe
  433 0266 9A010000 		.4byte	.LASF81
  434 026a 64       		.byte	0x64
@@ -988,7 +988,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  436 026c 2B       		.byte	0x2b
  437 026d 9E030000 		.4byte	0x39e
  438 0271 08       		.uleb128 0x8
- 439 0272 A0040000 		.4byte	.LASF44
+ 439 0272 A3040000 		.4byte	.LASF44
  440 0276 06       		.byte	0x6
  441 0277 2D       		.byte	0x2d
  442 0278 A2000000 		.4byte	0xa2
@@ -1006,7 +1006,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  454 0290 A2000000 		.4byte	0xa2
  455 0294 08       		.byte	0x8
  456 0295 08       		.uleb128 0x8
- 457 0296 E3030000 		.4byte	.LASF47
+ 457 0296 8B030000 		.4byte	.LASF47
  458 029a 06       		.byte	0x6
  459 029b 31       		.byte	0x31
  460 029c A2000000 		.4byte	0xa2
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  466 02a8 A2000000 		.4byte	0xa2
  467 02ac 10       		.byte	0x10
  468 02ad 08       		.uleb128 0x8
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 18
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 18
 
 
  469 02ae 2D020000 		.4byte	.LASF49
@@ -1063,13 +1063,13 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  508 02fc A2000000 		.4byte	0xa2
  509 0300 2C       		.byte	0x2c
  510 0301 08       		.uleb128 0x8
- 511 0302 7D040000 		.4byte	.LASF56
+ 511 0302 80040000 		.4byte	.LASF56
  512 0306 06       		.byte	0x6
  513 0307 3B       		.byte	0x3b
  514 0308 A2000000 		.4byte	0xa2
  515 030c 30       		.byte	0x30
  516 030d 08       		.uleb128 0x8
- 517 030e A1030000 		.4byte	.LASF57
+ 517 030e 49030000 		.4byte	.LASF57
  518 0312 06       		.byte	0x6
  519 0313 3C       		.byte	0x3c
  520 0314 A2000000 		.4byte	0xa2
@@ -1078,19 +1078,19 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  523 031a 1E020000 		.4byte	.LASF58
  524 031e 06       		.byte	0x6
  525 031f 3D       		.byte	0x3d
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 19
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 19
 
 
  526 0320 A2000000 		.4byte	0xa2
  527 0324 38       		.byte	0x38
  528 0325 08       		.uleb128 0x8
- 529 0326 47040000 		.4byte	.LASF59
+ 529 0326 E2030000 		.4byte	.LASF59
  530 032a 06       		.byte	0x6
  531 032b 3E       		.byte	0x3e
  532 032c A2000000 		.4byte	0xa2
  533 0330 3C       		.byte	0x3c
  534 0331 08       		.uleb128 0x8
- 535 0332 73040000 		.4byte	.LASF60
+ 535 0332 76040000 		.4byte	.LASF60
  536 0336 06       		.byte	0x6
  537 0337 40       		.byte	0x40
  538 0338 A2000000 		.4byte	0xa2
@@ -1114,13 +1114,13 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  556 035c A2000000 		.4byte	0xa2
  557 0360 4C       		.byte	0x4c
  558 0361 08       		.uleb128 0x8
- 559 0362 55040000 		.4byte	.LASF64
+ 559 0362 F0030000 		.4byte	.LASF64
  560 0366 06       		.byte	0x6
  561 0367 46       		.byte	0x46
  562 0368 A2000000 		.4byte	0xa2
  563 036c 50       		.byte	0x50
  564 036d 08       		.uleb128 0x8
- 565 036e 8A040000 		.4byte	.LASF65
+ 565 036e 8D040000 		.4byte	.LASF65
  566 0372 06       		.byte	0x6
  567 0373 47       		.byte	0x47
  568 0374 A2000000 		.4byte	0xa2
@@ -1138,7 +1138,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  580 038c A2000000 		.4byte	0xa2
  581 0390 5C       		.byte	0x5c
  582 0391 08       		.uleb128 0x8
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 20
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 20
 
 
  583 0392 6A020000 		.4byte	.LASF68
@@ -1150,7 +1150,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  589 039e 02       		.uleb128 0x2
  590 039f 01       		.byte	0x1
  591 03a0 02       		.byte	0x2
- 592 03a1 FA030000 		.4byte	.LASF69
+ 592 03a1 A2030000 		.4byte	.LASF69
  593 03a5 03       		.uleb128 0x3
  594 03a6 72000000 		.4byte	.LASF70
  595 03aa 06       		.byte	0x6
@@ -1163,12 +1163,12 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  602 03b8 03       		.byte	0x3
  603 03b9 D6030000 		.4byte	0x3d6
  604 03bd 10       		.uleb128 0x10
- 605 03be E2040000 		.4byte	.LASF71
+ 605 03be E5040000 		.4byte	.LASF71
  606 03c2 02       		.byte	0x2
  607 03c3 A601     		.2byte	0x1a6
  608 03c5 D6030000 		.4byte	0x3d6
  609 03c9 10       		.uleb128 0x10
- 610 03ca FB040000 		.4byte	.LASF72
+ 610 03ca FE040000 		.4byte	.LASF72
  611 03ce 02       		.byte	0x2
  612 03cf A601     		.2byte	0x1a6
  613 03d1 A2000000 		.4byte	0xa2
@@ -1177,18 +1177,18 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  616 03d7 04       		.byte	0x4
  617 03d8 3E020000 		.4byte	0x23e
  618 03dc 0F       		.uleb128 0xf
- 619 03dd B1040000 		.4byte	.LASF74
+ 619 03dd B4040000 		.4byte	.LASF74
  620 03e1 02       		.byte	0x2
  621 03e2 7901     		.2byte	0x179
  622 03e4 03       		.byte	0x3
  623 03e5 02040000 		.4byte	0x402
  624 03e9 10       		.uleb128 0x10
- 625 03ea E2040000 		.4byte	.LASF71
+ 625 03ea E5040000 		.4byte	.LASF71
  626 03ee 02       		.byte	0x2
  627 03ef 7901     		.2byte	0x179
  628 03f1 D6030000 		.4byte	0x3d6
  629 03f5 10       		.uleb128 0x10
- 630 03f6 FB040000 		.4byte	.LASF72
+ 630 03f6 FE040000 		.4byte	.LASF72
  631 03fa 02       		.byte	0x2
  632 03fb 7901     		.2byte	0x179
  633 03fd A2000000 		.4byte	0xa2
@@ -1198,7 +1198,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  637 0407 01       		.byte	0x1
  638 0408 47       		.byte	0x47
  639 0409 00000000 		.4byte	.LFB179
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 21
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 21
 
 
  640 040d 30000000 		.4byte	.LFE179-.LFB179
@@ -1256,9 +1256,9 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  692 0483 00       		.byte	0
  693 0484 00       		.byte	0
  694 0485 17       		.uleb128 0x17
- 695 0486 CA040000 		.4byte	.LASF75
+ 695 0486 CD040000 		.4byte	.LASF75
  696 048a 07       		.byte	0x7
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 22
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 22
 
 
  697 048b EA07     		.2byte	0x7ea
@@ -1266,7 +1266,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  699 0491 05       		.uleb128 0x5
  700 0492 97000000 		.4byte	0x97
  701 0496 18       		.uleb128 0x18
- 702 0497 E7040000 		.4byte	.LASF76
+ 702 0497 EA040000 		.4byte	.LASF76
  703 049b 01       		.byte	0x1
  704 049c 18       		.byte	0x18
  705 049d 8C000000 		.4byte	0x8c
@@ -1284,8 +1284,8 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  717 04b8 06       		.uleb128 0x6
  718 04b9 A5030000 		.4byte	0x3a5
  719 04bd 19       		.uleb128 0x19
- 720 04be 05040000 		.4byte	.LASF83
- 721 04c2 05040000 		.4byte	.LASF83
+ 720 04be AD030000 		.4byte	.LASF83
+ 721 04c2 AD030000 		.4byte	.LASF83
  722 04c6 06       		.byte	0x6
  723 04c7 CB       		.byte	0xcb
  724 04c8 00       		.byte	0
@@ -1318,7 +1318,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  751 0018 3E       		.uleb128 0x3e
  752 0019 0B       		.uleb128 0xb
  753 001a 03       		.uleb128 0x3
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 23
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 23
 
 
  754 001b 0E       		.uleb128 0xe
@@ -1378,7 +1378,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  808 0051 08       		.uleb128 0x8
  809 0052 0D       		.uleb128 0xd
  810 0053 00       		.byte	0
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 24
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 24
 
 
  811 0054 03       		.uleb128 0x3
@@ -1438,7 +1438,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  865 008a 00       		.byte	0
  866 008b 0C       		.uleb128 0xc
  867 008c 01       		.uleb128 0x1
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 25
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 25
 
 
  868 008d 01       		.byte	0x1
@@ -1498,7 +1498,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  922 00c3 0B       		.uleb128 0xb
  923 00c4 3B       		.uleb128 0x3b
  924 00c5 05       		.uleb128 0x5
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 26
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 26
 
 
  925 00c6 49       		.uleb128 0x49
@@ -1558,7 +1558,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  979 00fd 00       		.byte	0
  980 00fe 14       		.uleb128 0x14
  981 00ff 05       		.uleb128 0x5
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 27
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 27
 
 
  982 0100 00       		.byte	0
@@ -1618,7 +1618,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  1036 013b 19       		.uleb128 0x19
  1037 013c 02       		.uleb128 0x2
  1038 013d 18       		.uleb128 0x18
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 28
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 28
 
 
  1039 013e 00       		.byte	0
@@ -1678,7 +1678,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  1093 0050 00000000 		.4byte	0
  1094 0054 00000000 		.4byte	0
  1095              		.section	.debug_aranges,"",%progbits
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 29
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 29
 
 
  1096 0000 1C000000 		.4byte	0x1c
@@ -1738,7 +1738,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  1129      72617465 
  1129      645F536F 
  1129      75726365 
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 30
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 30
 
 
  1129      5C50536F 
@@ -1798,7 +1798,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  1153 014d 6F667466 		.ascii	"oftfp -mfpu=fpv4-sp-d16 -mthumb -g -Og -ffunction-s"
  1153      70202D6D 
  1153      6670753D 
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 31
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 31
 
 
  1153      66707634 
@@ -1858,7 +1858,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  1176 021e 6B696C6C 		.ascii	"killMode\000"
  1176      4D6F6465 
  1176      00
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 32
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 32
 
 
  1177              	.LASF42:
@@ -1918,7 +1918,7 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  1204      20646F75 
  1204      626C6500 
  1205              	.LASF63:
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 33
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 33
 
 
  1206 02c8 73746172 		.ascii	"startInputMode\000"
@@ -1961,158 +1961,159 @@ ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 1
  1222 0333 75696E74 		.ascii	"uint32_t\000"
  1222      33325F74 
  1222      00
- 1223              	.LASF80:
- 1224 033c 443A5C47 		.ascii	"D:\\Git_sources\\LD_PSOC63_ULF_ComDemo\\CE220291_TC"
- 1224      69745F73 
- 1224      6F757263 
- 1224      65735C4C 
- 1224      445F5053 
- 1225 036c 50574D5F 		.ascii	"PWM_Square_Wave01\\CE220291_TCPWM_Square_Wave01.cyd"
- 1225      53717561 
- 1225      72655F57 
- 1225      61766530 
- 1225      315C4345 
- 1226 039e 736E00   		.ascii	"sn\000"
- 1227              	.LASF57:
- 1228 03a1 696E7665 		.ascii	"invertPWMOutN\000"
- 1228      72745057 
- 1228      4D4F7574 
- 1228      4E00
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 34
+ 1223              	.LASF11:
+ 1224 033c 756E7369 		.ascii	"unsigned int\000"
+ 1224      676E6564 
+ 1224      20696E74 
+ 1224      00
+ 1225              	.LASF57:
+ 1226 0349 696E7665 		.ascii	"invertPWMOutN\000"
+ 1226      72745057 
+ 1226      4D4F7574 
+ 1226      4E00
+ 1227              	.LASF36:
+ 1228 0357 434D445F 		.ascii	"CMD_STOP\000"
+ 1228      53544F50 
+ 1228      00
+ 1229              	.LASF29:
+ 1230 0360 494E5452 		.ascii	"INTR_MASK\000"
+ 1230      5F4D4153 
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 34
 
 
- 1229              	.LASF36:
- 1230 03af 434D445F 		.ascii	"CMD_STOP\000"
- 1230      53544F50 
- 1230      00
- 1231              	.LASF29:
- 1232 03b8 494E5452 		.ascii	"INTR_MASK\000"
- 1232      5F4D4153 
- 1232      4B00
- 1233              	.LASF3:
- 1234 03c2 73686F72 		.ascii	"short unsigned int\000"
- 1234      7420756E 
- 1234      7369676E 
- 1234      65642069 
- 1234      6E7400
- 1235              	.LASF41:
- 1236 03d5 63686172 		.ascii	"char\000"
+ 1230      4B00
+ 1231              	.LASF3:
+ 1232 036a 73686F72 		.ascii	"short unsigned int\000"
+ 1232      7420756E 
+ 1232      7369676E 
+ 1232      65642069 
+ 1232      6E7400
+ 1233              	.LASF41:
+ 1234 037d 63686172 		.ascii	"char\000"
+ 1234      00
+ 1235              	.LASF6:
+ 1236 0382 6C6F6E67 		.ascii	"long int\000"
+ 1236      20696E74 
  1236      00
- 1237              	.LASF6:
- 1238 03da 6C6F6E67 		.ascii	"long int\000"
- 1238      20696E74 
- 1238      00
- 1239              	.LASF47:
- 1240 03e3 64656164 		.ascii	"deadTimeClocks\000"
- 1240      54696D65 
- 1240      436C6F63 
- 1240      6B7300
- 1241              	.LASF13:
- 1242 03f2 696E7433 		.ascii	"int32_t\000"
- 1242      325F7400 
- 1243              	.LASF69:
- 1244 03fa 5F426F6F 		.ascii	"_Bool\000"
- 1244      6C00
- 1245              	.LASF27:
- 1246 0400 494E5452 		.ascii	"INTR\000"
- 1246      00
- 1247              	.LASF83:
- 1248 0405 43795F54 		.ascii	"Cy_TCPWM_PWM_Init\000"
- 1248      4350574D 
- 1248      5F50574D 
- 1248      5F496E69 
- 1248      7400
- 1249              	.LASF11:
- 1250 0417 756E7369 		.ascii	"unsigned int\000"
- 1250      676E6564 
- 1250      20696E74 
- 1250      00
- 1251              	.LASF26:
- 1252 0424 52455345 		.ascii	"RESERVED1\000"
- 1252      52564544 
- 1252      3100
- 1253              	.LASF8:
- 1254 042e 6C6F6E67 		.ascii	"long unsigned int\000"
- 1254      20756E73 
- 1254      69676E65 
- 1254      6420696E 
- 1254      7400
- 1255              	.LASF43:
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 35
+ 1237              	.LASF47:
+ 1238 038b 64656164 		.ascii	"deadTimeClocks\000"
+ 1238      54696D65 
+ 1238      436C6F63 
+ 1238      6B7300
+ 1239              	.LASF13:
+ 1240 039a 696E7433 		.ascii	"int32_t\000"
+ 1240      325F7400 
+ 1241              	.LASF69:
+ 1242 03a2 5F426F6F 		.ascii	"_Bool\000"
+ 1242      6C00
+ 1243              	.LASF27:
+ 1244 03a8 494E5452 		.ascii	"INTR\000"
+ 1244      00
+ 1245              	.LASF83:
+ 1246 03ad 43795F54 		.ascii	"Cy_TCPWM_PWM_Init\000"
+ 1246      4350574D 
+ 1246      5F50574D 
+ 1246      5F496E69 
+ 1246      7400
+ 1247              	.LASF26:
+ 1248 03bf 52455345 		.ascii	"RESERVED1\000"
+ 1248      52564544 
+ 1248      3100
+ 1249              	.LASF8:
+ 1250 03c9 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1250      20756E73 
+ 1250      69676E65 
+ 1250      6420696E 
+ 1250      7400
+ 1251              	.LASF43:
+ 1252 03db 646F7562 		.ascii	"double\000"
+ 1252      6C6500
+ 1253              	.LASF59:
+ 1254 03e2 73776170 		.ascii	"swapInputMode\000"
+ 1254      496E7075 
+ 1254      744D6F64 
+ 1254      6500
+ 1255              	.LASF64:
+ 1256 03f0 73746172 		.ascii	"startInput\000"
+ 1256      74496E70 
+ 1256      757400
+ 1257              	.LASF5:
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 35
 
 
- 1256 0440 646F7562 		.ascii	"double\000"
- 1256      6C6500
- 1257              	.LASF59:
- 1258 0447 73776170 		.ascii	"swapInputMode\000"
- 1258      496E7075 
- 1258      744D6F64 
- 1258      6500
- 1259              	.LASF64:
- 1260 0455 73746172 		.ascii	"startInput\000"
- 1260      74496E70 
- 1260      757400
- 1261              	.LASF5:
- 1262 0460 5F5F696E 		.ascii	"__int32_t\000"
- 1262      7433325F 
- 1262      7400
+ 1258 03fb 5F5F696E 		.ascii	"__int32_t\000"
+ 1258      7433325F 
+ 1258      7400
+ 1259              	.LASF80:
+ 1260 0405 433A5C55 		.ascii	"C:\\Users\\Tornado\\Documents\\PSoC Creator\\CE2202"
+ 1260      73657273 
+ 1260      5C546F72 
+ 1260      6E61646F 
+ 1260      5C446F63 
+ 1261 0433 39315F54 		.ascii	"91_TCPWM_Square_Wave01\\CE220291_TCPWM_Square_Wave0"
+ 1261      4350574D 
+ 1261      5F537175 
+ 1261      6172655F 
+ 1261      57617665 
+ 1262 0465 312E6379 		.ascii	"1.cydsn\000"
+ 1262      64736E00 
  1263              	.LASF32:
- 1264 046a 4354524C 		.ascii	"CTRL_CLR\000"
+ 1264 046d 4354524C 		.ascii	"CTRL_CLR\000"
  1264      5F434C52 
  1264      00
  1265              	.LASF60:
- 1266 0473 73776170 		.ascii	"swapInput\000"
+ 1266 0476 73776170 		.ascii	"swapInput\000"
  1266      496E7075 
  1266      7400
  1267              	.LASF56:
- 1268 047d 696E7665 		.ascii	"invertPWMOut\000"
+ 1268 0480 696E7665 		.ascii	"invertPWMOut\000"
  1268      72745057 
  1268      4D4F7574 
  1268      00
  1269              	.LASF65:
- 1270 048a 6B696C6C 		.ascii	"killInputMode\000"
+ 1270 048d 6B696C6C 		.ascii	"killInputMode\000"
  1270      496E7075 
  1270      744D6F64 
  1270      6500
  1271              	.LASF18:
- 1272 0498 434F554E 		.ascii	"COUNTER\000"
+ 1272 049b 434F554E 		.ascii	"COUNTER\000"
  1272      54455200 
  1273              	.LASF44:
- 1274 04a0 70776D4D 		.ascii	"pwmMode\000"
+ 1274 04a3 70776D4D 		.ascii	"pwmMode\000"
  1274      6F646500 
  1275              	.LASF22:
- 1276 04a8 52455345 		.ascii	"RESERVED\000"
+ 1276 04ab 52455345 		.ascii	"RESERVED\000"
  1276      52564544 
  1276      00
  1277              	.LASF74:
- 1278 04b1 43795F54 		.ascii	"Cy_TCPWM_Enable_Multiple\000"
+ 1278 04b4 43795F54 		.ascii	"Cy_TCPWM_Enable_Multiple\000"
  1278      4350574D 
  1278      5F456E61 
  1278      626C655F 
  1278      4D756C74 
  1279              	.LASF75:
- 1280 04ca 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1280 04cd 49544D5F 		.ascii	"ITM_RxBuffer\000"
  1280      52784275 
  1280      66666572 
  1280      00
  1281              	.LASF39:
- 1282 04d7 54435057 		.ascii	"TCPWM_Type\000"
+ 1282 04da 54435057 		.ascii	"TCPWM_Type\000"
+ARM GAS  C:\Users\Tornado\AppData\Local\Temp\cclCWHYs.s 			page 36
+
+
  1282      4D5F5479 
-ARM GAS  C:\Users\washi\AppData\Local\Temp\ccJcjzcF.s 			page 36
-
-
  1282      706500
  1283              	.LASF71:
- 1284 04e2 62617365 		.ascii	"base\000"
+ 1284 04e5 62617365 		.ascii	"base\000"
  1284      00
  1285              	.LASF76:
- 1286 04e7 554C465F 		.ascii	"ULF_Carrier_initVar\000"
+ 1286 04ea 554C465F 		.ascii	"ULF_Carrier_initVar\000"
  1286      43617272 
  1286      6965725F 
  1286      696E6974 
  1286      56617200 
  1287              	.LASF72:
- 1288 04fb 636F756E 		.ascii	"counters\000"
+ 1288 04fe 636F756E 		.ascii	"counters\000"
  1288      74657273 
  1288      00
  1289              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
