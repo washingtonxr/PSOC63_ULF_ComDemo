@@ -12,6 +12,9 @@
 #ifndef _ULF_H
 #define _ULF_H
 
+#include "main_cm4.h"
+
+#define ULF_Debug               0
 #define ULF_USER_PIOLT_LEN      9                               /* Piolt carrier length.   */
 #define ULF_USER_ID_SIZE        1                               /* Size of user ID zone.   */
 #define ULF_USER_DATA_SIZE      4                               /* Size of user data zone. */
@@ -59,7 +62,8 @@ typedef enum{
     /* Transmit sign. */
     IDLE,
     BUSY,
-    CONT
+    CONT,
+    SYNC
 }ulf_txstate_t;
 
 /* Database for ULF. */
@@ -115,6 +119,12 @@ typedef struct{
     unsigned char ULF_RECEIVE_STATE;                            /* Receive State.        */
 }ulf_ctrl_t;
 
+typedef struct{
+    ulf_trans_value_t ulf_tran;
+    ulf_ctrl_t ulf_ctrl;
+    ulf_recv_value_t ulf_recv;
+}ulf_user_t;
+
 #define ULF_TRANS_STATE0        WARMUP
 #define ULF_TRANS_STATE1        PIOLT
 #define ULF_TRANS_STATE2        USERID
@@ -126,6 +136,8 @@ void ULF_Init2();
 
 unsigned int ULF_Test();
 int ULF_Routine();
+
+extern sys_LEDtimer_t Red_LED, Orange_LED;                      /* LED Database.         */
 
 extern ulf_ctrl_t ULF_CTRL;                                     /* ULF Transmit Control. */
 extern ulf_user_db_t ULF_DB;                                    /* ULF Control Database. */

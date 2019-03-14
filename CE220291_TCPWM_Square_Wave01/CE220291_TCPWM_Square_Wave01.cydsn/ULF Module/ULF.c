@@ -99,6 +99,7 @@ static void ULF_CarrierCnt_Isr()
                 ULF_BO_BYTE = ulf_transmit_id[0];
             }
             break;
+            
         case 1: /* Sending Raw Data. */
             /* Send Code. */
             if(ULF_CTRL.ULF_TRANSMIT_CNT == 1){
@@ -141,54 +142,14 @@ static void ULF_CarrierCnt_Isr()
                 }
             }
             break;
+            
+        case 2:
+            break;
+            
         default: /* Never suppose to be here. */
             break;
     }
-#if 0
-    if(1 == ULF_CTRL.ULF_RECEIVE_STATE){
 
-        ULF_CTRL.ULF_RECEIVE_CNT++;
-
-        if(ULF_RECV_LATCH_PT == ULF_CTRL.ULF_RECEIVE_CNT){          /* Latch Data. */
-            /* Read the input state of ULF_IN_PORT */
-            if(1UL == Cy_GPIO_Read(ULF_IN_PORT, ULF_IN_NUM)){
-                tmp_val = 1;     /* Insert logic for High pin state */
-            }else{
-                tmp_val = 0;     /* Insert logic for Low pin state */
-            }
-            
-            ULF_Recv_Val.ULF_RecvValue[ULF_CTRL.ULF_RECEIVE_PAGE] <<= 1;
-            ULF_Recv_Val.ULF_RecvValue[ULF_CTRL.ULF_RECEIVE_PAGE] += tmp_val;
-#if 1
-            Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
-            Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
-#endif
-            ULF_Recv_Num++;
-            ULF_Recv_Val.ULF_RecvBitNum++;
-            
-            if(ULF_Recv_Num >= 32){
-                ULF_Recv_Num = 0;
-                ULF_CTRL.ULF_RECEIVE_PAGE++;
-            }
-
-        }else
-        if(ULF_CTRL.ULF_RECEIVE_CNT >= ULF_MANCHISTER_P2){    /* Go around. */
-
-            if(ULF_Recv_Val.ULF_RecvBitNum >= 55){
-
-                ULF_Recv_Num = 0;
-#if 0
-                Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
-                CyDelayUs(1);
-                Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
-#endif
-                ULF_CTRL.ULF_RECEIVE_NOTE = 1;
-                ULF_CTRL.ULF_RECEIVE_STATE = 2;
-            }
-            ULF_CTRL.ULF_RECEIVE_CNT = 0;
-        }
-    }
-#endif
     ULF_Carrier_ClearInterrupt(ret);
 
     return;
@@ -201,91 +162,6 @@ static void ULF_MainCnt_Isr()
     
     ULF_CTRL.ULF_TRANSMIT_TIME++;
     
-#if 0
-    if(ULF_CTRL.ULF_TRANSMIT_TIME == 1024){
-        ULF_Carrier_Start();
-        Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
-    }else if(ULF_CTRL.ULF_TRANSMIT_TIME >= 4096+1024){
-        Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
-        ULF_Carrier_Stop();
-        ULF_CTRL.ULF_TRANSMIT_TIME = 0;
-    }
-#endif
-
-#if 0
-    if(ULF_CTRL.ULF_TRANSMIT_BUSY == CONT){
-        ULF_CTRL.ULF_TRANSMIT_BIT = 1;
-        ULF_CTRL.ULF_TRANSMIT_DLEN ++;
-    
-        if(ULF_CTRL.ULF_TRANSMIT_BIT == 1)
-            Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
-        else
-            Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
-        
-        ULF_CTRL.ULF_TRANSMIT_BUSY = BUSY;
-        ULF_CTRL.ULF_TRANSMIT_CNT = 0;
-        
-    }else if(ULF_CTRL.ULF_TRANSMIT_BUSY == BUSY){
-        if(ULF_CTRL.ULF_TRANSMIT_CNT == ULF_MANCHISTER_P1){
-            if(ULF_CTRL.ULF_TRANSMIT_BIT == 1)
-                Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
-            else
-                Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
-        }else if(ULF_CTRL.ULF_TRANSMIT_CNT == ULF_MANCHISTER_P1){
-            ULF_CTRL.ULF_TRANSMIT_CNT = 0;
-            if(ULF_CTRL.ULF_TRANSMIT_DLEN >= 9){
-                ULF_CTRL.ULF_TRANSMIT_BUSY = IDLE;
-            }else{
-                ULF_CTRL.ULF_TRANSMIT_BUSY = CONT;
-            }
-
-        }
-    }else{
-        ULF_CTRL.ULF_TRANSMIT_TIME = 0;
-    }
-#endif
-#if 0
-    switch(ULF_CTRL.ULF_TRANSMIT_BUSY){
-        case CONT:
-            ULF_CTRL.ULF_TRANSMIT_BIT = 1;
-            ULF_CTRL.ULF_TRANSMIT_DLEN ++;
-            if(ULF_CTRL.ULF_TRANSMIT_BIT == 1)
-                Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
-            else
-                Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
-            
-            ULF_CTRL.ULF_TRANSMIT_BUSY = BUSY;
-            ULF_CTRL.ULF_TRANSMIT_TIME = 0;
-            //ULF_Carrier_Start();
-            return;
-            
-        case BUSY:
-            switch(ULF_CTRL.ULF_TRANSMIT_TIME){
-                case ULF_MANCHISTER_P1:
-                    if(ULF_CTRL.ULF_TRANSMIT_BIT == 1)
-                        Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
-                    else
-                        Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
-                case ULF_MANCHISTER_P2:
-                        ULF_CTRL.ULF_TRANSMIT_TIME = 0;
-                        //ULF_Carrier_Stop();
-                        if(ULF_CTRL.ULF_TRANSMIT_DLEN >= 9){
-                            ULF_CTRL.ULF_TRANSMIT_BUSY = IDLE;
-                        }else{
-                            ULF_CTRL.ULF_TRANSMIT_BUSY = CONT;
-                        }
-                default:
-                    return;
-            }
-            return;
-            
-        case IDLE:
-            return;
-            
-        default:
-            return;
-    }
-#endif
     ULF_Counter_ClearInterrupt(ret);
     return;
 }
@@ -308,7 +184,7 @@ static void ULF_Baseband_GetData(){
         ULF_Recv_Num = 0;
         ULF_CTRL.ULF_RECEIVE_PAGE++;
     }
-    
+    /* Reset ULF_RECEIVE_CNT. */
     ULF_CTRL.ULF_RECEIVE_CNT = 0;
 
     return;
@@ -343,7 +219,7 @@ static void ULF_BasebandCnt_Isr()
 
     switch(ULF_CTRL.ULF_RECEIVE_STATE){
         /* Latch Piolt. */
-        case 0:
+        case WARMUP:
             /* Get Counter. */
             ULF_Recv_Val.ULF_RecvCurr_Data = ULF_Capture_GetCounter();
 
@@ -372,185 +248,45 @@ static void ULF_BasebandCnt_Isr()
 
                         if(ULF_RECV_PIOLT_CIR1 == ULF_Recv_Val.ULF_RecvPiolt_Num){
                             ULF_CTRL.ULF_RECEIVE_START = 0;
-                            ULF_CTRL.ULF_RECEIVE_STATE = 1;
+                            ULF_CTRL.ULF_RECEIVE_STATE = BUSY;
                             ULF_CTRL.ULF_RECEIVE_CNT = 0;
-                            
                             ULF_Recv_Val.ULF_RecvBitNum = 0;
-#if 0
-                            Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
-                            CyDelayUs(1);
-                            Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
-#endif
                         }
                     }
                 }
             }
-        break;
+            break;
+            
         /* Latch Data. */
-        case 1:
+        case BUSY:
             /* Get Counter. */
             ULF_Recv_Val.ULF_RecvCurr_Data = ULF_Capture_GetCounter();
             
             Isr_Period = ULF_Baseband_GetPeriod(ULF_Recv_Val.ULF_RecvCurr_Data, \
                                                 ULF_Recv_Val.ULF_RecvPost_Data);
-#if 1
             if(Isr_Period <= 0){
-#if 0
-                Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
-                CyDelayUs(1);
-                Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
-#endif
                 goto Piolt_err;
             }
-#endif
+            
             ULF_Recv_Val.ULF_RecvPost_Data = ULF_Recv_Val.ULF_RecvCurr_Data;            /* Move forward. */
 
             ULF_Recv_Val.ULF_Recv_PeriodBuf[ULF_Recv_Val.ULF_RecvPeri_Num++] = Isr_Period;
 
             ULF_Recv_Val.ULF_Recv_PeriHNum += Isr_Period;
-            
+            /* End of latching data status. */
             if(ULF_Recv_Val.ULF_Recv_PeriHNum >= ((64-9)*2)){
-#if 0
-                Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
-                CyDelayUs(1);
-                Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
-#endif
                 ULF_CTRL.ULF_RECEIVE_NOTE = 1;
-                ULF_CTRL.ULF_RECEIVE_STATE = 2;
+                ULF_CTRL.ULF_RECEIVE_STATE = IDLE;
                 ULF_Recv_Num = 0;
             }
-
             
-#if 0
-#if 0
-            if(1 == Isr_Period){
-                Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
-                CyDelayUs(1);
-                Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
-            }else if(2 == Isr_Period){
-                Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
-                CyDelayUs(1);
-                Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
-                CyDelayUs(1);
-                Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
-                CyDelayUs(1);
-                Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
-            }
-#endif
-#if 1
-            ULF_Recv_Val.ULF_RecvBitNum += Isr_Period;
-            if(ULF_Recv_Val.ULF_RecvBitNum >= ((64-9)*2)){
-#if 1
-                Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
-                CyDelayUs(1);
-                Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
-#endif
-            goto Piolt_err;
-            }
-#endif
-#endif
-#if 0
-            if(0 == ULF_Recv_Val.ULF_RecvLock_Bit){
-                if(1 == Isr_Period){
-                    ULF_Recv_Val.ULF_RecvPeri_Num = 0;
-                }else if(2 == Isr_Period){
-                    ULF_Recv_Val.ULF_RecvPeri_Num = 1;
-                    ULF_Recv_Val.ULF_RecvPost_Period = Isr_Period;
-                }
-                
-                ULF_Recv_Val.ULF_RecvLock_Bit = 1;
-                ULF_Recv_Val.ULF_RecvPost_Bit = 1;
-            }else{
-            
-                if(ULF_Recv_Val.ULF_RecvPeri_Num){
-                    
-                    ULF_Recv_Val.ULF_RecvCurr_Period = Isr_Period;
-                    
-                    if(1 == Isr_Period){
-                        ULF_Recv_Val.ULF_RecvPeri_Num = 0;
-                    }
-                    
-                    ULF_Recv_Val.ULF_RecvValue[ULF_Recv_Val.ULF_RecvBitNum] <<= 1;
-                
-                    if(ULF_Recv_Val.ULF_RecvPost_Period != ULF_Recv_Val.ULF_RecvCurr_Period){
-                        
-                        if((1 == ULF_Recv_Val.ULF_RecvPost_Period) && (2 == ULF_Recv_Val.ULF_RecvCurr_Period)){
-                            
-                            ULF_Recv_Val.ULF_RecvValue[ULF_Recv_Val.ULF_RecvBitNum] += ULF_Recv_Val.ULF_RecvPost_Bit;
-                            
-                        }else if((2 == ULF_Recv_Val.ULF_RecvPost_Period) && (1 == ULF_Recv_Val.ULF_RecvCurr_Period)){
-                            
-                            if(1 == ULF_Recv_Val.ULF_RecvPost_Bit){
-                                ULF_Recv_Val.ULF_RecvValue[ULF_Recv_Val.ULF_RecvBitNum] += 0;
-                                ULF_Recv_Val.ULF_RecvPost_Bit = 0;
-                            }else{
-                                ULF_Recv_Val.ULF_RecvValue[ULF_Recv_Val.ULF_RecvBitNum] += 1;
-                                ULF_Recv_Val.ULF_RecvPost_Bit = 1;
-                            }
-                            
-                        }
-                        
-                    }else{
-                    
-                        if(1 == ULF_Recv_Val.ULF_RecvPost_Period){
-                            
-                            ULF_Recv_Val.ULF_RecvValue[ULF_Recv_Val.ULF_RecvBitNum] += ULF_Recv_Val.ULF_RecvPost_Bit;
-                            
-                        }else if(2 == ULF_Recv_Val.ULF_RecvPost_Period){
-                            
-                            if(1 == ULF_Recv_Val.ULF_RecvPost_Bit){
-                                ULF_Recv_Val.ULF_RecvValue[ULF_Recv_Val.ULF_RecvBitNum] += 0;
-                                ULF_Recv_Val.ULF_RecvPost_Bit = 0;
-                            }else{
-                                ULF_Recv_Val.ULF_RecvValue[ULF_Recv_Val.ULF_RecvBitNum] += 1;
-                                ULF_Recv_Val.ULF_RecvPost_Bit = 1;
-                            }
-                            
-                        }
-                        
-                    }
+            break;
 
-#if 0
-                    Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
-                    CyDelayUs(1);
-                    Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
-#endif
-                    ULF_Recv_Num++;
-                    if(ULF_Recv_Num >= 32){
-                        ULF_Recv_Num = 0;
-                        ULF_CTRL.ULF_RECEIVE_PAGE++;
-                    }
-
-                    ULF_Recv_Val.ULF_RecvBitNum ++;
-                    if(ULF_Recv_Val.ULF_RecvBitNum >= 55){
-                        ULF_Recv_Val.ULF_RecvBitNum = 0;
-#if 1
-                        //ULF_Recv_Num = 0;
-#if 1
-                        Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
-                        CyDelayUs(1);
-                        Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
-#endif
-                        //ULF_CTRL.ULF_RECEIVE_NOTE = 1;
-                        //ULF_CTRL.ULF_RECEIVE_STATE = 2;
-#endif
-                        goto Piolt_err;
-                    }
-                    
-                }
-                else
-                {
-                    ULF_Recv_Val.ULF_RecvPost_Period = Isr_Period;
-                    ULF_Recv_Val.ULF_RecvPeri_Num = 1;
-                }
-            }
-#endif
-        break;
-        case 2:
-        break;
+        case IDLE:
+            break;
         /* Not suppose to be here. */
         default:
-        break;
+            break;
     }
 
     ULF_Capture_ClearInterrupt(ret);
@@ -677,14 +413,15 @@ void ULF_Init2()
     ULF_Carrier_Start();
 }
 
-unsigned int ULF_Transmit()
+unsigned int ULF_Transmit(unsigned char Option)
 {
+
 
 
     return 0;
 }
 
-unsigned int ULF_Receive()
+unsigned int ULF_Receive(unsigned char Option)
 {
 
 
@@ -698,7 +435,11 @@ unsigned int ULF_Encode()
     return 0;
 }
 
-unsigned int ULF_Decode_L1()
+/**
+ * Ultra Low Frequency Decode module.
+ * Fit for 4100 tag mode.
+ */
+unsigned int ULF_Decode_L1_4100()
 {
     unsigned short i;
     unsigned char tempbuf = 0;
@@ -707,7 +448,8 @@ unsigned int ULF_Decode_L1()
     unsigned char ULF_RecvCurr_Period = 0;
     unsigned char ULF_RecvPost_Period = 0;
     unsigned char ULF_RecvPost_Bit = 0;
-#if 0
+    
+#if (ULF_Debug == 1)
     DEBUG_PRINTF("Info(%08x):ULF_Recv_PeriodBuf\n", Sys_counter);
     for(i = 0; i<= ULF_Recv_Val.ULF_RecvPeri_Num; i++){
         DEBUG_PRINTF("%d ", ULF_Recv_Val.ULF_Recv_PeriodBuf[i]);
@@ -784,7 +526,8 @@ unsigned int ULF_Decode_L1()
             }
         }
     }
-#if 0
+    
+#if (ULF_Debug == 1)
     DEBUG_PRINTF("\n");
     DEBUG_PRINTF("Info(%08x):Card RAW data:\n", Sys_counter);
     for(i = 0; i<= ULF_CTRL.ULF_RECEIVE_PAGE; i++){
@@ -795,22 +538,21 @@ unsigned int ULF_Decode_L1()
     return 0;
 }
 
-unsigned int ULF_Decode_4100()
+unsigned int ULF_Decode_L2_4100()
 {
-
     unsigned char i, j;
-    unsigned int CARD_RAW_DATA[2] = {0, 0};                                 /* First 9 Piolt bits.  */
+    unsigned int CARD_RAW_DATA[2] = {0, 0};                             /* First 9 Piolt bits.  */
     unsigned char CARD_SDATA[11] = {0,};
     unsigned char CARD_DATA[10] = {0,};
     unsigned char CRCx[11] = {0,}, CRCy[4] = {0,};
     
-    CARD_RAW_DATA[0] = ULF_Recv_Val.ULF_RecvValue[0] >> 9;                 /* Block 1:(23)bits.     */
+    CARD_RAW_DATA[0] = ULF_Recv_Val.ULF_RecvValue[0] >> 9;              /* Block 1:(23)bits.     */
     CARD_RAW_DATA[0] ^= 0xFF800000;
 
-    CARD_RAW_DATA[1] = (ULF_Recv_Val.ULF_RecvValue[0] & 0x1FF);        /* Block 2:(23 + 9)bits. */
+    CARD_RAW_DATA[1] = (ULF_Recv_Val.ULF_RecvValue[0] & 0x1FF);         /* Block 2:(23 + 9)bits. */
     CARD_RAW_DATA[1] <<= 23;
     CARD_RAW_DATA[1] ^= ULF_Recv_Val.ULF_RecvValue[1];
-#if 0
+#if (ULF_Debug == 1)
     for(i = 0; i<= ULF_CTRL.ULF_RECEIVE_PAGE; i++){
         DEBUG_PRINTF("%08x ", CARD_RAW_DATA[i]);
     }
@@ -829,18 +571,16 @@ unsigned int ULF_Decode_4100()
     }
     
     CARD_SDATA[10] = ULF_Recv_Val.ULF_RecvValue[1] & 0x1F;
-#if 0
+#if (ULF_Debug == 1)
     for(i = 0; i < 11; i++){
         DEBUG_PRINTF("%02d:%08x\n", i, CARD_SDATA[i]);
     }
 #endif
     /* Check CRC for each column. */
     for(i = 0; i < 10; i++){
-        CRCx[i] ^= ( CARD_SDATA[i] & 0x10) >> 4;
-        CRCx[i] ^= ( CARD_SDATA[i] & 0x8 ) >> 3;
-        CRCx[i] ^= ( CARD_SDATA[i] & 0x4 ) >> 2;
-        CRCx[i] ^= ( CARD_SDATA[i] & 0x2 ) >> 1;
-        CRCx[i] ^= ( CARD_SDATA[i] & 0x1 ) >> 0;
+        for(j = 0; j < 5; j++){
+            CRCx[i] ^= ( CARD_SDATA[i] & (0x10 >> j)) >> (4 - j);
+        }
         if(0 != CRCx[i]){
             return 0;
         }
@@ -848,13 +588,16 @@ unsigned int ULF_Decode_4100()
     /* Check CRC for each row. */
     for(i = 0; i < 4; i++){
         for(j = 0; j < 11; j++){
-            CRCy[i] ^= ( CARD_SDATA[j] & (0x10>>(2*i))) >> (4-i);
+            CRCy[i] ^= ( CARD_SDATA[j] & (0x10 >> (2*i))) >> (4 - i);
         }
         if(0 != CRCy[i]){
             return 0;
         }
     }
-#if 0
+
+    Red_LED.sw = 1;
+    
+#if (ULF_Debug == 1)
     for(i = 0; i < 10; i++){
         DEBUG_PRINTF("%02x ", CRCx[i]);
     }
@@ -868,9 +611,9 @@ unsigned int ULF_Decode_4100()
     for(i = 0; i < 10; i++){
         CARD_DATA[i] = CARD_SDATA[i] >> 1;
     }
-    DEBUG_PRINTF("Info(%08x):Card ID:\n", Sys_counter);
+    DEBUG_PRINTF("Info(%08X):Card ID:\n", Sys_counter);
     for(i = 0; i < 10; i++){
-        DEBUG_PRINTF("%1x",CARD_DATA[i]);
+        DEBUG_PRINTF("%1X",CARD_DATA[i]);
     }
     DEBUG_PRINTF("\n");
 #if 1
@@ -897,107 +640,18 @@ unsigned int ULF_Test()
 
     DEBUG_PRINTF("Info(%08x):ULF_Test done.\n", Sys_counter);
 
-#if 0
-    switch(ULF_CTRL.ULF_TRANSMIT_STATE){
-        case ULF_TRANS_STATE0:
-            Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
-            CyDelayUs(10);
-            Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
-            ULF_Counter_Start();
-            ULF_Carrier_Start();
-            ULF_CTRL.ULF_TRANSMIT_STATE = ULF_TRANS_STATE1;
-            return 0;
-
-        case ULF_TRANS_STATE1:
-
-            if(ULF_CTRL.ULF_TRANSMIT_CNT >= 125000){
-                ULF_CTRL.ULF_TRANSMIT_CNT = 0;
-                
-                Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
-                Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
-                
-                Cy_TCPWM_TriggerStopOrKill(ULF_Carrier_HW, ULF_Carrier_CNT_MASK);
-
-                ULF_CTRL.ULF_TRANSMIT_STATE = ULF_TRANS_STATE2;
-            }
-            ULF_CTRL.ULF_TRANSMIT_STATE = ULF_TRANS_STATE1;
-            return 0;
-            
-        case ULF_TRANS_STATE2:
-
-            Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
-            Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
-
-            ULF_CTRL.ULF_TRANSMIT_STATE = ULF_TRANS_STATE3;
-            return 0;
-            
-        case ULF_TRANS_STATE3:
-            Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
-            Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
-
-            ULF_CTRL.ULF_TRANSMIT_STATE = ULF_TRANS_STATE4;
-            return 0;
-            
-        case ULF_TRANS_STATE4:
-            Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
-            Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
-
-            ULF_CTRL.ULF_TRANSMIT_STATE = ULF_TRANS_STATE0;
-            return 0;
-            
-        default:
-            return 0;
-    }
-#endif
     return 0;
 }
 
 int ULF_Routine()
 {
-#if 0    
     if(ULF_CTRL.ULF_RECEIVE_NOTE){
         ULF_CTRL.ULF_RECEIVE_NOTE = 0;
+        /* Latch L1 data flow. */
+        ULF_Decode_L1_4100();
+        /* Decode 4100 RAW data. */
+        ULF_Decode_L2_4100();
 
-        DEBUG_PRINTF("Info(%08x):ULF_RECEIVE_NOTE\n", Sys_counter);
-
-        for(i = 0; i< ULF_CTRL.ULF_RECEIVE_PAGE; i++){
-            DEBUG_PRINTF("Info(%08x):%08x\n", Sys_counter, ULF_Recv_Val.ULF_RecvValue[i]);
-        }
-
-        memset(&ULF_Recv_Val, 0, sizeof(ULF_Recv_Val));
-
-        ULF_CTRL.ULF_RECEIVE_CNT = 0;
-        ULF_CTRL.ULF_RECEIVE_PAGE = 0;
-
-        ULF_SysInt_BasebandIn_start();
-    }
-#endif
-#if 0
-    if(ULF_Recv_Val.ULF_RecvLock){
-
-        for(i = 0; i< ULF_BB_GetNum; i++){
-            //DEBUG_PRINTF("Info(%08x):%03d\t-->%08x(%d)\n", Sys_counter, i, ULF_BB_Counter[i], ULF_BB_DCnt[i]);
-            DEBUG_PRINTF("%d", ULF_BB_DCnt[i]);
-        }
-        DEBUG_PRINTF("\n");
-        ULF_BB_GetNum = 0;
-        ULF_Recv_Val.ULF_RecvLock = 0;
-    }
-#endif
-    if(ULF_CTRL.ULF_RECEIVE_NOTE){
-        ULF_CTRL.ULF_RECEIVE_NOTE = 0;
-
-        ULF_Decode_L1();
-        ULF_Decode_4100();
-        //ULF_Decode_4100();
-#if 0
-        //DEBUG_PRINTF("Info(%08x):ULF_RECEIVE_NOTE\n", Sys_counter);
-        for(i = 0; i<= ULF_CTRL.ULF_RECEIVE_PAGE; i++){
-            DEBUG_PRINTF("%08x ", ULF_Recv_Val.ULF_RecvValue[i]);
-        }
-        
-        DEBUG_PRINTF("\n");
-#endif
         memset(&ULF_Recv_Val,0,sizeof(ULF_Recv_Val));
         memset(&ULF_CTRL,0,sizeof(ULF_CTRL));
     }
@@ -1005,8 +659,5 @@ int ULF_Routine()
     return 0;
 }
 
-
-
-
-
+/* The end of file. */
 
