@@ -20,11 +20,19 @@
 
 /* SysInt_SW */
 #define SysInt_SW__INTC_CORTEXM4_ASSIGNED 1
-#define SysInt_SW__INTC_CORTEXM4_PRIORITY 6u
-#define SysInt_SW__INTC_NUMBER 122u
+#define SysInt_SW__INTC_CORTEXM4_PRIORITY 7u
+#define SysInt_SW__INTC_NUMBER 0u
 #define SysInt_SW_INTC_CORTEXM4_ASSIGNED 1
-#define SysInt_SW_INTC_CORTEXM4_PRIORITY 6u
-#define SysInt_SW_INTC_NUMBER 122u
+#define SysInt_SW_INTC_CORTEXM4_PRIORITY 7u
+#define SysInt_SW_INTC_NUMBER 0u
+
+/* SysInt_SW3 */
+#define SysInt_SW3__INTC_CORTEXM4_ASSIGNED 1
+#define SysInt_SW3__INTC_CORTEXM4_PRIORITY 7u
+#define SysInt_SW3__INTC_NUMBER 10u
+#define SysInt_SW3_INTC_CORTEXM4_ASSIGNED 1
+#define SysInt_SW3_INTC_CORTEXM4_PRIORITY 7u
+#define SysInt_SW3_INTC_NUMBER 10u
 
 /* SysInt_Tick */
 #define SysInt_Tick__INTC_CORTEXM4_ASSIGNED 1

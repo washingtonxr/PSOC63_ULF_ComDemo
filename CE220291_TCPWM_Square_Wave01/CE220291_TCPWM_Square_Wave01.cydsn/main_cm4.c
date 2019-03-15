@@ -40,15 +40,14 @@
 * system or application assumes all risk of such use and in doing so agrees to 
 * indemnify Cypress against all liability.
 *******************************************************************************/
-
+#include <string.h>
 #include "project.h"
 #include "ULF.h"
 #include "debug.h"
 #include "main_cm4.h"
 
-ulf_ctrl_t ULF_CTRL;                    /* ULF Transmit Control. */
-ulf_user_db_t ULF_DB;                   /* ULF Control Database. */
 sys_LEDtimer_t Red_LED, Orange_LED;     /* LED Database.         */
+ulf_userdb_t USER_DB_1;
 
 unsigned int Sys_counter;               /* System Counter.       */
 #if 0
@@ -107,15 +106,28 @@ void System_Tick_ISR()
 
 static void SW2_ISR()
 {
+    /* Optional check to determine if one pin in the port generated interrupt. */
+    if(Cy_GPIO_GetInterruptStatus(SW2_PORT, SW2_NUM) == CY_GPIO_INTR_STATUS_MASK)
     {
-        /* Optional check to determine if one pin in the port generated interrupt. */
-        if(Cy_GPIO_GetInterruptStatus(SW2_PORT, SW2_NUM) == CY_GPIO_INTR_STATUS_MASK)
-        {
-            Orange_LED.sw = 1;
-        }
+        Orange_LED.sw = 1;
+  
+        ULF_Receive(&USER_DB_1, 10);
     }
     /* Clear pin interrupt logic. Required to detect next interrupt */
     Cy_GPIO_ClearInterrupt(SW2_PORT, SW2_NUM);
+}
+
+static void SW3_ISR()
+{
+    /* Optional check to determine if one pin in the port generated interrupt. */
+    if(Cy_GPIO_GetInterruptStatus(SW3_PORT, SW3_NUM) == CY_GPIO_INTR_STATUS_MASK)
+    {
+        Orange_LED.sw = 1;
+        
+        ULF_Transmit(&USER_DB_1, 10);
+    }
+    /* Clear pin interrupt logic. Required to detect next interrupt */
+    Cy_GPIO_ClearInterrupt(SW3_PORT, SW3_NUM);
 }
 
 void HW_Startup(void)
@@ -134,6 +146,11 @@ void HW_Startup(void)
     Cy_SysInt_Init(&SysInt_SW_cfg, SW2_ISR);
     NVIC_ClearPendingIRQ(SysInt_SW_cfg.intrSrc);
     NVIC_EnableIRQ((IRQn_Type)SysInt_SW_cfg.intrSrc);
+    
+    /* Configure CM4+ CPU interrupt vector for SW3. */
+    Cy_SysInt_Init(&SysInt_SW3_cfg, SW3_ISR);
+    NVIC_ClearPendingIRQ(SysInt_SW3_cfg.intrSrc);
+    NVIC_EnableIRQ((IRQn_Type)SysInt_SW3_cfg.intrSrc);
 
     __enable_irq(); /* Enable global interrupts. */
 
@@ -176,37 +193,29 @@ void Trace_Reader(){
 *******************************************************************************/
 int main(void)
 {
-
-    HW_Startup();   /* Initialize Hardware.      */
-#if 0
-    ULF_Init();     /* Initialize ULF functions. */
-
-    DEBUG_PRINTF("Info(%08x):Info:Hello world.\n", Sys_counter);
-
-    ULF_CTRL.ULF_TRANSMIT_START = 1;
-
-    ULF_Test();     /* Testing ULF module. */
+    int ret;
     
-    /* Infinite loop */
-    for(;;)
-    {
-        ULF_Routine();
-        /* Put the CPU into Sleep mode to save power */
-        //Cy_SysPm_Sleep(CY_SYSPM_WAIT_FOR_INTERRUPT);
-    }
-#else
-    ULF_Init2();     /* Initialize ULF2 functions. */
+    HW_Startup();       /* Initialize Hardware.      */
+
+    memset(&USER_DB_1, 0, sizeof(ulf_userdb_t));
+    
+    /* Set USER option. */
+    USER_DB_1.option = 1;
+    
+    ULF_Init();        /* Initialize ULF2 functions. */
 
     /* Infinite loop */
     for(;;)
     {
-        ULF_Routine();
+        ret = ULF_Routine(&USER_DB_1);
+        if(ret > 0){
+            Red_LED.sw = 1;
+        }
         /* Put the CPU into Sleep mode to save power */
         //Cy_SysPm_Sleep(CY_SYSPM_WAIT_FOR_INTERRUPT);
     }
 
-#endif
 }
 
-
 /* [] END OF FILE */
+

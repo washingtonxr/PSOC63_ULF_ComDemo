@@ -21,6 +21,12 @@
 
 /* ARM CM4 */
 #if (((__CORTEX_M == 4) && (CY_CORE_ID == 0)))
+    #define SysInt_SW__INTC_ASSIGNED 1u
+    extern const cy_stc_sysint_t SysInt_SW_cfg;
+
+    #define SysInt_SW3__INTC_ASSIGNED 1u
+    extern const cy_stc_sysint_t SysInt_SW3_cfg;
+
     #define UART_DEBUG_SCB_IRQ__INTC_ASSIGNED 1u
     extern const cy_stc_sysint_t UART_DEBUG_SCB_IRQ_cfg;
 
@@ -35,9 +41,6 @@
 
     #define SysInt_ULFCarrierCnt__INTC_ASSIGNED 1u
     extern const cy_stc_sysint_t SysInt_ULFCarrierCnt_cfg;
-
-    #define SysInt_SW__INTC_ASSIGNED 1u
-    extern const cy_stc_sysint_t SysInt_SW_cfg;
 
 #endif /* ((__CORTEX_M == 4) && (CY_CORE_ID == 0)) */
 

@@ -1,6 +1,6 @@
 // ======================================================================
 // CE220291_TCPWM_Square_Wave01.v generated from TopDesign.cysch
-// 03/12/2019 at 18:26
+// 03/15/2019 at 14:05
 // This file is auto generated. ANY EDITS YOU MAKE MAY BE LOST WHEN THIS FILE IS REGENERATED!!!
 // ======================================================================
 
@@ -559,13 +559,14 @@ module top ;
           wire  Net_17;
           wire  Net_16;
           wire  Net_15;
+          wire  Net_252;
+          wire  Net_254;
           wire  Net_140;
           wire  Net_149;
           wire  Net_164;
           wire  Net_116;
           wire  Net_151;
           wire  Net_97;
-          wire  Net_96;
           wire  Net_114;
           wire  Net_109;
           wire  Net_10;
@@ -724,14 +725,7 @@ module top ;
         .compare(Net_92),
         .clock(Net_10));
 
-
-	cy_mxs40_isr_v1_0
-		#(.deepsleep_required(0),
-		  .int_type(2'b10))
-		SysInt_SW
-		 (.int_signal(Net_96));
-
-
+	wire [0:0] tmpFB_0__SW2_net;
 	wire [0:0] tmpIO_0__SW2_net;
 	electrical [0:0] tmpSIOVREF__SW2_net;
 
@@ -762,7 +756,7 @@ module top ;
 		SW2
 		 (.oe({1'b1}),
 		  .y({1'b0}),
-		  .fb({Net_96}),
+		  .fb({tmpFB_0__SW2_net[0:0]}),
 		  .io({tmpIO_0__SW2_net[0:0]}),
 		  .siovref(tmpSIOVREF__SW2_net));
 
@@ -959,9 +953,9 @@ module top ;
 		  .siovref(tmpSIOVREF__ULF_BO_net));
 
 
-	wire [0:0] tmpFB_0__ULF_nBO_net;
-	wire [0:0] tmpIO_0__ULF_nBO_net;
-	electrical [0:0] tmpSIOVREF__ULF_nBO_net;
+	wire [0:0] tmpFB_0__ULF_TXen_net;
+	wire [0:0] tmpIO_0__ULF_TXen_net;
+	electrical [0:0] tmpSIOVREF__ULF_TXen_net;
 
 	cy_mxs40_gpio_v1_0
 		#(.id("05c113f4-54f0-437a-b503-54a987a94963"),
@@ -987,12 +981,78 @@ module top ;
 		  .vtrip("0"),
 		  .use_annotation("0"),
 		  .hotswap_needed("0"))
-		ULF_nBO
+		ULF_TXen
 		 (.oe({1'b1}),
 		  .y({1'b0}),
-		  .fb({tmpFB_0__ULF_nBO_net[0:0]}),
-		  .io({tmpIO_0__ULF_nBO_net[0:0]}),
-		  .siovref(tmpSIOVREF__ULF_nBO_net));
+		  .fb({tmpFB_0__ULF_TXen_net[0:0]}),
+		  .io({tmpIO_0__ULF_TXen_net[0:0]}),
+		  .siovref(tmpSIOVREF__ULF_TXen_net));
+
+
+	wire [0:0] tmpFB_0__SW3_net;
+	wire [0:0] tmpIO_0__SW3_net;
+	electrical [0:0] tmpSIOVREF__SW3_net;
+
+	cy_mxs40_gpio_v1_0
+		#(.id("a953aec0-263b-4feb-91da-793994dce3e5"),
+		  .width(1),
+		  .sio_grp_cnt(0),
+		  .drive_mode("2"),
+		  .ibuf_enabled("1"),
+		  .init_dr_st("1"),
+		  .input_sync("0"),
+		  .intr_mode("2"),
+		  .io_voltage(""),
+		  .output_conn("0"),
+		  .oe_conn("0"),
+		  .output_sync("0"),
+		  .oe_sync("0"),
+		  .drive_strength("0"),
+		  .max_frequency("100"),
+		  .i2c_mode("0"),
+		  .output_current_cap("8"),
+		  .pin_aliases(""),
+		  .pin_mode("I"),
+		  .slew_rate("0"),
+		  .vtrip("0"),
+		  .use_annotation("0"),
+		  .hotswap_needed("0"))
+		SW3
+		 (.oe({1'b1}),
+		  .y({1'b0}),
+		  .fb({tmpFB_0__SW3_net[0:0]}),
+		  .io({tmpIO_0__SW3_net[0:0]}),
+		  .siovref(tmpSIOVREF__SW3_net));
+
+
+
+	cy_mxs40_isr_v1_0
+		#(.deepsleep_required(0),
+		  .int_type(2'b10))
+		SysInt_SW3
+		 (.int_signal(Net_254));
+
+
+
+	cy_mxs40_isr_v1_0
+		#(.deepsleep_required(0),
+		  .int_type(2'b10))
+		SysInt_SW
+		 (.int_signal(Net_252));
+
+
+
+	cy_gsref_v1_0
+		#(.guid("8C3B410E-0600-5ECF-95DD-0AF91BF8D8A7"))
+		GS4SW2
+		 (.sig_out(Net_252));
+
+
+
+	cy_gsref_v1_0
+		#(.guid("C752BC24-D910-59DF-BA09-8582177BFFE2"))
+		GS4SW3
+		 (.sig_out(Net_254));
 
 
 

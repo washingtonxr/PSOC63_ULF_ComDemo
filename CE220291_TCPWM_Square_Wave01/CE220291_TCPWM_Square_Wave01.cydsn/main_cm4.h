@@ -10,6 +10,7 @@
  * @bug No known bugs.
  **/
 #ifndef MAIN_CM4_H
+#define MAIN_CM4_H
 
 #define LED_TO              3       /* LTE Timeout counter. */
 #define SYS_HEARTBEAT_TO    100     /* Beat in 1 second.    */

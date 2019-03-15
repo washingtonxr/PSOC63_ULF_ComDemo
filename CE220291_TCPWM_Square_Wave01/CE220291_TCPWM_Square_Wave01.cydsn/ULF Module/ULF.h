@@ -14,29 +14,34 @@
 
 #include "main_cm4.h"
 
-#define ULF_Debug               0
-#define ULF_USER_PIOLT_LEN      9                               /* Piolt carrier length.   */
-#define ULF_USER_ID_SIZE        1                               /* Size of user ID zone.   */
-#define ULF_USER_DATA_SIZE      4                               /* Size of user data zone. */
-#define ULF_USER_TRANS_TIMEOUT  3                               /* Million-second.         */
+#define ULF_Debug                   0
+#define ULF_USER_PIOLT_LEN          9                           /* Piolt carrier length.   */
+#define ULF_USER_ID_SIZE            1                           /* Size of user ID zone.   */
+#define ULF_USER_DATA_SIZE          4                           /* Size of user data zone. */
+#define ULF_USER_TRANS_TIMEOUT      3                           /* Million-second.         */
 
-#define ULF_MANCHISTER_P1       32
-#define ULF_MANCHISTER_P2       64
+#define ULF_MANCHISTER_P1           32
+#define ULF_MANCHISTER_P2           (ULF_MANCHISTER_P1*2)
 
-#define ULF_TRANS_GAP           3
+#define ULF_TRANS_GAP               3
 
-#define ULF_RECV_BUF_DEPTH      4
-#define ULF_RECV_D_OFFSET       (32 + 16)
-#define ULF_RECV_LOW_TH0        (256 - 64)
-#define ULF_RECV_LOW_TH1        (256 + 64)
-#define ULF_RECV_HIGH_TH0       (512 - 64)
-#define ULF_RECV_HIGH_TH1       (512 + 64)
-#define ULF_RECV_PIOLT_CIR0     1
-#define ULF_RECV_PIOLT_CIR1     16
-#define ULF_RECV_PIOLT_CIR2     1
-#define ULF_RECV_LATCH_PT       (64 - 16)
+#define ULF_RECV_BUF_DEPTH          4
+#define ULF_RECV_D_OFFSET           (32 + 16)
+#define ULF_RECV_LOW_TH0            (256 - ULF_MANCHISTER_P2)
+#define ULF_RECV_LOW_TH1            (256 + ULF_MANCHISTER_P2)
+#define ULF_RECV_HIGH_TH0           (512 - ULF_MANCHISTER_P2)
+#define ULF_RECV_HIGH_TH1           (512 + ULF_MANCHISTER_P2)
+#define ULF_RECV_PIOLT_CIR0         1
+#define ULF_RECV_PIOLT_CIR1         16
+#define ULF_RECV_PIOLT_CIR2         1
+#define ULF_RECV_LATCH_PT           (ULF_MANCHISTER_P2 - 16)
 
-//#define ULF_USER_CHECKSUM_LEN   1
+#define ULF_T4100_PILT_LEN          9
+#define ULF_T4100_PPDU_LEN          ULF_MANCHISTER_P2
+#define ULF_T4100_PAGE_LEN          (ULF_T4100_PPDU_LEN/2)
+#define ULF_T4100_MPDU_LEN          (ULF_T4100_PPDU_LEN - ULF_T4100_PILT_LEN)
+#define ULF_T4100_PPDU_TXSIZE       (ULF_MANCHISTER_P2*ULF_T4100_PPDU_LEN)
+#define ULF_RECV_CAPTURE_PERIOD     0xFFFF
 
 /* L1 link modulation type. */
 typedef enum{
@@ -118,31 +123,30 @@ typedef struct{
     unsigned char ULF_RECEIVE_NOTE;                             /* Receive Notice.       */
     unsigned char ULF_RECEIVE_PAGE;                             /* Baseband data page.   */
     unsigned char ULF_RECEIVE_STATE;                            /* Receive State.        */
+    /* Baseband Transmit Parameter. */
+    unsigned char ULF_BBTRANS_ROUND;
 }ulf_ctrl_t;
 
 typedef struct{
-    ulf_trans_value_t ulf_tran;
-    ulf_ctrl_t ulf_ctrl;
-    ulf_recv_value_t ulf_recv;
-}ulf_user_t;
+    unsigned char option;       /* Default value:1. */
+    unsigned int raw_data[2];   /* Default depth:2. */
+    unsigned char pure_data[10];   
+    unsigned char priority;     /* Default value:0. */
+}ulf_userdb_t;
 
-#define ULF_TRANS_STATE0        WARMUP
-#define ULF_TRANS_STATE1        PIOLT
-#define ULF_TRANS_STATE2        USERID
-#define ULF_TRANS_STATE3        USERDATA
-#define ULF_TRANS_STATE4        THEEND
+#define ULF_TRANS_STATE0            WARMUP
+#define ULF_TRANS_STATE1            PIOLT
+#define ULF_TRANS_STATE2            USERID
+#define ULF_TRANS_STATE3            USERDATA
+#define ULF_TRANS_STATE4            THEEND
 
-void ULF_Init();
-void ULF_Init2();
-unsigned int ULF_Test();
-int ULF_Routine();
-unsigned int ULF_Transmit(unsigned char Option, unsigned short Round);
+void ULF_Init(void);
+unsigned int ULF_Test(void);
+int ULF_Routine(ulf_userdb_t *userdb);
+unsigned int ULF_Receive(ulf_userdb_t *userdb, unsigned char round);
+unsigned int ULF_Transmit(ulf_userdb_t *userdb, unsigned char round);
 
-
-extern sys_LEDtimer_t Red_LED, Orange_LED;                      /* LED Database.         */
-
-extern ulf_ctrl_t ULF_CTRL;                                     /* ULF Transmit Control. */
-extern ulf_user_db_t ULF_DB;                                    /* ULF Control Database. */
 extern unsigned int Sys_counter;
 #endif
- 
+/* The end of file. */
+

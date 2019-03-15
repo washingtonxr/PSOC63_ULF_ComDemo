@@ -1,5 +1,5 @@
 -- Project:   CE220291_TCPWM_Square_Wave01
--- Generated: 03/12/2019 18:26:53
+-- Generated: 03/15/2019 14:05:48
 -- PSoC Creator  4.2
 
 ENTITY CE220291_TCPWM_Square_Wave01 IS
@@ -13,7 +13,8 @@ ENTITY CE220291_TCPWM_Square_Wave01 IS
         \UART_DEBUG:tx(0)_PAD\ : OUT std_ulogic;
         \UART_DEBUG:rx(0)_PAD\ : IN std_ulogic;
         ULF_BO(0)_PAD : OUT std_ulogic;
-        ULF_nBO(0)_PAD : OUT std_ulogic);
+        ULF_TXen(0)_PAD : OUT std_ulogic;
+        SW3(0)_PAD : IN std_ulogic);
     ATTRIBUTE voltage_VBACKUP OF __DEFAULT__ : ENTITY IS 3.3e0;
     ATTRIBUTE voltage_VDD_NS OF __DEFAULT__ : ENTITY IS 3.3e0;
     ATTRIBUTE voltage_VDDA_CSD OF __DEFAULT__ : ENTITY IS 3.3e0;
@@ -52,6 +53,8 @@ ARCHITECTURE __DEFAULT__ OF CE220291_TCPWM_Square_Wave01 IS
     ATTRIBUTE global_signal OF ClockBlock_PeriClk : SIGNAL IS true;
     SIGNAL ClockBlock_SlowClk : bit;
     SIGNAL ClockBlock_WCO : bit;
+    SIGNAL INDIVIDUAL_PICU_OUT_0 : bit;
+    SIGNAL INDIVIDUAL_PICU_OUT_10 : bit;
     SIGNAL Net_106 : bit;
     SIGNAL Net_107 : bit;
     SIGNAL Net_108 : bit;
@@ -80,16 +83,16 @@ ARCHITECTURE __DEFAULT__ OF CE220291_TCPWM_Square_Wave01 IS
     SIGNAL Net_90 : bit;
     SIGNAL Net_91 : bit;
     SIGNAL Net_92 : bit;
-    SIGNAL Net_96 : bit;
     SIGNAL Net_97 : bit;
     SIGNAL Orange_LED(0)__PA : bit;
     SIGNAL Red_LED(0)__PA : bit;
     SIGNAL SW2(0)__PA : bit;
+    SIGNAL SW3(0)__PA : bit;
     SIGNAL ULF_BB(0)__PA : bit;
     SIGNAL ULF_BO(0)__PA : bit;
     SIGNAL ULF_IN(0)__PA : bit;
     SIGNAL ULF_OUT(0)__PA : bit;
-    SIGNAL ULF_nBO(0)__PA : bit;
+    SIGNAL ULF_TXen(0)__PA : bit;
     SIGNAL \System_Tick:Net_1\ : bit;
     SIGNAL \System_Tick:Net_2\ : bit;
     SIGNAL \UART_DEBUG:Net_1172\ : bit;
@@ -139,12 +142,13 @@ ARCHITECTURE __DEFAULT__ OF CE220291_TCPWM_Square_Wave01 IS
     ATTRIBUTE Location OF \UART_DEBUG:rx(0)\ : LABEL IS "P5[0]";
     ATTRIBUTE lib_model OF ULF_BO(0) : LABEL IS "iocell11";
     ATTRIBUTE Location OF ULF_BO(0) : LABEL IS "P10[6]";
-    ATTRIBUTE lib_model OF ULF_nBO(0) : LABEL IS "iocell12";
-    ATTRIBUTE Location OF ULF_nBO(0) : LABEL IS "P10[5]";
+    ATTRIBUTE lib_model OF ULF_TXen(0) : LABEL IS "iocell12";
+    ATTRIBUTE Location OF ULF_TXen(0) : LABEL IS "P10[5]";
+    ATTRIBUTE lib_model OF SW3(0) : LABEL IS "iocell13";
+    ATTRIBUTE Location OF SW3(0) : LABEL IS "P10[4]";
     ATTRIBUTE Location OF \ULF_Carrier:TCPWM\ : LABEL IS "F(TCPWM,3)";
     ATTRIBUTE Location OF SysInt_ULFCarrierCnt : LABEL IS "[IntrContainer=(0)][IntrId=(93)]";
     ATTRIBUTE Location OF \ULF_Counter:TCPWM\ : LABEL IS "F(TCPWM,2)";
-    ATTRIBUTE Location OF SysInt_SW : LABEL IS "[IntrContainer=(0)][IntrId=(122)]";
     ATTRIBUTE Location OF SysInt_ULFMainCnt : LABEL IS "[IntrContainer=(0)][IntrId=(92)]";
     ATTRIBUTE Location OF \System_Tick:TCPWM\ : LABEL IS "F(TCPWM,0)";
     ATTRIBUTE Location OF SysInt_Tick : LABEL IS "[IntrContainer=(0)][IntrId=(90)]";
@@ -152,6 +156,9 @@ ARCHITECTURE __DEFAULT__ OF CE220291_TCPWM_Square_Wave01 IS
     ATTRIBUTE Location OF \UART_DEBUG:SCB\ : LABEL IS "F(SCB,5)";
     ATTRIBUTE Location OF \ULF_Capture:TCPWM\ : LABEL IS "F(TCPWM,1)";
     ATTRIBUTE Location OF SysInt_ULFBasebandCnt : LABEL IS "[IntrContainer=(0)][IntrId=(91)]";
+    ATTRIBUTE Location OF SysInt_SW3 : LABEL IS "[IntrContainer=(0)][IntrId=(10)]";
+    ATTRIBUTE Location OF SysInt_SW : LABEL IS "[IntrContainer=(0)][IntrId=(0)]";
+    ATTRIBUTE Location OF IOSS : LABEL IS "F(IOSS,0)";
     COMPONENT CLK_GEN
         PORT (
             gen_clk_in_0 : IN std_ulogic;
@@ -469,6 +476,26 @@ ARCHITECTURE __DEFAULT__ OF CE220291_TCPWM_Square_Wave01 IS
             out_clock : IN std_ulogic;
             out_clock_en : IN std_ulogic;
             out_reset : IN std_ulogic);
+    END COMPONENT;
+    COMPONENT IOSS
+        PORT (
+            interrupt_gpio : OUT std_ulogic;
+            interrupt_vdd : OUT std_ulogic;
+            interrupt_port_0 : OUT std_ulogic;
+            interrupt_port_1 : OUT std_ulogic;
+            interrupt_port_2 : OUT std_ulogic;
+            interrupt_port_3 : OUT std_ulogic;
+            interrupt_port_4 : OUT std_ulogic;
+            interrupt_port_5 : OUT std_ulogic;
+            interrupt_port_6 : OUT std_ulogic;
+            interrupt_port_7 : OUT std_ulogic;
+            interrupt_port_8 : OUT std_ulogic;
+            interrupt_port_9 : OUT std_ulogic;
+            interrupt_port_10 : OUT std_ulogic;
+            interrupt_port_11 : OUT std_ulogic;
+            interrupt_port_12 : OUT std_ulogic;
+            interrupt_port_13 : OUT std_ulogic;
+            interrupt_port_14 : OUT std_ulogic);
     END COMPONENT;
     COMPONENT logicalport
         PORT (
@@ -866,11 +893,10 @@ BEGIN
             oe_sync_mode => 0,
             logicalport => "SW2",
             logicalport_pin_id => 0,
-            io_capabilities => "0000000000000000000000000000000000000000000000000000000000000101")
+            io_capabilities => "0000000000000000000000000000000000000000000000000000000000000001")
         PORT MAP(
             pa_out => SW2(0)__PA,
             oe => open,
-            fb => Net_96,
             pad_in => SW2(0)_PAD,
             in_clock => open,
             in_clock_en => open,
@@ -1152,7 +1178,7 @@ BEGIN
             out_clock_en => open,
             out_reset => open);
 
-    ULF_nBO:logicalport
+    ULF_TXen:logicalport
         GENERIC MAP(
             cy_registers => "",
             drive_mode => "110",
@@ -1187,18 +1213,72 @@ BEGIN
             out_clken_mode => 1,
             out_rst_inv => 0);
 
-    ULF_nBO(0):iocell
+    ULF_TXen(0):iocell
         GENERIC MAP(
             in_sync_mode => 0,
             out_sync_mode => 0,
             oe_sync_mode => 0,
-            logicalport => "ULF_nBO",
+            logicalport => "ULF_TXen",
             logicalport_pin_id => 0,
             io_capabilities => "0000000000000000000000000000000000000000000000000000000000000001")
         PORT MAP(
-            pa_out => ULF_nBO(0)__PA,
+            pa_out => ULF_TXen(0)__PA,
             oe => open,
-            pad_in => ULF_nBO(0)_PAD,
+            pad_in => ULF_TXen(0)_PAD,
+            in_clock => open,
+            in_clock_en => open,
+            in_reset => open,
+            out_clock => open,
+            out_clock_en => open,
+            out_reset => open);
+
+    SW3:logicalport
+        GENERIC MAP(
+            cy_registers => "",
+            drive_mode => "010",
+            drive_strength => "0",
+            hotswap_needed => "0",
+            i2c_mode => "0",
+            ibuf_enabled => "1",
+            id => "a953aec0-263b-4feb-91da-793994dce3e5",
+            init_dr_st => "1",
+            input_sync => "0",
+            intr_mode => "10",
+            io_voltage => "",
+            max_frequency => "100",
+            oe_conn => "0",
+            oe_sync => "0",
+            output_conn => "0",
+            output_current_cap => "8",
+            output_sync => "0",
+            pin_aliases => "",
+            pin_mode => "B",
+            sio_grp_cnt => 0,
+            slew_rate => "0",
+            use_annotation => "0",
+            vtrip => "00",
+            width => 1,
+            in_clk_inv => 0,
+            in_clken_inv => 0,
+            in_clken_mode => 1,
+            in_rst_inv => 0,
+            out_clk_inv => 0,
+            out_clken_inv => 0,
+            out_clken_mode => 1,
+            out_rst_inv => 0);
+
+    SW3(0):iocell
+        GENERIC MAP(
+            in_sync_mode => 0,
+            out_sync_mode => 0,
+            oe_sync_mode => 0,
+            logicalport => "SW3",
+            logicalport_pin_id => 0,
+            io_capabilities => "0000000000000000000000000000000000000000000000000000000000000001")
+        PORT MAP(
+            pa_out => SW3(0)__PA,
+            oe => open,
+            pad_in => SW3(0)_PAD,
             in_clock => open,
             in_clock_en => open,
             in_reset => open,
@@ -1252,15 +1332,6 @@ BEGIN
             line_compl => \ULF_Counter:Net_1\,
             line => \ULF_Counter:Net_2\,
             interrupt => Net_97);
-
-    SysInt_SW:interrupt
-        GENERIC MAP(
-            cy_registers => "",
-            deepsleep_required => 0,
-            int_type => "10")
-        PORT MAP(
-            interrupt => Net_96,
-            clock => ClockBlock_PeriClk);
 
     SysInt_ULFMainCnt:interrupt
         GENERIC MAP(
@@ -1359,5 +1430,28 @@ BEGIN
         PORT MAP(
             interrupt => Net_149,
             clock => ClockBlock_PeriClk);
+
+    SysInt_SW3:interrupt
+        GENERIC MAP(
+            cy_registers => "",
+            deepsleep_required => 0,
+            int_type => "10")
+        PORT MAP(
+            interrupt => INDIVIDUAL_PICU_OUT_10,
+            clock => ClockBlock_PeriClk);
+
+    SysInt_SW:interrupt
+        GENERIC MAP(
+            cy_registers => "",
+            deepsleep_required => 0,
+            int_type => "10")
+        PORT MAP(
+            interrupt => INDIVIDUAL_PICU_OUT_0,
+            clock => ClockBlock_PeriClk);
+
+    IOSS:IOSS
+        PORT MAP(
+            interrupt_port_0 => INDIVIDUAL_PICU_OUT_0,
+            interrupt_port_10 => INDIVIDUAL_PICU_OUT_10);
 
 END __DEFAULT__;

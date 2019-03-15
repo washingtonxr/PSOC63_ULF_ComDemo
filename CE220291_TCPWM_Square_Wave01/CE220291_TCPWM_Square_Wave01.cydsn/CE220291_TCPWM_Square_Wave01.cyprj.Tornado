@@ -12,12 +12,13 @@
 <v>Off-Chip</v>
 </tree_states_tab_names>
 <tree_states>
-<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="Cypress Component Catalog">
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="Cypress Component Catalog\System\Global Signal Reference [v2.10]">
 <ExpandedNodeIds>
 <v>Cypress Component Catalog</v>
 <v>Cypress Component Catalog\Analog</v>
 <v>Cypress Component Catalog\CapSense</v>
 <v>Cypress Component Catalog\Communications</v>
+<v>Cypress Component Catalog\System</v>
 </ExpandedNodeIds>
 <VisibleNodeIds>
 <v>Cypress Component Catalog</v>
@@ -41,6 +42,14 @@
 <v>Cypress Component Catalog\Digital</v>
 <v>Cypress Component Catalog\Ports and Pins</v>
 <v>Cypress Component Catalog\System</v>
+<v>Cypress Component Catalog\System\Clock [v1.0]</v>
+<v>Cypress Component Catalog\System\DMA [v2.0]</v>
+<v>Cypress Component Catalog\System\Emulated EEPROM [v2.0]</v>
+<v>Cypress Component Catalog\System\External Memory Interface</v>
+<v>Cypress Component Catalog\System\Global Signal Reference [v2.10]</v>
+<v>Cypress Component Catalog\System\Interrupt [v1.0]</v>
+<v>Cypress Component Catalog\System\MCWDT [v1.10]</v>
+<v>Cypress Component Catalog\System\Real-time clock (RTC) [v2.0]</v>
 </VisibleNodeIds>
 </CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
 <CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
@@ -67,6 +76,106 @@
 <CyGuid_f44455c5-3770-4452-b988-0a7a7ff46256 type_name="CyDesigner.Common.ProjMgmt.Model.CyConfigDependencies" version="1">
 <dependency_info name="c9323d49-d323-40b8-9b59-cc008d68a989@Debug@CortexM0p" xml_contents_version="2">
 <CyGuid_1173175f-1b9b-4ad4-a065-754a48a27021 type_name="CyDesigner.Common.Base.CyFileDeps" version="1">
+<file name=".\CortexM0p\ARM_GCC_541\Debug\ULF_Counter.o">
+<dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armcc.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armclang.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_compiler.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_gcc.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\core_cm0plus.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\core_cm4.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_backup.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_ble.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_cpuss.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_crypto.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_csd.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_ctbm.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_ctdac.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_dw.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_efuse.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_efuse_data.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_fault.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_flashc.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_gpio.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_headers.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_hsiom.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_i2s.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_ipc.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_lcd.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_lpcomp.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_pass.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_pdm.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_peri.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_profile.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_prot.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_sar.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_scb.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_sflash.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_smartio.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_smif.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_srss.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_tcpwm.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_udb.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\psoc63\include\cy8c6347bzi_bld53.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\psoc63\include\cy_device_headers.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\psoc63\include\gpio_psoc63_116_bga_ble.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\psoc63\include\psoc63_config.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\drivers\peripheral\tcpwm\cy_tcpwm_counter.h" />
+<dep name=".\Generated_Source\PSoC6\ULF_Counter.c" />
+<dep name=".\Generated_Source\PSoC6\ULF_Counter.h" />
+<dep name=".\Generated_Source\PSoC6\cyfitter.h" />
+<dep name=".\Generated_Source\PSoC6\cyfitter_gpio.h" />
+<dep name=".\Generated_Source\PSoC6\cyfitter_sysint.h" />
+<dep name=".\system_psoc63.h" />
+</file>
+<file name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armcc.h" />
+<file name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armclang.h" />
+<file name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_compiler.h" />
+<file name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_gcc.h" />
+<file name=".\Generated_Source\PSoC6\pdl\cmsis\include\core_cm0plus.h" />
+<file name=".\Generated_Source\PSoC6\pdl\cmsis\include\core_cm4.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_backup.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_ble.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_cpuss.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_crypto.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_csd.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_ctbm.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_ctdac.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_dw.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_efuse.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_efuse_data.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_fault.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_flashc.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_gpio.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_headers.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_hsiom.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_i2s.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_ipc.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_lcd.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_lpcomp.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_pass.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_pdm.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_peri.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_profile.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_prot.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_sar.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_scb.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_sflash.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_smartio.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_smif.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_srss.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_tcpwm.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_udb.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\psoc63\include\cy8c6347bzi_bld53.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\psoc63\include\cy_device_headers.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\psoc63\include\gpio_psoc63_116_bga_ble.h" />
+<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\psoc63\include\psoc63_config.h" />
+<file name=".\Generated_Source\PSoC6\pdl\drivers\peripheral\tcpwm\cy_tcpwm_counter.h" />
+<file name=".\Generated_Source\PSoC6\ULF_Counter.c" />
+<file name=".\Generated_Source\PSoC6\ULF_Counter.h" />
+<file name=".\Generated_Source\PSoC6\cyfitter.h" />
+<file name=".\Generated_Source\PSoC6\cyfitter_gpio.h" />
+<file name=".\Generated_Source\PSoC6\cyfitter_sysint.h" />
+<file name=".\system_psoc63.h" />
 <file name=".\CortexM0p\ARM_GCC_541\Debug\System_Tick.o">
 <dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armcc.h" />
 <dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armclang.h" />
@@ -120,57 +229,10 @@
 <dep name=".\Generated_Source\PSoC6\pdl\drivers\peripheral\tcpwm\cy_tcpwm.h" />
 <dep name=".\system_psoc63.h" />
 </file>
-<file name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armcc.h" />
-<file name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armclang.h" />
-<file name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_compiler.h" />
-<file name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_gcc.h" />
-<file name=".\Generated_Source\PSoC6\pdl\cmsis\include\core_cm0plus.h" />
-<file name=".\Generated_Source\PSoC6\pdl\cmsis\include\core_cm4.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_backup.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_ble.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_cpuss.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_crypto.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_csd.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_ctbm.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_ctdac.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_dw.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_efuse.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_efuse_data.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_fault.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_flashc.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_gpio.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_headers.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_hsiom.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_i2s.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_ipc.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_lcd.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_lpcomp.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_pass.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_pdm.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_peri.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_profile.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_prot.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_sar.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_scb.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_sflash.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_smartio.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_smif.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_srss.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_tcpwm.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_udb.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\psoc63\include\cy8c6347bzi_bld53.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\psoc63\include\cy_device_headers.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\psoc63\include\gpio_psoc63_116_bga_ble.h" />
-<file name=".\Generated_Source\PSoC6\pdl\devices\psoc6\psoc63\include\psoc63_config.h" />
 <file name=".\Generated_Source\PSoC6\pdl\drivers\peripheral\syslib\cy_syslib.h" />
-<file name=".\Generated_Source\PSoC6\pdl\drivers\peripheral\tcpwm\cy_tcpwm_counter.h" />
 <file name=".\Generated_Source\PSoC6\System_Tick.c" />
 <file name=".\Generated_Source\PSoC6\System_Tick.h" />
-<file name=".\Generated_Source\PSoC6\cyfitter.h" />
-<file name=".\Generated_Source\PSoC6\cyfitter_gpio.h" />
-<file name=".\Generated_Source\PSoC6\cyfitter_sysint.h" />
 <file name=".\Generated_Source\PSoC6\pdl\drivers\peripheral\tcpwm\cy_tcpwm.h" />
-<file name=".\system_psoc63.h" />
 <file name=".\CortexM0p\ARM_GCC_541\Debug\UART_DEBUG.o">
 <dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armcc.h" />
 <dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armclang.h" />
@@ -345,61 +407,6 @@
 <file name=".\Generated_Source\PSoC6\pdl\drivers\peripheral\tcpwm\cy_tcpwm_pwm.h" />
 <file name=".\Generated_Source\PSoC6\ULF_Carrier.c" />
 <file name=".\Generated_Source\PSoC6\ULF_Carrier.h" />
-<file name=".\CortexM0p\ARM_GCC_541\Debug\ULF_Counter.o">
-<dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armcc.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armclang.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_compiler.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_gcc.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\core_cm0plus.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\core_cm4.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_backup.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_ble.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_cpuss.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_crypto.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_csd.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_ctbm.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_ctdac.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_dw.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_efuse.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_efuse_data.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_fault.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_flashc.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_gpio.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_headers.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_hsiom.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_i2s.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_ipc.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_lcd.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_lpcomp.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_pass.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_pdm.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_peri.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_profile.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_prot.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_sar.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_scb.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_sflash.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_smartio.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_smif.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_srss.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_tcpwm.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_udb.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\psoc63\include\cy8c6347bzi_bld53.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\psoc63\include\cy_device_headers.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\psoc63\include\gpio_psoc63_116_bga_ble.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\psoc63\include\psoc63_config.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\drivers\peripheral\syslib\cy_syslib.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\drivers\peripheral\tcpwm\cy_tcpwm_counter.h" />
-<dep name=".\Generated_Source\PSoC6\ULF_Counter.c" />
-<dep name=".\Generated_Source\PSoC6\ULF_Counter.h" />
-<dep name=".\Generated_Source\PSoC6\cyfitter.h" />
-<dep name=".\Generated_Source\PSoC6\cyfitter_gpio.h" />
-<dep name=".\Generated_Source\PSoC6\cyfitter_sysint.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\drivers\peripheral\tcpwm\cy_tcpwm.h" />
-<dep name=".\system_psoc63.h" />
-</file>
-<file name=".\Generated_Source\PSoC6\ULF_Counter.c" />
-<file name=".\Generated_Source\PSoC6\ULF_Counter.h" />
 <file name=".\CortexM0p\ARM_GCC_541\Debug\cyfitter_cfg.o">
 <dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armcc.h" />
 <dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armclang.h" />
@@ -519,10 +526,6 @@
 <dep name=".\system_psoc63.h" />
 </file>
 <file name=".\Generated_Source\PSoC6\cyfitter_sysint_cfg.c" />
-<file name=".\CortexM0p\ARM_GCC_541\Debug\cymetadata.o">
-<dep name=".\Generated_Source\PSoC6\cymetadata.c" />
-</file>
-<file name=".\Generated_Source\PSoC6\cymetadata.c" />
 <file name=".\CortexM0p\ARM_GCC_541\Debug\cy_efuse.o">
 <dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armcc.h" />
 <dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armclang.h" />
@@ -1509,10 +1512,6 @@
 <dep name=".\system_psoc63.h" />
 </file>
 <file name=".\Generated_Source\PSoC6\pdl\drivers\peripheral\syslib\cy_syslib.c" />
-<file name=".\CortexM0p\ARM_GCC_541\Debug\cy_syslib_gcc.o">
-<dep name=".\Generated_Source\PSoC6\pdl\drivers\peripheral\syslib\gcc\cy_syslib_gcc.S" />
-</file>
-<file name=".\Generated_Source\PSoC6\pdl\drivers\peripheral\syslib\gcc\cy_syslib_gcc.S" />
 <file name=".\CortexM0p\ARM_GCC_541\Debug\cy_syspm.o">
 <dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armcc.h" />
 <dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armclang.h" />
@@ -1947,10 +1946,6 @@
 <file name=".\Generated_Source\PSoC6\pdl\middleware\ble\cy_ble_clk.c" />
 <file name=".\Generated_Source\PSoC6\pdl\middleware\ble\cy_ble_clk.h" />
 <file name=".\cy_ble_config.h" />
-<file name=".\CortexM0p\ARM_GCC_541\Debug\startup_psoc63_cm0plus.o">
-<dep name=".\armgcc\startup\startup_psoc63_cm0plus.S" />
-</file>
-<file name=".\armgcc\startup\startup_psoc63_cm0plus.S" />
 <file name=".\CortexM0p\ARM_GCC_541\Debug\cy_ipc_config.o">
 <dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armcc.h" />
 <dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armclang.h" />
@@ -2166,6 +2161,18 @@
 <dep name=".\system_psoc63_cm0plus.c" />
 </file>
 <file name=".\system_psoc63_cm0plus.c" />
+<file name=".\CortexM0p\ARM_GCC_541\Debug\cymetadata.o">
+<dep name=".\Generated_Source\PSoC6\cymetadata.c" />
+</file>
+<file name=".\Generated_Source\PSoC6\cymetadata.c" />
+<file name=".\CortexM0p\ARM_GCC_541\Debug\cy_syslib_gcc.o">
+<dep name=".\Generated_Source\PSoC6\pdl\drivers\peripheral\syslib\gcc\cy_syslib_gcc.S" />
+</file>
+<file name=".\Generated_Source\PSoC6\pdl\drivers\peripheral\syslib\gcc\cy_syslib_gcc.S" />
+<file name=".\CortexM0p\ARM_GCC_541\Debug\startup_psoc63_cm0plus.o">
+<dep name=".\armgcc\startup\startup_psoc63_cm0plus.S" />
+</file>
+<file name=".\armgcc\startup\startup_psoc63_cm0plus.S" />
 </CyGuid_1173175f-1b9b-4ad4-a065-754a48a27021>
 </dependency_info>
 <dependency_info name="c9323d49-d323-40b8-9b59-cc008d68a989@Debug@CortexM4" xml_contents_version="2">
@@ -2263,6 +2270,7 @@
 <dep name=".\cy_ble_config.h" />
 <dep name=".\cy_ipc_config.h" />
 <dep name=".\debug.h" />
+<dep name=".\main_cm4.h" />
 <dep name=".\system_psoc63.h" />
 </file>
 <file name=".\Generated_Source\PSoC6\Clock.h" />
@@ -2357,7 +2365,60 @@
 <file name=".\cy_ble_config.h" />
 <file name=".\cy_ipc_config.h" />
 <file name=".\debug.h" />
+<file name=".\main_cm4.h" />
 <file name=".\system_psoc63.h" />
+<file name=".\CortexM4\ARM_GCC_541\Debug\ULF_Counter.o">
+<dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armcc.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armclang.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_compiler.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_gcc.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\core_cm0plus.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\core_cm4.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_backup.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_ble.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_cpuss.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_crypto.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_csd.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_ctbm.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_ctdac.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_dw.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_efuse.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_efuse_data.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_fault.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_flashc.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_gpio.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_headers.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_hsiom.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_i2s.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_ipc.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_lcd.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_lpcomp.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_pass.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_pdm.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_peri.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_profile.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_prot.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_sar.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_scb.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_sflash.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_smartio.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_smif.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_srss.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_tcpwm.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_udb.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\psoc63\include\cy8c6347bzi_bld53.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\psoc63\include\cy_device_headers.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\psoc63\include\gpio_psoc63_116_bga_ble.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\psoc63\include\psoc63_config.h" />
+<dep name=".\Generated_Source\PSoC6\pdl\drivers\peripheral\tcpwm\cy_tcpwm_counter.h" />
+<dep name=".\Generated_Source\PSoC6\ULF_Counter.c" />
+<dep name=".\Generated_Source\PSoC6\ULF_Counter.h" />
+<dep name=".\Generated_Source\PSoC6\cyfitter.h" />
+<dep name=".\Generated_Source\PSoC6\cyfitter_gpio.h" />
+<dep name=".\Generated_Source\PSoC6\cyfitter_sysint.h" />
+<dep name=".\system_psoc63.h" />
+</file>
+<file name=".\Generated_Source\PSoC6\ULF_Counter.c" />
 <file name=".\CortexM4\ARM_GCC_541\Debug\main_cm4.o">
 <dep name=".\Generated_Source\PSoC6\Clock.h" />
 <dep name=".\Generated_Source\PSoC6\SysClk_1M.h" />
@@ -2367,13 +2428,9 @@
 <dep name=".\Generated_Source\PSoC6\ULF_Cap_Clk.h" />
 <dep name=".\Generated_Source\PSoC6\ULF_Capture.h" />
 <dep name=".\Generated_Source\PSoC6\ULF_Carrier.h" />
-<dep name=".\Generated_Source\PSoC6\ULF_Counter.h" />
 <dep name=".\Generated_Source\PSoC6\cydevice_trm.h" />
 <dep name=".\Generated_Source\PSoC6\cydisabledsheets.h" />
-<dep name=".\Generated_Source\PSoC6\cyfitter.h" />
 <dep name=".\Generated_Source\PSoC6\cyfitter_cfg.h" />
-<dep name=".\Generated_Source\PSoC6\cyfitter_gpio.h" />
-<dep name=".\Generated_Source\PSoC6\cyfitter_sysint.h" />
 <dep name=".\Generated_Source\PSoC6\cyfitter_sysint_cfg.h" />
 <dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armcc.h" />
 <dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armclang.h" />
@@ -2446,6 +2503,10 @@
 <dep name=".\Generated_Source\PSoC6\pdl\drivers\peripheral\wdt\cy_wdt.h" />
 <dep name=".\Generated_Source\PSoC6\pdl\middleware\ble\cy_ble_clk.h" />
 <dep name=".\Generated_Source\PSoC6\project.h" />
+<dep name=".\Generated_Source\PSoC6\ULF_Counter.h" />
+<dep name=".\Generated_Source\PSoC6\cyfitter.h" />
+<dep name=".\Generated_Source\PSoC6\cyfitter_gpio.h" />
+<dep name=".\Generated_Source\PSoC6\cyfitter_sysint.h" />
 <dep name=".\ULF Module\ULF.h" />
 <dep name=".\cy_ble_config.h" />
 <dep name=".\cy_ipc_config.h" />
@@ -2455,7 +2516,6 @@
 <dep name=".\system_psoc63.h" />
 </file>
 <file name=".\main_cm4.c" />
-<file name=".\main_cm4.h" />
 <file name=".\CortexM4\ARM_GCC_541\Debug\System_Tick.o">
 <dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armcc.h" />
 <dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armclang.h" />
@@ -2675,60 +2735,6 @@
 <dep name=".\system_psoc63.h" />
 </file>
 <file name=".\Generated_Source\PSoC6\ULF_Carrier.c" />
-<file name=".\CortexM4\ARM_GCC_541\Debug\ULF_Counter.o">
-<dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armcc.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armclang.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_compiler.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_gcc.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\core_cm0plus.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\core_cm4.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_backup.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_ble.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_cpuss.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_crypto.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_csd.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_ctbm.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_ctdac.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_dw.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_efuse.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_efuse_data.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_fault.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_flashc.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_gpio.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_headers.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_hsiom.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_i2s.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_ipc.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_lcd.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_lpcomp.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_pass.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_pdm.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_peri.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_profile.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_prot.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_sar.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_scb.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_sflash.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_smartio.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_smif.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_srss.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_tcpwm.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\ip\cyip_udb.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\psoc63\include\cy8c6347bzi_bld53.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\psoc63\include\cy_device_headers.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\psoc63\include\gpio_psoc63_116_bga_ble.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\devices\psoc6\psoc63\include\psoc63_config.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\drivers\peripheral\syslib\cy_syslib.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\drivers\peripheral\tcpwm\cy_tcpwm_counter.h" />
-<dep name=".\Generated_Source\PSoC6\ULF_Counter.c" />
-<dep name=".\Generated_Source\PSoC6\ULF_Counter.h" />
-<dep name=".\Generated_Source\PSoC6\cyfitter.h" />
-<dep name=".\Generated_Source\PSoC6\cyfitter_gpio.h" />
-<dep name=".\Generated_Source\PSoC6\cyfitter_sysint.h" />
-<dep name=".\Generated_Source\PSoC6\pdl\drivers\peripheral\tcpwm\cy_tcpwm.h" />
-<dep name=".\system_psoc63.h" />
-</file>
-<file name=".\Generated_Source\PSoC6\ULF_Counter.c" />
 <file name=".\CortexM4\ARM_GCC_541\Debug\cyfitter_sysint_cfg.o">
 <dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armcc.h" />
 <dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armclang.h" />
@@ -2782,10 +2788,6 @@
 <dep name=".\system_psoc63.h" />
 </file>
 <file name=".\Generated_Source\PSoC6\cyfitter_sysint_cfg.c" />
-<file name=".\CortexM4\ARM_GCC_541\Debug\cymetadata.o">
-<dep name=".\Generated_Source\PSoC6\cymetadata.c" />
-</file>
-<file name=".\Generated_Source\PSoC6\cymetadata.c" />
 <file name=".\CortexM4\ARM_GCC_541\Debug\cy_efuse.o">
 <dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armcc.h" />
 <dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armclang.h" />
@@ -3759,10 +3761,6 @@
 <dep name=".\system_psoc63.h" />
 </file>
 <file name=".\Generated_Source\PSoC6\pdl\drivers\peripheral\syslib\cy_syslib.c" />
-<file name=".\CortexM4\ARM_GCC_541\Debug\cy_syslib_gcc.o">
-<dep name=".\Generated_Source\PSoC6\pdl\drivers\peripheral\syslib\gcc\cy_syslib_gcc.S" />
-</file>
-<file name=".\Generated_Source\PSoC6\pdl\drivers\peripheral\syslib\gcc\cy_syslib_gcc.S" />
 <file name=".\CortexM4\ARM_GCC_541\Debug\cy_syspm.o">
 <dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armcc.h" />
 <dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armclang.h" />
@@ -4193,10 +4191,6 @@
 <dep name=".\system_psoc63.h" />
 </file>
 <file name=".\Generated_Source\PSoC6\pdl\middleware\ble\cy_ble_clk.c" />
-<file name=".\CortexM4\ARM_GCC_541\Debug\startup_psoc63_cm4.o">
-<dep name=".\armgcc\startup\startup_psoc63_cm4.S" />
-</file>
-<file name=".\armgcc\startup\startup_psoc63_cm4.S" />
 <file name=".\CortexM4\ARM_GCC_541\Debug\cy_ipc_config.o">
 <dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armcc.h" />
 <dep name=".\Generated_Source\PSoC6\pdl\cmsis\include\cmsis_armclang.h" />
@@ -4406,6 +4400,18 @@
 <dep name=".\system_psoc63_cm4.c" />
 </file>
 <file name=".\system_psoc63_cm4.c" />
+<file name=".\CortexM4\ARM_GCC_541\Debug\cymetadata.o">
+<dep name=".\Generated_Source\PSoC6\cymetadata.c" />
+</file>
+<file name=".\Generated_Source\PSoC6\cymetadata.c" />
+<file name=".\CortexM4\ARM_GCC_541\Debug\cy_syslib_gcc.o">
+<dep name=".\Generated_Source\PSoC6\pdl\drivers\peripheral\syslib\gcc\cy_syslib_gcc.S" />
+</file>
+<file name=".\Generated_Source\PSoC6\pdl\drivers\peripheral\syslib\gcc\cy_syslib_gcc.S" />
+<file name=".\CortexM4\ARM_GCC_541\Debug\startup_psoc63_cm4.o">
+<dep name=".\armgcc\startup\startup_psoc63_cm4.S" />
+</file>
+<file name=".\armgcc\startup\startup_psoc63_cm4.S" />
 </CyGuid_1173175f-1b9b-4ad4-a065-754a48a27021>
 </dependency_info>
 </CyGuid_f44455c5-3770-4452-b988-0a7a7ff46256>
@@ -4604,16 +4610,14 @@
 <dataGuid v="769d31ea-68b1-4f0c-b90a-7c10a43ee563">
 <CyGuid_769d31ea-68b1-4f0c-b90a-7c10a43ee563 type_name="CyDesigner.Common.ProjMgmt.Model.CyLinkCustomData" version="1">
 <link_deps_times>
-<name_val_pair name="c9323d49-d323-40b8-9b59-cc008d68a989@Debug@CortexM0p" v="131967411223546332" />
-<name_val_pair name="c9323d49-d323-40b8-9b59-cc008d68a989@Debug@CortexM4" v="131969440437986272" />
+<name_val_pair name="c9323d49-d323-40b8-9b59-cc008d68a989@Debug@CortexM0p" v="131971090554042889" />
+<name_val_pair name="c9323d49-d323-40b8-9b59-cc008d68a989@Debug@CortexM4" v="131971101204320802" />
 </link_deps_times>
 </CyGuid_769d31ea-68b1-4f0c-b90a-7c10a43ee563>
 </dataGuid>
 <dataGuid v="504337dd-7d07-4bc7-9057-90e60cf6c469">
 <CyGuid_504337dd-7d07-4bc7-9057-90e60cf6c469 type_name="CyDesigner.Common.Debugger.CyBreakpointList" version="1">
-<debugger_breakpoint_list>
-<CyGuid_76464711-0ae1-4583-b869-f07a0403fc6e type_name="CyDesigner.Common.Debugger.CyFileLineBreakpoint" version="1" hitcount="0" condition="" enabled="True" hardware="True" temparary="False" filename=".\ULF Module\ULF.c" linenumber="847" />
-</debugger_breakpoint_list>
+<debugger_breakpoint_list />
 </CyGuid_504337dd-7d07-4bc7-9057-90e60cf6c469>
 </dataGuid>
 <dataGuid v="bf610382-39c6-441f-80b8-b04622ea7845">
@@ -4637,6 +4641,8 @@
 <CyGuid_ccf7a56e-c00d-460c-82dd-56c8f54feb7f type_name="CyDesigner.Common.Debugger.CyWatchedVariableList+CyWatchedItem" version="1" window="0" name="CARD_SDATA" radix="Default" />
 <CyGuid_ccf7a56e-c00d-460c-82dd-56c8f54feb7f type_name="CyDesigner.Common.Debugger.CyWatchedVariableList+CyWatchedItem" version="1" window="0" name="CRCx" radix="Default" />
 <CyGuid_ccf7a56e-c00d-460c-82dd-56c8f54feb7f type_name="CyDesigner.Common.Debugger.CyWatchedVariableList+CyWatchedItem" version="1" window="0" name="CRCy" radix="Default" />
+<CyGuid_ccf7a56e-c00d-460c-82dd-56c8f54feb7f type_name="CyDesigner.Common.Debugger.CyWatchedVariableList+CyWatchedItem" version="1" window="0" name="USER_DB_1" radix="Default" />
+<CyGuid_ccf7a56e-c00d-460c-82dd-56c8f54feb7f type_name="CyDesigner.Common.Debugger.CyWatchedVariableList+CyWatchedItem" version="1" window="0" name="ULF_Trans_Val" radix="Default" />
 </debugger_watch_list>
 </CyGuid_bf610382-39c6-441f-80b8-b04622ea7845>
 </dataGuid>
