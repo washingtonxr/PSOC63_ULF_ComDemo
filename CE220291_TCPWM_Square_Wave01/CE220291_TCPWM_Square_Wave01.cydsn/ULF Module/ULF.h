@@ -104,7 +104,8 @@ typedef struct{
     /* Transmiter Parameter. */
     unsigned char ULF_TRANSMIT_START;                           /* Transmit start sign.  */
     unsigned char ULF_TRANSMIT_BUSY;                            /* Transmit busy.        */
-    unsigned int ULF_TRANSMIT_TIME;                             /* Transmit time.        */
+    unsigned int ULF_TRANSMIT_TIME;                             /* Transmit times.       */
+    unsigned short ULF_TRANSMIT_ROUND;
     unsigned short ULF_TRANSMIT_CNT;                            /* Transmit Counter.     */
     unsigned char ULF_TRANSMIT_CMD;                             /* Transmit Command.     */
     unsigned char ULF_TRANSMIT_STATE;                           /* Transmit State.       */
@@ -133,9 +134,10 @@ typedef struct{
 
 void ULF_Init();
 void ULF_Init2();
-
 unsigned int ULF_Test();
 int ULF_Routine();
+unsigned int ULF_Transmit(unsigned char Option, unsigned short Round);
+
 
 extern sys_LEDtimer_t Red_LED, Orange_LED;                      /* LED Database.         */
 

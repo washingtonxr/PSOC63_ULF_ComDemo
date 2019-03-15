@@ -22,6 +22,7 @@
 #include <project.h>
 #include "ULF.h"
 #include "debug.h"
+#include "ULF_Carrier.h"
 
 static ulf_recv_value_t ULF_Recv_Val;
 static ulf_trans_value_t ULF_Trans_Val;
@@ -60,9 +61,9 @@ void ULF_Carrier_Stop()
 #if 0
     Cy_TCPWM_TriggerStopOrKill(ULF_Carrier_HW, ULF_Carrier_CNT_MASK);
     Cy_TCPWM_Disable_Multiple(ULF_Carrier_HW, ULF_Carrier_CNT_MASK);
-#else
-    Cy_TCPWM_Counter_Disable(ULF_Carrier_HW, ULF_Carrier_CNT_MASK);
 #endif
+    Cy_TCPWM_PWM_Disable(ULF_Carrier_HW, ULF_Carrier_CNT_NUM);
+    //Cy_TCPWM_PWM_DeInit(ULF_Carrier_HW, ULF_Carrier_CNT_NUM, &ULF_Carrier_config);
 }
 
 void ULF_Capture_Stop()
@@ -78,17 +79,38 @@ void ULF_Capture_Stop()
 /**
  * Ultra Low Frequency ISR.
  */
-static unsigned char ULF_BO_BIT;
-static unsigned int ULF_BO_BYTE;
-static unsigned int ULF_Recv_Num;
+static unsigned short TRANS_TIME;
+static unsigned short TRANS_ROUND;
 
 static void ULF_CarrierCnt_Isr()
 {
     int ret;
-    unsigned char tmp_val;
 
     ret = ULF_Carrier_GetInterruptStatus();
-    
+
+    if(TRANS_TIME++ >= 4096){
+        TRANS_TIME = 0;
+
+        if(TRANS_ROUND > 0){
+            TRANS_ROUND--;
+        }else{
+            ULF_Carrier_Stop();
+        }    
+    }
+   
+    ULF_Carrier_ClearInterrupt(ret);
+
+    return;
+}
+
+static unsigned char ULF_BO_BIT;
+static unsigned int ULF_BO_BYTE;
+static unsigned int ULF_Recv_Num;
+static void ULF_MainCnt_Isr()
+{
+    int ret;
+    ret = ULF_Counter_GetInterruptStatus();
+       
     ULF_CTRL.ULF_TRANSMIT_CNT++;
 
     switch(ULF_CTRL.ULF_TRANSMIT_STATE){
@@ -149,18 +171,6 @@ static void ULF_CarrierCnt_Isr()
         default: /* Never suppose to be here. */
             break;
     }
-
-    ULF_Carrier_ClearInterrupt(ret);
-
-    return;
-}
-
-static void ULF_MainCnt_Isr()
-{
-    int ret;
-    ret = ULF_Counter_GetInterruptStatus();
-    
-    ULF_CTRL.ULF_TRANSMIT_TIME++;
     
     ULF_Counter_ClearInterrupt(ret);
     return;
@@ -194,13 +204,11 @@ static unsigned char ULF_Baseband_GetPeriod(unsigned int Curr_data, \
                                                     unsigned int Post_data)
 {
     unsigned int temp;
-    
     if(Curr_data < Post_data){
         temp = (0xffff - Post_data) + Curr_data;
     }else{
         temp = Curr_data - Post_data;
     }
-    
     if((ULF_RECV_LOW_TH0 < temp) && (temp < ULF_RECV_LOW_TH1)){
         return 1;
     }else 
@@ -279,7 +287,6 @@ static void ULF_BasebandCnt_Isr()
                 ULF_CTRL.ULF_RECEIVE_STATE = IDLE;
                 ULF_Recv_Num = 0;
             }
-            
             break;
 
         case IDLE:
@@ -346,7 +353,7 @@ static void ULF_BasebandIn_Isr()
         ULF_Recv_Num = 0;
 #endif
     }
-    /* Clear pin interrupt logic. Required to detect next interrupt */
+    /* Clear interrupt sign and prepare for next detecting. */
     Cy_GPIO_ClearInterrupt(ULF_IN_PORT, ULF_IN_NUM);
 }
 
@@ -393,30 +400,46 @@ void ULF_Init()
 
 void ULF_Init2()
 {
-    memset(&ULF_CTRL,0,sizeof(ULF_CTRL));
-    memset(&ULF_DB,0,sizeof(ULF_DB));
-    memset(&ULF_Recv_Val,0,sizeof(ULF_Recv_Val));
-    memset(&ULF_Trans_Val,0,sizeof(ULF_Trans_Val));
+    memset(&ULF_CTRL, 0, sizeof(ULF_CTRL));
+    memset(&ULF_DB, 0, sizeof(ULF_DB));
+    memset(&ULF_Recv_Val, 0, sizeof(ULF_Recv_Val));
+    memset(&ULF_Trans_Val, 0, sizeof(ULF_Trans_Val));
 
     /* Configure CM4+ CPU interrupt vector for SysInt_ULFBasebandCnt_cfg Capture. */
     Cy_SysInt_Init(&SysInt_ULFBasebandCnt_cfg, ULF_BasebandCnt_Isr);
     NVIC_ClearPendingIRQ(SysInt_ULFBasebandCnt_cfg.intrSrc);
     NVIC_EnableIRQ((IRQn_Type)SysInt_ULFBasebandCnt_cfg.intrSrc);
-
+    
+    /* Capture for ULF baseband. */
     ULF_Capture_Start();
+   
+    /* Configure CM4+ CPU interrupt vector for SysInt_ULFMainCnt_cfg PWM Generator. */
+    Cy_SysInt_Init(&SysInt_ULFMainCnt_cfg, ULF_MainCnt_Isr);
+    NVIC_ClearPendingIRQ(SysInt_ULFMainCnt_cfg.intrSrc);
+    NVIC_EnableIRQ((IRQn_Type)SysInt_ULFMainCnt_cfg.intrSrc);
 
-    /* Configure CM4+ CPU interrupt vector for SysInt_ULFCnt_cfg Timmer. */
-    Cy_SysInt_Init(&SysInt_ULFCarrierCnt_cfg, ULF_CarrierCnt_Isr);
-    NVIC_ClearPendingIRQ(SysInt_ULFCarrierCnt_cfg.intrSrc);
-    NVIC_EnableIRQ((IRQn_Type)SysInt_ULFCarrierCnt_cfg.intrSrc);
+    /* ULF Output Counter. */
+    ULF_Counter_Start();
 
-    ULF_Carrier_Start();
+    return;
 }
 
-unsigned int ULF_Transmit(unsigned char Option)
+unsigned int ULF_Transmit(unsigned char Option, unsigned short Round)
 {
+    TRANS_ROUND = Round;
+    
+    /* Start Carrier. */
+    if(1 == Option){
+        /* Configure CM4+ CPU interrupt vector for SysInt_ULFCnt_cfg Timmer. */
+        Cy_SysInt_Init(&SysInt_ULFCarrierCnt_cfg, ULF_CarrierCnt_Isr);
+        NVIC_ClearPendingIRQ(SysInt_ULFCarrierCnt_cfg.intrSrc);
+        NVIC_EnableIRQ((IRQn_Type)SysInt_ULFCarrierCnt_cfg.intrSrc);
+        
+        TRANS_TIME = 0;
 
-
+        /* ULF Carrier. */
+        ULF_Carrier_Start();
+    }
 
     return 0;
 }
@@ -562,7 +585,8 @@ unsigned int ULF_Decode_L2_4100()
         CARD_SDATA[i] = (ULF_Recv_Val.ULF_RecvValue[0] >> (32 - 5*(1+i))) & 0x1F;
     }
     
-    CARD_SDATA[6] = (ULF_Recv_Val.ULF_RecvValue[0] & 0x03);
+    CARD_SDATA[6] = (ULF_Recv_Val.ULF_RecvValue[0] & 0x03
+);
     CARD_SDATA[6] <<= 3;
     CARD_SDATA[6] += ULF_Recv_Val.ULF_RecvValue[1] >> 20;
     
@@ -576,6 +600,7 @@ unsigned int ULF_Decode_L2_4100()
         DEBUG_PRINTF("%02d:%08x\n", i, CARD_SDATA[i]);
     }
 #endif
+
     /* Check CRC for each column. */
     for(i = 0; i < 10; i++){
         for(j = 0; j < 5; j++){
@@ -617,9 +642,19 @@ unsigned int ULF_Decode_L2_4100()
     }
     DEBUG_PRINTF("\n");
 #if 1
-    Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
-    CyDelayUs(5);
-    Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
+    for(i = 0; i < 20; i++){
+        CyDelayUs(i);
+        Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
+        CyDelayUs(i);
+        Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
+    }
+    for(i = 20; i > 1; i--){
+        CyDelayUs(i);
+        Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
+        CyDelayUs(i);
+        Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
+    }
+
 #endif
 
     return 0;
