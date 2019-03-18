@@ -427,6 +427,8 @@ void ULF_Init()
 
 unsigned int ULF_Transmit(ulf_userdb_t *userdb, unsigned char round)
 {
+    int i;
+    
     if(1 == userdb->option){
         
         ULF_CTRL.ULF_TRANSMIT_CNT = 0;
@@ -448,8 +450,15 @@ unsigned int ULF_Transmit(ulf_userdb_t *userdb, unsigned char round)
             
             /* Baseband transmit counter start. */
             ULF_Counter_Start();
+
+            DEBUG_PRINTF("Info(%08X):Card ID:\n", Sys_counter);
+            for(i = 0; i < 10; i++){
+                DEBUG_PRINTF("%1X",userdb->pure_data[i]);
+            }
+            DEBUG_PRINTF("\n");
+            
         }else{
-            DEBUG_PRINTF("ERROR: No vailid card ID.\n");
+            DEBUG_PRINTF("Error(%08X):No vailid card ID.\n", Sys_counter);
         }
     }
     return 0;

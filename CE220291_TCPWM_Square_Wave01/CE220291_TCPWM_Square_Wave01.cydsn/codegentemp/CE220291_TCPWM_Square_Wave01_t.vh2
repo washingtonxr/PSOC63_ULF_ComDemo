@@ -1,5 +1,5 @@
 -- Project:   C:\Users\Tornado\Documents\PSoC Creator\CE220291_TCPWM_Square_Wave01\CE220291_TCPWM_Square_Wave01.cydsn\CE220291_TCPWM_Square_Wave01.cyprj
--- Generated: 03/15/2019 14:05:57
+-- Generated: 03/18/2019 10:06:06
 -- PSoC Creator  4.2
 
 ENTITY CE220291_TCPWM_Square_Wave01 IS
@@ -1235,15 +1235,15 @@ BEGIN
     SW3:logicalport
         GENERIC MAP(
             cy_registers => "",
-            drive_mode => "010",
+            drive_mode => "011",
             drive_strength => "0",
             hotswap_needed => "0",
             i2c_mode => "0",
             ibuf_enabled => "1",
             id => "a953aec0-263b-4feb-91da-793994dce3e5",
-            init_dr_st => "1",
+            init_dr_st => "0",
             input_sync => "0",
-            intr_mode => "10",
+            intr_mode => "01",
             io_voltage => "",
             max_frequency => "100",
             oe_conn => "0",
