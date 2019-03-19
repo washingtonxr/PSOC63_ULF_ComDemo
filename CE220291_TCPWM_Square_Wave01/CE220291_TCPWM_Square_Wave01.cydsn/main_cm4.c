@@ -107,27 +107,60 @@ void System_Tick_ISR()
 static void SW2_ISR()
 {
     /* Optional check to determine if one pin in the port generated interrupt. */
-    if(Cy_GPIO_GetInterruptStatus(SW2_PORT, SW2_NUM) == CY_GPIO_INTR_STATUS_MASK)
-    {
+    if(Cy_GPIO_GetInterruptStatus(SW2_PORT, SW2_NUM) == CY_GPIO_INTR_STATUS_MASK){
+
+        /* Transmit interrupt disable. */
+        //ULF_FiledDetectInt_Disable();
+
         Orange_LED.sw = 1;
-  
-        ULF_Receive(&USER_DB_1, 10);
+        ULF_Receive(&USER_DB_1, 8);
     }
     /* Clear pin interrupt logic. Required to detect next interrupt */
     Cy_GPIO_ClearInterrupt(SW2_PORT, SW2_NUM);
 }
 
-static void SW3_ISR()
+static void SW3_ISR(void)
 {
+    int ret;
     /* Optional check to determine if one pin in the port generated interrupt. */
-    if(Cy_GPIO_GetInterruptStatus(SW3_PORT, SW3_NUM) == CY_GPIO_INTR_STATUS_MASK)
-    {
-        Orange_LED.sw = 1;
+    if(Cy_GPIO_GetInterruptStatus(SW3_PORT, SW3_NUM) == CY_GPIO_INTR_STATUS_MASK){
+#if 1
+        /* Get the interrrupt edge setting of SW3 */
+        ret = Cy_GPIO_GetInterruptEdge(SW3_PORT, SW3_NUM);
+        DEBUG_PRINTF("Info:SW3 Edge:%d\n", ret);
+        //CY_GPIO_INTR_RISING
+#endif
+        Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
+        CyDelayUs(10);
+        Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
         
-        ULF_Transmit(&USER_DB_1, 10);
+        ret = Cy_GPIO_Read(SW3_PORT, SW3_NUM);
+        /* Read the input state of SW3_PORT. */
+        if(1UL == ret){
+            Orange_LED.sw = 1;
+            ULF_Transmit(&USER_DB_1, 128);
+        }else{
+            ULF_Transmit_Exit();
+        }
     }
     /* Clear pin interrupt logic. Required to detect next interrupt */
     Cy_GPIO_ClearInterrupt(SW3_PORT, SW3_NUM);
+}
+
+void ULF_FiledDetectInt_Disable(void)
+{
+    NVIC_ClearPendingIRQ(SysInt_SW3_cfg.intrSrc);
+    NVIC_DisableIRQ((IRQn_Type)SysInt_SW3_cfg.intrSrc);
+    return;
+}
+
+void ULF_FiledDetectInt_Enable(void)
+{
+    /* Configure CM4+ CPU interrupt vector for SW3. */
+    Cy_SysInt_Init(&SysInt_SW3_cfg, SW3_ISR);
+    NVIC_ClearPendingIRQ(SysInt_SW3_cfg.intrSrc);
+    NVIC_EnableIRQ((IRQn_Type)SysInt_SW3_cfg.intrSrc);
+    return;
 }
 
 void HW_Startup(void)
@@ -146,12 +179,10 @@ void HW_Startup(void)
     Cy_SysInt_Init(&SysInt_SW_cfg, SW2_ISR);
     NVIC_ClearPendingIRQ(SysInt_SW_cfg.intrSrc);
     NVIC_EnableIRQ((IRQn_Type)SysInt_SW_cfg.intrSrc);
-    
-    /* Configure CM4+ CPU interrupt vector for SW3. */
-    Cy_SysInt_Init(&SysInt_SW3_cfg, SW3_ISR);
-    NVIC_ClearPendingIRQ(SysInt_SW3_cfg.intrSrc);
-    NVIC_EnableIRQ((IRQn_Type)SysInt_SW3_cfg.intrSrc);
 
+    /* Transmit interrupt enable. */
+    ULF_FiledDetectInt_Enable();
+    
     __enable_irq(); /* Enable global interrupts. */
 
     System_Tick_Start();    /* Enable System Tick. */
@@ -201,20 +232,29 @@ int main(void)
     
     /* Set USER option. */
     USER_DB_1.option = 1;
-    
-    ULF_Init();        /* Initialize ULF2 functions. */
 
+    ULF_Init();        /* Initialize ULF2 functions. */
+    
     /* Infinite loop */
     for(;;)
     {
         ret = ULF_Routine(&USER_DB_1);
-        if(ret > 0){
-            Red_LED.sw = 1;
+        switch(ret){
+            case 1:
+                Red_LED.sw = 1;
+                break;
+            
+            case 2:
+                /* Transmit interrupt enable. */
+                //ULF_FiledDetectInt_Enable();
+                break;
+            
+            default:
+                break;
         }
         /* Put the CPU into Sleep mode to save power */
         //Cy_SysPm_Sleep(CY_SYSPM_WAIT_FOR_INTERRUPT);
     }
-
 }
 
 /* [] END OF FILE */

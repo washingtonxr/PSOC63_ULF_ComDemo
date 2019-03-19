@@ -28,9 +28,9 @@ static ulf_ctrl_t ULF_CTRL;                    /* ULF Transmit Control. */
 static ulf_user_db_t ULF_DB;                   /* ULF Control Database. */
 static ulf_recv_value_t ULF_Recv_Val;
 static ulf_trans_value_t ULF_Trans_Val;
-
+#if 0
 static unsigned int ulf_transmit_id[2] = {0xff824006, 0x18C350BC};
-
+#endif
 static void ULF_Carrier_Stop(void);
 static void ULF_CarrierCnt_Isr(void);
 static void ULF_Counter_Stop(void);
@@ -43,6 +43,8 @@ static void ULF_MainCnt_Isr_Enable(void);
 static void ULF_MainCnt_Isr_Disable(void);
 static void ULF_BasebandCnt_Isr(void);
 static void ULF_BasebandIn_Isr(void);
+static void ULF_FiledDetect_Disable(void);
+static void ULF_FiledDetect_Enable(void);
 
 #if 0
 void ULF_SysInt_BasebandIn_start()
@@ -106,6 +108,7 @@ static void ULF_CarrierCnt_Isr()
             ULF_CTRL.ULF_TRANSMIT_ROUND--;
         }else{
             ULF_Carrier_Stop();
+            ULF_FiledDetect_Enable();
         }    
     }
    
@@ -121,9 +124,9 @@ static void ULF_MainCnt_Isr()
 {
     int ret;
     ret = ULF_Counter_GetInterruptStatus();
-       
-    ULF_CTRL.ULF_TRANSMIT_CNT++;
 
+    ULF_CTRL.ULF_TRANSMIT_CNT++;
+    
     switch(ULF_CTRL.ULF_TRANSMIT_STATE){
         case 0: /* Warming Up. */
             if(ULF_CTRL.ULF_TRANSMIT_CNT > ULF_TRANS_GAP){
@@ -162,7 +165,7 @@ static void ULF_MainCnt_Isr()
                 
                 ULF_BO_BYTE <<= 1;
                 ULF_CTRL.ULF_TRANSMIT_DLEN++;
-
+    
                 if(ULF_CTRL.ULF_TRANSMIT_DLEN == ULF_MANCHISTER_P1){
                     //ULF_BO_BYTE = ulf_transmit_id[1];
                     ULF_BO_BYTE = ULF_Trans_Val.ULF_TransValue[1];
@@ -183,7 +186,7 @@ static void ULF_MainCnt_Isr()
                 ULF_CTRL.ULF_TRANSMIT_STATE = 3;
                 
                 Cy_GPIO_Clr(ULF_TXen_PORT, ULF_TXen_NUM);
-
+    
                 ULF_MainCnt_Isr_Disable();
                 ULF_Counter_Stop();
             }
@@ -194,7 +197,7 @@ static void ULF_MainCnt_Isr()
         default: /* Never suppose to be here. */
             break;
     }
-    
+   
     ULF_Counter_ClearInterrupt(ret);
     return;
 }
@@ -410,55 +413,107 @@ void ULF_Init()
     memset(&ULF_DB, 0, sizeof(ULF_DB));
     memset(&ULF_Recv_Val, 0, sizeof(ULF_Recv_Val));
     memset(&ULF_Trans_Val, 0, sizeof(ULF_Trans_Val));
-
-
+    
     ULF_BasebandCnt_Isr_Enable();
     
     /* Capture for ULF baseband. */
     ULF_Capture_Start();
    
-    ULF_MainCnt_Isr_Enable();
-
+    //ULF_MainCnt_Isr_Enable();
+    
+    /* Disable ULF Field Detecting. */
+    ULF_CTRL.ULF_DETECT_CARRIER = 1;
+    
     /* ULF Output Counter. */
     //ULF_Counter_Start();
 
     return;
 }
 
-unsigned int ULF_Transmit(ulf_userdb_t *userdb, unsigned char round)
+static void ULF_FiledDetect_Disable(void)
+{
+    /* Disable ULF Field Detecting. */
+    ULF_CTRL.ULF_DETECT_CARRIER = 0;
+
+    /* Disable transmit counter & ISR. */
+    ULF_MainCnt_Isr_Disable();
+    
+    /* Clear TXen pin. */
+    Cy_GPIO_Clr(ULF_TXen_PORT, ULF_TXen_NUM);
+    
+    /* Clear ULF_BO pin. */
+    Cy_GPIO_Clr(ULF_BO_PORT, ULF_BO_NUM);
+   
+    /* Reset Trans Carrier time. */
+    ULF_CTRL.ULF_TRANSMIT_TIME = 0;
+}
+
+static void ULF_FiledDetect_Enable(void)
+{
+    //CyDelayUs(1000);
+
+    /* Enable ULF Field Detecting. */
+    ULF_CTRL.ULF_DETECT_CARRIER = 1;
+    
+    ULF_CTRL.ULF_TRANSMIT_NOTE = 1;
+}
+
+unsigned int ULF_Transmit_Exit(void)
+{
+    //ULF_CTRL.ULF_DETECT_CARRIER = 0;
+
+    Cy_GPIO_Clr(ULF_BO_PORT, ULF_BO_NUM);
+    
+    /* Clear TXen pin. */
+    Cy_GPIO_Clr(ULF_TXen_PORT, ULF_TXen_NUM);
+
+    ULF_MainCnt_Isr_Disable();
+
+    ULF_Counter_Stop();
+
+    return 0;
+}
+
+unsigned int ULF_Transmit(ulf_userdb_t *userdb, unsigned short round)
 {
     int i;
-    
-    if(1 == userdb->option){
-        
-        ULF_CTRL.ULF_TRANSMIT_CNT = 0;
-        ULF_CTRL.ULF_TRANSMIT_STATE = 0;
-        ULF_CTRL.ULF_BBTRANS_ROUND = round;
-    
-        /* Set ID. */
-        memcpy(ULF_Trans_Val.ULF_TransValue, userdb->raw_data, sizeof(userdb->raw_data));
 
-        if(ULF_Trans_Val.ULF_TransValue[0] != 0 ){
+    if(0 != ULF_CTRL.ULF_DETECT_CARRIER){
+        Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
+        CyDelayUs(10);
+        Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
+
+        if((1 == userdb->option) && (round > 0)){
             /* Set TXen pin. */
             Cy_GPIO_Set(ULF_TXen_PORT, ULF_TXen_NUM);
-            
-            /* Disable reader. */
-            ULF_BasebandCnt_Isr_Disable();
-            
-            /* Enable card simulator. */
-            ULF_MainCnt_Isr_Enable();
-            
-            /* Baseband transmit counter start. */
-            ULF_Counter_Start();
 
-            DEBUG_PRINTF("Info(%08X):Card ID:\n", Sys_counter);
-            for(i = 0; i < 10; i++){
-                DEBUG_PRINTF("%1X",userdb->pure_data[i]);
+            ULF_CTRL.ULF_TRANSMIT_CNT = 0;
+            ULF_CTRL.ULF_TRANSMIT_STATE = 0;
+            ULF_CTRL.ULF_BBTRANS_ROUND = round;
+        
+            /* Set ID. */
+            memcpy(ULF_Trans_Val.ULF_TransValue, userdb->raw_data, sizeof(userdb->raw_data));
+        
+            if(ULF_Trans_Val.ULF_TransValue[0] != 0 ){
+                
+                /* Disable reader. */
+                ULF_BasebandCnt_Isr_Disable();
+                
+                /* Enable card simulator. */
+                ULF_MainCnt_Isr_Enable();
+                
+                /* Baseband transmit counter start. */
+                ULF_Counter_Start();
+        
+                DEBUG_PRINTF("Info(%08X):Transmit ID =>> ", Sys_counter);
+                for(i = 0; i < 10; i++){
+                    DEBUG_PRINTF("%1X", userdb->pure_data[i]);
+                }
+                DEBUG_PRINTF("\n");
+                
+            }else{
+                DEBUG_PRINTF("Error(%08X):No vailid card ID.\n", Sys_counter);
             }
-            DEBUG_PRINTF("\n");
-            
-        }else{
-            DEBUG_PRINTF("Error(%08X):No vailid card ID.\n", Sys_counter);
         }
     }
     return 0;
@@ -469,32 +524,21 @@ unsigned int ULF_Transmit(ulf_userdb_t *userdb, unsigned char round)
  */
 unsigned int ULF_Receive(ulf_userdb_t *userdb, unsigned char round)
 {
-    /* Set try round. */
-    ULF_CTRL.ULF_TRANSMIT_ROUND = round;
-
-    /* Enable receive machine. */
-    //ULF_CTRL.ULF_RECEIVE_EN = 1;
-
     /* Start Carrier. */
-    if(1 == userdb->option){    /* T4100:1 ... */
-        
+    if((1 == userdb->option) && (round > 0)){    /* T4100:1 ... */     
+        /* Set try round. */
+        ULF_CTRL.ULF_TRANSMIT_ROUND = round;
+            
         /* Disable transmit counter & ISR. */
         ULF_MainCnt_Isr_Disable();
-        
-        /* Clear TXen pin. */
-        Cy_GPIO_Clr(ULF_TXen_PORT, ULF_TXen_NUM);
     
-        /* Clear ULF_BO pin. */
-        Cy_GPIO_Clr(ULF_BO_PORT, ULF_BO_NUM);
-        
+        ULF_FiledDetect_Disable();
+               
         /* Configure CM4+ CPU interrupt vector for SysInt_ULFCnt_cfg Timmer. */
         Cy_SysInt_Init(&SysInt_ULFCarrierCnt_cfg, ULF_CarrierCnt_Isr);
         NVIC_ClearPendingIRQ(SysInt_ULFCarrierCnt_cfg.intrSrc);
         NVIC_EnableIRQ((IRQn_Type)SysInt_ULFCarrierCnt_cfg.intrSrc);
-
-        /* Reset Trans Carrier time. */
-        ULF_CTRL.ULF_TRANSMIT_TIME = 0;
-        
+       
         /* ULF Carrier engine start. */
         ULF_Carrier_Start();
 
@@ -747,23 +791,29 @@ int ULF_Routine(ulf_userdb_t *userdb)
     
         /* Decode 4100 RAW data. */
         ULF_Decode_L2_T4100(userdb);
-
+        
+        DEBUG_PRINTF("Info(%08X):Receive ID =>> ", Sys_counter);
         for(i = 0; i < 10; i++){
             DEBUG_PRINTF("%1X",userdb->pure_data[i]);
         }
         DEBUG_PRINTF("\n");
-
 #if 0
         memset(&ULF_Recv_Val,0,sizeof(ULF_Recv_Val));
         memset(&ULF_CTRL,0,sizeof(ULF_CTRL));
 #endif
         ULF_CTRL.ULF_RECEIVE_STATE = WARMUP;
+
         ULF_CTRL.ULF_RECEIVE_PAGE = 0;
         ULF_CTRL.ULF_RECEIVE_CNT = 0;
-        
+                
         memset(&ULF_Recv_Val,0,sizeof(ULF_Recv_Val));
 
         return 1;
+    }
+
+    if(ULF_CTRL.ULF_TRANSMIT_NOTE){
+        ULF_CTRL.ULF_TRANSMIT_NOTE = 0;
+        return 2;
     }
 
     return 0;

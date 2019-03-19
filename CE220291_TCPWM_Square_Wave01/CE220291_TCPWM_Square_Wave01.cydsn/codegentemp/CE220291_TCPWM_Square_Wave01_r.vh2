@@ -1,5 +1,5 @@
 -- Project:   CE220291_TCPWM_Square_Wave01
--- Generated: 03/18/2019 10:05:57
+-- Generated: 03/19/2019 16:59:02
 -- PSoC Creator  4.2
 
 ENTITY CE220291_TCPWM_Square_Wave01 IS
@@ -66,19 +66,19 @@ ARCHITECTURE __DEFAULT__ OF CE220291_TCPWM_Square_Wave01 IS
     ATTRIBUTE global_signal OF Net_10_ff13 : SIGNAL IS true;
     SIGNAL Net_114 : bit;
     SIGNAL Net_116 : bit;
-    SIGNAL Net_117 : bit;
     SIGNAL Net_125 : bit;
     SIGNAL Net_126 : bit;
     SIGNAL Net_140_ff11 : bit;
     ATTRIBUTE global_signal OF Net_140_ff11 : SIGNAL IS true;
     SIGNAL Net_149 : bit;
     SIGNAL Net_164 : bit;
-    SIGNAL Net_21 : bit;
-    SIGNAL Net_22 : bit;
-    SIGNAL Net_23 : bit;
     SIGNAL Net_245 : bit;
     SIGNAL Net_246 : bit;
     SIGNAL Net_247 : bit;
+    SIGNAL Net_263 : bit;
+    SIGNAL Net_264 : bit;
+    SIGNAL Net_265 : bit;
+    SIGNAL Net_266 : bit;
     SIGNAL Net_32 : bit;
     SIGNAL Net_90 : bit;
     SIGNAL Net_91 : bit;
@@ -1243,7 +1243,7 @@ BEGIN
             id => "a953aec0-263b-4feb-91da-793994dce3e5",
             init_dr_st => "0",
             input_sync => "0",
-            intr_mode => "01",
+            intr_mode => "11",
             io_voltage => "",
             max_frequency => "100",
             oe_conn => "0",
@@ -1298,11 +1298,11 @@ BEGIN
             reload => '0',
             stop => '0',
             start => '0',
-            tr_underflow => Net_22,
-            tr_compare_match => Net_23,
-            tr_overflow => Net_21,
+            tr_underflow => Net_264,
+            tr_compare_match => Net_265,
+            tr_overflow => Net_263,
             line_compl => Net_116,
-            line => Net_117,
+            line => Net_266,
             interrupt => Net_32);
 
     SysInt_ULFCarrierCnt:interrupt

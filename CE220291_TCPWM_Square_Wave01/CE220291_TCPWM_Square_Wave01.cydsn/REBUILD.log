@@ -1,4 +1,94 @@
---------------- Rebuild Started: 03/08/2019 09:29:30 Project: CE220291_TCPWM_Square_Wave01, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+--------------- Rebuild Started: 03/19/2019 16:11:46 Project: CE220291_TCPWM_Square_Wave01, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\startup_psoc63_cm0plus.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\main_cm0p.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\system_psoc63_cm0plus.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cy_ipc_config.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cyfitter_sysint_cfg.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cyfitter_cfg.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cymetadata.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cy_sysint.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cy_ipc_drv.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cy_ipc_sema.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cy_ipc_pipe.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cy_sysclk.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cy_wdt.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cy_tcpwm_counter.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cy_tcpwm_pwm.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cy_tcpwm_quaddec.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cy_efuse.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cy_flash.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cy_gpio.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cy_sysanalog.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cy_syspm.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cy_syslib.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cy_syslib_gcc.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cy_trigmux.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cy_systick.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cy_profile.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cy_prot.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cy_lvd.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cy_scb_common.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cy_scb_i2c.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cy_scb_ezi2c.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cy_scb_spi.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cy_scb_uart.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\cy_ble_clk.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\ULF_Carrier.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\ULF_Counter.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\System_Tick.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\UART_DEBUG.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\ULF_Capture.o"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\CE220291_TCPWM_Square_Wave01.hex"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\CE220291_TCPWM_Square_Wave01.elf"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\CE220291_TCPWM_Square_Wave01.map"
+Deleting file ".\CE220291_TCPWM_Square_Wave01.cycdx"
+Deleting file ".\CE220291_TCPWM_Square_Wave01.rpt"
+Deleting file ".\CE220291_TCPWM_Square_Wave01_timing.html"
+Deleting file ".\CortexM0p\ARM_GCC_541\Debug\.deps\SOURCE_C__ARM_GCC_GENERIC.P"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\cy_ipc_config.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\startup_psoc63_cm4.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\main_cm4.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\system_psoc63_cm4.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\debug.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\ULF.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\cyfitter_sysint_cfg.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\cymetadata.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\cy_sysint.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\cy_ipc_drv.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\cy_ipc_sema.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\cy_ipc_pipe.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\cy_sysclk.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\cy_wdt.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\cy_tcpwm_counter.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\cy_tcpwm_pwm.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\cy_tcpwm_quaddec.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\cy_efuse.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\cy_flash.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\cy_gpio.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\cy_sysanalog.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\cy_syspm.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\cy_syslib.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\cy_syslib_gcc.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\cy_trigmux.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\cy_systick.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\cy_profile.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\cy_prot.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\cy_lvd.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\cy_scb_common.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\cy_scb_i2c.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\cy_scb_ezi2c.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\cy_scb_spi.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\cy_scb_uart.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\cy_ble_clk.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\ULF_Carrier.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\ULF_Counter.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\System_Tick.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\UART_DEBUG.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\ULF_Capture.o"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\CE220291_TCPWM_Square_Wave01.hex"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\CE220291_TCPWM_Square_Wave01.elf"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\CE220291_TCPWM_Square_Wave01.map"
+Deleting file ".\CortexM4\ARM_GCC_541\Debug\.deps\SOURCE_C__ARM_GCC_GENERIC.P"
 cydsfit.exe -.appdatapath "C:\Users\Tornado\AppData\Local\Cypress Semiconductor\PSoC Creator\4.2" -.fdsnotice -.fdswarpdepfile=warp_dependencies.txt -.fdselabdepfile=elab_dependencies.txt -.fdsbldfile=generated_files.txt -.fdsreffile=referenced_files.txt -p "C:\Users\Tornado\Documents\PSoC Creator\CE220291_TCPWM_Square_Wave01\CE220291_TCPWM_Square_Wave01.cydsn\CE220291_TCPWM_Square_Wave01.cyprj" -d CY8C6347BZI-BLD53 -s "C:\Users\Tornado\Documents\PSoC Creator\CE220291_TCPWM_Square_Wave01\CE220291_TCPWM_Square_Wave01.cydsn\Generated_Source\PSoC6" -- -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE
 Elaborating Design...
 HDL Generation...
@@ -75,19 +165,13 @@ arm-none-eabi-gcc.exe -mcpu=cortex-m4 -mfloat-abi=softfp -mfpu=fpv4-sp-d16 -mthu
 arm-none-eabi-gcc.exe -mcpu=cortex-m4 -mfloat-abi=softfp -mfpu=fpv4-sp-d16 -mthumb "-I.\ULF Module" -I. -IGenerated_Source\PSoC6 -IGenerated_Source\PSoC6\pdl\cmsis/include/ -IGenerated_Source\PSoC6\pdl\devices/psoc6/ip/ -IGenerated_Source\PSoC6\pdl\devices/psoc6/psoc63/include/ -IGenerated_Source\PSoC6\pdl\drivers/peripheral/ -IGenerated_Source\PSoC6\pdl\middleware/ -Wa,-alh=.\CortexM4\ARM_GCC_541\Debug/system_psoc63_cm4.lst -g -D DEBUG -D CY_PSOC_CREATOR_USED=1 -D CY8C6347BZI_BLD53 -Wall -ffunction-sections -ffat-lto-objects -Og -c system_psoc63_cm4.c -o .\CortexM4\ARM_GCC_541\Debug\system_psoc63_cm4.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m4 -mfloat-abi=softfp -mfpu=fpv4-sp-d16 -mthumb "-I.\ULF Module" -I. -IGenerated_Source\PSoC6 -IGenerated_Source\PSoC6\pdl\cmsis/include/ -IGenerated_Source\PSoC6\pdl\devices/psoc6/ip/ -IGenerated_Source\PSoC6\pdl\devices/psoc6/psoc63/include/ -IGenerated_Source\PSoC6\pdl\drivers/peripheral/ -IGenerated_Source\PSoC6\pdl\middleware/ -Wa,-alh=.\CortexM4\ARM_GCC_541\Debug/debug.lst -g -D DEBUG -D CY_PSOC_CREATOR_USED=1 -D CY8C6347BZI_BLD53 -Wall -ffunction-sections -ffat-lto-objects -Og -c debug.c -o .\CortexM4\ARM_GCC_541\Debug\debug.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m4 -mfloat-abi=softfp -mfpu=fpv4-sp-d16 -mthumb "-I.\ULF Module" -I. -IGenerated_Source\PSoC6 -IGenerated_Source\PSoC6\pdl\cmsis/include/ -IGenerated_Source\PSoC6\pdl\devices/psoc6/ip/ -IGenerated_Source\PSoC6\pdl\devices/psoc6/psoc63/include/ -IGenerated_Source\PSoC6\pdl\drivers/peripheral/ -IGenerated_Source\PSoC6\pdl\middleware/ -Wa,-alh=.\CortexM4\ARM_GCC_541\Debug/ULF.lst -g -D DEBUG -D CY_PSOC_CREATOR_USED=1 -D CY8C6347BZI_BLD53 -Wall -ffunction-sections -ffat-lto-objects -Og -c "ULF Module\ULF.c" -o .\CortexM4\ARM_GCC_541\Debug\ULF.o
-ULF Module\ULF.c: In function 'ULF_BasebandCnt_Isr':
-ULF Module\ULF.c:314:18: warning: unused variable 'i' [-Wunused-variable]
-     unsigned int i;
-                  ^
-ULF Module\ULF.c: In function 'ULF_Routine':
-ULF Module\ULF.c:760:19: warning: unused variable 'i' [-Wunused-variable]
-     unsigned char i;
-                   ^
-ULF Module\ULF.c: At top level:
-ULF Module\ULF.c:544:13: warning: 'ULF_BasebandIn_Isr' defined but not used [-Wunused-function]
+ULF Module\ULF.c:336:13: warning: 'ULF_BasebandIn_Isr' defined but not used [-Wunused-function]
  static void ULF_BasebandIn_Isr()
              ^
-ULF Module\ULF.c:281:13: warning: 'ULF_Baseband_GetData' defined but not used [-Wunused-function]
+ULF Module\ULF.c:75:13: warning: 'ULF_Capture_Stop' defined but not used [-Wunused-function]
+ static void ULF_Capture_Stop(void)
+             ^
+ULF Module\ULF.c:205:13: warning: 'ULF_Baseband_GetData' defined but not used [-Wunused-function]
  static void ULF_Baseband_GetData(){
              ^
 arm-none-eabi-gcc.exe -mcpu=cortex-m4 -mfloat-abi=softfp -mfpu=fpv4-sp-d16 -mthumb "-I.\ULF Module" -I. -IGenerated_Source\PSoC6 -IGenerated_Source\PSoC6\pdl\cmsis/include/ -IGenerated_Source\PSoC6\pdl\devices/psoc6/ip/ -IGenerated_Source\PSoC6\pdl\devices/psoc6/psoc63/include/ -IGenerated_Source\PSoC6\pdl\drivers/peripheral/ -IGenerated_Source\PSoC6\pdl\middleware/ -Wa,-alh=.\CortexM4\ARM_GCC_541\Debug/cyfitter_sysint_cfg.lst -g -D DEBUG -D CY_PSOC_CREATOR_USED=1 -D CY8C6347BZI_BLD53 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC6\cyfitter_sysint_cfg.c -o .\CortexM4\ARM_GCC_541\Debug\cyfitter_sysint_cfg.o
@@ -133,5 +217,5 @@ Checksum calculated and stored in ELF section .cymeta
 Application checksum calculated and stored in ELF section .cychecksum
 Checksum calculated and stored in ELF section .cymeta
 "C:\Program Files (x86)\Cypress\PDL\3.0.4\tools\win\elf\cymcuelftool.exe" -A "C:\Users\Tornado\Documents\PSoC Creator\CE220291_TCPWM_Square_Wave01\CE220291_TCPWM_Square_Wave01.cydsn\CortexM4\ARM_GCC_541\Debug\CE220291_TCPWM_Square_Wave01.elf"
-code:26780	sram:2224
---------------- Rebuild Succeeded: 03/08/2019 09:30:27 ---------------
+code:28412	sram:2480
+--------------- Rebuild Succeeded: 03/19/2019 16:12:50 ---------------

@@ -20,6 +20,10 @@ typedef struct{
     unsigned char counter;
 }sys_LEDtimer_t;
 
+void ULF_FiledDetectInt_Disable(void);
+void ULF_FiledDetectInt_Enable(void);
+
+
 #endif
 
 /* [] END OF FILE */

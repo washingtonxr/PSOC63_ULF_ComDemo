@@ -116,6 +116,7 @@ typedef struct{
     unsigned char ULF_TRANSMIT_STATE;                           /* Transmit State.       */
     unsigned char ULF_TRANSMIT_BIT;                             /* Transmit Current bit. */
     unsigned short ULF_TRANSMIT_DLEN;                           /* Transmit Data Length. */
+    unsigned char ULF_TRANSMIT_NOTE;
     /* Receiver Parameter. */
     unsigned char ULF_RECEIVE_START;                            /* Receive start sign.   */
     unsigned char ULF_RECEIVE_BITEN;
@@ -124,7 +125,8 @@ typedef struct{
     unsigned char ULF_RECEIVE_PAGE;                             /* Baseband data page.   */
     unsigned char ULF_RECEIVE_STATE;                            /* Receive State.        */
     /* Baseband Transmit Parameter. */
-    unsigned char ULF_BBTRANS_ROUND;
+    unsigned short ULF_BBTRANS_ROUND;
+    unsigned char ULF_DETECT_CARRIER;
 }ulf_ctrl_t;
 
 typedef struct{
@@ -144,9 +146,11 @@ void ULF_Init(void);
 unsigned int ULF_Test(void);
 int ULF_Routine(ulf_userdb_t *userdb);
 unsigned int ULF_Receive(ulf_userdb_t *userdb, unsigned char round);
-unsigned int ULF_Transmit(ulf_userdb_t *userdb, unsigned char round);
+unsigned int ULF_Transmit(ulf_userdb_t *userdb, unsigned short round);
+unsigned int ULF_Transmit_Exit(void);
 
 extern unsigned int Sys_counter;
+
 #endif
 /* The end of file. */
 
