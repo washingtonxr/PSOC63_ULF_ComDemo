@@ -184,9 +184,9 @@ static void ULF_MainCnt_Isr()
                 ULF_CTRL.ULF_TRANSMIT_STATE = 0;
             }else{
                 ULF_CTRL.ULF_TRANSMIT_STATE = 3;
-                
+#if 0
                 Cy_GPIO_Clr(ULF_TXen_PORT, ULF_TXen_NUM);
-    
+#endif
                 ULF_MainCnt_Isr_Disable();
                 ULF_Counter_Stop();
             }
@@ -437,10 +437,10 @@ static void ULF_FiledDetect_Disable(void)
 
     /* Disable transmit counter & ISR. */
     ULF_MainCnt_Isr_Disable();
-    
+#if 1
     /* Clear TXen pin. */
     Cy_GPIO_Clr(ULF_TXen_PORT, ULF_TXen_NUM);
-    
+#endif
     /* Clear ULF_BO pin. */
     Cy_GPIO_Clr(ULF_BO_PORT, ULF_BO_NUM);
    
@@ -456,6 +456,11 @@ static void ULF_FiledDetect_Enable(void)
     ULF_CTRL.ULF_DETECT_CARRIER = 1;
     
     ULF_CTRL.ULF_TRANSMIT_NOTE = 1;
+#if 1
+    /* Enable TXen pin. */
+    Cy_GPIO_Set(ULF_TXen_PORT, ULF_TXen_NUM);
+#endif
+
 }
 
 unsigned int ULF_Transmit_Exit(void)
@@ -463,10 +468,10 @@ unsigned int ULF_Transmit_Exit(void)
     //ULF_CTRL.ULF_DETECT_CARRIER = 0;
 
     Cy_GPIO_Clr(ULF_BO_PORT, ULF_BO_NUM);
-    
+#if 0
     /* Clear TXen pin. */
     Cy_GPIO_Clr(ULF_TXen_PORT, ULF_TXen_NUM);
-
+#endif
     ULF_MainCnt_Isr_Disable();
 
     ULF_Counter_Stop();
@@ -484,9 +489,10 @@ unsigned int ULF_Transmit(ulf_userdb_t *userdb, unsigned short round)
         Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
 
         if((1 == userdb->option) && (round > 0)){
+#if 0
             /* Set TXen pin. */
             Cy_GPIO_Set(ULF_TXen_PORT, ULF_TXen_NUM);
-
+#endif
             ULF_CTRL.ULF_TRANSMIT_CNT = 0;
             ULF_CTRL.ULF_TRANSMIT_STATE = 0;
             ULF_CTRL.ULF_BBTRANS_ROUND = round;

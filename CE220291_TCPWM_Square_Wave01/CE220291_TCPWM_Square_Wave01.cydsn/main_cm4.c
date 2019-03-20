@@ -138,7 +138,7 @@ static void SW3_ISR(void)
         /* Read the input state of SW3_PORT. */
         if(1UL == ret){
             Orange_LED.sw = 1;
-            ULF_Transmit(&USER_DB_1, 128);
+            ULF_Transmit(&USER_DB_1, 256);
         }else{
             ULF_Transmit_Exit();
         }
