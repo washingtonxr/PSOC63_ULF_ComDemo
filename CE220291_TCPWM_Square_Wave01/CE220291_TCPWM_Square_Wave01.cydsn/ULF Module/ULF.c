@@ -32,6 +32,9 @@ static ulf_trans_value_t ULF_Trans_Val;
 static unsigned int ulf_transmit_id[2] = {0xff824006, 0x18C350BC};
 #endif
 static void ULF_Carrier_Stop(void);
+static void CarrierCnt_Isr_Disable(void);
+static void CarrierCnt_Isr_Enable(void);
+
 static void ULF_CarrierCnt_Isr(void);
 static void ULF_Counter_Stop(void);
 static void ULF_MainCnt_Isr(void);
@@ -92,6 +95,20 @@ static void ULF_Counter_Stop(void)
 #endif
 }
 
+static void CarrierCnt_Isr_Disable(void)
+{
+    NVIC_ClearPendingIRQ(SysInt_ULFCarrierCnt_cfg.intrSrc);
+    NVIC_DisableIRQ((IRQn_Type)SysInt_ULFCarrierCnt_cfg.intrSrc);
+}
+
+static void CarrierCnt_Isr_Enable(void)
+{
+    /* Configure CM4+ CPU interrupt vector for SysInt_ULFCnt_cfg Timmer. */
+    Cy_SysInt_Init(&SysInt_ULFCarrierCnt_cfg, ULF_CarrierCnt_Isr);
+    NVIC_ClearPendingIRQ(SysInt_ULFCarrierCnt_cfg.intrSrc);
+    NVIC_EnableIRQ((IRQn_Type)SysInt_ULFCarrierCnt_cfg.intrSrc);
+}
+
 /**
  * Ultra Low Frequency ISR.
  */
@@ -107,6 +124,7 @@ static void ULF_CarrierCnt_Isr()
         if(ULF_CTRL.ULF_TRANSMIT_ROUND > 0){
             ULF_CTRL.ULF_TRANSMIT_ROUND--;
         }else{
+            CarrierCnt_Isr_Disable();
             ULF_Carrier_Stop();
             ULF_FiledDetect_Enable();
         }    
@@ -184,9 +202,9 @@ static void ULF_MainCnt_Isr()
                 ULF_CTRL.ULF_TRANSMIT_STATE = 0;
             }else{
                 ULF_CTRL.ULF_TRANSMIT_STATE = 3;
-#if 0
-                Cy_GPIO_Clr(ULF_TXen_PORT, ULF_TXen_NUM);
-#endif
+                /* Clear Baseband Port. */
+                Cy_GPIO_Clr(ULF_BO_PORT, ULF_BO_NUM);
+
                 ULF_MainCnt_Isr_Disable();
                 ULF_Counter_Stop();
             }
@@ -413,19 +431,10 @@ void ULF_Init()
     memset(&ULF_DB, 0, sizeof(ULF_DB));
     memset(&ULF_Recv_Val, 0, sizeof(ULF_Recv_Val));
     memset(&ULF_Trans_Val, 0, sizeof(ULF_Trans_Val));
-    
-    ULF_BasebandCnt_Isr_Enable();
-    
-    /* Capture for ULF baseband. */
-    ULF_Capture_Start();
    
-    //ULF_MainCnt_Isr_Enable();
-    
     /* Disable ULF Field Detecting. */
     ULF_CTRL.ULF_DETECT_CARRIER = 1;
-    
-    /* ULF Output Counter. */
-    //ULF_Counter_Start();
+    Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
 
     return;
 }
@@ -434,6 +443,7 @@ static void ULF_FiledDetect_Disable(void)
 {
     /* Disable ULF Field Detecting. */
     ULF_CTRL.ULF_DETECT_CARRIER = 0;
+    Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
 
     /* Disable transmit counter & ISR. */
     ULF_MainCnt_Isr_Disable();
@@ -454,6 +464,7 @@ static void ULF_FiledDetect_Enable(void)
 
     /* Enable ULF Field Detecting. */
     ULF_CTRL.ULF_DETECT_CARRIER = 1;
+    Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
     
     ULF_CTRL.ULF_TRANSMIT_NOTE = 1;
 #if 1
@@ -484,10 +495,11 @@ unsigned int ULF_Transmit(ulf_userdb_t *userdb, unsigned short round)
     int i;
 
     if(0 != ULF_CTRL.ULF_DETECT_CARRIER){
+#if 0
         Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
         CyDelayUs(10);
         Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
-
+#endif
         if((1 == userdb->option) && (round > 0)){
 #if 0
             /* Set TXen pin. */
@@ -540,15 +552,16 @@ unsigned int ULF_Receive(ulf_userdb_t *userdb, unsigned char round)
     
         ULF_FiledDetect_Disable();
                
-        /* Configure CM4+ CPU interrupt vector for SysInt_ULFCnt_cfg Timmer. */
-        Cy_SysInt_Init(&SysInt_ULFCarrierCnt_cfg, ULF_CarrierCnt_Isr);
-        NVIC_ClearPendingIRQ(SysInt_ULFCarrierCnt_cfg.intrSrc);
-        NVIC_EnableIRQ((IRQn_Type)SysInt_ULFCarrierCnt_cfg.intrSrc);
+        CarrierCnt_Isr_Enable();
        
         /* ULF Carrier engine start. */
         ULF_Carrier_Start();
 
+        /* Capture for ULF baseband. */
+        ULF_Capture_Start();
+
         ULF_BasebandCnt_Isr_Enable();
+
     }
 
     return 0;
@@ -811,7 +824,11 @@ int ULF_Routine(ulf_userdb_t *userdb)
 
         ULF_CTRL.ULF_RECEIVE_PAGE = 0;
         ULF_CTRL.ULF_RECEIVE_CNT = 0;
-                
+        
+        /* Enable ULF Field Detecting. */
+        //ULF_CTRL.ULF_DETECT_CARRIER = 1;
+        //Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
+        
         memset(&ULF_Recv_Val,0,sizeof(ULF_Recv_Val));
 
         return 1;

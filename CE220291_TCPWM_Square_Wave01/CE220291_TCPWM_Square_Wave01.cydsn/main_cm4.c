@@ -124,24 +124,39 @@ static void SW3_ISR(void)
     int ret;
     /* Optional check to determine if one pin in the port generated interrupt. */
     if(Cy_GPIO_GetInterruptStatus(SW3_PORT, SW3_NUM) == CY_GPIO_INTR_STATUS_MASK){
-#if 1
+#if 0
         /* Get the interrrupt edge setting of SW3 */
         ret = Cy_GPIO_GetInterruptEdge(SW3_PORT, SW3_NUM);
         DEBUG_PRINTF("Info:SW3 Edge:%d\n", ret);
         //CY_GPIO_INTR_RISING
-#endif
         Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
         CyDelayUs(10);
         Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
-        
+        Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
+        CyDelayUs(16);
+        Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
+        DEBUG_PRINTF("Info:SW3 Status:%d\n", ret);
+#endif
+        /* Delay for a while. */
+        CyDelayUs(10);
         ret = Cy_GPIO_Read(SW3_PORT, SW3_NUM);
+        DEBUG_PRINTF("Info:SW3 Status:%d\n", ret);
         /* Read the input state of SW3_PORT. */
+#if 1   /* Falling edge activity. */
+        if(1UL == ret){
+            ULF_Transmit_Exit();
+        }else{
+            Orange_LED.sw = 1;
+            ULF_Transmit(&USER_DB_1, 256);
+        }
+#else   /* Raising edge activity. */
         if(1UL == ret){
             Orange_LED.sw = 1;
             ULF_Transmit(&USER_DB_1, 256);
         }else{
             ULF_Transmit_Exit();
         }
+#endif
     }
     /* Clear pin interrupt logic. Required to detect next interrupt */
     Cy_GPIO_ClearInterrupt(SW3_PORT, SW3_NUM);
