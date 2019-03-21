@@ -68,7 +68,11 @@ typedef enum{
     IDLE,
     BUSY,
     CONT,
-    SYNC
+    SYNC,
+    TIMEOUT,
+    CARRIER_TO,
+    BASEBAND_TO,
+    GETCARD_INFO
 }ulf_txstate_t;
 
 /* Database for ULF. */
@@ -127,6 +131,7 @@ typedef struct{
     /* Baseband Transmit Parameter. */
     unsigned short ULF_BBTRANS_ROUND;
     unsigned char ULF_DETECT_CARRIER;
+    unsigned char ULF_BBTRANS_NOTE;
 }ulf_ctrl_t;
 
 typedef struct{

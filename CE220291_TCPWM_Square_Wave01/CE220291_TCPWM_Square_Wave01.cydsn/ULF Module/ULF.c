@@ -126,6 +126,7 @@ static void ULF_CarrierCnt_Isr()
         }else{
             CarrierCnt_Isr_Disable();
             ULF_Carrier_Stop();
+            ULF_CTRL.ULF_TRANSMIT_NOTE = CARRIER_TO;
             ULF_FiledDetect_Enable();
         }    
     }
@@ -202,11 +203,20 @@ static void ULF_MainCnt_Isr()
                 ULF_CTRL.ULF_TRANSMIT_STATE = 0;
             }else{
                 ULF_CTRL.ULF_TRANSMIT_STATE = 3;
+                
                 /* Clear Baseband Port. */
                 Cy_GPIO_Clr(ULF_BO_PORT, ULF_BO_NUM);
 
-                ULF_MainCnt_Isr_Disable();
-                ULF_Counter_Stop();
+                /* Check ULF Field exist or not. */
+                if(1UL == Cy_GPIO_Read(SW3_PORT, SW3_NUM)){
+                    
+                    ULF_CTRL.ULF_BBTRANS_NOTE = BASEBAND_TO;
+                    
+                    ULF_MainCnt_Isr_Disable();
+                    ULF_Counter_Stop();
+                }else{
+                    ULF_CTRL.ULF_BBTRANS_ROUND = 16;
+                }
             }
             break;
             
@@ -434,7 +444,6 @@ void ULF_Init()
    
     /* Disable ULF Field Detecting. */
     ULF_CTRL.ULF_DETECT_CARRIER = 1;
-    Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
 
     return;
 }
@@ -443,13 +452,15 @@ static void ULF_FiledDetect_Disable(void)
 {
     /* Disable ULF Field Detecting. */
     ULF_CTRL.ULF_DETECT_CARRIER = 0;
-    Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
 
     /* Disable transmit counter & ISR. */
     ULF_MainCnt_Isr_Disable();
 #if 1
     /* Clear TXen pin. */
     Cy_GPIO_Clr(ULF_TXen_PORT, ULF_TXen_NUM);
+#else
+    /* Enable TXen pin. */
+    Cy_GPIO_Set(ULF_TXen_PORT, ULF_TXen_NUM);
 #endif
     /* Clear ULF_BO pin. */
     Cy_GPIO_Clr(ULF_BO_PORT, ULF_BO_NUM);
@@ -464,9 +475,7 @@ static void ULF_FiledDetect_Enable(void)
 
     /* Enable ULF Field Detecting. */
     ULF_CTRL.ULF_DETECT_CARRIER = 1;
-    Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
-    
-    ULF_CTRL.ULF_TRANSMIT_NOTE = 1;
+
 #if 1
     /* Enable TXen pin. */
     Cy_GPIO_Set(ULF_TXen_PORT, ULF_TXen_NUM);
@@ -702,8 +711,7 @@ unsigned int ULF_Decode_L2_T4100(ulf_userdb_t *userdb)
         CARD_SDATA[i] = (ULF_Recv_Val.ULF_RecvValue[0] >> (32 - 5*(1+i))) & 0x1F;
     }
     
-    CARD_SDATA[6] = (ULF_Recv_Val.ULF_RecvValue[0] & 0x03
-);
+    CARD_SDATA[6] = (ULF_Recv_Val.ULF_RecvValue[0] & 0x03);
     CARD_SDATA[6] <<= 3;
     CARD_SDATA[6] += ULF_Recv_Val.ULF_RecvValue[1] >> 20;
     
@@ -813,7 +821,7 @@ int ULF_Routine(ulf_userdb_t *userdb)
         
         DEBUG_PRINTF("Info(%08X):Receive ID =>> ", Sys_counter);
         for(i = 0; i < 10; i++){
-            DEBUG_PRINTF("%1X",userdb->pure_data[i]);
+            DEBUG_PRINTF("%1X", userdb->pure_data[i]);
         }
         DEBUG_PRINTF("\n");
 #if 0
@@ -831,14 +839,18 @@ int ULF_Routine(ulf_userdb_t *userdb)
         
         memset(&ULF_Recv_Val,0,sizeof(ULF_Recv_Val));
 
-        return 1;
+        return GETCARD_INFO;
     }
 
-    if(ULF_CTRL.ULF_TRANSMIT_NOTE){
+    if(CARRIER_TO == ULF_CTRL.ULF_TRANSMIT_NOTE){
         ULF_CTRL.ULF_TRANSMIT_NOTE = 0;
-        return 2;
+        return CARRIER_TO;
     }
-
+    
+    if(BASEBAND_TO == ULF_CTRL.ULF_BBTRANS_NOTE){
+        ULF_CTRL.ULF_BBTRANS_NOTE = 0;
+        return BASEBAND_TO;
+    }
     return 0;
 }
 

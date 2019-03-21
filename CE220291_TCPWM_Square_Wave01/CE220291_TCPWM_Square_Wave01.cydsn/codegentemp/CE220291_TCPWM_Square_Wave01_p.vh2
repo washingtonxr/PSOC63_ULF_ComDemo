@@ -1,5 +1,5 @@
 -- Project:   CE220291_TCPWM_Square_Wave01
--- Generated: 03/21/2019 09:27:10
+-- Generated: 03/21/2019 17:18:53
 -- PSoC Creator  4.2
 
 ENTITY CE220291_TCPWM_Square_Wave01 IS
@@ -1225,7 +1225,7 @@ BEGIN
             i2c_mode => "0",
             ibuf_enabled => "1",
             id => "a953aec0-263b-4feb-91da-793994dce3e5",
-            init_dr_st => "0",
+            init_dr_st => "1",
             input_sync => "0",
             intr_mode => "11",
             io_voltage => "",

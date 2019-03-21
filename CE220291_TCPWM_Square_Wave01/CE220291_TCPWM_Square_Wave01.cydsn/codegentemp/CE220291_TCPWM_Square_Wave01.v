@@ -1,6 +1,6 @@
 // ======================================================================
 // CE220291_TCPWM_Square_Wave01.v generated from TopDesign.cysch
-// 03/21/2019 at 09:27
+// 03/21/2019 at 17:18
 // This file is auto generated. ANY EDITS YOU MAKE MAY BE LOST WHEN THIS FILE IS REGENERATED!!!
 // ======================================================================
 
@@ -999,7 +999,7 @@ module top ;
 		  .sio_grp_cnt(0),
 		  .drive_mode("0"),
 		  .ibuf_enabled("1"),
-		  .init_dr_st("0"),
+		  .init_dr_st("1"),
 		  .input_sync("0"),
 		  .intr_mode("3"),
 		  .io_voltage(""),
