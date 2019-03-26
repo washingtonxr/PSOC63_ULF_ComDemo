@@ -42,8 +42,8 @@
 #define UART_DEBUG_SCBCLK__DIV_TYPE CY_SYSCLK_DIV_8_BIT
 
 /* System_Tick */
-#define System_Tick_TCPWM__CNT_HW TCPWM0_CNT0
-#define System_Tick_TCPWM__CNT_IDX 0u
+#define System_Tick_TCPWM__CNT_HW TCPWM0_CNT1
+#define System_Tick_TCPWM__CNT_IDX 1u
 #define System_Tick_TCPWM__HW TCPWM0
 #define System_Tick_TCPWM__IDX 0u
 
@@ -53,20 +53,20 @@
 #define ULF_Cap_Clk__DIV_TYPE CY_SYSCLK_DIV_8_BIT
 
 /* ULF_Capture */
-#define ULF_Capture_TCPWM__CNT_HW TCPWM0_CNT1
-#define ULF_Capture_TCPWM__CNT_IDX 1u
+#define ULF_Capture_TCPWM__CNT_HW TCPWM0_CNT2
+#define ULF_Capture_TCPWM__CNT_IDX 2u
 #define ULF_Capture_TCPWM__HW TCPWM0
 #define ULF_Capture_TCPWM__IDX 0u
 
 /* ULF_Carrier */
-#define ULF_Carrier_TCPWM__CNT_HW TCPWM0_CNT3
-#define ULF_Carrier_TCPWM__CNT_IDX 3u
+#define ULF_Carrier_TCPWM__CNT_HW TCPWM0_CNT0
+#define ULF_Carrier_TCPWM__CNT_IDX 0u
 #define ULF_Carrier_TCPWM__HW TCPWM0
 #define ULF_Carrier_TCPWM__IDX 0u
 
 /* ULF_Counter */
-#define ULF_Counter_TCPWM__CNT_HW TCPWM0_CNT2
-#define ULF_Counter_TCPWM__CNT_IDX 2u
+#define ULF_Counter_TCPWM__CNT_HW TCPWM0_CNT3
+#define ULF_Counter_TCPWM__CNT_IDX 3u
 #define ULF_Counter_TCPWM__HW TCPWM0
 #define ULF_Counter_TCPWM__IDX 0u
 

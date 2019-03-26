@@ -40,6 +40,12 @@
 * system or application assumes all risk of such use and in doing so agrees to 
 * indemnify Cypress against all liability.
 *******************************************************************************/
+/**
+ * Function: Ultra Low Frequency module. 
+ * Author: Xi Ruan
+ * Date: Mar.1st,2019
+ * E-mail: ruanx@landicorp.com
+ **/
 #include <string.h>
 #include "project.h"
 #include "ULF.h"
@@ -123,11 +129,11 @@ void SW2_ISR(void)
 
         Orange_LED.sw = 1;
         ULF_Receive(&USER_DB_1, 32);
-        
+#if 0
         Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
         CyDelayUs(10);
         Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
-
+#endif
     }
     /* Clear pin interrupt logic. Required to detect next interrupt */
     Cy_GPIO_ClearInterrupt(SW2_PORT, SW2_NUM);
@@ -143,23 +149,17 @@ void SW3_ISR(void)
         /* Get the interrrupt edge setting of SW3 */
         ret = Cy_GPIO_GetInterruptEdge(SW3_PORT, SW3_NUM);
         DEBUG_PRINTF("Info:SW3 Edge:%d\n", ret);
-        //CY_GPIO_INTR_RISING
+        ret = SW3_PORT->INTR;
+        DEBUG_PRINTF("Info:SW3 PORT INTR:%08X\n", ret);
+ #endif
+#if 0
         Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
         CyDelayUs(10);
         Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
-        DEBUG_PRINTF("Info:SW3 Status:%d\n", ret);
 #endif
-        /* Get the interrrupt edge setting of SW3 */
-        ret = Cy_GPIO_GetInterruptEdge(SW3_PORT, SW3_NUM);
-        DEBUG_PRINTF("Info:SW3 Edge:%d\n", ret);
-        
-        Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
-        CyDelayUs(10);
-        Cy_GPIO_Clr(ULF_BB_PORT, ULF_BB_NUM);
-
         /* Read the input state of SW3_PORT. */
         ret = Cy_GPIO_Read(SW3_PORT, SW3_NUM);
-        DEBUG_PRINTF("Info:SW3 Status:%d\n", ret);
+        //DEBUG_PRINTF("Info:SW3 Status:%d\n", ret);
 #if 1   /* Falling edge activity. */
         if(1UL == ret){
             ULF_Transmit_Exit();

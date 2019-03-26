@@ -30,6 +30,9 @@
     #define UART_DEBUG_SCB_IRQ__INTC_ASSIGNED 1u
     extern const cy_stc_sysint_t UART_DEBUG_SCB_IRQ_cfg;
 
+    #define SysInt_ULFCarrierCnt__INTC_ASSIGNED 1u
+    extern const cy_stc_sysint_t SysInt_ULFCarrierCnt_cfg;
+
     #define SysInt_Tick__INTC_ASSIGNED 1u
     extern const cy_stc_sysint_t SysInt_Tick_cfg;
 
@@ -38,9 +41,6 @@
 
     #define SysInt_ULFMainCnt__INTC_ASSIGNED 1u
     extern const cy_stc_sysint_t SysInt_ULFMainCnt_cfg;
-
-    #define SysInt_ULFCarrierCnt__INTC_ASSIGNED 1u
-    extern const cy_stc_sysint_t SysInt_ULFCarrierCnt_cfg;
 
 #endif /* ((__CORTEX_M == 4) && (CY_CORE_ID == 0)) */
 

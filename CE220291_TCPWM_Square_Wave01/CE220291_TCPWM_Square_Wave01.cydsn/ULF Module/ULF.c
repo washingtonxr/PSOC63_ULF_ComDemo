@@ -23,11 +23,14 @@
 #include "ULF.h"
 #include "debug.h"
 #include "ULF_Carrier.h"
+#include <stdlib.h>
+#include <unistd.h>
 
 static ulf_ctrl_t ULF_CTRL;                    /* ULF Transmit Control. */
 static ulf_user_db_t ULF_DB;                   /* ULF Control Database. */
 static ulf_recv_value_t ULF_Recv_Val;
 static ulf_trans_value_t ULF_Trans_Val;
+
 #if 0
 static unsigned int ulf_transmit_id[2] = {0xff824006, 0x18C350BC};
 #endif
@@ -123,11 +126,17 @@ static void ULF_CarrierCnt_Isr()
 
         if(ULF_CTRL.ULF_TRANSMIT_ROUND > 0){
             ULF_CTRL.ULF_TRANSMIT_ROUND--;
-        }else{
+        }
+        else
+        {
+
             CarrierCnt_Isr_Disable();
+            
             ULF_Carrier_Stop();
-            ULF_CTRL.ULF_TRANSMIT_NOTE = CARRIER_TO;
+
             ULF_FiledDetect_Enable();
+            
+            ULF_CTRL.ULF_TRANSMIT_NOTE = CARRIER_TO;
         }    
     }
    
@@ -203,7 +212,7 @@ static void ULF_MainCnt_Isr()
                 ULF_CTRL.ULF_TRANSMIT_STATE = 0;
             }else{
                 ULF_CTRL.ULF_TRANSMIT_STATE = 3;
-                
+
                 /* Clear Baseband Port. */
                 Cy_GPIO_Clr(ULF_BO_PORT, ULF_BO_NUM);
 
@@ -471,16 +480,12 @@ static void ULF_FiledDetect_Disable(void)
 
 static void ULF_FiledDetect_Enable(void)
 {
-    //CyDelayUs(1000);
-
-    /* Enable ULF Field Detecting. */
-    ULF_CTRL.ULF_DETECT_CARRIER = 1;
-
 #if 1
     /* Enable TXen pin. */
     Cy_GPIO_Set(ULF_TXen_PORT, ULF_TXen_NUM);
 #endif
-
+    /* Enable ULF Field Detecting. */
+    ULF_CTRL.ULF_DETECT_CARRIER = 1;
 }
 
 unsigned int ULF_Transmit_Exit(void)
@@ -495,6 +500,8 @@ unsigned int ULF_Transmit_Exit(void)
     ULF_MainCnt_Isr_Disable();
 
     ULF_Counter_Stop();
+    
+    ULF_CTRL.ULF_DETECT_CARRIER = 1;
 
     return 0;
 }
@@ -542,6 +549,10 @@ unsigned int ULF_Transmit(ulf_userdb_t *userdb, unsigned short round)
                 DEBUG_PRINTF("Error(%08X):No vailid card ID.\n", Sys_counter);
             }
         }
+    }else{
+        /* Enable ULF Field Detecting. */
+        //ULF_CTRL.ULF_DETECT_CARRIER = 1;
+        //DEBUG_PRINTF("Info(%08X):Transmit machine is not ready.\n", Sys_counter);
     }
     return 0;
 }
@@ -562,7 +573,6 @@ unsigned int ULF_Receive(ulf_userdb_t *userdb, unsigned char round)
         ULF_FiledDetect_Disable();
                
         CarrierCnt_Isr_Enable();
-       
         /* ULF Carrier engine start. */
         ULF_Carrier_Start();
 
@@ -809,7 +819,7 @@ unsigned int ULF_Test()
 int ULF_Routine(ulf_userdb_t *userdb)
 {
     int i;
-    
+
     if(ULF_CTRL.ULF_RECEIVE_NOTE){
         ULF_CTRL.ULF_RECEIVE_NOTE = 0;
         
@@ -818,26 +828,26 @@ int ULF_Routine(ulf_userdb_t *userdb)
     
         /* Decode 4100 RAW data. */
         ULF_Decode_L2_T4100(userdb);
-        
-        DEBUG_PRINTF("Info(%08X):Receive ID =>> ", Sys_counter);
-        for(i = 0; i < 10; i++){
-            DEBUG_PRINTF("%1X", userdb->pure_data[i]);
+
+        if((0 != userdb->raw_data[0])||(0 != userdb->raw_data[1])){
+            DEBUG_PRINTF("Info(%08X):Receive ID =>> ", Sys_counter);
+            for(i = 0; i < 10; i++){
+                DEBUG_PRINTF("%1X", userdb->pure_data[i]);
+            }
+            DEBUG_PRINTF("\n");
         }
-        DEBUG_PRINTF("\n");
 #if 0
         memset(&ULF_Recv_Val,0,sizeof(ULF_Recv_Val));
         memset(&ULF_CTRL,0,sizeof(ULF_CTRL));
 #endif
+#if 1
         ULF_CTRL.ULF_RECEIVE_STATE = WARMUP;
-
         ULF_CTRL.ULF_RECEIVE_PAGE = 0;
         ULF_CTRL.ULF_RECEIVE_CNT = 0;
-        
-        /* Enable ULF Field Detecting. */
-        //ULF_CTRL.ULF_DETECT_CARRIER = 1;
+#endif
         //Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
-        
-        memset(&ULF_Recv_Val,0,sizeof(ULF_Recv_Val));
+
+        memset(&ULF_Recv_Val, 0, sizeof(ULF_Recv_Val));
 
         return GETCARD_INFO;
     }

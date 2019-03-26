@@ -1,6 +1,6 @@
 // ======================================================================
 // CE220291_TCPWM_Square_Wave01.v generated from TopDesign.cysch
-// 03/21/2019 at 17:18
+// 03/26/2019 at 17:44
 // This file is auto generated. ANY EDITS YOU MAKE MAY BE LOST WHEN THIS FILE IS REGENERATED!!!
 // ======================================================================
 
@@ -511,6 +511,19 @@ module TCPWM_Counter_PDL_v1_0_4 (
 
 endmodule
 
+// Component: not_v1_0
+`ifdef CY_BLK_DIR
+`undef CY_BLK_DIR
+`endif
+
+`ifdef WARP
+`define CY_BLK_DIR "C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\not_v1_0"
+`include "C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\not_v1_0\not_v1_0.v"
+`else
+`define CY_BLK_DIR "C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\not_v1_0"
+`include "C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\not_v1_0\not_v1_0.v"
+`endif
+
 // top
 module top ;
 
@@ -549,8 +562,10 @@ module top ;
           wire  Net_86;
           wire  Net_85;
           wire  Net_84;
+          wire  Net_276;
           wire  Net_26;
-          wire  Net_266;
+          wire  Net_274;
+          wire  Net_116;
           wire  Net_265;
           wire  Net_264;
           wire  Net_263;
@@ -562,7 +577,6 @@ module top ;
           wire  Net_272;
           wire  Net_269;
           wire  Net_32;
-          wire  Net_116;
           wire  Net_140;
           wire  Net_149;
           wire  Net_164;
@@ -583,8 +597,8 @@ module top ;
         .undrflw(Net_264),
         .compare(Net_265),
         .clock(Net_10),
-        .pwm(Net_266),
-        .pwm_n(Net_116));
+        .pwm(Net_116),
+        .pwm_n(Net_274));
 
 
 	cy_clock_v1_0
@@ -628,7 +642,7 @@ module top ;
 		  .hotswap_needed("0"))
 		ULF_OUT
 		 (.oe({1'b1}),
-		  .y({Net_116}),
+		  .y({Net_276}),
 		  .fb({tmpFB_0__ULF_OUT_net[0:0]}),
 		  .io({tmpIO_0__ULF_OUT_net[0:0]}),
 		  .siovref(tmpSIOVREF__ULF_OUT_net));
@@ -997,7 +1011,7 @@ module top ;
 		#(.id("a953aec0-263b-4feb-91da-793994dce3e5"),
 		  .width(1),
 		  .sio_grp_cnt(0),
-		  .drive_mode("0"),
+		  .drive_mode("2"),
 		  .ibuf_enabled("1"),
 		  .init_dr_st("1"),
 		  .input_sync("0"),
@@ -1054,6 +1068,9 @@ module top ;
 		GS4SW3
 		 (.sig_out(Net_269));
 
+
+
+    assign Net_276 = ~Net_274;
 
 
 

@@ -38,6 +38,12 @@
         .intrPriority = UART_DEBUG_SCB_IRQ__INTC_CORTEXM4_PRIORITY
     };
 
+    /* SysInt_ULFCarrierCnt */
+    const cy_stc_sysint_t SysInt_ULFCarrierCnt_cfg = {
+        .intrSrc = (IRQn_Type)SysInt_ULFCarrierCnt__INTC_NUMBER,
+        .intrPriority = SysInt_ULFCarrierCnt__INTC_CORTEXM4_PRIORITY
+    };
+
     /* SysInt_Tick */
     const cy_stc_sysint_t SysInt_Tick_cfg = {
         .intrSrc = (IRQn_Type)SysInt_Tick__INTC_NUMBER,
@@ -54,12 +60,6 @@
     const cy_stc_sysint_t SysInt_ULFMainCnt_cfg = {
         .intrSrc = (IRQn_Type)SysInt_ULFMainCnt__INTC_NUMBER,
         .intrPriority = SysInt_ULFMainCnt__INTC_CORTEXM4_PRIORITY
-    };
-
-    /* SysInt_ULFCarrierCnt */
-    const cy_stc_sysint_t SysInt_ULFCarrierCnt_cfg = {
-        .intrSrc = (IRQn_Type)SysInt_ULFCarrierCnt__INTC_NUMBER,
-        .intrPriority = SysInt_ULFCarrierCnt__INTC_CORTEXM4_PRIORITY
     };
 
 #endif /* ((__CORTEX_M == 4) && (CY_CORE_ID == 0)) */

@@ -9,6 +9,12 @@
  *
  * @bug No known bugs.
  **/
+/**
+ * Function: Ultra Low Frequency module. 
+ * Author: Xi Ruan
+ * Date: Mar.1st,2019
+ * E-mail: ruanx@landicorp.com
+ **/
 #ifndef _ULF_H
 #define _ULF_H
 
@@ -132,6 +138,8 @@ typedef struct{
     unsigned short ULF_BBTRANS_ROUND;
     unsigned char ULF_DETECT_CARRIER;
     unsigned char ULF_BBTRANS_NOTE;
+    /* Runtine Parameter. */
+    //unsigned char ULF_ROUTINE_STATE;
 }ulf_ctrl_t;
 
 typedef struct{

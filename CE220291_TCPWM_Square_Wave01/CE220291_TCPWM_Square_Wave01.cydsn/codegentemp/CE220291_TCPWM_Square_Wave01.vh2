@@ -2,7 +2,7 @@
 --	Conversion of CE220291_TCPWM_Square_Wave01.v to vh2:
 --
 --	Cypress Semiconductor - WARP Version 6.3 IR 41
---	Thu Mar 21 17:18:47 2019
+--	Tue Mar 26 17:44:44 2019
 --
 
 USE cypress.cypress.all;
@@ -21,10 +21,11 @@ SIGNAL \ULF_Carrier:start\ : bit;
 SIGNAL Net_264 : bit;
 SIGNAL Net_265 : bit;
 SIGNAL Net_263 : bit;
+SIGNAL Net_274 : bit;
 SIGNAL Net_116 : bit;
-SIGNAL Net_266 : bit;
 SIGNAL Net_32 : bit;
 SIGNAL one : bit;
+SIGNAL Net_276 : bit;
 SIGNAL tmpFB_0__ULF_OUT_net_0 : bit;
 SIGNAL tmpIO_0__ULF_OUT_net_0 : bit;
 TERMINAL tmpSIOVREF__ULF_OUT_net_0 : bit;
@@ -128,6 +129,8 @@ one <=  ('1') ;
 
 zero <=  ('0') ;
 
+Net_276 <= (not Net_274);
+
 \ULF_Carrier:TCPWM\:cy_mxs40_tcpwm_v1_0
 	GENERIC MAP(cy_registers=>"",
 		width=>16,
@@ -141,8 +144,8 @@ zero <=  ('0') ;
 		tr_underflow=>Net_264,
 		tr_compare_match=>Net_265,
 		tr_overflow=>Net_263,
-		line_compl=>Net_116,
-		line=>Net_266,
+		line_compl=>Net_274,
+		line=>Net_116,
 		interrupt=>Net_32);
 Clock:cy_clock_v1_0
 	GENERIC MAP(cy_registers=>"",
@@ -180,7 +183,7 @@ ULF_OUT:cy_mxs40_gpio_v1_0
 		use_annotation=>"0",
 		hotswap_needed=>"0")
 	PORT MAP(oe=>(one),
-		y=>Net_116,
+		y=>Net_276,
 		fb=>(tmpFB_0__ULF_OUT_net_0),
 		analog=>(open),
 		io=>(tmpIO_0__ULF_OUT_net_0),
@@ -607,7 +610,7 @@ SW3:cy_mxs40_gpio_v1_0
 		width=>1,
 		sio_grp_cnt=>0,
 		id=>"a953aec0-263b-4feb-91da-793994dce3e5",
-		drive_mode=>"0",
+		drive_mode=>"2",
 		ibuf_enabled=>"1",
 		init_dr_st=>"1",
 		input_sync=>"0",

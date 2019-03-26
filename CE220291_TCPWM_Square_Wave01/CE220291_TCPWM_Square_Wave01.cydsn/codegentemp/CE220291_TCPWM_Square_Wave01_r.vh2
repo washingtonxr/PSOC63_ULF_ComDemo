@@ -1,5 +1,5 @@
 -- Project:   CE220291_TCPWM_Square_Wave01
--- Generated: 03/21/2019 17:18:54
+-- Generated: 03/26/2019 17:44:52
 -- PSoC Creator  4.2
 
 ENTITY CE220291_TCPWM_Square_Wave01 IS
@@ -78,7 +78,9 @@ ARCHITECTURE __DEFAULT__ OF CE220291_TCPWM_Square_Wave01 IS
     SIGNAL Net_263 : bit;
     SIGNAL Net_264 : bit;
     SIGNAL Net_265 : bit;
-    SIGNAL Net_266 : bit;
+    SIGNAL Net_274 : bit;
+    SIGNAL Net_276 : bit;
+    ATTRIBUTE placement_force OF Net_276 : SIGNAL IS "U(1,1,A)0";
     SIGNAL Net_32 : bit;
     SIGNAL Net_90 : bit;
     SIGNAL Net_91 : bit;
@@ -146,16 +148,18 @@ ARCHITECTURE __DEFAULT__ OF CE220291_TCPWM_Square_Wave01 IS
     ATTRIBUTE Location OF ULF_TXen(0) : LABEL IS "P10[5]";
     ATTRIBUTE lib_model OF SW3(0) : LABEL IS "iocell13";
     ATTRIBUTE Location OF SW3(0) : LABEL IS "P10[4]";
-    ATTRIBUTE Location OF \ULF_Carrier:TCPWM\ : LABEL IS "F(TCPWM,3)";
-    ATTRIBUTE Location OF SysInt_ULFCarrierCnt : LABEL IS "[IntrContainer=(0)][IntrId=(93)]";
-    ATTRIBUTE Location OF \ULF_Counter:TCPWM\ : LABEL IS "F(TCPWM,2)";
-    ATTRIBUTE Location OF SysInt_ULFMainCnt : LABEL IS "[IntrContainer=(0)][IntrId=(92)]";
-    ATTRIBUTE Location OF \System_Tick:TCPWM\ : LABEL IS "F(TCPWM,0)";
-    ATTRIBUTE Location OF SysInt_Tick : LABEL IS "[IntrContainer=(0)][IntrId=(90)]";
+    ATTRIBUTE lib_model OF Net_276 : LABEL IS "macrocell1";
+    ATTRIBUTE Location OF Net_276 : LABEL IS "U(1,1)";
+    ATTRIBUTE Location OF \ULF_Carrier:TCPWM\ : LABEL IS "F(TCPWM,0)";
+    ATTRIBUTE Location OF SysInt_ULFCarrierCnt : LABEL IS "[IntrContainer=(0)][IntrId=(90)]";
+    ATTRIBUTE Location OF \ULF_Counter:TCPWM\ : LABEL IS "F(TCPWM,3)";
+    ATTRIBUTE Location OF SysInt_ULFMainCnt : LABEL IS "[IntrContainer=(0)][IntrId=(93)]";
+    ATTRIBUTE Location OF \System_Tick:TCPWM\ : LABEL IS "F(TCPWM,1)";
+    ATTRIBUTE Location OF SysInt_Tick : LABEL IS "[IntrContainer=(0)][IntrId=(91)]";
     ATTRIBUTE Location OF \UART_DEBUG:SCB_IRQ\ : LABEL IS "[IntrContainer=(0)][IntrId=(46)]";
     ATTRIBUTE Location OF \UART_DEBUG:SCB\ : LABEL IS "F(SCB,5)";
-    ATTRIBUTE Location OF \ULF_Capture:TCPWM\ : LABEL IS "F(TCPWM,1)";
-    ATTRIBUTE Location OF SysInt_ULFBasebandCnt : LABEL IS "[IntrContainer=(0)][IntrId=(91)]";
+    ATTRIBUTE Location OF \ULF_Capture:TCPWM\ : LABEL IS "F(TCPWM,2)";
+    ATTRIBUTE Location OF SysInt_ULFBasebandCnt : LABEL IS "[IntrContainer=(0)][IntrId=(92)]";
     ATTRIBUTE Location OF SysInt_SW3 : LABEL IS "[IntrContainer=(0)][IntrId=(10)]";
     ATTRIBUTE Location OF SysInt_SW : LABEL IS "[IntrContainer=(0)][IntrId=(0)]";
     ATTRIBUTE Location OF IOSS : LABEL IS "F(IOSS,0)";
@@ -508,6 +512,53 @@ ARCHITECTURE __DEFAULT__ OF CE220291_TCPWM_Square_Wave01 IS
             out_clock_en : IN std_ulogic;
             out_reset : IN std_ulogic);
     END COMPONENT;
+    COMPONENT macrocell
+        PORT (
+            main_0 : IN std_ulogic;
+            main_1 : IN std_ulogic;
+            main_2 : IN std_ulogic;
+            main_3 : IN std_ulogic;
+            main_4 : IN std_ulogic;
+            main_5 : IN std_ulogic;
+            main_6 : IN std_ulogic;
+            main_7 : IN std_ulogic;
+            main_8 : IN std_ulogic;
+            main_9 : IN std_ulogic;
+            main_10 : IN std_ulogic;
+            main_11 : IN std_ulogic;
+            ar_0 : IN std_ulogic;
+            ap_0 : IN std_ulogic;
+            clock_0 : IN std_ulogic;
+            clk_en : IN std_ulogic;
+            cin : IN std_ulogic;
+            cpt0_0 : IN std_ulogic;
+            cpt0_1 : IN std_ulogic;
+            cpt0_2 : IN std_ulogic;
+            cpt0_3 : IN std_ulogic;
+            cpt0_4 : IN std_ulogic;
+            cpt0_5 : IN std_ulogic;
+            cpt0_6 : IN std_ulogic;
+            cpt0_7 : IN std_ulogic;
+            cpt0_8 : IN std_ulogic;
+            cpt0_9 : IN std_ulogic;
+            cpt0_10 : IN std_ulogic;
+            cpt0_11 : IN std_ulogic;
+            cpt1_0 : IN std_ulogic;
+            cpt1_1 : IN std_ulogic;
+            cpt1_2 : IN std_ulogic;
+            cpt1_3 : IN std_ulogic;
+            cpt1_4 : IN std_ulogic;
+            cpt1_5 : IN std_ulogic;
+            cpt1_6 : IN std_ulogic;
+            cpt1_7 : IN std_ulogic;
+            cpt1_8 : IN std_ulogic;
+            cpt1_9 : IN std_ulogic;
+            cpt1_10 : IN std_ulogic;
+            cpt1_11 : IN std_ulogic;
+            cout : OUT std_ulogic;
+            q : OUT std_ulogic;
+            q_fixed : OUT std_ulogic);
+    END COMPONENT;
     COMPONENT SCB
         PORT (
             clock : IN std_ulogic;
@@ -568,10 +619,10 @@ BEGIN
             wco => ClockBlock_WCO,
             lfclk => ClockBlock_LFClk,
             ff_div_0 => open,
-            ff_div_11 => Net_109_ff14,
-            ff_div_12 => Net_140_ff11,
-            ff_div_13 => Net_10_ff13,
-            ff_div_14 => Net_10_ff12,
+            ff_div_11 => Net_10_ff12,
+            ff_div_12 => Net_109_ff14,
+            ff_div_13 => Net_140_ff11,
+            ff_div_14 => Net_10_ff13,
             ff_div_5 => \UART_DEBUG:Net_847_ff0\,
             periclk_App => periclk_App);
 
@@ -728,11 +779,11 @@ BEGIN
             oe_sync_mode => 0,
             logicalport => "ULF_OUT",
             logicalport_pin_id => 0,
-            io_capabilities => "0000000000000000000000000000000000000000000000000000000000000001")
+            io_capabilities => "0000000000000000000000000000000000000000000000000000000000000101")
         PORT MAP(
             pa_out => ULF_OUT(0)__PA,
             oe => open,
-            pin_input => Net_116,
+            pin_input => Net_276,
             pad_out => ULF_OUT(0)_PAD,
             pad_in => ULF_OUT(0)_PAD,
             in_clock => open,
@@ -1235,7 +1286,7 @@ BEGIN
     SW3:logicalport
         GENERIC MAP(
             cy_registers => "",
-            drive_mode => "000",
+            drive_mode => "010",
             drive_strength => "0",
             hotswap_needed => "0",
             i2c_mode => "0",
@@ -1286,6 +1337,15 @@ BEGIN
             out_clock_en => open,
             out_reset => open);
 
+    Net_276:macrocell
+        GENERIC MAP(
+            eqn_main => "(!main_0)",
+            regmode => 0,
+            clken_mode => 1)
+        PORT MAP(
+            q => Net_276,
+            main_0 => Net_274);
+
     \ULF_Carrier:TCPWM\:TCPWM
         GENERIC MAP(
             cy_registers => "",
@@ -1301,8 +1361,8 @@ BEGIN
             tr_underflow => Net_264,
             tr_compare_match => Net_265,
             tr_overflow => Net_263,
-            line_compl => Net_116,
-            line => Net_266,
+            line_compl => Net_274,
+            line => Net_116,
             interrupt => Net_32);
 
     SysInt_ULFCarrierCnt:interrupt

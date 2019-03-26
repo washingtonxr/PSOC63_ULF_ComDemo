@@ -25,52 +25,38 @@ net INDIVIDUAL_PICU_OUT_10
 	term   ":intc_0:interrupt10.interrupt"
 end INDIVIDUAL_PICU_OUT_10
 net Net_109_ff14
-	term   ":Clockcontainer:Clock[0].ff_div_11"
-	switch ":Clockcontainer:Clock[0].ff_div_11==>:Clockcontainer:ff_permute.ff_div_11"
-	switch ":Clockcontainer:ff_permute.Clock[0]ff_div_19==>:TCPWMcontainer:TCPWM[0].clock"
-	term   ":TCPWMcontainer:TCPWM[0].clock"
-end Net_109_ff14
-net Net_10_ff12
-	term   ":Clockcontainer:Clock[0].ff_div_14"
-	switch ":Clockcontainer:Clock[0].ff_div_14==>:Clockcontainer:ff_permute.ff_div_14"
-	switch ":Clockcontainer:ff_permute.Clock[0]ff_div_22==>:TCPWMcontainer:TCPWM[3].clock"
-	term   ":TCPWMcontainer:TCPWM[3].clock"
-end Net_10_ff12
-net Net_10_ff13
-	term   ":Clockcontainer:Clock[0].ff_div_13"
-	switch ":Clockcontainer:Clock[0].ff_div_13==>:Clockcontainer:ff_permute.ff_div_13"
-	switch ":Clockcontainer:ff_permute.Clock[0]ff_div_21==>:TCPWMcontainer:TCPWM[2].clock"
-	term   ":TCPWMcontainer:TCPWM[2].clock"
-end Net_10_ff13
-net Net_114
-	term   ":TCPWMcontainer:TCPWM[0].interrupt"
-	switch ":TCPWMcontainer:TCPWM[0].interrupt==>:intc_0:interrupt90.interrupt"
-	term   ":intc_0:interrupt90.interrupt"
-end Net_114
-net Net_116
-	term   ":TCPWMcontainer:TCPWM[3].line_compl"
-	switch ":TCPWMcontainer:TCPWM[3].line_compl==>:UDB_Array:DSI_new2:LHO_Sel2.2"
-	switch ":UDB_Array:DSI_new2:LHO_Sel2.lho2==>:UDB_Array:DSI_new2:RHO_Sel2.1"
-	switch ":UDB_Array:DSI_new2:RHO_Sel2.rho2==>:UDB_Array:DSI_new3:LHO_Sel2.0"
-	switch ":UDB_Array:DSI_new3:LHO_Sel2.lho2==>:UDB_Array:DSI_new3:RHO_Sel2.1"
-	switch ":UDB_Array:DSI_new3:RHO_Sel2.rho2==>:UDB_Array:DSI_new4:LHO_Sel2.0"
-	switch ":UDB_Array:DSI_new4:LHO_Sel2.lho2==>:UDB_Array:DSI_new4:DOT_Sel3.0"
-	switch ":UDB_Array:DSI_new4:DOT_Sel3.ot3==>:UDB_Array:PortAdapter4:inputMux1.pinIn_3"
-	switch ":UDB_Array:PortAdapter4:inputMux1.paOut_2==>:ioport6:hsiomOut2.fixedIn2_DSI_GPIO"
-	switch ":ioport6:hsiomOut2.hsiomOut2==>:ioport6:smartio_mux_in2.direct_out"
-	switch ":ioport6:smartio_mux_in2.smartio_mux_in==>:ioport6:pin2.pin_input"
-	term   ":ioport6:pin2.pin_input"
-end Net_116
-net Net_140_ff11
 	term   ":Clockcontainer:Clock[0].ff_div_12"
 	switch ":Clockcontainer:Clock[0].ff_div_12==>:Clockcontainer:ff_permute.ff_div_12"
 	switch ":Clockcontainer:ff_permute.Clock[0]ff_div_20==>:TCPWMcontainer:TCPWM[1].clock"
 	term   ":TCPWMcontainer:TCPWM[1].clock"
-end Net_140_ff11
-net Net_149
+end Net_109_ff14
+net Net_10_ff12
+	term   ":Clockcontainer:Clock[0].ff_div_11"
+	switch ":Clockcontainer:Clock[0].ff_div_11==>:Clockcontainer:ff_permute.ff_div_11"
+	switch ":Clockcontainer:ff_permute.Clock[0]ff_div_19==>:TCPWMcontainer:TCPWM[0].clock"
+	term   ":TCPWMcontainer:TCPWM[0].clock"
+end Net_10_ff12
+net Net_10_ff13
+	term   ":Clockcontainer:Clock[0].ff_div_14"
+	switch ":Clockcontainer:Clock[0].ff_div_14==>:Clockcontainer:ff_permute.ff_div_14"
+	switch ":Clockcontainer:ff_permute.Clock[0]ff_div_22==>:TCPWMcontainer:TCPWM[3].clock"
+	term   ":TCPWMcontainer:TCPWM[3].clock"
+end Net_10_ff13
+net Net_114
 	term   ":TCPWMcontainer:TCPWM[1].interrupt"
 	switch ":TCPWMcontainer:TCPWM[1].interrupt==>:intc_0:interrupt91.interrupt"
 	term   ":intc_0:interrupt91.interrupt"
+end Net_114
+net Net_140_ff11
+	term   ":Clockcontainer:Clock[0].ff_div_13"
+	switch ":Clockcontainer:Clock[0].ff_div_13==>:Clockcontainer:ff_permute.ff_div_13"
+	switch ":Clockcontainer:ff_permute.Clock[0]ff_div_21==>:TCPWMcontainer:TCPWM[2].clock"
+	term   ":TCPWMcontainer:TCPWM[2].clock"
+end Net_140_ff11
+net Net_149
+	term   ":TCPWMcontainer:TCPWM[2].interrupt"
+	switch ":TCPWMcontainer:TCPWM[2].interrupt==>:intc_0:interrupt92.interrupt"
+	term   ":intc_0:interrupt92.interrupt"
 end Net_149
 net Net_164
 	term   ":ioport13:pin6.fb"
@@ -82,19 +68,49 @@ net Net_164
 	switch ":tr_group_permute_14.out_14==>:tr_group_permute_14.out_14_limit"
 	switch ":tr_group_permute_14.out_14_limit==>:tr_group_permute_2.in_41"
 	switch ":tr_group_permute_2.out_0==>:tr_group_permute_2.out_0_limit"
-	switch ":tr_group_permute_2.out_0_limit==>:TCPWMcontainer:permute[1].0"
-	switch ":TCPWMcontainer:permute[1].capture==>:TCPWMcontainer:TCPWM[1].capture"
-	term   ":TCPWMcontainer:TCPWM[1].capture"
+	switch ":tr_group_permute_2.out_0_limit==>:TCPWMcontainer:permute[2].0"
+	switch ":TCPWMcontainer:permute[2].capture==>:TCPWMcontainer:TCPWM[2].capture"
+	term   ":TCPWMcontainer:TCPWM[2].capture"
 end Net_164
+net Net_274
+	term   ":TCPWMcontainer:TCPWM[0].line_compl"
+	switch ":TCPWMcontainer:TCPWM[0].line_compl==>:UDB_Array:DSI_new0:LHO_Sel88.4"
+	switch ":UDB_Array:DSI_new0:LHO_Sel88.lho88==>:UDB_Array:DSI_new0:LVO_Sel0.7"
+	switch ":UDB_Array:DSI_new0:LVO_Sel0.vo0==>:UDB_Array:UDBroute0:TOP_V_BOT0.0"
+	switch ":UDB_Array:UDBroute0:TOP_V_BOT0.vi0==>:UDB_Array:UDBroute0:LVO_Sel0.15"
+	switch ":UDB_Array:UDBroute0:LVO_Sel0.vo0==>:UDB_Array:UDBroute0:LHO_Sel45.13"
+	switch ":UDB_Array:UDBroute0:LHO_Sel45.lho45==>:UDB_Array:UDBroute1:LHO_Sel45.15"
+	switch ":UDB_Array:UDBroute1:LHO_Sel45.lho45==>:UDB_Array:UDBroute2:LHO_Sel45.15"
+	switch ":UDB_Array:UDBroute2:LHO_Sel45.lho45==>:UDB_Array:UDBroute3:LHO_Sel45.15"
+	switch ":UDB_Array:UDBroute3:LHO_Sel45.lho45==>:UDB_Array:UDBroute4:LHO_Sel45.15"
+	switch ":UDB_Array:UDBroute4:LHO_Sel45.lho45==>:UDB_Array:UDBroute4:BUI_Sel11.3"
+	switch ":UDB_Array:UDBroute4:BUI_Sel11.bui11==>:UDB_Array:udb@[UDB=(1,1)]:PLD[0]:permute_input.11"
+	switch ":UDB_Array:udb@[UDB=(1,1)]:PLD[0]:permute_input.mc[0]_main_0==>:UDB_Array:udb@[UDB=(1,1)]:PLD[0]:mc[0].main_0"
+	term   ":UDB_Array:udb@[UDB=(1,1)]:PLD[0]:mc[0].main_0"
+end Net_274
+net Net_276
+	term   ":UDB_Array:udb@[UDB=(1,1)]:PLD[0]:mc[0].q"
+	switch ":UDB_Array:udb@[UDB=(1,1)]:PLD[0]:mc[0].q==>:UDB_Array:udb@[UDB=(1,1)]:PLD[0]:permute_output[1].0"
+	switch ":UDB_Array:udb@[UDB=(1,1)]:PLD[0]:permute_output[1].output_1==>:UDB_Array:UDBroute4:LHO_Sel60.4"
+	switch ":UDB_Array:UDBroute4:LHO_Sel60.lho60==>:UDB_Array:UDBroute4:LVO_Sel0.5"
+	switch ":UDB_Array:UDBroute4:LVO_Sel0.vo0==>:UDB_Array:DSI_new4:LVO_Sel0.15"
+	switch ":UDB_Array:DSI_new4:LVO_Sel0.vo0==>:UDB_Array:DSI_new4:LHO_Sel38.13"
+	switch ":UDB_Array:DSI_new4:LHO_Sel38.lho38==>:UDB_Array:DSI_new4:DOT_Sel1.10"
+	switch ":UDB_Array:DSI_new4:DOT_Sel1.ot1==>:UDB_Array:PortAdapter4:inputMux1.pinIn_1"
+	switch ":UDB_Array:PortAdapter4:inputMux1.paOut_2==>:ioport6:hsiomOut2.fixedIn2_DSI_GPIO"
+	switch ":ioport6:hsiomOut2.hsiomOut2==>:ioport6:smartio_mux_in2.direct_out"
+	switch ":ioport6:smartio_mux_in2.smartio_mux_in==>:ioport6:pin2.pin_input"
+	term   ":ioport6:pin2.pin_input"
+end Net_276
 net Net_32
+	term   ":TCPWMcontainer:TCPWM[0].interrupt"
+	switch ":TCPWMcontainer:TCPWM[0].interrupt==>:intc_0:interrupt90.interrupt"
+	term   ":intc_0:interrupt90.interrupt"
+end Net_32
+net Net_97
 	term   ":TCPWMcontainer:TCPWM[3].interrupt"
 	switch ":TCPWMcontainer:TCPWM[3].interrupt==>:intc_0:interrupt93.interrupt"
 	term   ":intc_0:interrupt93.interrupt"
-end Net_32
-net Net_97
-	term   ":TCPWMcontainer:TCPWM[2].interrupt"
-	switch ":TCPWMcontainer:TCPWM[2].interrupt==>:intc_0:interrupt92.interrupt"
-	term   ":intc_0:interrupt92.interrupt"
 end Net_97
 net \UART_DEBUG:Net_1172\
 	term   ":ioport5:pin0.fb"

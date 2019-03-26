@@ -1,5 +1,5 @@
 # CE220291_TCPWM_Square_Wave01
-# 2019-03-21 09:18:54Z
+# 2019-03-26 09:44:52Z
 
 dont_use_location p4usbcell -1 -1 0
 dont_use_location USB -1 -1 0
@@ -20,16 +20,17 @@ set_io "\UART_DEBUG:rx(0)\" iocell 5 0
 set_io "ULF_BO(0)" iocell 10 6
 set_io "ULF_TXen(0)" iocell 10 5
 set_io "SW3(0)" iocell 10 4
-set_location "\ULF_Carrier:TCPWM\" TCPWM -1 -1 3
-set_location "SysInt_ULFCarrierCnt" interrupt -1 -1 93
-set_location "\ULF_Counter:TCPWM\" TCPWM -1 -1 2
-set_location "SysInt_ULFMainCnt" interrupt -1 -1 92
-set_location "\System_Tick:TCPWM\" TCPWM -1 -1 0
-set_location "SysInt_Tick" interrupt -1 -1 90
+set_location "Net_276" 1 1 0 0
+set_location "\ULF_Carrier:TCPWM\" TCPWM -1 -1 0
+set_location "SysInt_ULFCarrierCnt" interrupt -1 -1 90
+set_location "\ULF_Counter:TCPWM\" TCPWM -1 -1 3
+set_location "SysInt_ULFMainCnt" interrupt -1 -1 93
+set_location "\System_Tick:TCPWM\" TCPWM -1 -1 1
+set_location "SysInt_Tick" interrupt -1 -1 91
 set_location "\UART_DEBUG:SCB_IRQ\" interrupt -1 -1 46
 set_location "\UART_DEBUG:SCB\" SCB -1 -1 5
-set_location "\ULF_Capture:TCPWM\" TCPWM -1 -1 1
-set_location "SysInt_ULFBasebandCnt" interrupt -1 -1 91
+set_location "\ULF_Capture:TCPWM\" TCPWM -1 -1 2
+set_location "SysInt_ULFBasebandCnt" interrupt -1 -1 92
 set_location "SysInt_SW3" interrupt -1 -1 10
 set_location "SysInt_SW" interrupt -1 -1 0
 set_location "IOSS" IOSS -1 -1 0

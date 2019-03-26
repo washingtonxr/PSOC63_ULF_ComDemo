@@ -37,18 +37,18 @@
 /* SysInt_Tick */
 #define SysInt_Tick__INTC_CORTEXM4_ASSIGNED 1
 #define SysInt_Tick__INTC_CORTEXM4_PRIORITY 7u
-#define SysInt_Tick__INTC_NUMBER 90u
+#define SysInt_Tick__INTC_NUMBER 91u
 #define SysInt_Tick_INTC_CORTEXM4_ASSIGNED 1
 #define SysInt_Tick_INTC_CORTEXM4_PRIORITY 7u
-#define SysInt_Tick_INTC_NUMBER 90u
+#define SysInt_Tick_INTC_NUMBER 91u
 
 /* SysInt_ULFMainCnt */
 #define SysInt_ULFMainCnt__INTC_CORTEXM4_ASSIGNED 1
 #define SysInt_ULFMainCnt__INTC_CORTEXM4_PRIORITY 7u
-#define SysInt_ULFMainCnt__INTC_NUMBER 92u
+#define SysInt_ULFMainCnt__INTC_NUMBER 93u
 #define SysInt_ULFMainCnt_INTC_CORTEXM4_ASSIGNED 1
 #define SysInt_ULFMainCnt_INTC_CORTEXM4_PRIORITY 7u
-#define SysInt_ULFMainCnt_INTC_NUMBER 92u
+#define SysInt_ULFMainCnt_INTC_NUMBER 93u
 
 /* UART_DEBUG_SCB_IRQ */
 #define UART_DEBUG_SCB_IRQ__INTC_CORTEXM4_ASSIGNED 1
@@ -61,17 +61,17 @@
 /* SysInt_ULFCarrierCnt */
 #define SysInt_ULFCarrierCnt__INTC_CORTEXM4_ASSIGNED 1
 #define SysInt_ULFCarrierCnt__INTC_CORTEXM4_PRIORITY 7u
-#define SysInt_ULFCarrierCnt__INTC_NUMBER 93u
+#define SysInt_ULFCarrierCnt__INTC_NUMBER 90u
 #define SysInt_ULFCarrierCnt_INTC_CORTEXM4_ASSIGNED 1
 #define SysInt_ULFCarrierCnt_INTC_CORTEXM4_PRIORITY 7u
-#define SysInt_ULFCarrierCnt_INTC_NUMBER 93u
+#define SysInt_ULFCarrierCnt_INTC_NUMBER 90u
 
 /* SysInt_ULFBasebandCnt */
 #define SysInt_ULFBasebandCnt__INTC_CORTEXM4_ASSIGNED 1
 #define SysInt_ULFBasebandCnt__INTC_CORTEXM4_PRIORITY 7u
-#define SysInt_ULFBasebandCnt__INTC_NUMBER 91u
+#define SysInt_ULFBasebandCnt__INTC_NUMBER 92u
 #define SysInt_ULFBasebandCnt_INTC_CORTEXM4_ASSIGNED 1
 #define SysInt_ULFBasebandCnt_INTC_CORTEXM4_PRIORITY 7u
-#define SysInt_ULFBasebandCnt_INTC_NUMBER 91u
+#define SysInt_ULFBasebandCnt_INTC_NUMBER 92u
 
 #endif /* INCLUDED_CYFITTER_SYSINT_H */

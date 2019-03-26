@@ -19,13 +19,13 @@
   <block name="ULF_Capture" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false">
     <block name="TCPWM" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   </block>
-  <block name="SysInt_SW" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="ULF_TXen" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="GS4SW2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="GS4SW3" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="ULF_TXen" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="not_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="SW3" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="SysInt_SW3" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="SysClk_1M" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="SysInt_SW" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="ULF_IN" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="ULF_BB" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="SysInt_ULFCarrierCnt" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
@@ -34,14 +34,15 @@
   </block>
   <block name="Clock" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="ULF_OUT" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="Red_LED" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="ULF_Counter" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false">
+    <block name="TCPWM" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  </block>
   <block name="Orange_LED" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="System_Tick" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false">
     <block name="TCPWM" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   </block>
-  <block name="ULF_Counter" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false">
-    <block name="TCPWM" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  </block>
+  <block name="SysClk_1M" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="SW2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="SysInt_ULFMainCnt" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="Red_LED" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
 </blockRegMap>
