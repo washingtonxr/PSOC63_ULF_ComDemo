@@ -27,7 +27,7 @@
  * Function: Ultra Low Frequency module. 
  * Author: Xi Ruan
  * Date: Mar.1st,2019
- * E-mail: ruanx@landicorp.com
+ * E-mail: washingtonxr@live.com
  **/
 #include <stdlib.h>
 #include <unistd.h>
