@@ -26,7 +26,7 @@
  * Function: Ultra Low Frequency module. 
  * Author: Xi Ruan
  * Date: Mar.1st,2019
- * E-mail: ruanx@landicorp.com
+ * E-mail: washingtonxr@live.com
  **/
 #ifndef _ULF_H
 #define _ULF_H
