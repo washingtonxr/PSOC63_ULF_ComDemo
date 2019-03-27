@@ -2,7 +2,7 @@
  * @File    ULF.c
  * @Date    Friday, Mar. 1st 2019 at 09:41:12 PM BJT
  * @Author  Washington Ruan
- * @Email   ruanx@landicorp.com or washingtonxr@live.com
+ * @Email   washingtonxr@live.com
  *
  * This file contains the implementation of the gravity sensor device for motion detecting
  * module.

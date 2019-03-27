@@ -44,7 +44,7 @@
  * Function: Ultra Low Frequency module. 
  * Author: Xi Ruan
  * Date: Mar.1st,2019
- * E-mail: ruanx@landicorp.com
+ * E-mail: washingtonxr@live.com
  **/
 #include <string.h>
 #include "project.h"
