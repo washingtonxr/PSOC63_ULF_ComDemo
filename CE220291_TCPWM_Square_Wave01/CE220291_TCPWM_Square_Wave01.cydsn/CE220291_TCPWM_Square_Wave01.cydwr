@@ -7089,62 +7089,63 @@
     </Group>
   </Group>
   <Group key="Pin2">
-    <Group key="4cca878b-77b5-471d-8aeb-ad6925202455">
-      <Group key="0">
-        <Data key="Port Format" value="0,4" />
-      </Group>
-    </Group>
     <Group key="05c113f4-54f0-437a-b503-54a987a94963">
       <Group key="0">
-        <Data key="Port Format" value="10,5" />
+        <Data key="Port Format" value="5,1" />
       </Group>
     </Group>
     <Group key="9e94cdbb-df49-4335-b2cd-cde5f6ea9bf8">
-      <Group key="0">
-        <Data key="Port Format" value="10,6" />
-      </Group>
-    </Group>
-    <Group key="882a4d54-6321-45a4-9a46-a77406a03b3a">
       <Group key="0">
         <Data key="Port Format" value="1,5" />
       </Group>
     </Group>
     <Group key="7520b3c1-2a28-4a48-9750-6ba5cf03ac56">
       <Group key="0">
-        <Data key="Port Format" value="13,7" />
+        <Data key="Port Format" value="5,0" />
       </Group>
     </Group>
     <Group key="a953aec0-263b-4feb-91da-793994dce3e5">
       <Group key="0">
-        <Data key="Port Format" value="10,4" />
+        <Data key="Port Format" value="1,4" />
       </Group>
     </Group>
     <Group key="a61270bc-07ec-447d-ac9e-34cfe85c30e9">
       <Group key="0">
-        <Data key="Port Format" value="6,2" />
-      </Group>
-    </Group>
-    <Group key="c6c640e9-3022-42d1-957e-5f4b827a4274">
-      <Group key="0">
-        <Data key="Port Format" value="6,3" />
+        <Data key="Port Format" value="1,0" />
       </Group>
     </Group>
     <Group key="cebea611-5e3e-4589-8be1-fcab02586490/65f3af6c-759b-4ccb-8c66-5c95ba1f5f4f">
       <Group key="0">
-        <Data key="Port Format" value="5,1" />
+        <Data key="Port Format" value="13,1" />
       </Group>
     </Group>
     <Group key="cebea611-5e3e-4589-8be1-fcab02586490/b7e8018e-1ef7-49c0-b5a5-61641a03e31c">
       <Group key="0">
-        <Data key="Port Format" value="5,0" />
+        <Data key="Port Format" value="13,0" />
       </Group>
     </Group>
     <Group key="dd07b6f8-34a1-4650-b372-2e9c028f770a">
       <Group key="0">
-        <Data key="Port Format" value="13,6" />
+        <Data key="Port Format" value="1,1" />
       </Group>
     </Group>
-    <Group key="UnAssigned Pins" />
+    <Group key="UnAssigned Pins">
+      <Group key="882a4d54-6321-45a4-9a46-a77406a03b3a">
+        <Data key="0" value="132006460773440120" />
+      </Group>
+      <Group key="c6c640e9-3022-42d1-957e-5f4b827a4274">
+        <Data key="0" value="132006463457246929" />
+      </Group>
+    </Group>
+    <Group key="Unlocked Pins">
+      <Group key="4cca878b-77b5-471d-8aeb-ad6925202455">
+        <Group key="0">
+          <Group key="132006458079920558">
+            <Data key="Port Format" value="0,4" />
+          </Group>
+        </Group>
+      </Group>
+    </Group>
   </Group>
   <Group key="PlaceDir">
     <Data key="count" value="0" />

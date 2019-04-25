@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_efuse.c
-* \version 1.0
+* \version 1.10
 *
 * \brief
 * Provides API implementation of the eFuse driver.
@@ -14,7 +14,7 @@
 *******************************************************************************/
 
 #include "cy_efuse.h"
-#include "ipc/cy_ipc_drv.h"
+#include "cy_ipc_drv.h"
 
 /** \cond INTERNAL */
 #define CY_EFUSE_OPCODE_SUCCESS             (0xA0000000UL)    /**< The command completed with no errors */
@@ -25,7 +25,7 @@
 #define CY_EFUSE_OPCODE_OFFSET_Pos          (8UL)             /**< A fuse byte offset position in an opcode */
 #define CY_EFUSE_OPCODE_DATA_Msk            (0xFFUL)          /**< The mask for extracting data from the SROM API return value */
 #define CY_EFUSE_IPC_STRUCT                 (Cy_IPC_Drv_GetIpcBaseAddress(CY_IPC_CHAN_SYSCALL)) /**< IPC structure to be used */
-#define CY_EFUSE_IPC_NOTIFY_STRUCT0         (0x1UL << CY_IPC_INTR_SYSCALL1) /**< IPC notify bit for IPC_STRUCT0 (dedicated to System Call) */
+#define CY_EFUSE_IPC_NOTIFY_STRUCT0         (0x1UL << CY_IPC_INTR_SYSCALL1) /**< IPC notify bit for IPC0 structure (dedicated to System Call) */
 /** \endcond */
 
 static volatile uint32_t opcode;
@@ -50,7 +50,7 @@ static cy_en_efuse_status_t ProcessOpcode(void);
 * - 8 is a number of fuse bits in the byte.
 *
 * The EFUSE_EFUSE_NR macro is defined in the series-specific header file, e.g
-* \e \<PDL_DIR\>/devices/psoc6/psoc63/include/psoc63_config.\e h
+* \e \<PDL_DIR\>/devices/psoc6/include/psoc6_01_config.\e h
 * 
 * \param bitVal 
 * The pointer to the location to store the bit value.
@@ -107,7 +107,7 @@ cy_en_efuse_status_t Cy_EFUSE_GetEfuseBit(uint32_t bitNum, bool *bitVal)
 * - 32 is a number of fuse bytes in one efuse macro.
 *
 * The EFUSE_EFUSE_NR macro is defined in the series-specific header file, e.g
-* \e \<PDL_DIR\>/devices/psoc6/psoc63/include/psoc63_config.\e h
+* \e \<PDL_DIR\>/devices/psoc6/include/psoc6_01_config.\e h
 *
 * \param byteVal
 * The pointer to the location to store eFuse data.

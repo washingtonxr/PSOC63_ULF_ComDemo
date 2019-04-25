@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_tcpwm_quaddec.c
-* \version 1.0.1
+* \version 1.10
 *
 * \brief
 *  The source file of the tcpwm driver.
@@ -14,6 +14,8 @@
 *******************************************************************************/
 
 #include "cy_tcpwm_quaddec.h"
+
+#ifdef CY_IP_MXTCPWM
 
 #if defined(__cplusplus)
 extern "C" {
@@ -38,8 +40,8 @@ extern "C" {
 * \return error / status code. See \ref cy_en_tcpwm_status_t.
 *
 * \funcusage
-* \snippet tcpwm/tcpwm_v1_0_quaddec_sut_01.cydsn/main_cm4.c snippet_Cy_TCPWM_QuadDec_Config
-* \snippet tcpwm/tcpwm_v1_0_quaddec_sut_01.cydsn/main_cm4.c snippet_Cy_TCPWM_QuadDec_Init
+* \snippet tcpwm\1.10\quaddec\snippet\main.c snippet_Cy_TCPWM_QuadDec_Config
+* \snippet tcpwm\1.10\quaddec\snippet\main.c snippet_Cy_TCPWM_QuadDec_Init
 *
 *******************************************************************************/
 cy_en_tcpwm_status_t Cy_TCPWM_QuadDec_Init(TCPWM_Type *base, uint32_t cntNum, 
@@ -49,24 +51,24 @@ cy_en_tcpwm_status_t Cy_TCPWM_QuadDec_Init(TCPWM_Type *base, uint32_t cntNum,
 
     if ((NULL != base) && (NULL != config))
     {
-        base->CNT[cntNum].CTRL = ( _VAL2FLD(TCPWM_CNT_CTRL_QUADRATURE_MODE, config->resolution) |
+        TCPWM_CNT_CTRL(base, cntNum) = ( _VAL2FLD(TCPWM_CNT_CTRL_QUADRATURE_MODE, config->resolution) |
                             _VAL2FLD(TCPWM_CNT_CTRL_MODE, CY_TCPWM_QUADDEC_CTRL_QUADDEC_MODE));
 
         if (CY_TCPWM_INPUT_CREATOR != config->phiAInput)
         {        
-            base->CNT[cntNum].TR_CTRL0 = (_VAL2FLD(TCPWM_CNT_TR_CTRL0_COUNT_SEL, config->phiAInput) |
-                                          _VAL2FLD(TCPWM_CNT_TR_CTRL0_START_SEL, config->phiBInput) |
-                                          _VAL2FLD(TCPWM_CNT_TR_CTRL0_RELOAD_SEL, config->indexInput) |
-                                          _VAL2FLD(TCPWM_CNT_TR_CTRL0_STOP_SEL, config->stopInput));
+            TCPWM_CNT_TR_CTRL0(base, cntNum) = (_VAL2FLD(TCPWM_CNT_TR_CTRL0_COUNT_SEL, config->phiAInput) |
+                                              _VAL2FLD(TCPWM_CNT_TR_CTRL0_START_SEL, config->phiBInput) |
+                                              _VAL2FLD(TCPWM_CNT_TR_CTRL0_RELOAD_SEL, config->indexInput) |
+                                              _VAL2FLD(TCPWM_CNT_TR_CTRL0_STOP_SEL, config->stopInput));
         }
         
-        base->CNT[cntNum].TR_CTRL1 = (_VAL2FLD(TCPWM_CNT_TR_CTRL1_CAPTURE_EDGE, CY_TCPWM_INPUT_LEVEL) |
-                                      _VAL2FLD(TCPWM_CNT_TR_CTRL1_COUNT_EDGE, CY_TCPWM_INPUT_LEVEL) |
-                                      _VAL2FLD(TCPWM_CNT_TR_CTRL1_START_EDGE, CY_TCPWM_INPUT_LEVEL) |
-                                      _VAL2FLD(TCPWM_CNT_TR_CTRL1_RELOAD_EDGE, config->indexInputMode) |
-                                      _VAL2FLD(TCPWM_CNT_TR_CTRL1_STOP_EDGE, config->stopInputMode));                                                           
+        TCPWM_CNT_TR_CTRL1(base, cntNum) = (_VAL2FLD(TCPWM_CNT_TR_CTRL1_CAPTURE_EDGE, CY_TCPWM_INPUT_LEVEL) |
+                                          _VAL2FLD(TCPWM_CNT_TR_CTRL1_COUNT_EDGE, CY_TCPWM_INPUT_LEVEL) |
+                                          _VAL2FLD(TCPWM_CNT_TR_CTRL1_START_EDGE, CY_TCPWM_INPUT_LEVEL) |
+                                          _VAL2FLD(TCPWM_CNT_TR_CTRL1_RELOAD_EDGE, config->indexInputMode) |
+                                          _VAL2FLD(TCPWM_CNT_TR_CTRL1_STOP_EDGE, config->stopInputMode));
 
-        base->CNT[cntNum].INTR_MASK = config->interruptSources;
+        TCPWM_CNT_INTR_MASK(base, cntNum) = config->interruptSources;
 
         status = CY_TCPWM_SUCCESS;
     }
@@ -92,26 +94,26 @@ cy_en_tcpwm_status_t Cy_TCPWM_QuadDec_Init(TCPWM_Type *base, uint32_t cntNum,
 * The pointer to a configuration structure. See \ref cy_stc_tcpwm_quaddec_config_t.
 *
 * \funcusage
-* \snippet tcpwm/tcpwm_v1_0_quaddec_sut_01.cydsn/main_cm4.c snippet_Cy_TCPWM_QuadDec_DeInit
+* \snippet tcpwm\1.10\quaddec\snippet\main.c snippet_Cy_TCPWM_QuadDec_DeInit
 *
 *******************************************************************************/
 void Cy_TCPWM_QuadDec_DeInit(TCPWM_Type *base, uint32_t cntNum, cy_stc_tcpwm_quaddec_config_t const *config)
 {
-    base->CNT[cntNum].CTRL = CY_TCPWM_CNT_CTRL_DEFAULT;
-    base->CNT[cntNum].COUNTER = CY_TCPWM_CNT_COUNTER_DEFAULT;
-    base->CNT[cntNum].CC = CY_TCPWM_CNT_CC_DEFAULT;
-    base->CNT[cntNum].CC_BUFF = CY_TCPWM_CNT_CC_BUFF_DEFAULT;
-    base->CNT[cntNum].PERIOD = CY_TCPWM_CNT_PERIOD_DEFAULT;
-    base->CNT[cntNum].PERIOD_BUFF = CY_TCPWM_CNT_PERIOD_BUFF_DEFAULT;
-    base->CNT[cntNum].TR_CTRL1 = CY_TCPWM_CNT_TR_CTRL1_DEFAULT;
-    base->CNT[cntNum].TR_CTRL2 = CY_TCPWM_CNT_TR_CTRL2_DEFAULT;
-    base->CNT[cntNum].INTR = CY_TCPWM_CNT_INTR_DEFAULT;
-    base->CNT[cntNum].INTR_SET = CY_TCPWM_CNT_INTR_SET_DEFAULT;
-    base->CNT[cntNum].INTR_MASK = CY_TCPWM_CNT_INTR_MASK_DEFAULT;
+    TCPWM_CNT_CTRL(base, cntNum) = CY_TCPWM_CNT_CTRL_DEFAULT;
+    TCPWM_CNT_COUNTER(base, cntNum) = CY_TCPWM_CNT_COUNTER_DEFAULT;
+    TCPWM_CNT_CC(base, cntNum) = CY_TCPWM_CNT_CC_DEFAULT;
+    TCPWM_CNT_CC_BUFF(base, cntNum) = CY_TCPWM_CNT_CC_BUFF_DEFAULT;
+    TCPWM_CNT_PERIOD(base, cntNum) = CY_TCPWM_CNT_PERIOD_DEFAULT;
+    TCPWM_CNT_PERIOD_BUFF(base, cntNum) = CY_TCPWM_CNT_PERIOD_BUFF_DEFAULT;
+    TCPWM_CNT_TR_CTRL1(base, cntNum) = CY_TCPWM_CNT_TR_CTRL1_DEFAULT;
+    TCPWM_CNT_TR_CTRL2(base, cntNum) = CY_TCPWM_CNT_TR_CTRL2_DEFAULT;
+    TCPWM_CNT_INTR(base, cntNum) = CY_TCPWM_CNT_INTR_DEFAULT;
+    TCPWM_CNT_INTR_SET(base, cntNum) = CY_TCPWM_CNT_INTR_SET_DEFAULT;
+    TCPWM_CNT_INTR_MASK(base, cntNum) = CY_TCPWM_CNT_INTR_MASK_DEFAULT;
 
     if (CY_TCPWM_INPUT_CREATOR != config->phiAInput)
     {        
-        base->CNT[cntNum].TR_CTRL0 = CY_TCPWM_CNT_TR_CTRL0_DEFAULT;
+        TCPWM_CNT_TR_CTRL0(base, cntNum) = CY_TCPWM_CNT_TR_CTRL0_DEFAULT;
     }
 }
 
@@ -119,5 +121,6 @@ void Cy_TCPWM_QuadDec_DeInit(TCPWM_Type *base, uint32_t cntNum, cy_stc_tcpwm_qua
 }
 #endif
 
+#endif /* CY_IP_MXTCPWM */
 
 /* [] END OF FILE */

@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_scb_uart.h
-* \version 2.10
+* \version 2.20
 *
 * Provides UART API declarations of the SCB driver.
 *
@@ -17,23 +17,41 @@
 * \{
 * Driver API for UART
 *
-* UART - Universal Synchronous/Asynchronous Receiver/Transmitter,
-* commonly referred to as RS-232.
+* The functions and other declarations used in this part of the driver are in 
+* cy_scb_uart.h. You can also include cy_pdl.h (ModusToolbox only) to get access 
+* to all functions and declarations in the PDL.
 *
-* Three different UART-like serial interface protocols are supported:
-* * UART - the standard mode with an optional UART Hardware flow control.
-* * SmartCard - the transfer is similar to the UART transfer,
-*   but a NACK (negative acknowledgment) may be sent from the
-*   receiver to the transmitter. Both transmitter and receiver drive the same
-*   line, although never at the same time.
-* * IrDA - the Infra-red Data Association protocol adds a modulation
-*   scheme to the UART signaling. At the transmitter, bits are modulated.
-*   At the receiver, bits are demodulated. The modulation scheme uses the
-*   Return-to-Zero-Inverted (RZI) format. Bit value "0" is signaled by a
-*   short "1" pulse on the line and bit value "1" is signaled by holding
-*   the line to "0".
+* The Universal Asynchronous Receiver/Transmitter (UART) protocol is an 
+* asynchronous serial interface protocol. UART communication is typically 
+* point-to-point. The UART interface consists of two signals:
+* * TX: Transmitter output
+* * RX: Receiver input
 *
+* Additionally, two side-band signals are used to implement flow control in 
+* UART. Note that the flow control applies only to TX functionality.
+* * Clear to Send (CTS): This is an input signal to the transmitter. 
+*   When active, it indicates that the slave is ready for the master to 
+*   transmit data.
+* * Ready to Send (RTS): This is an output signal from the receiver. When 
+*   active, it indicates that the receiver is ready to receive data
+*
+* Features:
+* * Supports UART protocol
+*   * Standard UART
+*   * Multi-processor mode
+* * SmartCard (ISO7816) reader
+* * IrDA
+* * Data frame size programmable from 4 to 16 bits
+* * Programmable number of STOP bits, which can be set in terms of half bit 
+*   periods between 1 and 4
+* * Parity support (odd and even parity)
+* * Median filter on Rx input
+* * Programmable oversampling
+* * Start skipping
+*
+********************************************************************************
 * \section group_scb_uart_configuration Configuration Considerations
+********************************************************************************
 * The UART driver configuration can be divided to number of sequential
 * steps listed below:
 * * \ref group_scb_uart_config
@@ -48,76 +66,88 @@
 * used as an example for all code snippets. Modify the code to match your
 * design.
 *
+********************************************************************************
 * \subsection group_scb_uart_config Configure UART
-* To set up the UART slave driver, provide the configuration parameters in the
+********************************************************************************
+* To set up the UART driver, provide the configuration parameters in the
 * \ref cy_stc_scb_uart_config_t structure. For example: provide uartMode,
 * oversample, dataWidth, enableMsbFirst, parity, and stopBits. The other
-* parameters are optional for operation. To initialize the driver,
-* call \ref Cy_SCB_UART_Init function providing a pointer to the filled
-* \ref cy_stc_scb_uart_config_t structure and allocated \ref cy_stc_scb_uart_context_t.
+* parameters are optional. To initialize the driver, call \ref Cy_SCB_UART_Init 
+* function providing a pointer to the populated \ref cy_stc_scb_uart_config_t 
+* structure and the allocated \ref cy_stc_scb_uart_context_t structure.
 *
 * \snippet SCB_CompDatasheet_sut_01_revA.cydsn\uart_snippets.c UART_CFG
 *
+********************************************************************************
 * \subsection group_scb_uart_pins Assign and Configure Pins
+********************************************************************************
 * Only dedicated SCB pins can be used for UART operation. The HSIOM
-* register must be configured to connect the block to the pins. Also the UART output
-* pins must be configured in Strong Drive mode and UART input pins in
-* Digital High-Z:
+* register must be configured to connect dedicated SCB UART pins to the 
+* SCB block. Also, the UART output pins must be configured in Strong Drive 
+* Input Off mode and UART input pins in Digital High-Z:
 *
 * \snippet SCB_CompDatasheet_sut_01_revA.cydsn\uart_snippets.c UART_CFG_PINS
 *
-* \note
-* The SCB stops driving pins when it is disabled or enters low power mode (except
-* Alternate Active or Sleep). To keep the pins' states, they should be reconfigured or
-* be frozen.
-*
+********************************************************************************
 * \subsection group_scb_uart_clock Assign Clock Divider
-* The clock source must be connected to the SCB block to oversample input and
-* output signals. You must use one of the 8-bit or 16-bit dividers <em><b>(the
-* source clock of this divider must be Clk_Peri)</b></em>. Use the \ref group_sysclk
-* driver API to do that.
+********************************************************************************
+* A clock source must be connected to the SCB block to oversample input and
+* output signals, in this document this clock will be referred as clk_scb.
+* You must use one of available integer or fractional dividers. Use the 
+* \ref group_sysclk driver API to do this.
 *
 * \snippet SCB_CompDatasheet_sut_01_revA.cydsn\uart_snippets.c UART_CFG_ASSIGN_CLOCK
 *
+********************************************************************************
 * \subsection group_scb_uart_data_rate Configure Baud Rate
-* To get the UART to operate with the desired baud rate, the source clock frequency
+********************************************************************************
+* To get the UART to operate with the desired baud rate, the clk_scb frequency
 * and the oversample must be configured. Use the \ref group_sysclk driver API
-* to configure source clock frequency. Set the <em><b>oversample parameter
+* to configure clk_scb frequency. Set the <em><b>oversample parameter
 * in configuration structure</b></em> to define the number of the SCB clocks
 * within one UART bit-time.
 *
 * \snippet SCB_CompDatasheet_sut_01_revA.cydsn\uart_snippets.c UART_CFG_DATA_RATE
 *
-* Refer to the technical reference manual (TRM) section UART sub-section
+* <b>Refer to the technical reference manual (TRM) section UART sub-section
 * Clocking and Oversampling to get information about how to configure the UART to run with
-* desired baud rate.
+* desired baud rate.</b>
 *
+********************************************************************************
 * \subsection group_scb_uart_intr Configure Interrupt
+********************************************************************************
 * The interrupt is optional for the UART operation. To configure interrupt
 * the \ref Cy_SCB_UART_Interrupt function must be called in the interrupt
 * handler for the selected SCB instance. Also, this interrupt must be enabled
 * in the NVIC.
+* The interrupt must be configured when \ref group_scb_uart_hl will be used.
 *
 * \snippet SCB_CompDatasheet_sut_01_revA.cydsn\uart_snippets.c UART_INTR_A
 * \snippet SCB_CompDatasheet_sut_01_revA.cydsn\uart_snippets.c UART_INTR_B
 *
+********************************************************************************
 * \subsection group_scb_uart_enable Enable UART
-* Finally, enable the UART operation calling \ref Cy_SCB_UART_Enable.
+********************************************************************************
+* Finally, enable the UART operation by calling \ref Cy_SCB_UART_Enable.
 *
 * \snippet SCB_CompDatasheet_sut_01_revA.cydsn\uart_snippets.c UART_ENABLE
-
+*
+********************************************************************************
 * \section group_scb_uart_use_cases Common Use Cases
-* The UART API is divided into two categories: \ref group_scb_spi_low_level_functions
-* and \ref group_scb_spi_high_level_functions. \n
+********************************************************************************
+* The UART API is divided into two categories: \ref group_scb_uart_low_level_functions
+* and \ref group_scb_uart_high_level_functions. \n
 * <em>Do not mix <b>High-Level</b> and <b>Low-Level</b> API because a Low-Level
 * API can adversely affect the operation of a High-Level API.</em>
 *
+********************************************************************************
 * \subsection group_scb_uart_ll Low-Level API
-* The \ref group_scb_uart_low_level_functions API allows
-* interacting directly with the hardware and do not use interrupt.
-* These functions do not require context for operation, thus NULL can be
-* passed in \ref Cy_SCB_UART_Init and \ref Cy_SCB_UART_Disable instead of
-* a pointer to the context structure.
+********************************************************************************
+* The \ref group_scb_uart_low_level_functions functions allow
+* interacting directly with the hardware and do not use \ref Cy_SCB_UART_Interrupt.
+* These functions do not require context for operation. Thus, NULL can be
+* passed for context parameter in \ref Cy_SCB_UART_Init and \ref Cy_SCB_UART_Disable 
+* instead of a pointer to the context structure.
 *
 * * To write data into the TX FIFO, use one of the provided functions:
 *   \ref Cy_SCB_UART_Put, \ref Cy_SCB_UART_PutArray,
@@ -135,23 +165,21 @@
 *   These statuses remain set until an event is true. Therefore, after the clear
 *   operation, the status is cleared but then it is restored (if event is still
 *   true).
-*   For example: the TX FIFO empty interrupt source can be cleared when the
-*   TX FIFO is not empty. Put at least two data elements (one goes to the
-*   shifter and next to FIFO) before clearing this status. \n
-*   Also, following functions can be used for polling as well
+*   Also, the following functions can be used for polling as well
 *   \ref Cy_SCB_UART_IsTxComplete, \ref Cy_SCB_UART_GetNumInRxFifo and
 *   \ref Cy_SCB_UART_GetNumInTxFifo.
 *
 * \snippet SCB_CompDatasheet_sut_01_revA.cydsn\uart_snippets.c UART_TRANSMIT_DATA_LL
 *
+********************************************************************************
 * \subsection group_scb_uart_hl High-Level API
-
-* The \ref group_scb_uart_high_level_functions API uses an interrupt to
-* execute transfer. Call \ref Cy_SCB_UART_Transmit to start transmission.
+********************************************************************************
+* The \ref group_scb_uart_high_level_functions API use \ref Cy_SCB_UART_Interrupt
+* to execute the transfer. Call \ref Cy_SCB_UART_Transmit to start transmission.
 * Call \ref Cy_SCB_UART_Receive to start receive operation. After the
 * operation is started the \ref Cy_SCB_UART_Interrupt handles the data
 * transfer until its completion.
-* Therefore \ref Cy_SCB_UART_Interrupt must be called inside the
+* Therefore \ref Cy_SCB_UART_Interrupt must be called inside the user 
 * interrupt handler to make the High-Level API work. To monitor status
 * of transmit operation, use \ref Cy_SCB_UART_GetTransmitStatus and
 * \ref Cy_SCB_UART_GetReceiveStatus to monitor receive status appropriately.
@@ -172,27 +200,29 @@
 * buffer and then sets up an interrupt to receive more data if the required
 * amount has not yet been read.
 *
+********************************************************************************
 * \section group_scb_uart_dma_trig DMA Trigger
+********************************************************************************
 * The SCB provides TX and RX output trigger signals that can be routed to the
 * DMA controller inputs. These signals are assigned based on the data availability
 * in the TX and RX FIFOs appropriately.
 *
-* * The RX trigger signal remains active until the number of data
+* * The RX trigger signal is active while the number of data
 *   elements in the RX FIFO is greater than the value of RX FIFO level. Use
 *   function \ref Cy_SCB_SetRxFifoLevel or set configuration structure
 *   rxFifoTriggerLevel parameter to configure RX FIFO level value. \n
 *   <em>For example, the RX FIFO has 8 data elements and the RX FIFO level is 0.
-*   The RX trigger signal remains active until DMA does not read all data from
+*   The RX trigger signal is active until DMA reads all data from
 *   the RX FIFO.</em>
 *
-* * The TX trigger signal remains active until the number of data elements
+* * The TX trigger signal is active while the number of data elements
 *   in the TX FIFO is less than the value of TX FIFO level. Use function
 *   \ref Cy_SCB_SetTxFifoLevel or set configuration structure txFifoTriggerLevel
 *   parameter to configure TX FIFO level value. \n
 *   <em>For example, the TX FIFO has 0 data elements (empty) and the TX FIFO level
-*   is 7. The TX trigger signal remains active until DMA does not load TX FIFO
-*   with 7 data elements (note that after the first TX load operation, the data 
-*   element goes to the shift register and TX FIFO remains empty).</em>
+*   is 7. The TX trigger signal is active until DMA loads TX FIFO
+*   with 8 data elements (note that after the first TX load operation, the data 
+*   element goes to the shift register and TX FIFO is empty).</em>
 *
 * To route SCB TX or RX trigger signals to DMA controller use \ref group_trigmux
 * driver API.
@@ -202,11 +232,13 @@
 * peripheral block the DMA Descriptor typically must be configured to re-trigger
 * after 16 Clk_Slow cycles.
 *
+********************************************************************************
 * \section group_scb_uart_lp Low Power Support
-* The UART driver provides the callback functions to handle power mode
+********************************************************************************
+* The UART driver provides callback functions to handle power mode
 * transition. The callback \ref Cy_SCB_UART_DeepSleepCallback must be called
-* during execution of \ref Cy_SysPm_DeepSleep; \ref Cy_SCB_UART_HibernateCallback
-* must be called during execution of \ref Cy_SysPm_Hibernate. To trigger the
+* during execution of \ref Cy_SysPm_CpuEnterDeepSleep \ref Cy_SCB_UART_HibernateCallback
+* must be called during execution of \ref Cy_SysPm_SystemEnterHibernate. To trigger the
 * callback execution, the callback must be registered before calling the
 * power mode transition function. Refer to \ref group_syspm driver for more
 * information about power mode transitions and callback registration.
@@ -215,26 +247,31 @@
 * the output pins. The state of the UART output pins TX and RTS is High-Z, 
 * which can cause unexpected behavior of the UART receiver due to possible
 * glitches on these lines. These pins must be set to the inactive state before 
-* entering Deep Sleep or Hibernate mode. To do that, configure the UART  
-* pins output to drive the inactive state and High-Speed Input Output 
-* Multiplexer (HSIOM) to control output by GPIO (use \ref group_gpio 
-* driver API). The pins configuration must be restored after exiting Deep Sleep 
-* mode to return the UART control of the pins (after exiting Hibernate mode, 
-* the system init code does the same). 
-* Note that the UART must be enabled to drive the pins during configuration 
-* change not to cause glitches on the lines. Copy either or both 
-* \ref Cy_SCB_UART_DeepSleepCallback and \ref Cy_SCB_UART_HibernateCallback as 
-* appropriate, and make the changes described above inside the function.
+* entering Deep Sleep or Hibernate mode.
+* These pins must keep the inactive level (the same state 
+* when UART TX is enabled and does not transfer data) before entering Deep 
+* Sleep or Hibernate mode. To do that, write the GPIO data register of each pin 
+* to the inactive level for each output pin. Then configure High-Speed Input 
+* Output Multiplexer (HSIOM) of each pin to be controlled by the GPIO (use 
+* \ref group_gpio driver API). After exiting Deep Sleep mode the UART 
+* must be enabled and the pins configuration restored to return the 
+* UART control of the pins (after exiting Hibernate mode, the 
+* system initialization code does the same). Copy either or 
+* both \ref Cy_SCB_UART_DeepSleepCallback and \ref Cy_SCB_UART_HibernateCallback 
+* as appropriate, and make the changes described above inside the function.
 * Alternately, external pull-up or pull-down resistors can be connected 
 * to the appropriate UART lines to keep them inactive during Deep-Sleep or 
 * Hibernate.
 *
+********************************************************************************
 * \section group_scb_uart_more_information More Information
-*
+********************************************************************************
 * For more information on the SCB peripheral, refer to the technical reference
 * manual (TRM).
 *
+********************************************************************************
 * \section group_scb_uart_MISRA MISRA-C Compliance
+********************************************************************************
 * <table class="doxtable">
 *   <tr>
 *     <th>MISRA Rule</th>
@@ -280,6 +317,19 @@
 * \section group_scb_uart_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td rowspan="2">2.20</td>
+*     <td>Flattened the organization of the driver source code into the single 
+*         source directory and the single include directory.
+*     </td>
+*     <td>Driver library directory-structure simplification.</td>
+*   </tr>
+*   <tr>
+*     <td>Added register access layer. Use register access macros instead
+*         of direct register access using dereferenced pointers.</td>
+*     <td>Makes register access device-independent, so that the PDL does 
+*         not need to be recompiled for each supported part number.</td>
+*   </tr>
 *   <tr>
 *     <td>2.10</td>
 *     <td>None.</td>
@@ -359,16 +409,12 @@ typedef enum
     CY_SCB_UART_BAD_PARAM = (CY_SCB_ID | CY_PDL_STATUS_ERROR | CY_SCB_UART_ID | 1U),
 
     /**
-    * The UART is busy processing a transmit operation.
-    * Call \ref Cy_SCB_UART_Receive function again once that operation
-    * is completed or aborted.
+    * The UART is busy processing a receive operation.
     */
     CY_SCB_UART_RECEIVE_BUSY = (CY_SCB_ID | CY_PDL_STATUS_ERROR | CY_SCB_UART_ID | 2U),
 
     /**
-    * The UART is busy processing a receive operation.
-    * Call \ref Cy_SCB_UART_Transmit function again once that operation
-    * is completed or aborted.
+    * The UART is busy processing a transmit operation.
     */
     CY_SCB_UART_TRANSMIT_BUSY = (CY_SCB_ID | CY_PDL_STATUS_ERROR | CY_SCB_UART_ID | 3U)
 } cy_en_scb_uart_status_t;
@@ -410,9 +456,9 @@ typedef enum
 /** \} group_scb_uart_enums */
 
 
-/***************************************
-*       Type Definitions
-***************************************/
+/*******************************************************************************
+*                           Type Definitions
+*******************************************************************************/
 
 /**
 * \addtogroup group_scb_uart_data_structures
@@ -461,9 +507,9 @@ typedef struct stc_scb_uart_config
     cy_en_scb_uart_parity_t    parity;
 
     /**
-    * Enables a digital 3-tap median filter to be applied to the input
-    * of the RX FIFO to filter glitches on the line (for IrDA, this parameter
-    * is ignored)
+    * Enables a digital 3-tap median filter (2 out of 3 voting) to be applied 
+    * to the input of the RX FIFO to filter glitches on the line (for IrDA, 
+    * this parameter is ignored)
     *
     */
     bool        enableInputFilter;
@@ -612,9 +658,9 @@ typedef struct cy_stc_scb_uart_context
 /** \} group_scb_uart_data_structures */
 
 
-/***************************************
-*        Function Prototypes
-***************************************/
+/*******************************************************************************
+*                           Function Prototypes
+*******************************************************************************/
 
 /**
 * \addtogroup group_scb_uart_general_functions
@@ -701,14 +747,14 @@ __STATIC_INLINE void Cy_SCB_UART_RegisterCallback(CySCB_Type const *base, cy_cb_
 * \addtogroup group_scb_uart_low_power_functions
 * \{
 */
-cy_en_syspm_status_t Cy_SCB_UART_DeepSleepCallback(cy_stc_syspm_callback_params_t *callbackParams);
-cy_en_syspm_status_t Cy_SCB_UART_HibernateCallback(cy_stc_syspm_callback_params_t *callbackParams);
+cy_en_syspm_status_t Cy_SCB_UART_DeepSleepCallback(cy_stc_syspm_callback_params_t *callbackParams, cy_en_syspm_callback_mode_t mode);
+cy_en_syspm_status_t Cy_SCB_UART_HibernateCallback(cy_stc_syspm_callback_params_t *callbackParams, cy_en_syspm_callback_mode_t mode);
 /** \} group_scb_uart_low_power_functions */
 
 
-/***************************************
-*            API Constants
-***************************************/
+/*******************************************************************************
+*                               API Constants
+*******************************************************************************/
 
 /**
 * \addtogroup group_scb_uart_macros
@@ -729,9 +775,14 @@ cy_en_syspm_status_t Cy_SCB_UART_HibernateCallback(cy_stc_syspm_callback_params_
 /** \} group_scb_uart_macros_irda_lp_ovs */
 
 /**
-* \defgroup group_scb_uart_macros_rx_fifo_status UART Receive FIFO status.
+* \defgroup group_scb_uart_macros_rx_fifo_status UART RX FIFO status.
 * \{
+* Macros to check UART RX FIFO status returned by \ref Cy_SCB_UART_GetRxFifoStatus
+* function or assign mask for \ref Cy_SCB_UART_ClearRxFifoStatus function.
+* Each UART RX FIFO status is encoded in a separate bit, therefore multiple
+* bits may be set to indicate the current status.
 */
+
 /** The number of entries in the RX FIFO is more than the RX FIFO trigger level
 * value
 */
@@ -768,7 +819,12 @@ cy_en_syspm_status_t Cy_SCB_UART_HibernateCallback(cy_stc_syspm_callback_params_
 /**
 * \defgroup group_scb_uart_macros_tx_fifo_status UART TX FIFO Statuses
 * \{
+* Macros to check UART TX FIFO status returned by \ref Cy_SCB_UART_GetTxFifoStatus
+* function or assign mask for \ref Cy_SCB_UART_ClearTxFifoStatus function.
+* Each UART TX FIFO status is encoded in a separate bit, therefore multiple bits
+* may be set to indicate the current status.
 */
+
 /** The number of entries in the TX FIFO is less than the TX FIFO trigger level
 * value
 */
@@ -799,6 +855,10 @@ cy_en_syspm_status_t Cy_SCB_UART_HibernateCallback(cy_stc_syspm_callback_params_
 /**
 * \defgroup group_scb_uart_macros_receive_status UART Receive Statuses
 * \{
+* Macros to check current UART receive status returned by 
+* \ref Cy_SCB_UART_GetReceiveStatus function. 
+* Each UART receive status is encoded in a separate bit, therefore multiple bits
+* may be set to indicate the current status.
 */
 /** The receive operation started by \ref Cy_SCB_UART_Receive is in progress */
 #define CY_SCB_UART_RECEIVE_ACTIVE         (0x01UL)
@@ -824,7 +884,12 @@ cy_en_syspm_status_t Cy_SCB_UART_HibernateCallback(cy_stc_syspm_callback_params_
 /**
 * \defgroup group_scb_uart_macros_transmit_status UART Transmit Status
 * \{
+* Macros to check current UART transmit status returned by 
+* \ref Cy_SCB_UART_GetTransmitStatus function. 
+* Each UART transmit status is encoded in a separate bit, therefore multiple bits
+* may be set to indicate the current status.
 */
+
 /** The transmit operation started by \ref Cy_SCB_UART_Transmit is in progress */
 #define CY_SCB_UART_TRANSMIT_ACTIVE    (0x01UL)
 
@@ -844,8 +909,10 @@ cy_en_syspm_status_t Cy_SCB_UART_HibernateCallback(cy_stc_syspm_callback_params_
 /**
 * \defgroup group_scb_uart_macros_callback_events UART Callback Events
 * \{
-* Only single event is notified by the callback.
+* Macros to check UART events passed by \ref cy_cb_scb_uart_handle_events_t callback.
+* Note that only single event is notified by the callback when it is called.
 */
+
 /**
 * All data elements specified by \ref Cy_SCB_UART_Transmit have been loaded
 * into the TX FIFO
@@ -884,9 +951,9 @@ cy_en_syspm_status_t Cy_SCB_UART_HibernateCallback(cy_stc_syspm_callback_params_
 #define CY_SCB_UART_RX_NO_DATA         (0xFFFFFFFFUL)
 
 
-/***************************************
-*         Internal Constants
-***************************************/
+/*******************************************************************************
+*                            Internal Constants
+*******************************************************************************/
 
 /** \cond INTERNAL */
 #define CY_SCB_UART_TX_INTR_MASK    (CY_SCB_UART_TX_TRIGGER  | CY_SCB_UART_TX_NOT_FULL  | CY_SCB_UART_TX_EMPTY | \
@@ -954,9 +1021,9 @@ cy_en_syspm_status_t Cy_SCB_UART_HibernateCallback(cy_stc_syspm_callback_params_
 /** \} group_scb_uart_macros */
 
 
-/***************************************
-*    In-line Function Implementation
-***************************************/
+/*******************************************************************************
+*                    In-line Function Implementation
+*******************************************************************************/
 
 /**
 * \addtogroup group_scb_uart_general_functions
@@ -975,7 +1042,7 @@ cy_en_syspm_status_t Cy_SCB_UART_HibernateCallback(cy_stc_syspm_callback_params_
 *******************************************************************************/
 __STATIC_INLINE void Cy_SCB_UART_Enable(CySCB_Type *base)
 {
-    base->CTRL |= SCB_CTRL_ENABLED_Msk;
+    SCB_CTRL(base) |= SCB_CTRL_ENABLED_Msk;
 }
 
 
@@ -992,7 +1059,7 @@ __STATIC_INLINE void Cy_SCB_UART_Enable(CySCB_Type *base)
 *******************************************************************************/
 __STATIC_INLINE void Cy_SCB_UART_EnableCts(CySCB_Type *base)
 {
-    base->UART_FLOW_CTRL |= SCB_UART_FLOW_CTRL_CTS_ENABLED_Msk;
+    SCB_UART_FLOW_CTRL(base) |= SCB_UART_FLOW_CTRL_CTS_ENABLED_Msk;
 }
 
 
@@ -1009,7 +1076,7 @@ __STATIC_INLINE void Cy_SCB_UART_EnableCts(CySCB_Type *base)
 *******************************************************************************/
 __STATIC_INLINE void Cy_SCB_UART_DisableCts(CySCB_Type *base)
 {
-    base->UART_FLOW_CTRL &= (uint32_t) ~SCB_UART_FLOW_CTRL_CTS_ENABLED_Msk;
+    SCB_UART_FLOW_CTRL(base) &= (uint32_t) ~SCB_UART_FLOW_CTRL_CTS_ENABLED_Msk;
 }
 
 
@@ -1033,7 +1100,7 @@ __STATIC_INLINE void Cy_SCB_UART_SetRtsFifoLevel(CySCB_Type *base, uint32_t leve
 {
     CY_ASSERT_L2(CY_SCB_IS_TRIGGER_LEVEL_VALID(base, level));
 
-    base->UART_FLOW_CTRL = _CLR_SET_FLD32U(base->UART_FLOW_CTRL, SCB_UART_FLOW_CTRL_TRIGGER_LEVEL, level);
+    CY_REG32_CLR_SET(SCB_UART_FLOW_CTRL(base), SCB_UART_FLOW_CTRL_TRIGGER_LEVEL, level);
 }
 
 
@@ -1052,7 +1119,7 @@ __STATIC_INLINE void Cy_SCB_UART_SetRtsFifoLevel(CySCB_Type *base, uint32_t leve
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SCB_UART_GetRtsFifoLevel(CySCB_Type const *base)
 {
-    return _FLD2VAL(SCB_UART_FLOW_CTRL_TRIGGER_LEVEL, base->UART_FLOW_CTRL);
+    return _FLD2VAL(SCB_UART_FLOW_CTRL_TRIGGER_LEVEL, SCB_UART_FLOW_CTRL(base));
 }
 
 
@@ -1061,22 +1128,27 @@ __STATIC_INLINE uint32_t Cy_SCB_UART_GetRtsFifoLevel(CySCB_Type const *base)
 ****************************************************************************//**
 *
 * Enables the skip start-bit functionality.
-* The UART hardware does not synchronize to a start but synchronizes to
-* the first rising edge. To create a rising edge, the first data bit must
-* be a 1. This feature is useful when the Start edge is used to wake the
-* device through a GPIO interrupt.
+* When skip start is enabled the UART hardware does not synchronize to a 
+* start bit but synchronizes to the first rising edge. To create a rising edge, 
+* the first data bit must be a 1. This feature is useful when the start bit 
+* falling edge is used to wake the device through a GPIO interrupt.
 *
 * \param base
 * The pointer to the UART SCB instance.
 *
 * \note
-* The skip start-bit feature is applied whenever the UART is disabled due
-* to entrance into Deep Sleep or after calling \ref Cy_SCB_UART_Disable.
+* When skip start-bit feature is enabled, it is applied (UART synchronizes 
+* to the first rising edge after start bit) whenever the SCB is enabled. 
+* This can cause incorrect UART synchronization and data reception when 
+* the first data bit is not a 1. Therefore, disable the skip start-bit 
+* when it should not be applied.
+* Note that SCB is disabled before enter Deep Sleep mode or after calling 
+* \ref Cy_SCB_UART_Disable.
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SCB_UART_EnableSkipStart(CySCB_Type *base)
 {
-    base->UART_RX_CTRL |= SCB_UART_RX_CTRL_SKIP_START_Msk;
+    SCB_UART_RX_CTRL(base) |= SCB_UART_RX_CTRL_SKIP_START_Msk;
 }
 
 
@@ -1093,7 +1165,7 @@ __STATIC_INLINE void Cy_SCB_UART_EnableSkipStart(CySCB_Type *base)
 *******************************************************************************/
 __STATIC_INLINE void Cy_SCB_UART_DisableSkipStart(CySCB_Type *base)
 {
-    base->UART_RX_CTRL &= (uint32_t) ~SCB_UART_RX_CTRL_SKIP_START_Msk;
+    SCB_UART_RX_CTRL(base) &= (uint32_t) ~SCB_UART_RX_CTRL_SKIP_START_Msk;
 }
 /** \} group_scb_uart_general_functions */
 
@@ -1137,7 +1209,7 @@ __STATIC_INLINE uint32_t Cy_SCB_UART_Get(CySCB_Type const *base)
 *
 * \param buffer
 * The pointer to the location to place the data read from the RX FIFO.
-* The item size is defined by the data type, which depends on the configured
+* The element size is defined by the data type, which depends on the configured
 * data width.
 *
 * \param size
@@ -1168,7 +1240,7 @@ __STATIC_INLINE uint32_t Cy_SCB_UART_GetArray(CySCB_Type const *base, void *buff
 *
 * \param buffer
 * The pointer to the location to place the data read from the RX FIFO.
-* The item size is defined by the data type, which depends on the configured
+* The element size is defined by the data type, which depends on the configured
 * data width.
 *
 * \param size
@@ -1188,7 +1260,6 @@ __STATIC_INLINE void Cy_SCB_UART_GetArrayBlocking(CySCB_Type const *base, void *
 ****************************************************************************//**
 *
 * Returns the current status of the RX FIFO.
-* Clears the active statuses to let the SCB hardware update them.
 *
 * \param base
 * The pointer to the UART SCB instance.
@@ -1283,7 +1354,7 @@ __STATIC_INLINE void Cy_SCB_UART_ClearRxFifo(CySCB_Type *base)
 *
 * \param data
 * Data to put in the TX FIFO.
-* The item size is defined by the data type, which depends on the configured
+* The element size is defined by the data type, which depends on the configured
 * data width.
 *
 * \return
@@ -1309,7 +1380,7 @@ __STATIC_INLINE uint32_t Cy_SCB_UART_Put(CySCB_Type *base, uint32_t data)
 *
 * \param buffer
 * The pointer to data to place in the TX FIFO.
-* The item size is defined by the data type, which depends on the configured
+* The element size is defined by the data type, which depends on the configured
 * TX data width.
 *
 * \param size
@@ -1340,7 +1411,7 @@ __STATIC_INLINE uint32_t Cy_SCB_UART_PutArray(CySCB_Type *base, void *buffer, ui
 *
 * \param buffer
 * The pointer to data to place in the TX FIFO.
-* The item size is defined by the data type, which depends on the configured
+* The element size is defined by the data type, which depends on the configured
 * data width.
 *
 * \param size
@@ -1382,7 +1453,6 @@ __STATIC_INLINE void Cy_SCB_UART_PutString(CySCB_Type *base, char_t const string
 ****************************************************************************//**
 *
 * Returns the current status of the TX FIFO.
-* Clear the active statuses to let the SCB hardware update them.
 *
 * \param base
 * The pointer to the UART SCB instance.

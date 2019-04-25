@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_profile.h
-* \version 1.0
+* \version 1.10
 *
 * Provides an API declaration of the energy profiler driver.
 *
@@ -13,14 +13,20 @@
 *******************************************************************************/
 
 /**
-* \defgroup group_energy_profiler Energy Profiler (Profile)
+* \addtogroup group_energy_profiler
 * \{
 * 
 * The energy profiler driver is an API for configuring and using the profile 
-* hardware block. The profile block enables measurement of the signal activity
+* hardware block. 
+*
+* The functions and other declarations used in this driver are in cy_profile.h. 
+* You can include cy_pdl.h (ModusToolbox only) to get access to all functions 
+* and declarations in the PDL. 
+*
+* The profile block enables measurement of the signal activity
 * of select peripherals and monitor sources during a measurement window. Using
-* these measurements, it is possible to construct a profile of the energy consumed
-* in the device by scaling the individual peripheral actvities with appropriate
+* these measurements, you can construct a profile of the energy consumed
+* in the device by scaling the individual peripheral activities with appropriate
 * scaling (weight) factors. This gives the application the ability to monitor
 * the energy consumed by the internal resources with minimal CPU overhead and
 * without external monitoring hardware.
@@ -40,17 +46,17 @@
 *
 * - Event: The count value is incremented when a pulse event signal is seen by the
 *   counter. This type of monitoring is suitable when the monitoring source of 
-*   interest needs to count the discrete events (such as the number of Flash read 
+*   interest needs to count the discrete events (such as the number of flash read 
 *   accesses) happening in the measurement window.
 *
 * - Duration: The count value is incremented at every clock edge while the monitor
 *   signal is high. This type of monitoring is suitable when a signal is active for
 *   a finite amount of time (such as the time the BLE TX radio is active) and the
-*   duration needs to be expressed as number of clock cycles in the measurement window.
+*   duration must be expressed as number of clock cycles in the measurement window.
 *
 * Many of the available monitor sources are suitable for event type monitoring.
 * Using a duration type on these signals may not give valuable information. Review 
-* the device TRM for more information on the monitor sources and details on how they
+* the device TRM for more information on the monitor sources and detail on how they
 * should be used.
 *
 * \subsection group_profile_measurement_types Measurement Types
@@ -61,7 +67,7 @@
 * - Continuous measurement: A profile counter can be assigned a monitor signal of
 *   constant 1 (PROFILE_ONE), which sets the counter to increment at every (assigned)
 *   clock cycle. This can be used to give a reference time for the measurement window
-*   and also allows the construction of time stamps. For example, a software controlled
+*   and also allows the construction of timestamps. For example, a software controlled
 *   GPIO can be "timestamped" by reading the counter value (on the fly) before it is
 *   toggled. When the measurement window ends, the energy contribution caused by the
 *   GPIO toggle can be incorporated into the final calculation.
@@ -70,8 +76,8 @@
 *   used to increment a profile counter. This gives the activity numbers, which can
 *   then be multiplied by the instantaneous power numbers associated with the source
 *   to give the average energy consumption (Energy = Power x time). For example, the 
-*   energy consumped by an Operating System (OS) task can be estimated by monitoring
-*   the processor's active cycle count (E.g. CPUSS_MONITOR_CM4) and the Flash read
+*   energy consumed by an Operating System (OS) task can be estimated by monitoring
+*   the processor's active cycle count (E.g. CPUSS_MONITOR_CM4) and the flash read
 *   accesses (CPUSS_MONITOR_FLASH). Note that these activity numbers can also be 
 *   timestamped using the continuous measurement method to differentiate between the
 *   different task switches. The activity numbers are then multiplied by the associated
@@ -82,15 +88,15 @@
 *   used by a profile counter to measure the time spent on XIP communication through the 
 *   SPI interface. This activity number can then be multiplied by the power associated
 *   with that activity to give the average energy consumed by that block during the
-*   measurement window. This type of monitoring should only be performed for signals
+*   measurement window. This type of monitoring should be performed only for signals
 *   that are difficult to track in software. For example, a combination of interrupts
-*   and time stamps can be used to track the activity of many peripherals in a continuous
+*   and timestamps can be used to track the activity of many peripherals in a continuous
 *   monitoring model. However tracking the activity of signals such the BLE radio
 *   should be done using the duration measurement method.
 *
 * - Low power measurement: The profile counters do not support measurement during chip 
-*   deep-sleep, hibernate and off states. i.e. the profile counters are meant for active
-*   run-time measurements only. In order to measure the time spent in low power modes (LPM),
+*   Deep Sleep, Hibernate, and off states. I.e. the profile counters are meant for active
+*   run-time measurements only. To measure the time spent in low power modes (LPM),
 *   a real-time clock (RTC) should be used. Take a timestamp before LPM entry and a 
 *   timestamp upon LPM exit in a continuous measurement model. Then multiply the difference
 *   by the appropriate LPM power numbers.
@@ -119,7 +125,7 @@
 * \section group_profile_configuration Configuration Considerations
 * 
 * Each counter is a 32-bit register that counts either a number of clock cycles, 
-* or a number of events. It is possible to overflow the 32-bit register. To address
+* or a number of events. Overflowing the 32-bit register is possible. To address
 * this issue, the driver implements a 32-bit overflow counter. Combined with the 32-bit
 * register, this gives a 64-bit counter for each monitored source. 
 *
@@ -158,6 +164,21 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td rowspan="3">1.10</td>
+*     <td>Flattened the organization of the driver source code into the single source directory and the single include directory.</td>
+*     <td>Driver library directory-structure simplification.</td>
+*   </tr>
+*   <tr>
+*     <td>Added register access layer. Use register access macros instead
+*         of direct register access using dereferenced pointers.</td>
+*     <td>Makes register access device-independent, so that the PDL does 
+*         not need to be recompiled for each supported part number.</td>
+*   </tr>
+*   <tr>
+*     <td>Added parameter check asserts.</td>
+*     <td>Driver defect fix.</td>
+*   </tr>
+*   <tr>
 *     <td>1.0</td>
 *     <td>Initial version</td>
 *     <td></td>
@@ -179,13 +200,12 @@
 #if !defined(CY_PROFILE_H)
 #define CY_PROFILE_H
 
+#include "cy_device.h"
 #include "cy_device_headers.h"
-#include "syslib/cy_syslib.h"
+#include "cy_syslib.h"
 #include <stddef.h>
 
-#ifndef CY_IP_MXPROFILE
-    #error "The PROFILE driver is not supported on this device"
-#endif
+#ifdef CY_IP_MXPROFILE
 
 #if defined(__cplusplus)
 extern "C" {
@@ -199,7 +219,7 @@ extern "C" {
 #define CY_PROFILE_DRV_VERSION_MAJOR  1
 
 /** Driver minor version */
-#define CY_PROFILE_DRV_VERSION_MINOR  0
+#define CY_PROFILE_DRV_VERSION_MINOR  10
 
 /** Profile driver identifier */
 #define CY_PROFILE_ID   CY_PDL_DRV_ID(0x1EU)
@@ -214,6 +234,32 @@ extern "C" {
 #define CY_PROFILE_CLR_ALL_CNT 0x100UL
 
 /** \} group_profile_macros */
+
+/***************************************
+*        Constants
+***************************************/
+
+/** \cond INTERNAL */
+
+#define CY_PROFILE_PRFL_CNT_NR                  (8u)
+
+/* Parameter check macros */
+#define CY_PROFILE_IS_MONITOR_VALID(monitor)    ((uint32_t)CY_EP_MONITOR_COUNT > ((uint32_t)(monitor)))
+#define CY_PROFILE_IS_DURATION_VALID(duration)  (((duration) == CY_PROFILE_EVENT) || \
+                                                 ((duration) == CY_PROFILE_DURATION))
+#define CY_PROFILE_IS_REFCLK_VALID(refClk)      (((refClk) == CY_PROFILE_CLK_TIMER) || \
+                                                 ((refClk) == CY_PROFILE_CLK_IMO) || \
+                                                 ((refClk) == CY_PROFILE_CLK_ECO) || \
+                                                 ((refClk) == CY_PROFILE_CLK_LF) || \
+                                                 ((refClk) == CY_PROFILE_CLK_HF) || \
+                                                 ((refClk) == CY_PROFILE_CLK_PERI))
+#define CY_PROFILE_IS_CNT_VALID(numCounters)    ((uint32_t)CY_PROFILE_PRFL_CNT_NR > (numCounters))
+
+/** \endcond */
+
+/***************************************
+*        Enumerations
+***************************************/
 
 /**
 * \addtogroup group_profile_enums
@@ -251,6 +297,10 @@ typedef enum
  } cy_en_profile_status_t;
 
  /** \} group_profile_enums */
+
+/***************************************
+*       Configuration Structures
+***************************************/
 
 /**
 * \addtogroup group_profile_data_structures
@@ -309,8 +359,7 @@ void Cy_Profile_ISR(void);
 */
 __STATIC_INLINE void Cy_Profile_Init(void);
 __STATIC_INLINE void Cy_Profile_DeInit(void);
-void Cy_Profile_StartProfiling(void);
-__STATIC_INLINE void Cy_Profile_DeInit(void);
+                void Cy_Profile_StartProfiling(void);
 __STATIC_INLINE void Cy_Profile_StopProfiling(void);
 __STATIC_INLINE uint32_t Cy_Profile_IsProfiling(void);
 
@@ -336,9 +385,9 @@ __STATIC_INLINE uint32_t Cy_Profile_IsProfiling(void);
 *******************************************************************************/
 __STATIC_INLINE void Cy_Profile_Init(void)
 {
-    PROFILE->CTL = _VAL2FLD(PROFILE_CTL_ENABLED,  1UL/*enabled */) | 
-                   _VAL2FLD(PROFILE_CTL_WIN_MODE, 0UL/*start/stop mode*/);
-    PROFILE->INTR_MASK = 0UL; /* clear all counter interrupt mask bits */
+    PROFILE_CTL = _VAL2FLD(PROFILE_CTL_ENABLED,  1UL/*enabled */) | 
+                  _VAL2FLD(PROFILE_CTL_WIN_MODE, 0UL/*start/stop mode*/);
+    PROFILE_INTR_MASK = 0UL; /* clear all counter interrupt mask bits */
 }
 
 
@@ -359,8 +408,8 @@ __STATIC_INLINE void Cy_Profile_Init(void)
 *******************************************************************************/
 __STATIC_INLINE void Cy_Profile_DeInit(void)
 {
-    PROFILE->CTL = _VAL2FLD(PROFILE_CTL_ENABLED, 0UL/*disabled */);
-    PROFILE->INTR_MASK = 0UL; /* clear all counter interrupt mask bits */
+    PROFILE_CTL = _VAL2FLD(PROFILE_CTL_ENABLED, 0UL/*disabled */);
+    PROFILE_INTR_MASK = 0UL; /* clear all counter interrupt mask bits */
 }
 
 
@@ -380,7 +429,7 @@ __STATIC_INLINE void Cy_Profile_DeInit(void)
 *******************************************************************************/
 __STATIC_INLINE void Cy_Profile_StopProfiling(void)
 {
-    PROFILE->CMD = CY_PROFILE_STOP_TR;
+    PROFILE_CMD = CY_PROFILE_STOP_TR;
 }
 
 
@@ -398,7 +447,7 @@ __STATIC_INLINE void Cy_Profile_StopProfiling(void)
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_Profile_IsProfiling(void)
 {
-    return _FLD2VAL(PROFILE_STATUS_WIN_ACTIVE, PROFILE->STATUS);
+    return _FLD2VAL(PROFILE_STATUS_WIN_ACTIVE, PROFILE_STATUS);
 }
 /** \} group_profile_functions_general */
 
@@ -428,7 +477,7 @@ cy_en_profile_status_t Cy_Profile_DisableCounter(cy_stc_profile_ctr_ptr_t ctrAdd
 *******************************************************************************/
 __STATIC_INLINE void Cy_Profile_ClearCounters(void)
 {
-    PROFILE->CMD = CY_PROFILE_CLR_ALL_CNT;
+    PROFILE_CMD = CY_PROFILE_CLR_ALL_CNT;
 }
 /** \} group_profile_functions_counter */
 
@@ -449,6 +498,8 @@ uint64_t Cy_Profile_GetSumWeightedCounts(cy_stc_profile_ctr_ptr_t ptrsArray[], u
 #if defined(__cplusplus)
 }
 #endif /* __cplusplus */
+
+#endif /* CY_IP_MXPROFILE */
 
 #endif /* CY_PROFILE_H */
 

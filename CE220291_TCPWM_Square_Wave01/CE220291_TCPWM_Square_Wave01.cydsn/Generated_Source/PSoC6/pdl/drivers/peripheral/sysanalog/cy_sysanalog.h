@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_sysanalog.h
-* \version 1.0
+* \version 1.10
 *
 * Header file for the system level analog reference driver.
 *
@@ -13,11 +13,15 @@
 *******************************************************************************/
 
 /**
-* \defgroup group_sysanalog System Analog Reference Block (SysAnalog)
+* \addtogroup group_sysanalog
 * \{
 *
 * This driver provides an interface for configuring the Analog Reference (AREF) block
 * and querying the INTR_CAUSE register of the PASS.
+*
+* The functions and other declarations used in this driver are in cy_sysanalog.h. 
+* You can include cy_pdl.h (ModusToolbox only) to get access to all functions 
+* and declarations in the PDL. 
 *
 * The AREF block has the following features:
 *
@@ -126,6 +130,19 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td rowspan="2">1.10</td>
+*     <td>Flattened the organization of the driver source code into the single 
+*         source directory and the single include directory.
+*     </td>
+*     <td>Driver library directory-structure simplification.</td>
+*   </tr>
+*   <tr>
+*     <td>Added register access layer. Use register access macros instead
+*         of direct register access using dereferenced pointers.</td>
+*     <td>Makes register access device-independent, so that the PDL does 
+*         not need to be recompiled for each supported part number.</td>
+*   </tr>
+*   <tr>
 *     <td>1.0</td>
 *     <td>Initial version</td>
 *     <td></td>
@@ -146,12 +163,11 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include "cy_device_headers.h"
-#include "syslib/cy_syslib.h"
-#include "syspm/cy_syspm.h"
+#include "cy_device.h"
+#include "cy_syslib.h"
+#include "cy_syspm.h"
 
-#ifndef CY_IP_MXS40PASS
-    #error "The SysAnalog driver is not supported on this device"
-#endif
+#ifdef CY_IP_MXS40PASS
 
 #if defined(__cplusplus)
 extern "C" {
@@ -166,7 +182,7 @@ extern "C" {
 #define CY_SYSANALOG_DRV_VERSION_MAJOR          1
 
 /** Driver minor version */
-#define CY_SYSANALOG_DRV_VERSION_MINOR          0
+#define CY_SYSANALOG_DRV_VERSION_MINOR          10
 
 /** PASS driver identifier */
 #define CY_SYSANALOG_ID                         CY_PDL_DRV_ID(0x17u)
@@ -214,8 +230,8 @@ typedef enum
 */
 typedef enum
 {
-    CY_SYSANALOG_STARTUP_NORMAL     = 0u,                                           /**< Normal startup */
-    CY_SYSANALOG_STARTUP_FAST       = 1u << PASS_AREF_AREF_CTRL_AREF_MODE_Pos       /**< Fast startup (10 us) - recommended */
+    CY_SYSANALOG_STARTUP_NORMAL     = 0uL,                                           /**< Normal startup */
+    CY_SYSANALOG_STARTUP_FAST       = 1uL << PASS_AREF_AREF_CTRL_AREF_MODE_Pos       /**< Fast startup (10 us) - recommended */
 }cy_en_sysanalog_startup_t;
 
 /** AREF voltage reference sources
@@ -227,9 +243,9 @@ typedef enum
 */
 typedef enum
 {
-    CY_SYSANALOG_VREF_SOURCE_SRSS        = 0u,                                         /**< Use 0.8 V Vref from SRSS. Low accuracy high noise source that is not intended for analog subsystems. */
-    CY_SYSANALOG_VREF_SOURCE_LOCAL_1_2V  = 1u << PASS_AREF_AREF_CTRL_VREF_SEL_Pos,     /**< Use locally generated 1.2 V Vref */
-    CY_SYSANALOG_VREF_SOURCE_EXTERNAL    = 2u << PASS_AREF_AREF_CTRL_VREF_SEL_Pos      /**< Use externally supplied Vref */
+    CY_SYSANALOG_VREF_SOURCE_SRSS        = 0uL,                                         /**< Use 0.8 V Vref from SRSS. Low accuracy high noise source that is not intended for analog subsystems. */
+    CY_SYSANALOG_VREF_SOURCE_LOCAL_1_2V  = 1uL << PASS_AREF_AREF_CTRL_VREF_SEL_Pos,     /**< Use locally generated 1.2 V Vref */
+    CY_SYSANALOG_VREF_SOURCE_EXTERNAL    = 2uL << PASS_AREF_AREF_CTRL_VREF_SEL_Pos      /**< Use externally supplied Vref */
 }cy_en_sysanalog_vref_source_t;
 
 
@@ -242,8 +258,8 @@ typedef enum
 */
 typedef enum
 {
-    CY_SYSANALOG_IZTAT_SOURCE_SRSS       = 0u,                                         /**< Use 250 nA IZTAT from SRSS and gain by 4 to output 1 uA*/
-    CY_SYSANALOG_IZTAT_SOURCE_LOCAL      = 1u << PASS_AREF_AREF_CTRL_IZTAT_SEL_Pos     /**< Use locally generated 1 uA IZTAT */
+    CY_SYSANALOG_IZTAT_SOURCE_SRSS       = 0uL,                                         /**< Use 250 nA IZTAT from SRSS and gain by 4 to output 1 uA*/
+    CY_SYSANALOG_IZTAT_SOURCE_LOCAL      = 1uL << PASS_AREF_AREF_CTRL_IZTAT_SEL_Pos     /**< Use locally generated 1 uA IZTAT */
 }cy_en_sysanalog_iztat_source_t;
 
 /** AREF Deep Sleep mode
@@ -257,7 +273,7 @@ typedef enum
 */
 typedef enum
 {
-    CY_SYSANALOG_DEEPSLEEP_DISABLE             = 0u,                                               /**< Disable AREF IP block */
+    CY_SYSANALOG_DEEPSLEEP_DISABLE             = 0uL,                                               /**< Disable AREF IP block */
     CY_SYSANALOG_DEEPSLEEP_IPTAT_1             = PASS_AREF_AREF_CTRL_DEEPSLEEP_ON_Msk | \
                                                  (1uL << PASS_AREF_AREF_CTRL_DEEPSLEEP_MODE_Pos),  /**< Enable IPTAT generator for fast wakeup from Deep Sleep mode
                                                                                                         IPTAT outputs for CTBs are disabled. */
@@ -375,7 +391,7 @@ __STATIC_INLINE void Cy_SysAnalog_IztatSelect(cy_en_sysanalog_iztat_source_t izt
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysAnalog_DeInit(void)
 {
-    PASS_AREF->AREF_CTRL = CY_SYSANALOG_DEINIT;
+    PASS_AREF_AREF_CTRL = CY_SYSANALOG_DEINIT;
 }
 
 /*******************************************************************************
@@ -401,7 +417,7 @@ __STATIC_INLINE void Cy_SysAnalog_DeInit(void)
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SysAnalog_GetIntrCause(void)
 {
-    return PASS->INTR_CAUSE;
+    return PASS_INTR_CAUSE;
 }
 
 /*******************************************************************************
@@ -433,7 +449,7 @@ __STATIC_INLINE void Cy_SysAnalog_SetDeepSleepMode(cy_en_sysanalog_deep_sleep_t 
 {
     CY_ASSERT_L3(CY_SYSANALOG_DEEPSLEEP(deepSleep));
 
-    PASS_AREF->AREF_CTRL = (PASS_AREF->AREF_CTRL & ~(PASS_AREF_AREF_CTRL_DEEPSLEEP_ON_Msk | PASS_AREF_AREF_CTRL_DEEPSLEEP_MODE_Msk)) | \
+    PASS_AREF_AREF_CTRL = (PASS_AREF_AREF_CTRL & ~(PASS_AREF_AREF_CTRL_DEEPSLEEP_ON_Msk | PASS_AREF_AREF_CTRL_DEEPSLEEP_MODE_Msk)) | \
                       (uint32_t) deepSleep;
 }
 
@@ -453,7 +469,7 @@ __STATIC_INLINE void Cy_SysAnalog_SetDeepSleepMode(cy_en_sysanalog_deep_sleep_t 
 *******************************************************************************/
 __STATIC_INLINE cy_en_sysanalog_deep_sleep_t Cy_SysAnalog_GetDeepSleepMode(void)
 {
-    return (cy_en_sysanalog_deep_sleep_t) (uint32_t) (PASS_AREF->AREF_CTRL & (PASS_AREF_AREF_CTRL_DEEPSLEEP_ON_Msk | PASS_AREF_AREF_CTRL_DEEPSLEEP_MODE_Msk));
+    return (cy_en_sysanalog_deep_sleep_t) (uint32_t) (PASS_AREF_AREF_CTRL & (PASS_AREF_AREF_CTRL_DEEPSLEEP_ON_Msk | PASS_AREF_AREF_CTRL_DEEPSLEEP_MODE_Msk));
 }
 
 /*******************************************************************************
@@ -471,7 +487,7 @@ __STATIC_INLINE cy_en_sysanalog_deep_sleep_t Cy_SysAnalog_GetDeepSleepMode(void)
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysAnalog_Enable(void)
 {
-    PASS_AREF->AREF_CTRL |= PASS_AREF_AREF_CTRL_ENABLED_Msk;
+    PASS_AREF_AREF_CTRL |= PASS_AREF_AREF_CTRL_ENABLED_Msk;
 }
 
 /*******************************************************************************
@@ -489,7 +505,7 @@ __STATIC_INLINE void Cy_SysAnalog_Enable(void)
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysAnalog_Disable(void)
 {
-    PASS_AREF->AREF_CTRL &= ~PASS_AREF_AREF_CTRL_ENABLED_Msk;
+    PASS_AREF_AREF_CTRL &= ~PASS_AREF_AREF_CTRL_ENABLED_Msk;
 }
 
 /*******************************************************************************
@@ -517,7 +533,7 @@ __STATIC_INLINE void Cy_SysAnalog_SetArefMode(cy_en_sysanalog_startup_t startup)
 {
     CY_ASSERT_L3(CY_SYSANALOG_STARTUP(startup));
 
-    PASS_AREF->AREF_CTRL = (PASS_AREF->AREF_CTRL & ~PASS_AREF_AREF_CTRL_AREF_MODE_Msk) | (uint32_t) startup;
+    PASS_AREF_AREF_CTRL = (PASS_AREF_AREF_CTRL & ~PASS_AREF_AREF_CTRL_AREF_MODE_Msk) | (uint32_t) startup;
 }
 
 /*******************************************************************************
@@ -546,7 +562,7 @@ __STATIC_INLINE void Cy_SysAnalog_VrefSelect(cy_en_sysanalog_vref_source_t vref)
 {
     CY_ASSERT_L3(CY_SYSANALOG_VREF(vref));
 
-    PASS_AREF->AREF_CTRL = (PASS_AREF->AREF_CTRL & ~PASS_AREF_AREF_CTRL_VREF_SEL_Msk) | (uint32_t) vref;
+    PASS_AREF_AREF_CTRL = (PASS_AREF_AREF_CTRL & ~PASS_AREF_AREF_CTRL_VREF_SEL_Msk) | (uint32_t) vref;
 }
 
 /*******************************************************************************
@@ -574,7 +590,7 @@ __STATIC_INLINE void Cy_SysAnalog_IztatSelect(cy_en_sysanalog_iztat_source_t izt
 {
     CY_ASSERT_L3(CY_SYSANALOG_IZTAT(iztat));
 
-    PASS_AREF->AREF_CTRL = (PASS_AREF->AREF_CTRL & ~PASS_AREF_AREF_CTRL_IZTAT_SEL_Msk) | (uint32_t) iztat;
+    PASS_AREF_AREF_CTRL = (PASS_AREF_AREF_CTRL & ~PASS_AREF_AREF_CTRL_IZTAT_SEL_Msk) | (uint32_t) iztat;
 }
 
 /** \} group_sysanalog_functions */
@@ -582,6 +598,8 @@ __STATIC_INLINE void Cy_SysAnalog_IztatSelect(cy_en_sysanalog_iztat_source_t izt
 #if defined(__cplusplus)
 }
 #endif
+
+#endif /* CY_IP_MXS40PASS */
 
 #endif /** !defined(CY_SYSANALOG_H) */
 

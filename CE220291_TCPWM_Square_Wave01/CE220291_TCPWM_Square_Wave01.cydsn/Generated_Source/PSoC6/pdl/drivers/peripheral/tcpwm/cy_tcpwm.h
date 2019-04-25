@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_tcpwm.h
-* \version 1.0.1
+* \version 1.10
 *
 * The header file of the TCPWM driver.
 *
@@ -13,7 +13,7 @@
 *******************************************************************************/
 
 /**
-* \defgroup group_tcpwm Timer Counter PWM (TCPWM)
+* \addtogroup group_tcpwm
 * \{
 * \defgroup group_tcpwm_common  Common
 * \defgroup group_tcpwm_counter Timer/Counter (TCPWM)
@@ -27,6 +27,10 @@
 * 
 * The TCPWM driver is a multifunction driver that implements Timer Counter, 
 * PWM, and Quadrature Decoder functionality using the TCPWM block.
+*
+* The functions and other declarations used in this driver are in cy_tcpwm_counter.h, 
+* cy_tcpwm_pwm.h, cy_tcpwm_quaddec.h respectively. Include cy_pdl.h 
+* (ModusToolbox only) to get access to all functions and declarations in the PDL.
 *
 * Each TCPWM block is a collection of counters that can all be triggered 
 * simultaneously. For each function call, the base register address of 
@@ -138,11 +142,24 @@
 * \ref Cy_TCPWM_TriggerReloadOrIndex must be called to start the counting.
 * * If count input terminal is not used, the \ref CY_TCPWM_INPUT_LEVEL macro 
 * should be set for the countInputMode parameter and the \ref CY_TCPWM_INPUT_1 
-* macro should be set for the countInputMode parameter in the configuration 
+* macro should be set for the countInput parameter in the configuration 
 * structure of the appropriate mode(Counter 
 * \ref group_tcpwm_data_structures_counter, PWM 
 * \ref group_tcpwm_data_structures_pwm, or QuadDec 
 * \ref group_tcpwm_data_structures_quaddec).
+*
+* \subsection group_tcpwm_pins Assign and Configure Pins
+* The dedicated TCPWM pins can be used. The HSIOM register must be configured to
+* connect the block to the pins. Use the \ref group_gpio driver API to do that.
+*
+* \snippet tcpwm\1.10\counter\snippet\main.c snippet_Cy_TCPWM_Pins
+*
+* \subsection group_tcpwm_clock Assign Clock Divider
+* The clock source must be connected to proper working.
+* Any of the peripheral clock dividers could be used. Use the  
+* \ref group_sysclk driver API to do that.
+*
+* \snippet tcpwm\1.10\counter\snippet\main.c snippet_Cy_TCPWM_Clock
 *
 * \section group_tcpwm_more_information More Information
 *
@@ -171,6 +188,19 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td rowspan="2">1.10</td>
+*     <td>Flattened the organization of the driver source code into the single 
+*         source directory and the single include directory.
+*     </td>
+*     <td>Driver library directory-structure simplification.</td>
+*   </tr>
+*   <tr>
+*     <td>Added register access layer. Use register access macros instead
+*         of direct register access using dereferenced pointers.</td>
+*     <td>Makes register access device-independent, so that the PDL does 
+*         not need to be recompiled for each supported part number.</td>
+*   </tr>
+*   <tr>
 *     <td>1.0.1</td>
 *     <td>Added a deviation to the MISRA Compliance section.
 *         Added function-level code snippets.</td>
@@ -189,6 +219,17 @@
 /**
 * \addtogroup group_tcpwm_common
 * Common API for the Timer Counter PWM Block.
+*
+* This is the common API that provides an interface to the TCPWM hardware.
+* The Timer Counter, PWM, and Quadrature Decoder drivers use this common API.
+* Most users will use individual drivers and do not need to use the common
+* API for the TCPWM.
+*
+* The functions and other declarations used in this part of the driver are in cy_tcpwm.h. 
+* Include either of cy_tcpwm_counter.h, cy_tcpwm_pwm.h, cy_tcpwm_quaddec.h 
+* depending on the desired functionality. You can also include cy_pdl.h 
+* to get access to all functions and declarations in the PDL.
+*
 * \{
 * \defgroup group_tcpwm_macros_common           Macros
 * \defgroup group_tcpwm_functions_common        Functions
@@ -203,12 +244,11 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
-#include "syslib/cy_syslib.h"
+#include "cy_syslib.h"
 #include "cy_device_headers.h"
+#include "cy_device.h"
 
-#ifndef CY_IP_MXTCPWM
-    #error "The TCPWM driver is not supported on this device"
-#endif
+#ifdef CY_IP_MXTCPWM
 
 #if defined(__cplusplus)
 extern "C" {
@@ -223,7 +263,7 @@ extern "C" {
 #define CY_TCPWM_DRV_VERSION_MAJOR       1
 
 /** Driver minor version */
-#define CY_TCPWM_DRV_VERSION_MINOR       0
+#define CY_TCPWM_DRV_VERSION_MINOR       10
 
 
 /******************************************************************************
@@ -371,12 +411,12 @@ __STATIC_INLINE uint32_t Cy_TCPWM_GetInterruptStatusMasked(TCPWM_Type const *bas
 * A bit field representing each counter in the TCPWM block.
 *
 * \funcusage
-* \snippet tcpwm/tcpwm_v1_0_counter_sut_01.cydsn/main_cm4.c snippet_Cy_TCPWM_Enable_Multiple
+* \snippet tcpwm\1.10\counter\snippet\main.c snippet_Cy_TCPWM_Enable_Multiple
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_TCPWM_Enable_Multiple(TCPWM_Type *base, uint32_t counters)
 {
-    base->CTRL_SET = counters;
+    TCPWM_CTRL_SET(base) = counters;
 }
 
 
@@ -394,12 +434,12 @@ __STATIC_INLINE void Cy_TCPWM_Enable_Multiple(TCPWM_Type *base, uint32_t counter
 * A bit field representing each counter in the TCPWM block.
 *
 * \funcusage
-* \snippet tcpwm/tcpwm_v1_0_counter_sut_01.cydsn/main_cm4.c snippet_Cy_TCPWM_Disable_Multiple
+* \snippet tcpwm\1.10\counter\snippet\main.c snippet_Cy_TCPWM_Disable_Multiple
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_TCPWM_Disable_Multiple(TCPWM_Type *base, uint32_t counters)
 {
-    base->CTRL_CLR = counters;
+    TCPWM_CTRL_CLR(base) = counters;
 }
 
 
@@ -416,12 +456,12 @@ __STATIC_INLINE void Cy_TCPWM_Disable_Multiple(TCPWM_Type *base, uint32_t counte
 * A bit field representing each counter in the TCPWM block.
 *
 * \funcusage
-* \snippet tcpwm/tcpwm_v1_0_counter_sut_01.cydsn/main_cm4.c snippet_Cy_TCPWM_Enable_Multiple
+* \snippet tcpwm\1.10\counter\snippet\main.c snippet_Cy_TCPWM_Enable_Multiple
 *
 *******************************************************************************/
 __STATIC_INLINE  void Cy_TCPWM_TriggerStart(TCPWM_Type *base, uint32_t counters)
 {
-    base->CMD_START = counters;
+    TCPWM_CMD_START(base) = counters;
 }
 
 
@@ -438,12 +478,12 @@ __STATIC_INLINE  void Cy_TCPWM_TriggerStart(TCPWM_Type *base, uint32_t counters)
 * A bit field representing each counter in the TCPWM block.
 *
 * \funcusage
-* \snippet tcpwm/tcpwm_v1_0_counter_sut_01.cydsn/main_cm4.c snippet_Cy_TCPWM_TriggerReloadOrIndex
+* \snippet tcpwm\1.10\counter\snippet\main.c snippet_Cy_TCPWM_TriggerReloadOrIndex
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_TCPWM_TriggerReloadOrIndex(TCPWM_Type *base, uint32_t counters)
 {
-    base->CMD_RELOAD = counters;
+    TCPWM_CMD_RELOAD(base) = counters;
 }
 
 
@@ -460,12 +500,12 @@ __STATIC_INLINE void Cy_TCPWM_TriggerReloadOrIndex(TCPWM_Type *base, uint32_t co
 * A bit field representing each counter in the TCPWM block.
 *
 * \funcusage
-* \snippet tcpwm/tcpwm_v1_0_counter_sut_01.cydsn/main_cm4.c snippet_Cy_TCPWM_TriggerStopOrKill
+* \snippet tcpwm\1.10\counter\snippet\main.c snippet_Cy_TCPWM_TriggerStopOrKill
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_TCPWM_TriggerStopOrKill(TCPWM_Type *base, uint32_t counters)
 {
-    base->CMD_STOP = counters;
+    TCPWM_CMD_STOP(base) = counters;
 }
 
 
@@ -482,12 +522,12 @@ __STATIC_INLINE void Cy_TCPWM_TriggerStopOrKill(TCPWM_Type *base, uint32_t count
 * A bit field representing each counter in the TCPWM block.
 *
 * \funcusage
-* \snippet tcpwm/tcpwm_v1_0_counter_sut_01.cydsn/main_cm4.c snippet_Cy_TCPWM_Counter_Capture
+* \snippet tcpwm\1.10\counter\snippet\main.c snippet_Cy_TCPWM_Counter_Capture
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_TCPWM_TriggerCaptureOrSwap(TCPWM_Type *base, uint32_t counters)
 {
-    base->CMD_CAPTURE = counters;
+    TCPWM_CMD_CAPTURE(base) = counters;
 }
 
 
@@ -504,15 +544,15 @@ __STATIC_INLINE void Cy_TCPWM_TriggerCaptureOrSwap(TCPWM_Type *base, uint32_t co
 * The Counter instance number in the selected TCPWM.
 *
 * \return 
-*. See \ref group_tcpwm_interrupt_sources
+* See \ref group_tcpwm_interrupt_sources
 *
 * \funcusage
-* \snippet tcpwm/tcpwm_v1_0_counter_sut_01.cydsn/main_cm4.c snippet_Cy_TCPWM_GetInterruptStatus
+* \snippet tcpwm\1.10\counter\snippet\main.c snippet_Cy_TCPWM_GetInterruptStatus
 *
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_TCPWM_GetInterruptStatus(TCPWM_Type const *base, uint32_t cntNum)
 {
-    return(base->CNT[cntNum].INTR);
+    return(TCPWM_CNT_INTR(base, cntNum));
 }
 
 
@@ -532,13 +572,13 @@ __STATIC_INLINE uint32_t Cy_TCPWM_GetInterruptStatus(TCPWM_Type const *base, uin
 * source to clear. See \ref group_tcpwm_interrupt_sources
 *
 * \funcusage
-* \snippet tcpwm/tcpwm_v1_0_counter_sut_01.cydsn/main_cm4.c snippet_Cy_TCPWM_GetInterruptStatusMasked
+* \snippet tcpwm\1.10\counter\snippet\main.c snippet_Cy_TCPWM_GetInterruptStatusMasked
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_TCPWM_ClearInterrupt(TCPWM_Type *base, uint32_t cntNum,  uint32_t source)
 {
-    base->CNT[cntNum].INTR = source;
-    (void)base->CNT[cntNum].INTR;
+    TCPWM_CNT_INTR(base, cntNum) = source;
+    (void)TCPWM_CNT_INTR(base, cntNum);
 }
 
 
@@ -558,12 +598,12 @@ __STATIC_INLINE void Cy_TCPWM_ClearInterrupt(TCPWM_Type *base, uint32_t cntNum, 
 * The source to set an interrupt. See \ref group_tcpwm_interrupt_sources.
 *
 * \funcusage
-* \snippet tcpwm/tcpwm_v1_0_counter_sut_01.cydsn/main_cm4.c snippet_Cy_TCPWM_SetInterrupt
+* \snippet tcpwm\1.10\counter\snippet\main.c snippet_Cy_TCPWM_SetInterrupt
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_TCPWM_SetInterrupt(TCPWM_Type *base, uint32_t cntNum,  uint32_t source)
 {
-    base->CNT[cntNum].INTR_SET = source;
+    TCPWM_CNT_INTR_SET(base, cntNum) = source;
 }
 
 
@@ -584,12 +624,12 @@ __STATIC_INLINE void Cy_TCPWM_SetInterrupt(TCPWM_Type *base, uint32_t cntNum,  u
 *. See \ref group_tcpwm_interrupt_sources
 *
 * \funcusage
-* \snippet tcpwm/tcpwm_v1_0_counter_sut_01.cydsn/main_cm4.c snippet_Cy_TCPWM_SetInterruptMask
+* \snippet tcpwm\1.10\counter\snippet\main.c snippet_Cy_TCPWM_SetInterruptMask
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_TCPWM_SetInterruptMask(TCPWM_Type *base, uint32_t cntNum, uint32_t mask)
 {
-    base->CNT[cntNum].INTR_MASK = mask;
+    TCPWM_CNT_INTR_MASK(base, cntNum) = mask;
 }
 
 
@@ -609,12 +649,12 @@ __STATIC_INLINE void Cy_TCPWM_SetInterruptMask(TCPWM_Type *base, uint32_t cntNum
 * Interrupt Mask. See \ref group_tcpwm_interrupt_sources
 *
 * \funcusage
-* \snippet tcpwm/tcpwm_v1_0_counter_sut_01.cydsn/main_cm4.c snippet_Cy_TCPWM_SetInterruptMask
+* \snippet tcpwm\1.10\counter\snippet\main.c snippet_Cy_TCPWM_SetInterruptMask
 *
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_TCPWM_GetInterruptMask(TCPWM_Type const *base, uint32_t cntNum)
 {
-    return(base->CNT[cntNum].INTR_MASK);
+    return(TCPWM_CNT_INTR_MASK(base, cntNum));
 }
 
 
@@ -634,12 +674,12 @@ __STATIC_INLINE uint32_t Cy_TCPWM_GetInterruptMask(TCPWM_Type const *base, uint3
 * Interrupt Mask. See \ref group_tcpwm_interrupt_sources
 *
 * \funcusage
-* \snippet tcpwm/tcpwm_v1_0_counter_sut_01.cydsn/main_cm4.c snippet_Cy_TCPWM_GetInterruptStatusMasked
+* \snippet tcpwm\1.10\counter\snippet\main.c snippet_Cy_TCPWM_GetInterruptStatusMasked
 *
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_TCPWM_GetInterruptStatusMasked(TCPWM_Type const *base, uint32_t cntNum)
 {
-    return(base->CNT[cntNum].INTR_MASKED);
+    return(TCPWM_CNT_INTR_MASKED(base, cntNum));
 }
 
 /** \} group_tcpwm_functions_common */
@@ -650,7 +690,8 @@ __STATIC_INLINE uint32_t Cy_TCPWM_GetInterruptStatusMasked(TCPWM_Type const *bas
 }
 #endif
 
-#endif /* CY_TCPWM_H */
+#endif /* CY_IP_MXTCPWM */
 
+#endif /* CY_TCPWM_H */
 
 /* [] END OF FILE */

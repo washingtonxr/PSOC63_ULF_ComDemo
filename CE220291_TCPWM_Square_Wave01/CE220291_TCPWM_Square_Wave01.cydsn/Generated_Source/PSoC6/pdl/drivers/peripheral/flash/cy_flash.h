@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_flash.h
-* \version 3.11
+* \version 3.20
 *
 * Provides the API declarations of the Flash driver.
 *
@@ -16,9 +16,13 @@
 #define CY_FLASH_H
 
 /**
-* \defgroup group_flash Flash System Routine (Flash)
+* \addtogroup group_flash
 * \{
 * Internal flash memory programming
+*
+* The functions and other declarations used in this driver are in cy_flash.h. 
+* You can include cy_pdl.h (ModusToolbox only) to get access to all functions 
+* and declarations in the PDL.
 *
 * Flash memory in PSoC devices provides non-volatile storage for user firmware,
 * user configuration data, and bulk data storage.
@@ -88,9 +92,9 @@
 * -# User must guarantee that during flash write operation no flash read
 *    operations are performed by bus masters other than CM0+ and CM4 (DMA and
 *    Crypto).
-* -# If you do not use the default startup, ensure that firmware calls the
-*    following functions before any flash write/erase operations:
-* \snippet Flash_sut_01.cydsn/main_cm0p.c Flash Initialization
+* -# If you do not use the default startup, perform the following steps 
+*    before any flash write/erase operations:
+* \snippet flash\3.20\snippet\main.c Flash Initialization
 *
 * \subsection group_flash_config_rww Partially Blocking:
 * This method has a much shorter time window during which Flash accesses are not
@@ -200,9 +204,9 @@
 * -# User must guarantee that during flash write operation no flash read
 *    operations are performed by bus masters other than CM0+ and CM4
 *    (DMA and Crypto).
-* -# If you do not use the default startup, ensure that firmware calls the
-*    following functions before any flash write/erase operations:
-* \snippet Flash_sut_01.cydsn/main_cm0p.c Flash Initialization
+* -# If you do not use the default startup, perform the following steps 
+*    before any flash write/erase operations:
+* \snippet flash\3.20\snippet\main.c Flash Initialization
 *
 * \subsection group_flash_config_emeeprom EEPROM section use:
 * If you plan to use "cy_em_eeprom" section for different purposes for both of
@@ -233,18 +237,28 @@
 *         is used to get transmitted data via the \ref group_ipc channel.
 *         We cast only one pointer, so there is no way to avoid this cast.</td>
 *   </tr>
-*   <tr>
-*     <td>11.5</td>
-*     <td>R</td>
-*     <td>Not performed, the cast that removes any const or volatile qualification from the type addressed by a pointer.</td>
-*     <td>The removal of the volatile qualification inside the function has no side effects.</td>
-*   </tr>
+*   
 * </table>
 *
 * \section group_flash_changelog Changelog
 *
 * <table class="doxtable">
 *   <tr><th>Version</th><th style="width: 52%;">Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td rowspan="3">3.20</td>
+*     <td>Flattened the organization of the driver source code into the single source directory and the single include directory.</td>
+*     <td>Driver library directory-structure simplification.</td>
+*   </tr>
+*   <tr>
+*     <td>Added new API function \ref Cy_Flash_InitExt</td>
+*     <td>The driver improvements based on the usability feedback</td>
+*   </tr>
+*   <tr>
+*     <td>Added register access layer. Use register access macros instead
+*         of direct register access using dereferenced pointers.</td>
+*     <td>Makes register access device-independent, so that the PDL does 
+*         not need to be recompiled for each supported part number.</td>
+*   </tr>
 *   <tr>
 *     <td>3.11</td>
 *     <td>Updated driver functionality to correctly use the SysClk measurement 
@@ -314,8 +328,10 @@
 * \defgroup group_flash_enumerated_types Enumerated Types
 */
 
+#include "cy_device.h"
 #include <cy_device_headers.h>
-#include "syslib/cy_syslib.h"
+
+#include "cy_syslib.h"
 
 #if defined(__cplusplus)
 extern "C" {
@@ -333,7 +349,7 @@ extern "C" {
 #define CY_FLASH_DRV_VERSION_MAJOR       3
 
 /** Driver minor version */
-#define CY_FLASH_DRV_VERSION_MINOR       11
+#define CY_FLASH_DRV_VERSION_MINOR       20
 
 #define CY_FLASH_ID               (CY_PDL_DRV_ID(0x14UL))                          /**< FLASH PDL ID */
 
@@ -351,8 +367,6 @@ extern "C" {
 
 /** Flash row size */
 #define CY_FLASH_SIZEOF_ROW                (CPUSS_FLASHC_PA_SIZE * 4u)
-/** Number of flash rows */
-#define CY_FLASH_NUMBER_ROWS               (CY_FLASH_SIZE / CY_FLASH_SIZEOF_ROW)
 /** Long words flash row size */
 #define CY_FLASH_SIZEOF_ROW_LONG_UNITS     (CY_FLASH_SIZEOF_ROW / sizeof(uint32_t))
 
@@ -381,6 +395,17 @@ typedef enum cy_en_flashdrv_status
     CY_FLASH_DRV_OPCODE_BUSY              =   ( CY_FLASH_ID_INFO  + 0x2UL)   /**< Flash is under operation */
 } cy_en_flashdrv_status_t;
 
+
+#if !defined(CY_FLASH_RWW_DRV_SUPPORT_DISABLED)
+    /** Flash notification configuration structure */
+    typedef struct
+    {
+        uint8_t  clientID;      /**< Client ID */
+        uint8_t  pktType;       /**< Message Type */
+        uint16_t intrRelMask;   /**< Mask */
+    } cy_stc_flash_notify_t;
+#endif /* !defined(CY_FLASH_RWW_DRV_SUPPORT_DISABLED) */
+    
 /** \} group_flash_enumerated_types */
 
 /***************************************
@@ -402,13 +427,24 @@ cy_en_flashdrv_status_t Cy_Flash_IsOperationComplete(void);
 cy_en_flashdrv_status_t Cy_Flash_RowChecksum(uint32_t rowAddr, uint32_t* checksumPtr);
 cy_en_flashdrv_status_t Cy_Flash_CalculateHash(const uint32_t* data, uint32_t numberOfBytes, uint32_t* hashPtr);
 uint32_t Cy_Flash_GetExternalStatus(void);
+
+#if !defined(CY_FLASH_RWW_DRV_SUPPORT_DISABLED)
+    void Cy_Flash_InitExt(cy_stc_flash_notify_t *ipcWaitMessageAddr);
+#endif /* !defined(CY_FLASH_RWW_DRV_SUPPORT_DISABLED) */
+
 /** \} group_flash_functions */
 
 /** \cond INTERNAL */
+#if (CY_CPU_CORTEX_M4)
+void Cy_Flash_ResumeIrqHandler(void);
+#endif
+
 /* Macros to backward compatibility */
 #define     Cy_Flash_IsWriteComplete(...)    Cy_Flash_IsOperationComplete()
 #define     Cy_Flash_IsProgramComplete(...)  Cy_Flash_IsOperationComplete()
 #define     Cy_Flash_IsEraseComplete(...)    Cy_Flash_IsOperationComplete()
+#define     CY_FLASH_NUMBER_ROWS            (CY_FLASH_SIZE / CY_FLASH_SIZEOF_ROW)
+
 /** \endcond */
 
 #if defined(__cplusplus)

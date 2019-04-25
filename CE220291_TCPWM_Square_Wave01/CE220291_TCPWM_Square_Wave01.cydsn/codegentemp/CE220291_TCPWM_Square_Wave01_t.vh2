@@ -1,5 +1,5 @@
--- Project:   C:\Users\Tornado\Documents\PSoC Creator\CE220291_TCPWM_Square_Wave01\CE220291_TCPWM_Square_Wave01.cydsn\CE220291_TCPWM_Square_Wave01.cyprj
--- Generated: 03/27/2019 10:14:22
+-- Project:   D:\Work\Git_repoes\LD_PSOC63_ULF_ComDemo\CE220291_TCPWM_Square_Wave01\CE220291_TCPWM_Square_Wave01.cydsn\CE220291_TCPWM_Square_Wave01.cyprj
+-- Generated: 04/25/2019 14:17:44
 -- PSoC Creator  4.2
 
 ENTITY CE220291_TCPWM_Square_Wave01 IS
@@ -27,6 +27,7 @@ ENTITY CE220291_TCPWM_Square_Wave01 IS
     ATTRIBUTE voltage_VDDIO_1 OF __DEFAULT__ : ENTITY IS 3.3e0;
     ATTRIBUTE voltage_VDDR_HVL_2 OF __DEFAULT__ : ENTITY IS 3.3e0;
     ATTRIBUTE voltage_VDDR_HVL_3 OF __DEFAULT__ : ENTITY IS 3.3e0;
+    ATTRIBUTE voltage_VDDUSB OF __DEFAULT__ : ENTITY IS 3.3e0;
     ATTRIBUTE voltage_vddd OF __DEFAULT__ : ENTITY IS 3.3e0;
 END CE220291_TCPWM_Square_Wave01;
 
@@ -80,7 +81,7 @@ ARCHITECTURE __DEFAULT__ OF CE220291_TCPWM_Square_Wave01 IS
     SIGNAL Net_265 : bit;
     SIGNAL Net_274 : bit;
     SIGNAL Net_276 : bit;
-    ATTRIBUTE placement_force OF Net_276 : SIGNAL IS "U(1,1,A)0";
+    ATTRIBUTE placement_force OF Net_276 : SIGNAL IS "U(1,4,A)0";
     SIGNAL Net_32 : bit;
     SIGNAL Net_90 : bit;
     SIGNAL Net_91 : bit;
@@ -127,37 +128,37 @@ ARCHITECTURE __DEFAULT__ OF CE220291_TCPWM_Square_Wave01 IS
     ATTRIBUTE lib_model OF CY_CPUSS_SWJ_SWDIO_TMS(0) : LABEL IS "iocell2";
     ATTRIBUTE Location OF CY_CPUSS_SWJ_SWDIO_TMS(0) : LABEL IS "P6[6]";
     ATTRIBUTE lib_model OF ULF_OUT(0) : LABEL IS "iocell3";
-    ATTRIBUTE Location OF ULF_OUT(0) : LABEL IS "P6[2]";
+    ATTRIBUTE Location OF ULF_OUT(0) : LABEL IS "P1[0]";
     ATTRIBUTE lib_model OF ULF_IN(0) : LABEL IS "iocell4";
-    ATTRIBUTE Location OF ULF_IN(0) : LABEL IS "P13[6]";
+    ATTRIBUTE Location OF ULF_IN(0) : LABEL IS "P1[1]";
     ATTRIBUTE lib_model OF ULF_BB(0) : LABEL IS "iocell5";
-    ATTRIBUTE Location OF ULF_BB(0) : LABEL IS "P6[3]";
+    ATTRIBUTE Location OF ULF_BB(0) : LABEL IS "P0[1]";
     ATTRIBUTE lib_model OF SW2(0) : LABEL IS "iocell6";
-    ATTRIBUTE Location OF SW2(0) : LABEL IS "P0[4]";
+    ATTRIBUTE Location OF SW2(0) : LABEL IS "P0[0]";
     ATTRIBUTE lib_model OF Red_LED(0) : LABEL IS "iocell7";
-    ATTRIBUTE Location OF Red_LED(0) : LABEL IS "P13[7]";
+    ATTRIBUTE Location OF Red_LED(0) : LABEL IS "P5[0]";
     ATTRIBUTE lib_model OF Orange_LED(0) : LABEL IS "iocell8";
-    ATTRIBUTE Location OF Orange_LED(0) : LABEL IS "P1[5]";
+    ATTRIBUTE Location OF Orange_LED(0) : LABEL IS "P0[2]";
     ATTRIBUTE lib_model OF \UART_DEBUG:tx(0)\ : LABEL IS "iocell9";
-    ATTRIBUTE Location OF \UART_DEBUG:tx(0)\ : LABEL IS "P5[1]";
+    ATTRIBUTE Location OF \UART_DEBUG:tx(0)\ : LABEL IS "P13[1]";
     ATTRIBUTE lib_model OF \UART_DEBUG:rx(0)\ : LABEL IS "iocell10";
-    ATTRIBUTE Location OF \UART_DEBUG:rx(0)\ : LABEL IS "P5[0]";
+    ATTRIBUTE Location OF \UART_DEBUG:rx(0)\ : LABEL IS "P13[0]";
     ATTRIBUTE lib_model OF ULF_BO(0) : LABEL IS "iocell11";
-    ATTRIBUTE Location OF ULF_BO(0) : LABEL IS "P10[6]";
+    ATTRIBUTE Location OF ULF_BO(0) : LABEL IS "P1[5]";
     ATTRIBUTE lib_model OF ULF_TXen(0) : LABEL IS "iocell12";
-    ATTRIBUTE Location OF ULF_TXen(0) : LABEL IS "P10[5]";
+    ATTRIBUTE Location OF ULF_TXen(0) : LABEL IS "P5[1]";
     ATTRIBUTE lib_model OF SW3(0) : LABEL IS "iocell13";
-    ATTRIBUTE Location OF SW3(0) : LABEL IS "P10[4]";
+    ATTRIBUTE Location OF SW3(0) : LABEL IS "P1[4]";
     ATTRIBUTE lib_model OF Net_276 : LABEL IS "macrocell1";
-    ATTRIBUTE Location OF Net_276 : LABEL IS "U(1,1)";
+    ATTRIBUTE Location OF Net_276 : LABEL IS "U(1,4)";
     ATTRIBUTE Location OF \ULF_Carrier:TCPWM\ : LABEL IS "F(TCPWM,0)";
     ATTRIBUTE Location OF SysInt_ULFCarrierCnt : LABEL IS "[IntrContainer=(0)][IntrId=(90)]";
     ATTRIBUTE Location OF \ULF_Counter:TCPWM\ : LABEL IS "F(TCPWM,3)";
     ATTRIBUTE Location OF SysInt_ULFMainCnt : LABEL IS "[IntrContainer=(0)][IntrId=(93)]";
     ATTRIBUTE Location OF \System_Tick:TCPWM\ : LABEL IS "F(TCPWM,1)";
     ATTRIBUTE Location OF SysInt_Tick : LABEL IS "[IntrContainer=(0)][IntrId=(91)]";
-    ATTRIBUTE Location OF \UART_DEBUG:SCB_IRQ\ : LABEL IS "[IntrContainer=(0)][IntrId=(46)]";
-    ATTRIBUTE Location OF \UART_DEBUG:SCB\ : LABEL IS "F(SCB,5)";
+    ATTRIBUTE Location OF \UART_DEBUG:SCB_IRQ\ : LABEL IS "[IntrContainer=(0)][IntrId=(47)]";
+    ATTRIBUTE Location OF \UART_DEBUG:SCB\ : LABEL IS "F(SCB,6)";
     ATTRIBUTE Location OF \ULF_Capture:TCPWM\ : LABEL IS "F(TCPWM,2)";
     ATTRIBUTE Location OF SysInt_ULFBasebandCnt : LABEL IS "[IntrContainer=(0)][IntrId=(92)]";
     ATTRIBUTE Location OF SysInt_SW3 : LABEL IS "[IntrContainer=(0)][IntrId=(10)]";
@@ -623,7 +624,7 @@ BEGIN
             ff_div_12 => Net_109_ff14,
             ff_div_13 => Net_140_ff11,
             ff_div_14 => Net_10_ff13,
-            ff_div_5 => \UART_DEBUG:Net_847_ff0\,
+            ff_div_6 => \UART_DEBUG:Net_847_ff0\,
             periclk_App => periclk_App);
 
     CPUSS:CPUSS

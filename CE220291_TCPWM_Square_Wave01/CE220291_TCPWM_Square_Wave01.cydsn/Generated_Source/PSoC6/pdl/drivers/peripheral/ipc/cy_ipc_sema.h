@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_ipc_sema.h
-* \version 1.20
+* \version 1.30
 *
 * \brief
 * Header file for IPC SEM functions
@@ -27,6 +27,10 @@
 * \{
 * The semaphores layer functions made use of a single IPC channel to allow
 * multiple semaphores that can be used by system or user function calls.
+*
+* Include cy_ipc_sema.h. Alternatively include cy_pdl.h (ModusToolbox only) 
+* to get access to all functions and declarations in the PDL.
+*
 * By default there are 128 semaphores provided, although the user may modify
 * the default value to any number, limited only by SRAM.
 *
@@ -87,6 +91,16 @@ typedef enum
     CY_IPC_SEMA_STATUS_UNLOCKED    = (uint32_t)(CY_IPC_SEMA_ID_INFO  | 0ul)
 } cy_en_ipcsema_status_t;
 
+
+/** IPC semaphore control data structure. */
+typedef struct
+{
+    /** Maximum semaphores in system */
+    uint32_t maxSema;      
+    /** Pointer to semaphores array  */
+    uint32_t *arrayPtr;    
+} cy_stc_ipc_sema_t;
+
 /** \} group_ipc_sema_enums */
 
 /**
@@ -99,6 +113,7 @@ extern "C" {
 #endif
 
 cy_en_ipcsema_status_t   Cy_IPC_Sema_Init (uint32_t ipcChannel, uint32_t count, uint32_t memPtr[]);
+cy_en_ipcsema_status_t   Cy_IPC_Sema_InitExt(uint32_t ipcChannel, cy_stc_ipc_sema_t *ipcSema);
 cy_en_ipcsema_status_t   Cy_IPC_Sema_Set (uint32_t semaNumber, bool preemptable);
 cy_en_ipcsema_status_t   Cy_IPC_Sema_Clear (uint32_t semaNumber, bool preemptable);
 cy_en_ipcsema_status_t   Cy_IPC_Sema_Status (uint32_t semaNumber);

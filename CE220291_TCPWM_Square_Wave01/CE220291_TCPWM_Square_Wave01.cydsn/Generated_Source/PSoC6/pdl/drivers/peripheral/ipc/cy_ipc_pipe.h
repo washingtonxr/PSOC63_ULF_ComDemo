@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_ipc_pipe.h
-* \version 1.20
+* \version 1.30
 *
 *  Description:
 *   IPC Pipe Driver - This header file contains all the function prototypes,
@@ -18,15 +18,20 @@
 /******************************************************************************/
 /* Include files                                                              */
 /******************************************************************************/
-#include "ipc/cy_ipc_drv.h"
-#include "syslib/cy_syslib.h"
-#include "sysint/cy_sysint.h"
+#include "cy_ipc_drv.h"
+#include "cy_syslib.h"
+#include "cy_sysint.h"
 
 /**
 * \addtogroup group_ipc_pipe IPC pipes layer (IPC_PIPE)
 * \{
 * The Pipe functions provide a method to transfer one or more words of data
-* between CPUs or tasks.  The data can be defined as a single 32-bit unsigned
+* between CPUs or tasks.
+*
+* Include cy_ipc_pipe.h. Alternatively include cy_pdl.h (ModusToolbox only) 
+* to get access to all functions and declarations in the PDL.
+* 
+* The data can be defined as a single 32-bit unsigned
 * word, an array of data, or a user-defined structure.  The only limitation is
 * that the first word in the array or structure must be a 32-bit unsigned word
 * in which a client ID number is passed. The client ID dictates the callback
@@ -106,12 +111,6 @@ typedef cy_ipc_pipe_callback_ptr_t *cy_ipc_pipe_callback_array_ptr_t;
 #define CY_IPC_PIPE_ENDPOINT_NOTBUSY   (0UL)
 
 /** \} group_ipc_pipe_macros */
-
-#if ((CY_CPU_CORTEX_M0P) || (__CM0P_PRESENT))
-#define CY_IPC_CYPIPE_ENABLE           (1)
-#else
-#define CY_IPC_CYPIPE_ENABLE           (0)
-#endif
 
 /**
 * \addtogroup group_ipc_pipe_data_structures
@@ -208,6 +207,12 @@ typedef enum
 
 /** \} group_ipc_pipe_enums */
 
+#if (CY_CPU_CORTEX_M0P)
+    #define CY_IPC_EP_CYPIPE_ADDR       CY_IPC_EP_CYPIPE_CM0_ADDR
+#else
+    #define CY_IPC_EP_CYPIPE_ADDR       CY_IPC_EP_CYPIPE_CM4_ADDR
+#endif  /* (CY_CPU_CORTEX_M0P) */
+
 /**
 * \addtogroup group_ipc_pipe_data_structures
 * \{
@@ -233,6 +238,7 @@ typedef enum
 */
 
 /** \} group_ipc_pipe_data_structures */
+
 
 /******************************************************************************/
 /* Global function prototypes (definition in C source)                        */

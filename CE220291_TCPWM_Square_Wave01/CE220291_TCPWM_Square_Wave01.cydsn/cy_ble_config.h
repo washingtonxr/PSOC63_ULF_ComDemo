@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_ble_config.h
-* \version 2.20
+* \version 2.30
 *
 * \brief
 *  The user BLE clock configuration file. Allows redefining default 

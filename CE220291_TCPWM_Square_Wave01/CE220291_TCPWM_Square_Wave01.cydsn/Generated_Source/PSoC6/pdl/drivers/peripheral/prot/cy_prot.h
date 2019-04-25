@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_prot.h
-* \version 1.10
+* \version 1.20
 *
 * \brief
 * Provides an API declaration of the Protection Unit driver
@@ -14,7 +14,7 @@
 *******************************************************************************/
 
 /**
-* \defgroup group_prot Protection Unit (Prot)
+* \addtogroup group_prot
 * \{
 *
 * The Protection Unit driver provides an API to configure the Memory Protection
@@ -27,6 +27,10 @@
 * - <b>Safety requirements:</b> This includes detection of accidental (non-malicious)
 *   SW errors and random HW errors. It is important to enable failure analysis
 *   to investigate the root cause of a safety violation.
+*
+* The functions and other declarations used in this driver are in cy_prot.h. 
+* You can include cy_pdl.h (ModusToolbox only) to get access to all functions 
+* and declarations in the PDL. 
 * 
 * \section group_prot_protection_type Protection Types
 *
@@ -125,6 +129,20 @@
 * the executing code to decide if and when it will revert to a PC!=0 value.
 * At that point, the only way to re-transition to PC=0 is through the defined
 * exception/interrupt handler.
+*
+* \note Devices with CPUSS ver_2 have a hardware-controlled protection context 
+* update mechanism that allows only a single-entry point for transitioning 
+* into PC=0, 1, 2, and 3. The interrupt vector or the exception handler 
+* address can be assigned to the CPUSS.CM0_PC0_HANDLER, CPUSS.CM0_PC1_HANDLER, 
+* CPUSS.CM0_PC2_HANDLER or CPUSS.CM0_PC2_HANDLER register. Also, the control 
+* register CPUSS.CM0_PC_CTL of the CM0+ protection context must be set:
+* bit 0 - the valid field for CM0_PC0_HANDLER,
+* bit 1 - the valid field for CM0_PC1_HANDLER,
+* bit 2 - the valid field for CM0_PC2_HANDLER,
+* and bit 3 - the valid field for CM0_PC3_HANDLER.
+*
+* The example of using of the single entry point mechanism is shown below.
+* \snippet prot/1.20/snippet/main.c snippet_Cy_Prot_ProtectionContext
 *
 * \section group_prot_access_evaluation Access Evaluation
 *
@@ -339,11 +357,51 @@
 * Refer to Technical Reference Manual (TRM) and the device datasheet.
 *
 * \section group_prot_MISRA MISRA-C Compliance]
-* The Prot driver does not have any driver-specific deviations.
+* The Prot driver has the following specific deviations:
+*
+* <table class="doxtable">
+*   <tr>
+*     <th>MISRA Rule</th>
+*     <th>Rule Class (Required/Advisory)</th>
+*     <th>Rule Description</th>
+*     <th>Description of Deviation(s)</th>
+*   </tr>
+*   <tr>
+*     <td>11.4</td>
+*     <td>A</td>
+*     <td>A cast should not be performed between a pointer to object type and
+*         a different pointer to object type.</td>
+*     <td>This piece of code is written for DW_V2_Type only and it will be never
+*         executed for DW_V1_Type (which is a default build option for DW_Type).</td>
+*   </tr>
+* </table>
 *
 * \section group_prot_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td rowspan="3">1.20</td>
+*     <td>Flattened the organization of the driver source code into the single source directory and the single include directory.</td>
+*     <td>Driver library directory-structure simplification.</td>
+*   </tr>
+*   <tr>
+*     <td>Added functions for CPUSS ver_2:
+*         - \ref Cy_Prot_ConfigPpuProgMasterAtt()
+*         - \ref Cy_Prot_ConfigPpuProgSlaveAddr()
+*         - \ref Cy_Prot_ConfigPpuProgSlaveAtt()
+*         - \ref Cy_Prot_EnablePpuProgSlaveRegion()
+*         - \ref Cy_Prot_DisablePpuProgSlaveRegion()
+*         - \ref Cy_Prot_ConfigPpuFixedMasterAtt()
+*         - \ref Cy_Prot_ConfigPpuFixedSlaveAtt()
+*     </td>
+*     <td>Added support for CPUSS ver_2.</td>
+*   </tr>
+*   <tr>
+*     <td>Added register access layer. Use register access macros instead
+*         of direct register access using dereferenced pointers.</td>
+*     <td>Makes register access device-independent, so that the PDL does 
+*         not need to be recompiled for each supported part number.</td>
+*   </tr>
 *   <tr>
 *     <td rowspan="2">1.10</td>
 *     <td>Added input parameter validation to the API functions.<br>
@@ -365,25 +423,28 @@
 * \defgroup group_prot_macros Macros
 * \defgroup group_prot_functions Functions
 * \{
-*   \defgroup group_prot_functions_busmaster   Bus Master and PC Functions
-*   \defgroup group_prot_functions_mpu         MPU Functions
-*   \defgroup group_prot_functions_smpu        SMPU Functions
-*   \defgroup group_prot_functions_ppu_prog    PPU Programmable (PROG) Functions
-*   \defgroup group_prot_functions_ppu_gr      PPU Group (GR) Functions
-*   \defgroup group_prot_functions_ppu_sl      PPU Slave (SL) Functions
-*   \defgroup group_prot_functions_ppu_rg      PPU Region (RG) Functions
+*   \defgroup group_prot_functions_busmaster    Bus Master and PC Functions
+*   \defgroup group_prot_functions_mpu          MPU Functions
+*   \defgroup group_prot_functions_smpu         SMPU Functions
+*   \defgroup group_prot_functions_ppu_prog_v2  PPU Programmable (PROG) v2 Functions
+*   \defgroup group_prot_functions_ppu_fixed_v2 PPU Fixed (FIXED) v2 Functions
+*   \defgroup group_prot_functions_ppu_prog     PPU Programmable (PROG) v1 Functions
+*   \defgroup group_prot_functions_ppu_gr       PPU Group (GR) v1 Functions
+*   \defgroup group_prot_functions_ppu_sl       PPU Slave (SL) v1 Functions
+*   \defgroup group_prot_functions_ppu_rg       PPU Region (RG) v1 Functions
 * \}
 * \defgroup group_prot_data_structures Data Structures
 * \defgroup group_prot_enums Enumerated Types
 */
 
-#if !defined(__CY_PROT_H__)
-#define __CY_PROT_H__
+#if !defined(CY_CY_PROT_PDL_H)
+#define CY_CY_PROT_PDL_H
 
 #include <stdbool.h>
 #include <stddef.h>
-#include "syslib/cy_syslib.h"
+#include "cy_device.h"
 #include "cy_device_headers.h"
+#include "cy_syslib.h"
 
 #if defined(__cplusplus)
 extern "C" {
@@ -397,10 +458,10 @@ extern "C" {
 #define CY_PROT_DRV_VERSION_MAJOR       1
 
 /** Driver minor version */
-#define CY_PROT_DRV_VERSION_MINOR       10
+#define CY_PROT_DRV_VERSION_MINOR       20
 
 /** Prot driver ID */
-#define CY_PROT_ID CY_PDL_DRV_ID(0x30u)
+#define CY_PROT_ID                      (CY_PDL_DRV_ID(0x30U))
 
 /** \} group_prot_macros */
 
@@ -414,9 +475,11 @@ extern "C" {
 */
 typedef enum 
 {
-    CY_PROT_SUCCESS   = 0x00u,                                    /**< Returned successful */
-    CY_PROT_BAD_PARAM = CY_PROT_ID | CY_PDL_STATUS_ERROR | 0x01u, /**< Bad parameter was passed */
-    CY_PROT_FAILURE   = CY_PROT_ID | CY_PDL_STATUS_ERROR | 0x03u  /**< The resource is locked */
+    CY_PROT_SUCCESS       = 0x00U,                                    /**< Returned successful */
+    CY_PROT_BAD_PARAM     = CY_PROT_ID | CY_PDL_STATUS_ERROR | 0x01U, /**< Bad parameter was passed */
+    CY_PROT_INVALID_STATE = CY_PROT_ID | CY_PDL_STATUS_ERROR | 0x02U, /**< The operation is not setup */
+    CY_PROT_FAILURE       = CY_PROT_ID | CY_PDL_STATUS_ERROR | 0x03U, /**< The resource is locked */
+    CY_PROT_UNAVAILABLE   = CY_PROT_ID | CY_PDL_STATUS_ERROR | 0x04U  /**< The resource is unavailable */
 } cy_en_prot_status_t;
 
 /**
@@ -424,14 +487,14 @@ typedef enum
 */
 typedef enum 
 {
-    CY_PROT_PERM_DISABLED = 0x00u, /**< Read, Write and Execute disabled */
-    CY_PROT_PERM_R        = 0x01u, /**< Read enabled */
-    CY_PROT_PERM_W        = 0x02u, /**< Write enabled */
-    CY_PROT_PERM_RW       = 0x03u, /**< Read and Write enabled */
-    CY_PROT_PERM_X        = 0x04u, /**< Execute enabled */
-    CY_PROT_PERM_RX       = 0x05u, /**< Read and Execute enabled */
-    CY_PROT_PERM_WX       = 0x06u, /**< Write and Execute enabled */
-    CY_PROT_PERM_RWX      = 0x07u  /**< Read, Write and Execute enabled */
+    CY_PROT_PERM_DISABLED = 0x00U, /**< Read, Write and Execute disabled */
+    CY_PROT_PERM_R        = 0x01U, /**< Read enabled */
+    CY_PROT_PERM_W        = 0x02U, /**< Write enabled */
+    CY_PROT_PERM_RW       = 0x03U, /**< Read and Write enabled */
+    CY_PROT_PERM_X        = 0x04U, /**< Execute enabled */
+    CY_PROT_PERM_RX       = 0x05U, /**< Read and Execute enabled */
+    CY_PROT_PERM_WX       = 0x06U, /**< Write and Execute enabled */
+    CY_PROT_PERM_RWX      = 0x07U  /**< Read, Write and Execute enabled */
 }cy_en_prot_perm_t;
 
 /**
@@ -439,31 +502,38 @@ typedef enum
 */
 typedef enum 
 {
-    CY_PROT_SIZE_256B  = 7u,  /**< 256 bytes */
-    CY_PROT_SIZE_512B  = 8u,  /**< 512 bytes */
-    CY_PROT_SIZE_1KB   = 9u,  /**< 1 Kilobyte */
-    CY_PROT_SIZE_2KB   = 10u, /**< 2 Kilobytes */
-    CY_PROT_SIZE_4KB   = 11u, /**< 4 Kilobytes */
-    CY_PROT_SIZE_8KB   = 12u, /**< 8 Kilobytes */
-    CY_PROT_SIZE_16KB  = 13u, /**< 16 Kilobytes */
-    CY_PROT_SIZE_32KB  = 14u, /**< 32 Kilobytes */
-    CY_PROT_SIZE_64KB  = 15u, /**< 64 Kilobytes */
-    CY_PROT_SIZE_128KB = 16u, /**< 128 Kilobytes */
-    CY_PROT_SIZE_256KB = 17u, /**< 256 Kilobytes */
-    CY_PROT_SIZE_512KB = 18u, /**< 512 Kilobytes */
-    CY_PROT_SIZE_1MB   = 19u, /**< 1 Megabyte */
-    CY_PROT_SIZE_2MB   = 20u, /**< 2 Megabytes */
-    CY_PROT_SIZE_4MB   = 21u, /**< 4 Megabytes */
-    CY_PROT_SIZE_8MB   = 22u, /**< 8 Megabytes */
-    CY_PROT_SIZE_16MB  = 23u, /**< 16 Megabytes */
-    CY_PROT_SIZE_32MB  = 24u, /**< 32 Megabytes */
-    CY_PROT_SIZE_64MB  = 25u, /**< 64 Megabytes */
-    CY_PROT_SIZE_128MB = 26u, /**< 128 Megabytes */
-    CY_PROT_SIZE_256MB = 27u, /**< 256 Megabytes */
-    CY_PROT_SIZE_512MB = 28u, /**< 512 Megabytes */
-    CY_PROT_SIZE_1GB   = 29u, /**< 1 Gigabyte */
-    CY_PROT_SIZE_2GB   = 30u, /**< 2 Gigabytes */
-    CY_PROT_SIZE_4GB   = 31u  /**< 4 Gigabytes */
+    CY_PROT_SIZE_4B    = 1U,  /**< 4 bytes */
+    CY_PROT_SIZE_8B    = 2U,  /**< 8 bytes */
+    CY_PROT_SIZE_16B   = 3U,  /**< 16 bytes */
+    CY_PROT_SIZE_32B   = 4U,  /**< 32 bytes */
+    CY_PROT_SIZE_64B   = 5U,  /**< 64 bytes */
+    CY_PROT_SIZE_128B  = 6U,  /**< 128 bytes */
+
+    CY_PROT_SIZE_256B  = 7U,  /**< 256 bytes */
+    CY_PROT_SIZE_512B  = 8U,  /**< 512 bytes */
+    CY_PROT_SIZE_1KB   = 9U,  /**< 1 Kilobyte */
+    CY_PROT_SIZE_2KB   = 10U, /**< 2 Kilobytes */
+    CY_PROT_SIZE_4KB   = 11U, /**< 4 Kilobytes */
+    CY_PROT_SIZE_8KB   = 12U, /**< 8 Kilobytes */
+    CY_PROT_SIZE_16KB  = 13U, /**< 16 Kilobytes */
+    CY_PROT_SIZE_32KB  = 14U, /**< 32 Kilobytes */
+    CY_PROT_SIZE_64KB  = 15U, /**< 64 Kilobytes */
+    CY_PROT_SIZE_128KB = 16U, /**< 128 Kilobytes */
+    CY_PROT_SIZE_256KB = 17U, /**< 256 Kilobytes */
+    CY_PROT_SIZE_512KB = 18U, /**< 512 Kilobytes */
+    CY_PROT_SIZE_1MB   = 19U, /**< 1 Megabyte */
+    CY_PROT_SIZE_2MB   = 20U, /**< 2 Megabytes */
+    CY_PROT_SIZE_4MB   = 21U, /**< 4 Megabytes */
+    CY_PROT_SIZE_8MB   = 22U, /**< 8 Megabytes */
+    CY_PROT_SIZE_16MB  = 23U, /**< 16 Megabytes */
+    CY_PROT_SIZE_32MB  = 24U, /**< 32 Megabytes */
+    CY_PROT_SIZE_64MB  = 25U, /**< 64 Megabytes */
+    CY_PROT_SIZE_128MB = 26U, /**< 128 Megabytes */
+    CY_PROT_SIZE_256MB = 27U, /**< 256 Megabytes */
+    CY_PROT_SIZE_512MB = 28U, /**< 512 Megabytes */
+    CY_PROT_SIZE_1GB   = 29U, /**< 1 Gigabyte */
+    CY_PROT_SIZE_2GB   = 30U, /**< 2 Gigabytes */
+    CY_PROT_SIZE_4GB   = 31U  /**< 4 Gigabytes */
 }cy_en_prot_size_t;
 
 /**
@@ -471,21 +541,21 @@ typedef enum
 */
 enum cy_en_prot_pc_t
 {
-    CY_PROT_PC1  = 1u,  /**< PC = 1 */
-    CY_PROT_PC2  = 2u,  /**< PC = 2 */
-    CY_PROT_PC3  = 3u,  /**< PC = 3 */
-    CY_PROT_PC4  = 4u,  /**< PC = 4 */
-    CY_PROT_PC5  = 5u,  /**< PC = 5 */
-    CY_PROT_PC6  = 6u,  /**< PC = 6 */
-    CY_PROT_PC7  = 7u,  /**< PC = 7 */
-    CY_PROT_PC8  = 8u,  /**< PC = 8 */
-    CY_PROT_PC9  = 9u,  /**< PC = 9 */
-    CY_PROT_PC10 = 10u, /**< PC = 10 */
-    CY_PROT_PC11 = 11u, /**< PC = 11 */
-    CY_PROT_PC12 = 12u, /**< PC = 12 */
-    CY_PROT_PC13 = 13u, /**< PC = 13 */
-    CY_PROT_PC14 = 14u, /**< PC = 14 */
-    CY_PROT_PC15 = 15u  /**< PC = 15 */
+    CY_PROT_PC1  = 1U,  /**< PC = 1 */
+    CY_PROT_PC2  = 2U,  /**< PC = 2 */
+    CY_PROT_PC3  = 3U,  /**< PC = 3 */
+    CY_PROT_PC4  = 4U,  /**< PC = 4 */
+    CY_PROT_PC5  = 5U,  /**< PC = 5 */
+    CY_PROT_PC6  = 6U,  /**< PC = 6 */
+    CY_PROT_PC7  = 7U,  /**< PC = 7 */
+    CY_PROT_PC8  = 8U,  /**< PC = 8 */
+    CY_PROT_PC9  = 9U,  /**< PC = 9 */
+    CY_PROT_PC10 = 10U, /**< PC = 10 */
+    CY_PROT_PC11 = 11U, /**< PC = 11 */
+    CY_PROT_PC12 = 12U, /**< PC = 12 */
+    CY_PROT_PC13 = 13U, /**< PC = 13 */
+    CY_PROT_PC14 = 14U, /**< PC = 14 */
+    CY_PROT_PC15 = 15U  /**< PC = 15 */
 };
 
 /**
@@ -493,14 +563,14 @@ enum cy_en_prot_pc_t
 */
 enum cy_en_prot_subreg_t
 {
-    CY_PROT_SUBREGION_DIS0 = 0x01u,  /**< Disable subregion 0 */
-    CY_PROT_SUBREGION_DIS1 = 0x02u,  /**< Disable subregion 1 */
-    CY_PROT_SUBREGION_DIS2 = 0x04u,  /**< Disable subregion 2 */
-    CY_PROT_SUBREGION_DIS3 = 0x08u,  /**< Disable subregion 3 */
-    CY_PROT_SUBREGION_DIS4 = 0x10u,  /**< Disable subregion 4 */
-    CY_PROT_SUBREGION_DIS5 = 0x20u,  /**< Disable subregion 5 */
-    CY_PROT_SUBREGION_DIS6 = 0x40u,  /**< Disable subregion 6 */
-    CY_PROT_SUBREGION_DIS7 = 0x80u   /**< Disable subregion 7 */
+    CY_PROT_SUBREGION_DIS0 = 0x01U,  /**< Disable subregion 0 */
+    CY_PROT_SUBREGION_DIS1 = 0x02U,  /**< Disable subregion 1 */
+    CY_PROT_SUBREGION_DIS2 = 0x04U,  /**< Disable subregion 2 */
+    CY_PROT_SUBREGION_DIS3 = 0x08U,  /**< Disable subregion 3 */
+    CY_PROT_SUBREGION_DIS4 = 0x10U,  /**< Disable subregion 4 */
+    CY_PROT_SUBREGION_DIS5 = 0x20U,  /**< Disable subregion 5 */
+    CY_PROT_SUBREGION_DIS6 = 0x40U,  /**< Disable subregion 6 */
+    CY_PROT_SUBREGION_DIS7 = 0x80U   /**< Disable subregion 7 */
 };
 
 /**
@@ -508,22 +578,32 @@ enum cy_en_prot_subreg_t
 */
 enum cy_en_prot_pcmask_t
 {
-    CY_PROT_PCMASK1  = 0x0001u,  /**< Mask to allow PC = 1 */
-    CY_PROT_PCMASK2  = 0x0002u,  /**< Mask to allow PC = 2 */
-    CY_PROT_PCMASK3  = 0x0004u,  /**< Mask to allow PC = 3 */
-    CY_PROT_PCMASK4  = 0x0008u,  /**< Mask to allow PC = 4 */
-    CY_PROT_PCMASK5  = 0x0010u,  /**< Mask to allow PC = 5 */
-    CY_PROT_PCMASK6  = 0x0020u,  /**< Mask to allow PC = 6 */
-    CY_PROT_PCMASK7  = 0x0040u,  /**< Mask to allow PC = 7 */
-    CY_PROT_PCMASK8  = 0x0080u,  /**< Mask to allow PC = 8 */
-    CY_PROT_PCMASK9  = 0x0100u,  /**< Mask to allow PC = 9 */
-    CY_PROT_PCMASK10 = 0x0200u,  /**< Mask to allow PC = 10 */
-    CY_PROT_PCMASK11 = 0x0400u,  /**< Mask to allow PC = 11 */
-    CY_PROT_PCMASK12 = 0x0800u,  /**< Mask to allow PC = 12 */
-    CY_PROT_PCMASK13 = 0x1000u,  /**< Mask to allow PC = 13 */
-    CY_PROT_PCMASK14 = 0x2000u,  /**< Mask to allow PC = 14 */
-    CY_PROT_PCMASK15 = 0x4000u   /**< Mask to allow PC = 15 */
+    CY_PROT_PCMASK1  = 0x0001U,  /**< Mask to allow PC = 1 */
+    CY_PROT_PCMASK2  = 0x0002U,  /**< Mask to allow PC = 2 */
+    CY_PROT_PCMASK3  = 0x0004U,  /**< Mask to allow PC = 3 */
+    CY_PROT_PCMASK4  = 0x0008U,  /**< Mask to allow PC = 4 */
+    CY_PROT_PCMASK5  = 0x0010U,  /**< Mask to allow PC = 5 */
+    CY_PROT_PCMASK6  = 0x0020U,  /**< Mask to allow PC = 6 */
+    CY_PROT_PCMASK7  = 0x0040U,  /**< Mask to allow PC = 7 */
+    CY_PROT_PCMASK8  = 0x0080U,  /**< Mask to allow PC = 8 */
+    CY_PROT_PCMASK9  = 0x0100U,  /**< Mask to allow PC = 9 */
+    CY_PROT_PCMASK10 = 0x0200U,  /**< Mask to allow PC = 10 */
+    CY_PROT_PCMASK11 = 0x0400U,  /**< Mask to allow PC = 11 */
+    CY_PROT_PCMASK12 = 0x0800U,  /**< Mask to allow PC = 12 */
+    CY_PROT_PCMASK13 = 0x1000U,  /**< Mask to allow PC = 13 */
+    CY_PROT_PCMASK14 = 0x2000U,  /**< Mask to allow PC = 14 */
+    CY_PROT_PCMASK15 = 0x4000U   /**< Mask to allow PC = 15 */
 };
+
+/**
+* Request mode to get the SMPU or programmed PU structure
+*/
+typedef enum 
+{
+    CY_PROT_REQMODE_HIGHPRIOR = 0U,    /**< Request mode to return PU structure with highest priority */
+    CY_PROT_REQMODE_LOWPRIOR  = 1U,     /**< Request mode to return PU structure with lowest priority */
+    CY_PROT_REQMODE_INDEX     = 2U       /**< Request mode to return PU structure with specific index */
+}cy_en_prot_req_mode_t;
 
 /** \} group_prot_enums */
 
@@ -534,67 +614,66 @@ enum cy_en_prot_pcmask_t
 
 /** \cond INTERNAL */
 
-/* Helper function for finding max */
-#define CY_PROT_MAX(x,y) (((x)>(y))?(x):(y))
+/* Number of SMPU structures with highest priority */
+#define PROT_SMPU_STRUCT_WTH_HIGHEST_PR       (15)
+
+/* Number of Programmable PPU structures with lowest priority */
+#define PROT_PPU_PROG_STRUCT_WTH_LOWEST_PR    (15)
+
+/* Define to check maximum value of active PC */
+#define PROT_PC_MAX                       (16U)
+
+/* Define to check maximum mask of PC */
+#define PROT_PC_MASK_MAX                          (0x7FFFUL)
+
+#if defined (CY_IP_MXPERI_VERSION) && (CY_IP_MXPERI_VERSION == 1U)
+    typedef PERI_MS_PPU_PR_V2_Type PERI_MS_PPU_PR_Type;
+    typedef PERI_MS_PPU_FX_V2_Type PERI_MS_PPU_FX_Type;
+#endif /* defined (CY_IP_MXPERI_VERSION) && (CY_IP_MXPERI_VERSION == 1U) */
+
+#if defined (CY_IP_MXPERI_VERSION) && (CY_IP_MXPERI_VERSION > 1U)
+    typedef PERI_PPU_PR_V1_Type PERI_PPU_PR_Type;
+    typedef PERI_PPU_GR_V1_Type PERI_PPU_GR_Type;
+    typedef PERI_GR_PPU_SL_V1_Type PERI_GR_PPU_SL_Type;
+    typedef PERI_GR_PPU_RG_V1_Type PERI_GR_PPU_RG_Type;
+#endif /* defined (CY_IP_MXPERI_VERSION) && (CY_IP_MXPERI_VERSION > 1U) */
+
 
 /* General Masks and shifts */
-#define    CY_PROT_MSX_CTL_SHIFT                 (0x02UL) /**< Shift for MSx_CTL register */
-#define    CY_PROT_STRUCT_ENABLE                 (0x01UL) /**< Enable protection unit struct */
-#define    CY_PROT_ADDR_SHIFT                    (8UL)    /**< Address shift for MPU, SMPU and PROG PPU structs */
+#define CY_PROT_MSX_CTL_SHIFT                   (0x02UL) /**< Shift for MSx_CTL register */
+#define CY_PROT_STRUCT_ENABLE                   (0x01UL) /**< Enable protection unit struct */
+#define CY_PROT_STRUCT_DISABLE                  (0x00UL) /**< Disable protection unit struct */
+#define CY_PROT_ADDR_SHIFT                      (8UL)    /**< Address shift for MPU, SMPU and PROG PPU structs */
+#define CY_PROT_PCMASK_CHECK                    (0x01UL) /**< Shift and mask for pcMask check */
 
 /* Permission masks and shifts */
-#define    CY_PROT_ATT_PERMISSION_MASK           (0x07UL) /**< Protection Unit attribute permission mask */
-#define    CY_PROT_ATT_USER_PERMISSION_SHIFT     (0x00UL) /**< Protection Unit user attribute permission shift */
-#define    CY_PROT_ATT_PRIV_PERMISSION_SHIFT     (0x03UL) /**< Protection Unit priliged attribute permission shift */
+#define CY_PROT_ATT_PERMISSION_MASK             (0x07UL) /**< Protection Unit attribute permission mask */
+#define CY_PROT_ATT_PRIV_PERMISSION_SHIFT       (0x03UL) /**< Protection Unit privileged attribute permission shift */
 
-/* Maximum Master Protection Context */
-#define CY_PROT_MS_PC_NR_MAX                    CY_PROT_MAX(CPUSS_PROT_SMPU_MS0_PC_NR_MINUS1,     \
-                                                CY_PROT_MAX(CPUSS_PROT_SMPU_MS1_PC_NR_MINUS1,   \
-                                                CY_PROT_MAX(CPUSS_PROT_SMPU_MS2_PC_NR_MINUS1,   \
-                                                CY_PROT_MAX(CPUSS_PROT_SMPU_MS3_PC_NR_MINUS1,   \
-                                                CY_PROT_MAX(CPUSS_PROT_SMPU_MS4_PC_NR_MINUS1,   \
-                                                CY_PROT_MAX(CPUSS_PROT_SMPU_MS5_PC_NR_MINUS1,   \
-                                                CY_PROT_MAX(CPUSS_PROT_SMPU_MS6_PC_NR_MINUS1,   \
-                                                CY_PROT_MAX(CPUSS_PROT_SMPU_MS7_PC_NR_MINUS1,   \
-                                                CY_PROT_MAX(CPUSS_PROT_SMPU_MS8_PC_NR_MINUS1,   \
-                                                CY_PROT_MAX(CPUSS_PROT_SMPU_MS9_PC_NR_MINUS1,   \
-                                                CY_PROT_MAX(CPUSS_PROT_SMPU_MS10_PC_NR_MINUS1,  \
-                                                CY_PROT_MAX(CPUSS_PROT_SMPU_MS11_PC_NR_MINUS1,  \
-                                                CY_PROT_MAX(CPUSS_PROT_SMPU_MS12_PC_NR_MINUS1,  \
-                                                CY_PROT_MAX(CPUSS_PROT_SMPU_MS13_PC_NR_MINUS1,  \
-                                                CY_PROT_MAX(CPUSS_PROT_SMPU_MS14_PC_NR_MINUS1,  \
-                                                            CPUSS_PROT_SMPU_MS15_PC_NR_MINUS1)))))))))))))))
+#define CY_PROT_ATT_PERI_USER_PERM_Pos          (0UL)    /**< PERI v2 privileged attribute permission shift */
+#define CY_PROT_ATT_PERI_USER_PERM_Msk          (0x03UL) /**< PERI v2 attribute permission mask */
+#define CY_PROT_ATT_PERI_PRIV_PERM_Pos          (2UL)    /**< PERI v2 privileged attribute permission shift */
+#define CY_PROT_ATT_PERI_PRIV_PERM_Msk          ((uint32_t)(0x03UL << CY_PROT_ATT_PERI_PRIV_PERM_Pos)) /**< PERI v2 attribute permission mask */
 
-/* Protection Context limit masks */
-#define CY_PROT_MS0_PC_LIMIT_MASK               (0xFFFFFFFFUL << CPUSS_PROT_SMPU_MS0_PC_NR_MINUS1)
-#define CY_PROT_MS1_PC_LIMIT_MASK               (0xFFFFFFFFUL << CPUSS_PROT_SMPU_MS1_PC_NR_MINUS1)
-#define CY_PROT_MS2_PC_LIMIT_MASK               (0xFFFFFFFFUL << CPUSS_PROT_SMPU_MS2_PC_NR_MINUS1)
-#define CY_PROT_MS3_PC_LIMIT_MASK               (0xFFFFFFFFUL << CPUSS_PROT_SMPU_MS3_PC_NR_MINUS1)
-#define CY_PROT_MS4_PC_LIMIT_MASK               (0xFFFFFFFFUL << CPUSS_PROT_SMPU_MS4_PC_NR_MINUS1)
-#define CY_PROT_MS5_PC_LIMIT_MASK               (0xFFFFFFFFUL << CPUSS_PROT_SMPU_MS5_PC_NR_MINUS1)
-#define CY_PROT_MS6_PC_LIMIT_MASK               (0xFFFFFFFFUL << CPUSS_PROT_SMPU_MS6_PC_NR_MINUS1)
-#define CY_PROT_MS7_PC_LIMIT_MASK               (0xFFFFFFFFUL << CPUSS_PROT_SMPU_MS7_PC_NR_MINUS1)
-#define CY_PROT_MS8_PC_LIMIT_MASK               (0xFFFFFFFFUL << CPUSS_PROT_SMPU_MS8_PC_NR_MINUS1)
-#define CY_PROT_MS9_PC_LIMIT_MASK               (0xFFFFFFFFUL << CPUSS_PROT_SMPU_MS9_PC_NR_MINUS1)
-#define CY_PROT_MS10_PC_LIMIT_MASK              (0xFFFFFFFFUL << CPUSS_PROT_SMPU_MS10_PC_NR_MINUS1)
-#define CY_PROT_MS11_PC_LIMIT_MASK              (0xFFFFFFFFUL << CPUSS_PROT_SMPU_MS11_PC_NR_MINUS1)
-#define CY_PROT_MS12_PC_LIMIT_MASK              (0xFFFFFFFFUL << CPUSS_PROT_SMPU_MS12_PC_NR_MINUS1)
-#define CY_PROT_MS13_PC_LIMIT_MASK              (0xFFFFFFFFUL << CPUSS_PROT_SMPU_MS13_PC_NR_MINUS1)
-#define CY_PROT_MS14_PC_LIMIT_MASK              (0xFFFFFFFFUL << CPUSS_PROT_SMPU_MS14_PC_NR_MINUS1)
-#define CY_PROT_MS15_PC_LIMIT_MASK              (0xFFFFFFFFUL << CPUSS_PROT_SMPU_MS15_PC_NR_MINUS1)
+#define CY_PROT_ATT_REGS_MAX                    (4U)     /**< Maximum number of ATT registers */
+#define CY_PROT_ATT_PC_MAX                      (4U)     /**< Maximum PC value per ATT reg */
 
-#define CY_PROT_MPU_PC_LIMIT_MASK               (0xFFFFFFFFUL << CY_PROT_MS_PC_NR_MAX)
-#define CY_PROT_SMPU_PC_LIMIT_MASK              (0xFFFFFFFFUL << CPUSS_SMPU_STRUCT_PC_NR_MINUS1)
-#define CY_PROT_PPU_PROG_PC_LIMIT_MASK          (0xFFFFFFFFUL << PERI_PPU_PROG_STRUCT_PC_NR_MINUS1)
-#define CY_PROT_PPU_FIXED_PC_LIMIT_MASK         (0xFFFFFFFFUL << PERI_PPU_FIXED_STRUCT_PC_NR_MINUS1)
+/* BWC macros */
+#define CY_PROT_ATT_PERI_PERM_MASK              (0x03UL)
+#define CY_PROT_ATT_PERI_PRIV_PERM_SHIFT        (0x02UL)
+/* End of BWC macros */
 
-/* Parameter validation masks to check for read-only values */
+#define CY_PROT_SMPU_PC_LIMIT_MASK              ((uint32_t) 0xFFFFFFFFUL << (CY_PROT_PC_MAX - 1UL))
+#define CY_PROT_PPU_PROG_PC_LIMIT_MASK          ((uint32_t) 0xFFFFFFFFUL << (CY_PROT_PC_MAX - 1UL))
+#define CY_PROT_PPU_FIXED_PC_LIMIT_MASK         ((uint32_t) 0xFFFFFFFFUL << (CY_PROT_PC_MAX - 1UL))
+    
 #define CY_PROT_SMPU_ATT0_MASK                  ((uint32_t)~(PROT_SMPU_SMPU_STRUCT_ATT0_PC_MASK_0_Msk))
 #define CY_PROT_SMPU_ATT1_MASK                  ((uint32_t)~(PROT_SMPU_SMPU_STRUCT_ATT1_UX_Msk \
                                                        | PROT_SMPU_SMPU_STRUCT_ATT1_PX_Msk \
                                                        | PROT_SMPU_SMPU_STRUCT_ATT1_PC_MASK_0_Msk \
                                                        | PROT_SMPU_SMPU_STRUCT_ATT1_REGION_SIZE_Msk \
                                                 ))
+
 #define CY_PROT_PPU_PROG_ATT0_MASK              ((uint32_t)~(PERI_PPU_PR_ATT0_UX_Msk \
                                                        | PERI_PPU_PR_ATT0_PX_Msk \
                                                        | PERI_PPU_PR_ATT0_PC_MASK_0_Msk \
@@ -636,10 +715,9 @@ enum cy_en_prot_pcmask_t
                                                 ))
 
 /* Parameter check macros */
-#define CY_PROT_BUS_MASTER_MAX                  (16UL)
-#define CY_PROT_IS_BUS_MASTER_VALID(busMaster)  (CY_PROT_BUS_MASTER_MAX > ((uint32_t)(busMaster)))
+#define CY_PROT_IS_BUS_MASTER_VALID(busMaster)  ((CY_PROT_BUS_MASTER_MASK & (1UL << (uint32_t)(busMaster))) != 0UL)
 
-#define CY_PROT_IS_MPU_PERM_VALID(permission) (((permission) == CY_PROT_PERM_DISABLED) || \
+#define CY_PROT_IS_MPU_PERM_VALID(permission)   (((permission) == CY_PROT_PERM_DISABLED) || \
                                                  ((permission) == CY_PROT_PERM_R) || \
                                                  ((permission) == CY_PROT_PERM_W) || \
                                                  ((permission) == CY_PROT_PERM_RW) || \
@@ -652,29 +730,35 @@ enum cy_en_prot_pcmask_t
                                                  ((permission) == CY_PROT_PERM_RW))
 
 #define CY_PROT_IS_SMPU_SL_PERM_VALID(permission) (((permission) == CY_PROT_PERM_DISABLED) || \
-                                                 ((permission) == CY_PROT_PERM_R) || \
-                                                 ((permission) == CY_PROT_PERM_W) || \
-                                                 ((permission) == CY_PROT_PERM_RW) || \
-                                                 ((permission) == CY_PROT_PERM_X) || \
-                                                 ((permission) == CY_PROT_PERM_RX) || \
-                                                 ((permission) == CY_PROT_PERM_WX) || \
-                                                 ((permission) == CY_PROT_PERM_RWX))
+                                                   ((permission) == CY_PROT_PERM_R) || \
+                                                   ((permission) == CY_PROT_PERM_W) || \
+                                                   ((permission) == CY_PROT_PERM_RW) || \
+                                                   ((permission) == CY_PROT_PERM_X) || \
+                                                   ((permission) == CY_PROT_PERM_RX) || \
+                                                   ((permission) == CY_PROT_PERM_WX) || \
+                                                   ((permission) == CY_PROT_PERM_RWX))
 
 #define CY_PROT_IS_PROG_MS_PERM_VALID(permission) (((permission) == CY_PROT_PERM_R) || \
                                                  ((permission) == CY_PROT_PERM_RW))
 
 #define CY_PROT_IS_PROG_SL_PERM_VALID(permission) (((permission) == CY_PROT_PERM_DISABLED) || \
-                                                 ((permission) == CY_PROT_PERM_R) || \
-                                                 ((permission) == CY_PROT_PERM_W) || \
-                                                 ((permission) == CY_PROT_PERM_RW))
+                                                   ((permission) == CY_PROT_PERM_R) || \
+                                                   ((permission) == CY_PROT_PERM_W) || \
+                                                   ((permission) == CY_PROT_PERM_RW))
 
-#define CY_PROT_IS_FIXED_MS_PERM_VALID(permission) (((permission) == CY_PROT_PERM_R) || \
-                                                 ((permission) == CY_PROT_PERM_RW))
+#define CY_PROT_IS_FIXED_MS_PERM_VALID(permission) (((permission) == CY_PROT_PERM_DISABLED) || \
+                                                    ((permission) == CY_PROT_PERM_R) || \
+                                                    ((permission) == CY_PROT_PERM_W) || \
+                                                    ((permission) == CY_PROT_PERM_RW))
+                                                    
+#define CY_PROT_IS_FIXED_MS_MS_PERM_VALID(permission) (((permission) == CY_PROT_PERM_R) || \
+                                                    ((permission) == CY_PROT_PERM_RW))       
+                                                    
 
 #define CY_PROT_IS_FIXED_SL_PERM_VALID(permission) (((permission) == CY_PROT_PERM_DISABLED) || \
-                                                 ((permission) == CY_PROT_PERM_R) || \
-                                                 ((permission) == CY_PROT_PERM_W) || \
-                                                 ((permission) == CY_PROT_PERM_RW))
+                                                    ((permission) == CY_PROT_PERM_R) || \
+                                                    ((permission) == CY_PROT_PERM_W) || \
+                                                    ((permission) == CY_PROT_PERM_RW))
 
 #define CY_PROT_IS_REGION_SIZE_VALID(regionSize) (((regionSize) == CY_PROT_SIZE_256B) || \
                                                   ((regionSize) == CY_PROT_SIZE_512B) || \
@@ -701,6 +785,53 @@ enum cy_en_prot_pcmask_t
                                                   ((regionSize) == CY_PROT_SIZE_1GB) || \
                                                   ((regionSize) == CY_PROT_SIZE_2GB) || \
                                                   ((regionSize) == CY_PROT_SIZE_4GB))
+
+#define CY_PROT_IS_PPU_V2_SIZE_VALID(regionSize)  (((regionSize) == CY_PROT_SIZE_4B) || \
+                                                  ((regionSize) == CY_PROT_SIZE_8B) || \
+                                                  ((regionSize) == CY_PROT_SIZE_16B) || \
+                                                  ((regionSize) == CY_PROT_SIZE_32B) || \
+                                                  ((regionSize) == CY_PROT_SIZE_64B) || \
+                                                  ((regionSize) == CY_PROT_SIZE_128B) || \
+                                                  ((regionSize) == CY_PROT_SIZE_256B) || \
+                                                  ((regionSize) == CY_PROT_SIZE_512B) || \
+                                                  ((regionSize) == CY_PROT_SIZE_1KB) || \
+                                                  ((regionSize) == CY_PROT_SIZE_2KB) || \
+                                                  ((regionSize) == CY_PROT_SIZE_4KB) || \
+                                                  ((regionSize) == CY_PROT_SIZE_8KB) || \
+                                                  ((regionSize) == CY_PROT_SIZE_16KB) || \
+                                                  ((regionSize) == CY_PROT_SIZE_32KB) || \
+                                                  ((regionSize) == CY_PROT_SIZE_64KB) || \
+                                                  ((regionSize) == CY_PROT_SIZE_128KB) || \
+                                                  ((regionSize) == CY_PROT_SIZE_256KB) || \
+                                                  ((regionSize) == CY_PROT_SIZE_512KB) || \
+                                                  ((regionSize) == CY_PROT_SIZE_1MB) || \
+                                                  ((regionSize) == CY_PROT_SIZE_2MB) || \
+                                                  ((regionSize) == CY_PROT_SIZE_4MB) || \
+                                                  ((regionSize) == CY_PROT_SIZE_8MB) || \
+                                                  ((regionSize) == CY_PROT_SIZE_16MB) || \
+                                                  ((regionSize) == CY_PROT_SIZE_32MB) || \
+                                                  ((regionSize) == CY_PROT_SIZE_64MB) || \
+                                                  ((regionSize) == CY_PROT_SIZE_128MB) || \
+                                                  ((regionSize) == CY_PROT_SIZE_256MB) || \
+                                                  ((regionSize) == CY_PROT_SIZE_512MB) || \
+                                                  ((regionSize) == CY_PROT_SIZE_1GB) || \
+                                                  ((regionSize) == CY_PROT_SIZE_2GB) || \
+                                                  ((regionSize) == CY_PROT_SIZE_4GB))
+
+#define CY_PROT_IS_SMPU_REQ_MODE_VALID(reqMode)    (((reqMode) == CY_PROT_REQMODE_HIGHPRIOR) || \
+                                                    ((reqMode) == CY_PROT_REQMODE_LOWPRIOR) || \
+                                                    ((reqMode) == CY_PROT_REQMODE_INDEX))
+                                                    
+#define CY_PROT_IS_PPU_PROG_REQ_MODE_VALID(reqMode)    (((reqMode) == CY_PROT_REQMODE_HIGHPRIOR) || \
+                                                        ((reqMode) == CY_PROT_REQMODE_LOWPRIOR) || \
+                                                        ((reqMode) == CY_PROT_REQMODE_INDEX))
+
+#define CY_PROT_IS_SMPU_IDX_VALID(smpuIndex)       ((smpuIndex) <= (uint32_t)PROT_SMPU_STRUCT_WTH_HIGHEST_PR)
+
+#define CY_PROT_IS_PPU_PROG_IDX_VALID(ppuIndex)    ((ppuIndex) <= (uint32_t)PROT_PPU_PROG_STRUCT_WTH_LOWEST_PR)
+
+#define CY_PROT_IS_PC_VALID(pc)                    ((pc) < PROT_PC_MAX)
+#define CY_PROT_IS_PC_MASK_VALID(pcMask)           (((pcMask) & ((uint32_t)~PROT_PC_MASK_MAX)) == 0UL)
 
 /** \endcond */
 
@@ -797,28 +928,26 @@ typedef struct
 * \addtogroup group_prot_functions_busmaster
 * \{
 */
-
 cy_en_prot_status_t Cy_Prot_ConfigBusMaster(en_prot_master_t busMaster, bool privileged, bool secure, uint32_t pcMask);
 cy_en_prot_status_t Cy_Prot_SetActivePC(en_prot_master_t busMaster, uint32_t pc);
 uint32_t Cy_Prot_GetActivePC(en_prot_master_t busMaster);
-
 /** \} group_prot_functions_busmaster */
 
 /**
 * \addtogroup group_prot_functions_mpu
 * \{
 */
-
 cy_en_prot_status_t Cy_Prot_ConfigMpuStruct(PROT_MPU_MPU_STRUCT_Type* base, const cy_stc_mpu_cfg_t* config);
 cy_en_prot_status_t Cy_Prot_EnableMpuStruct(PROT_MPU_MPU_STRUCT_Type* base);
 cy_en_prot_status_t Cy_Prot_DisableMpuStruct(PROT_MPU_MPU_STRUCT_Type* base);
-
 /** \} group_prot_functions_mpu */
 
 /**
 * \addtogroup group_prot_functions_smpu
 * \{
 */
+__STATIC_INLINE cy_en_prot_status_t Cy_Prot_DisableSmpuStruct(PROT_SMPU_SMPU_STRUCT_Type* base);
+cy_en_prot_status_t Cy_Prot_GetSmpuStruct(PROT_SMPU_SMPU_STRUCT_Type** base, cy_en_prot_req_mode_t reqMode, uint32_t smpuIndex);
 
 cy_en_prot_status_t Cy_Prot_ConfigSmpuMasterStruct(PROT_SMPU_SMPU_STRUCT_Type* base, const cy_stc_smpu_cfg_t* config);
 cy_en_prot_status_t Cy_Prot_ConfigSmpuSlaveStruct(PROT_SMPU_SMPU_STRUCT_Type* base, const cy_stc_smpu_cfg_t* config);
@@ -829,10 +958,34 @@ cy_en_prot_status_t Cy_Prot_DisableSmpuSlaveStruct(PROT_SMPU_SMPU_STRUCT_Type* b
 
 /** \} group_prot_functions_smpu */
 
+
+
+/**
+* \addtogroup group_prot_functions_ppu_prog_v2
+* \{
+*/
+cy_en_prot_status_t Cy_Prot_ConfigPpuProgMasterAtt(PERI_MS_PPU_PR_Type* base, uint16_t pcMask, cy_en_prot_perm_t userPermission, cy_en_prot_perm_t privPermission, bool secure);
+cy_en_prot_status_t Cy_Prot_ConfigPpuProgSlaveAddr(PERI_MS_PPU_PR_Type* base, uint32_t address, cy_en_prot_size_t regionSize);
+cy_en_prot_status_t Cy_Prot_ConfigPpuProgSlaveAtt(PERI_MS_PPU_PR_Type* base, uint16_t pcMask, cy_en_prot_perm_t userPermission, cy_en_prot_perm_t privPermission, bool secure);
+cy_en_prot_status_t Cy_Prot_EnablePpuProgSlaveRegion(PERI_MS_PPU_PR_Type* base);
+cy_en_prot_status_t Cy_Prot_DisablePpuProgSlaveRegion(PERI_MS_PPU_PR_Type* base);
+
+/** \} group_prot_functions_ppu_prog_v2 */
+
+/**
+* \addtogroup group_prot_functions_ppu_fixed_v2
+* \{
+*/
+cy_en_prot_status_t Cy_Prot_ConfigPpuFixedMasterAtt(PERI_MS_PPU_FX_Type* base, uint16_t pcMask, cy_en_prot_perm_t userPermission, cy_en_prot_perm_t privPermission, bool secure);
+cy_en_prot_status_t Cy_Prot_ConfigPpuFixedSlaveAtt(PERI_MS_PPU_FX_Type* base, uint16_t pcMask, cy_en_prot_perm_t userPermission, cy_en_prot_perm_t privPermission, bool secure);
+/** \} group_prot_functions_ppu_fixed_v2 */
+
+
 /**
 * \addtogroup group_prot_functions_ppu_prog
 * \{
 */
+__STATIC_INLINE cy_en_prot_status_t Cy_Prot_DisablePpuProgStruct(PERI_PPU_PR_Type* base);
 
 cy_en_prot_status_t Cy_Prot_ConfigPpuProgMasterStruct(PERI_PPU_PR_Type* base, const cy_stc_ppu_prog_cfg_t* config);
 cy_en_prot_status_t Cy_Prot_ConfigPpuProgSlaveStruct(PERI_PPU_PR_Type* base, const cy_stc_ppu_prog_cfg_t* config);
@@ -841,34 +994,32 @@ cy_en_prot_status_t Cy_Prot_DisablePpuProgMasterStruct(PERI_PPU_PR_Type* base);
 cy_en_prot_status_t Cy_Prot_EnablePpuProgSlaveStruct(PERI_PPU_PR_Type* base);
 cy_en_prot_status_t Cy_Prot_DisablePpuProgSlaveStruct(PERI_PPU_PR_Type* base);
 
+cy_en_prot_status_t Cy_Prot_GetPpuProgStruct(PERI_PPU_PR_Type** base, cy_en_prot_req_mode_t reqMode, uint32_t ppuProgIndex);
+
 /** \} group_prot_functions_ppu_prog */
 
 /**
 * \addtogroup group_prot_functions_ppu_gr
 * \{
 */
-
 cy_en_prot_status_t Cy_Prot_ConfigPpuFixedGrMasterStruct(PERI_PPU_GR_Type* base, const cy_stc_ppu_gr_cfg_t* config);
 cy_en_prot_status_t Cy_Prot_ConfigPpuFixedGrSlaveStruct(PERI_PPU_GR_Type* base, const cy_stc_ppu_gr_cfg_t* config);
 cy_en_prot_status_t Cy_Prot_EnablePpuFixedGrMasterStruct(PERI_PPU_GR_Type* base);
 cy_en_prot_status_t Cy_Prot_DisablePpuFixedGrMasterStruct(PERI_PPU_GR_Type* base);
 cy_en_prot_status_t Cy_Prot_EnablePpuFixedGrSlaveStruct(PERI_PPU_GR_Type* base);
 cy_en_prot_status_t Cy_Prot_DisablePpuFixedGrSlaveStruct(PERI_PPU_GR_Type* base);
-
 /** \} group_prot_functions_ppu_gr */
 
 /**
 * \addtogroup group_prot_functions_ppu_sl
 * \{
 */
-
 cy_en_prot_status_t Cy_Prot_ConfigPpuFixedSlMasterStruct(PERI_GR_PPU_SL_Type* base, const cy_stc_ppu_sl_cfg_t* config);
 cy_en_prot_status_t Cy_Prot_ConfigPpuFixedSlSlaveStruct(PERI_GR_PPU_SL_Type* base, const cy_stc_ppu_sl_cfg_t* config);
 cy_en_prot_status_t Cy_Prot_EnablePpuFixedSlMasterStruct(PERI_GR_PPU_SL_Type* base);
 cy_en_prot_status_t Cy_Prot_DisablePpuFixedSlMasterStruct(PERI_GR_PPU_SL_Type* base);
 cy_en_prot_status_t Cy_Prot_EnablePpuFixedSlSlaveStruct(PERI_GR_PPU_SL_Type* base);
 cy_en_prot_status_t Cy_Prot_DisablePpuFixedSlSlaveStruct(PERI_GR_PPU_SL_Type* base);
-
 /** \} group_prot_functions_ppu_sl */
 
 /**
@@ -881,11 +1032,106 @@ cy_en_prot_status_t Cy_Prot_EnablePpuFixedRgMasterStruct(PERI_GR_PPU_RG_Type* ba
 cy_en_prot_status_t Cy_Prot_DisablePpuFixedRgMasterStruct(PERI_GR_PPU_RG_Type* base);
 cy_en_prot_status_t Cy_Prot_EnablePpuFixedRgSlaveStruct(PERI_GR_PPU_RG_Type* base);
 cy_en_prot_status_t Cy_Prot_DisablePpuFixedRgSlaveStruct(PERI_GR_PPU_RG_Type* base);
-
 /** \} group_prot_functions_ppu_rg */
 
 /** \} group_prot_functions */
 
+
+
+/**
+* \addtogroup group_prot_functions
+* \{
+*/
+
+/**
+* \addtogroup group_prot_functions_smpu
+* \{
+*/
+
+/*******************************************************************************
+* Function Name: Cy_Prot_DisableSmpuStruct
+****************************************************************************//**
+*
+* This function disables both the master and slave parts of a protection unit.
+*
+* \param base
+* The base address for the SMPU structure to be disabled. 
+*
+* \return
+* Status of the function call.
+*
+*   Status               | Description
+*   ---------------------| -----------
+*   CY_PROT_SUCCESS      | The Master and Slave SMPU struct was disabled
+*   CY_PROT_FAILURE      | The Master and/or slave SMPU  struct was not disabled
+*  CY_PROT_INVALID_STATE | Function was called on the unsupported PERI IP version
+*
+* \funcusage
+* \snippet prot/1.20/snippet/main.c snippet_Cy_Prot_DisableSmpuStruct
+*
+*******************************************************************************/
+__STATIC_INLINE cy_en_prot_status_t Cy_Prot_DisableSmpuStruct(PROT_SMPU_SMPU_STRUCT_Type* base)
+{
+    cy_en_prot_status_t status = Cy_Prot_DisableSmpuMasterStruct(base);
+
+    if (CY_PROT_SUCCESS == status)
+    {
+        status = Cy_Prot_DisableSmpuSlaveStruct(base);
+    }
+
+    return status;
+}
+/** \} group_prot_functions_smpu */
+
+
+/**
+* \addtogroup group_prot_functions_ppu_prog
+* \{
+*/
+/*******************************************************************************
+* Function Name: Cy_Prot_DisablePpuProgStruct
+****************************************************************************//**
+*
+* This function disables both the master and slave parts of a protection unit.
+*
+* \note
+* This functions has an effect only on devices with PERI IP version 1. Refer 
+* to the device datasheet for information about PERI HW IP version.
+*
+* \param base
+* The base address for the Programmable PU structure to be disabled. 
+*
+* \return
+* Status of the function call.
+*
+*   Status               | Description
+*   ---------------------| -----------
+*   CY_PROT_SUCCESS      | The Master and Slave Programmable PU struct was disabled
+*   CY_PROT_FAILURE      | The Master and/or slave Programmable PU struct was not disabled
+*  CY_PROT_INVALID_STATE | Function was called on the unsupported PERI IP version
+*
+* \funcusage
+* \snippet prot/1.20/snippet/main.c snippet_Cy_Prot_DisablePpuProgStruct
+*
+*******************************************************************************/
+__STATIC_INLINE cy_en_prot_status_t Cy_Prot_DisablePpuProgStruct(PERI_PPU_PR_Type* base)
+{
+    cy_en_prot_status_t status = CY_PROT_INVALID_STATE;
+
+    if (CY_PERI_V1)
+    {
+        status = Cy_Prot_DisablePpuProgMasterStruct(base);
+
+        if (CY_PROT_SUCCESS == status)
+        {
+            status = Cy_Prot_DisablePpuProgSlaveStruct(base);
+        }
+    }
+
+    return status;
+}
+/** \} group_prot_functions_ppu_prog */
+/** \} group_prot_functions */
 /** \} group_prot */
 
 #if defined(__cplusplus)

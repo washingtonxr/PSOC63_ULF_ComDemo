@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_scb_common.h
-* \version 2.10
+* \version 2.20
 *
 * Provides common API declarations of the SCB driver.
 *
@@ -13,8 +13,17 @@
 *******************************************************************************/
 
 /**
-* \defgroup group_scb Serial Communication Block (SCB)
+* \addtogroup group_scb
 * \{
+* The Serial Communications Block (SCB) supports three serial communication 
+* protocols: Serial Peripheral Interface (SPI), Universal Asynchronous Receiver 
+* Transmitter (UART), and Inter Integrated Circuit (I2C or IIC). Only one of 
+* the protocols is supported by an SCB at any given time.
+*
+* The functions and other declarations used in this driver are in cy_scb_spi.h, 
+* cy_scb_uart.h, cy_scb_ezi2c.h, cy_scb_i2c.h respectively. Include cy_pdl.h 
+* (ModusToolbox only) to get access to all functions and declarations in the PDL.
+
 * \defgroup group_scb_common Common
 * \defgroup group_scb_ezi2c  EZI2C (SCB)
 * \defgroup group_scb_i2c    I2C (SCB)
@@ -34,15 +43,25 @@
 * API for the SCB. However, you can use the common SCB API to implement
 * a custom driver based on the SCB hardware.
 *
-* \section group_scb_common_configuration Configuration Considerations
+* The functions and other declarations used in this part of the driver are in 
+* cy_scb_common.h. You can include either of cy_scb_spi.h, cy_scb_uart.h, 
+* cy_scb_ezi2c.h, cy_scb_i2c.h depending on the desired functionality. 
+* You can also include cy_pdl.h to get access to all functions and declarations 
+* in the PDL.
 *
+*******************************************************************************
+* \section group_scb_common_configuration Configuration Considerations
+********************************************************************************
 * This is not a driver and it does not require configuration.
 *
+*******************************************************************************
 * \section group_scb_common_more_information More Information
-*
+*******************************************************************************
 * Refer to the SCB chapter of the technical reference manual (TRM).
 *
+*******************************************************************************
 * \section group_scb_common_MISRA MISRA-C Compliance
+*******************************************************************************
 * <table class="doxtable">
 *   <tr>
 *     <th>MISRA rule</th>
@@ -63,9 +82,24 @@
 *   </tr>
 * </table>
 *
+*******************************************************************************
 * \section group_scb_common_changelog Changelog
+*******************************************************************************
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td rowspan="2">2.20</td>
+*     <td>Flattened the organization of the driver source code into the single 
+*         source directory and the single include directory.
+*     </td>
+*     <td>Driver library directory-structure simplification.</td>
+*   </tr>
+*   <tr>
+*     <td>Added register access layer. Use register access macros instead
+*         of direct register access using dereferenced pointers.</td>
+*     <td>Makes register access device-independent, so that the PDL does 
+*         not need to be recompiled for each supported part number.</td>
+*   </tr>
 *   <tr>
 *     <td>2.10</td>
 *     <td>None.</td>
@@ -100,22 +134,21 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
+#include "cy_device.h"
 #include "cy_device_headers.h"
-#include "syslib/cy_syslib.h"
-#include "syspm/cy_syspm.h"
+#include "cy_syslib.h"
+#include "cy_syspm.h"
 
-#ifndef CY_IP_MXSCB
-    #error "The SCB driver is not supported on this device"
-#endif
+#ifdef CY_IP_MXSCB
 
 #if defined(__cplusplus)
 extern "C" {
 #endif
 
 
-/***************************************
-*        Function Prototypes
-***************************************/
+/*******************************************************************************
+*                            Function Prototypes
+*******************************************************************************/
 
 /**
 * \addtogroup group_scb_common_functions
@@ -179,9 +212,9 @@ __STATIC_INLINE uint32_t Cy_SCB_GetSpiInterruptStatusMasked(CySCB_Type const *ba
 __STATIC_INLINE void     Cy_SCB_ClearSpiInterrupt    (CySCB_Type *base, uint32_t interruptMask);
 
 
-/***************************************
-*     Internal Function Prototypes
-***************************************/
+/*******************************************************************************
+*                         Internal Function Prototypes
+*******************************************************************************/
 
 /** \cond INTERNAL */
 void     Cy_SCB_ReadArrayNoCheck  (CySCB_Type const *base, void *buffer, uint32_t size);
@@ -204,9 +237,10 @@ __STATIC_INLINE uint32_t Cy_SCB_GetRxFifoLevel   (CySCB_Type const *base);
 
 /** \} group_scb_common_functions */
 
-/***************************************
-*            API Constants
-***************************************/
+
+/*******************************************************************************
+*                        API Constants
+*******************************************************************************/
 
 /**
 * \addtogroup group_scb_common_macros
@@ -217,7 +251,7 @@ __STATIC_INLINE uint32_t Cy_SCB_GetRxFifoLevel   (CySCB_Type const *base);
 #define CY_SCB_DRV_VERSION_MAJOR    (2)
 
 /** Driver minor version */
-#define CY_SCB_DRV_VERSION_MINOR    (10)
+#define CY_SCB_DRV_VERSION_MINOR    (20)
 
 /** SCB driver identifier */
 #define CY_SCB_ID           CY_PDL_DRV_ID(0x2AU)
@@ -422,9 +456,9 @@ __STATIC_INLINE uint32_t Cy_SCB_GetRxFifoLevel   (CySCB_Type const *base);
 /** \} group_scb_common_macros_SpiIntrStatuses */
 
 
-/***************************************
-*         Internal Constants
-***************************************/
+/*******************************************************************************
+*                           Internal Constants
+*******************************************************************************/
 
 /** \cond INTERNAL */
 
@@ -520,8 +554,8 @@ __STATIC_INLINE uint32_t Cy_SCB_GetRxFifoLevel   (CySCB_Type const *base);
 /* Clear interrupt sources */
 #define CY_SCB_CLEAR_ALL_INTR_SRC   (0UL)
 
-/* Hardware FIFO size */
-#define CY_SCB_FIFO_SIZE(base)    (SCB_GET_EZ_DATA_NR(base) / 2UL)
+/* Hardware FIFO size: EZ_DATA_NR / 4 = (512 / 4) = 128 */
+#define CY_SCB_FIFO_SIZE            (128UL)
 
 /* Provides a list of allowed sources */
 #define CY_SCB_TX_INTR_MASK     (CY_SCB_TX_INTR_LEVEL     | CY_SCB_TX_INTR_NOT_FULL  | CY_SCB_TX_INTR_EMPTY     | \
@@ -558,9 +592,9 @@ __STATIC_INLINE uint32_t Cy_SCB_GetRxFifoLevel   (CySCB_Type const *base);
 /** \} group_scb_common_macros */
 
 
-/***************************************
-* Inline Function Implementation
-***************************************/
+/*******************************************************************************
+*                       In-line Function Implementation
+*******************************************************************************/
 
 /**
 * \addtogroup group_scb_common_functions
@@ -583,7 +617,7 @@ __STATIC_INLINE uint32_t Cy_SCB_GetRxFifoLevel   (CySCB_Type const *base);
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SCB_ReadRxFifo(CySCB_Type const *base)
 {
-    return (base->RX_FIFO_RD);
+    return (SCB_RX_FIFO_RD(base));
 }
 
 /*******************************************************************************
@@ -605,7 +639,7 @@ __STATIC_INLINE void Cy_SCB_SetRxFifoLevel(CySCB_Type *base, uint32_t level)
 {
     CY_ASSERT_L2(CY_SCB_IS_TRIGGER_LEVEL_VALID(base, level));
 
-    base->RX_FIFO_CTRL = _CLR_SET_FLD32U(base->RX_FIFO_CTRL, SCB_RX_FIFO_CTRL_TRIGGER_LEVEL, level);
+    CY_REG32_CLR_SET(SCB_RX_FIFO_CTRL(base), SCB_RX_FIFO_CTRL_TRIGGER_LEVEL, level);
 }
 
 
@@ -624,7 +658,7 @@ __STATIC_INLINE void Cy_SCB_SetRxFifoLevel(CySCB_Type *base, uint32_t level)
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SCB_GetNumInRxFifo(CySCB_Type const *base)
 {
-    return _FLD2VAL(SCB_RX_FIFO_STATUS_USED, base->RX_FIFO_STATUS);
+    return _FLD2VAL(SCB_RX_FIFO_STATUS_USED, SCB_RX_FIFO_STATUS(base));
 }
 
 
@@ -643,7 +677,7 @@ __STATIC_INLINE uint32_t Cy_SCB_GetNumInRxFifo(CySCB_Type const *base)
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SCB_GetRxSrValid(CySCB_Type const *base)
 {
-    return _FLD2VAL(SCB_RX_FIFO_STATUS_SR_VALID, base->RX_FIFO_STATUS);
+    return _FLD2VAL(SCB_RX_FIFO_STATUS_SR_VALID, SCB_RX_FIFO_STATUS(base));
 }
 
 
@@ -662,10 +696,10 @@ __STATIC_INLINE uint32_t Cy_SCB_GetRxSrValid(CySCB_Type const *base)
 *******************************************************************************/
 __STATIC_INLINE void Cy_SCB_ClearRxFifo(CySCB_Type* base)
 {
-    base->RX_FIFO_CTRL |= (uint32_t)  SCB_RX_FIFO_CTRL_CLEAR_Msk;
-    base->RX_FIFO_CTRL &= (uint32_t) ~SCB_RX_FIFO_CTRL_CLEAR_Msk;
+    SCB_RX_FIFO_CTRL(base) |= (uint32_t)  SCB_RX_FIFO_CTRL_CLEAR_Msk;
+    SCB_RX_FIFO_CTRL(base) &= (uint32_t) ~SCB_RX_FIFO_CTRL_CLEAR_Msk;
 
-    (void) base->RX_FIFO_CTRL;
+    (void) SCB_RX_FIFO_CTRL(base);
 }
 
 
@@ -686,7 +720,7 @@ __STATIC_INLINE void Cy_SCB_ClearRxFifo(CySCB_Type* base)
 *******************************************************************************/
 __STATIC_INLINE void Cy_SCB_WriteTxFifo(CySCB_Type* base, uint32_t data)
 {
-    base->TX_FIFO_WR = data;
+    SCB_TX_FIFO_WR(base) = data;
 }
 
 
@@ -709,7 +743,7 @@ __STATIC_INLINE void Cy_SCB_SetTxFifoLevel(CySCB_Type *base, uint32_t level)
 {
     CY_ASSERT_L2(CY_SCB_IS_TRIGGER_LEVEL_VALID(base, level));
 
-    base->TX_FIFO_CTRL = _CLR_SET_FLD32U(base->TX_FIFO_CTRL, SCB_TX_FIFO_CTRL_TRIGGER_LEVEL, level);
+    CY_REG32_CLR_SET(SCB_TX_FIFO_CTRL(base), SCB_TX_FIFO_CTRL_TRIGGER_LEVEL, level);
 }
 
 
@@ -728,7 +762,7 @@ __STATIC_INLINE void Cy_SCB_SetTxFifoLevel(CySCB_Type *base, uint32_t level)
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SCB_GetNumInTxFifo(CySCB_Type const *base)
 {
-    return _FLD2VAL(SCB_TX_FIFO_STATUS_USED, base->TX_FIFO_STATUS);
+    return _FLD2VAL(SCB_TX_FIFO_STATUS_USED, SCB_TX_FIFO_STATUS(base));
 }
 
 
@@ -747,7 +781,7 @@ __STATIC_INLINE uint32_t Cy_SCB_GetNumInTxFifo(CySCB_Type const *base)
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SCB_GetTxSrValid(CySCB_Type const *base)
 {
-    return _FLD2VAL(SCB_TX_FIFO_STATUS_SR_VALID, base->TX_FIFO_STATUS);
+    return _FLD2VAL(SCB_TX_FIFO_STATUS_SR_VALID, SCB_TX_FIFO_STATUS(base));
 }
 
 
@@ -787,10 +821,10 @@ __STATIC_INLINE bool Cy_SCB_IsTxComplete(CySCB_Type const *base)
 *******************************************************************************/
 __STATIC_INLINE void Cy_SCB_ClearTxFifo(CySCB_Type *base)
 {
-    base->TX_FIFO_CTRL |= (uint32_t)  SCB_TX_FIFO_CTRL_CLEAR_Msk;
-    base->TX_FIFO_CTRL &= (uint32_t) ~SCB_TX_FIFO_CTRL_CLEAR_Msk;
+    SCB_TX_FIFO_CTRL(base) |= (uint32_t)  SCB_TX_FIFO_CTRL_CLEAR_Msk;
+    SCB_TX_FIFO_CTRL(base) &= (uint32_t) ~SCB_TX_FIFO_CTRL_CLEAR_Msk;
 
-    (void) base->TX_FIFO_CTRL;
+    (void) SCB_TX_FIFO_CTRL(base);
 }
 
 
@@ -814,11 +848,11 @@ __STATIC_INLINE void Cy_SCB_SetByteMode(CySCB_Type *base, bool byteMode)
 {
     if (byteMode)
     {
-        base->CTRL |=  SCB_CTRL_BYTE_MODE_Msk;
+        SCB_CTRL(base) |=  SCB_CTRL_BYTE_MODE_Msk;
     }
     else
     {
-        base->CTRL &= ~SCB_CTRL_BYTE_MODE_Msk;
+        SCB_CTRL(base) &= ~SCB_CTRL_BYTE_MODE_Msk;
     }
 }
 
@@ -841,7 +875,7 @@ __STATIC_INLINE void Cy_SCB_SetByteMode(CySCB_Type *base, bool byteMode)
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SCB_GetInterruptCause(CySCB_Type const *base)
 {
-    return (base->INTR_CAUSE);
+    return (SCB_INTR_CAUSE(base));
 }
 
 
@@ -864,7 +898,7 @@ __STATIC_INLINE uint32_t Cy_SCB_GetInterruptCause(CySCB_Type const *base)
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SCB_GetRxInterruptStatus(CySCB_Type const *base)
 {
-    return (base->INTR_RX & CY_SCB_RX_INTR_MASK);
+    return (SCB_INTR_RX(base) & CY_SCB_RX_INTR_MASK);
 }
 
 
@@ -887,7 +921,7 @@ __STATIC_INLINE void Cy_SCB_SetRxInterruptMask(CySCB_Type *base, uint32_t interr
 {
     CY_ASSERT_L2(CY_SCB_IS_INTR_VALID(interruptMask, CY_SCB_RX_INTR_MASK));
 
-    base->INTR_RX_MASK = interruptMask;
+    SCB_INTR_RX_MASK(base) = interruptMask;
 }
 
 
@@ -908,7 +942,7 @@ __STATIC_INLINE void Cy_SCB_SetRxInterruptMask(CySCB_Type *base, uint32_t interr
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SCB_GetRxInterruptMask(CySCB_Type const *base)
 {
-    return (base->INTR_RX_MASK);
+    return (SCB_INTR_RX_MASK(base));
 }
 
 
@@ -932,7 +966,7 @@ __STATIC_INLINE uint32_t Cy_SCB_GetRxInterruptMask(CySCB_Type const *base)
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SCB_GetRxInterruptStatusMasked(CySCB_Type const *base)
 {
-    return (base->INTR_RX_MASKED);
+    return (SCB_INTR_RX_MASKED(base));
 }
 
 
@@ -962,8 +996,8 @@ __STATIC_INLINE void Cy_SCB_ClearRxInterrupt(CySCB_Type *base, uint32_t interrup
 {
     CY_ASSERT_L2(CY_SCB_IS_INTR_VALID(interruptMask, CY_SCB_RX_INTR_MASK));
 
-    base->INTR_RX = interruptMask;
-    (void) base->INTR_RX;
+    SCB_INTR_RX(base) = interruptMask;
+    (void) SCB_INTR_RX(base);
 }
 
 
@@ -985,7 +1019,7 @@ __STATIC_INLINE void Cy_SCB_SetRxInterrupt(CySCB_Type *base, uint32_t interruptM
 {
     CY_ASSERT_L2(CY_SCB_IS_INTR_VALID(interruptMask, CY_SCB_RX_INTR_MASK));
 
-    base->INTR_RX_SET = interruptMask;
+    SCB_INTR_RX_SET(base) = interruptMask;
 }
 
 
@@ -1008,7 +1042,7 @@ __STATIC_INLINE void Cy_SCB_SetRxInterrupt(CySCB_Type *base, uint32_t interruptM
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SCB_GetTxInterruptStatus(CySCB_Type const *base)
 {
-    return (base->INTR_TX & CY_SCB_TX_INTR_MASK);
+    return (SCB_INTR_TX(base) & CY_SCB_TX_INTR_MASK);
 }
 
 
@@ -1031,7 +1065,7 @@ __STATIC_INLINE void Cy_SCB_SetTxInterruptMask(CySCB_Type *base, uint32_t interr
 {
     CY_ASSERT_L2(CY_SCB_IS_INTR_VALID(interruptMask, CY_SCB_TX_INTR_MASK));
 
-    base->INTR_TX_MASK = interruptMask;
+    SCB_INTR_TX_MASK(base) = interruptMask;
 }
 
 
@@ -1052,7 +1086,7 @@ __STATIC_INLINE void Cy_SCB_SetTxInterruptMask(CySCB_Type *base, uint32_t interr
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SCB_GetTxInterruptMask(CySCB_Type const *base)
 {
-    return (base->INTR_TX_MASK);
+    return (SCB_INTR_TX_MASK(base));
 }
 
 
@@ -1076,7 +1110,7 @@ __STATIC_INLINE uint32_t Cy_SCB_GetTxInterruptMask(CySCB_Type const *base)
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SCB_GetTxInterruptStatusMasked(CySCB_Type const *base)
 {
-    return (base->INTR_TX_MASKED);
+    return (SCB_INTR_TX_MASKED(base));
 }
 
 
@@ -1108,8 +1142,8 @@ __STATIC_INLINE void Cy_SCB_ClearTxInterrupt(CySCB_Type *base, uint32_t interrup
 {
     CY_ASSERT_L2(CY_SCB_IS_INTR_VALID(interruptMask, CY_SCB_TX_INTR_MASK));
 
-    base->INTR_TX = interruptMask;
-    (void) base->INTR_TX;
+    SCB_INTR_TX(base) = interruptMask;
+    (void) SCB_INTR_TX(base);
 }
 
 
@@ -1131,7 +1165,7 @@ __STATIC_INLINE void Cy_SCB_SetTxInterrupt(CySCB_Type *base, uint32_t interruptM
 {
     CY_ASSERT_L2(CY_SCB_IS_INTR_VALID(interruptMask, CY_SCB_TX_INTR_MASK));
 
-    base->INTR_TX_SET = interruptMask;
+    SCB_INTR_TX_SET(base) = interruptMask;
 }
 
 
@@ -1154,7 +1188,7 @@ __STATIC_INLINE void Cy_SCB_SetTxInterrupt(CySCB_Type *base, uint32_t interruptM
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SCB_GetMasterInterruptStatus(CySCB_Type const *base)
 {
-    return (base->INTR_M & CY_SCB_MASTER_INTR_MASK);
+    return (SCB_INTR_M(base) & CY_SCB_MASTER_INTR_MASK);
 }
 
 
@@ -1177,7 +1211,7 @@ __STATIC_INLINE void Cy_SCB_SetMasterInterruptMask(CySCB_Type *base, uint32_t in
 {
     CY_ASSERT_L2(CY_SCB_IS_INTR_VALID(interruptMask, CY_SCB_MASTER_INTR_MASK));
 
-    base->INTR_M_MASK = interruptMask;
+    SCB_INTR_M_MASK(base) = interruptMask;
 }
 
 
@@ -1198,7 +1232,7 @@ __STATIC_INLINE void Cy_SCB_SetMasterInterruptMask(CySCB_Type *base, uint32_t in
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SCB_GetMasterInterruptMask(CySCB_Type const *base)
 {
-    return (base->INTR_M_MASK);
+    return (SCB_INTR_M_MASK(base));
 }
 
 
@@ -1223,7 +1257,7 @@ __STATIC_INLINE uint32_t Cy_SCB_GetMasterInterruptMask(CySCB_Type const *base)
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SCB_GetMasterInterruptStatusMasked(CySCB_Type const *base)
 {
-    return (base->INTR_M_MASKED);
+    return (SCB_INTR_M_MASKED(base));
 }
 
 
@@ -1245,8 +1279,8 @@ __STATIC_INLINE void Cy_SCB_ClearMasterInterrupt(CySCB_Type *base, uint32_t inte
 {
     CY_ASSERT_L2(CY_SCB_IS_INTR_VALID(interruptMask, CY_SCB_MASTER_INTR_MASK));
 
-    base->INTR_M = interruptMask;
-    (void) base->INTR_M;
+    SCB_INTR_M(base) = interruptMask;
+    (void) SCB_INTR_M(base);
 }
 
 
@@ -1268,7 +1302,7 @@ __STATIC_INLINE void Cy_SCB_SetMasterInterrupt(CySCB_Type *base, uint32_t interr
 {
     CY_ASSERT_L2(CY_SCB_IS_INTR_VALID(interruptMask, CY_SCB_MASTER_INTR_MASK));
 
-    base->INTR_M_SET = interruptMask;
+    SCB_INTR_M_SET(base) = interruptMask;
 }
 
 
@@ -1291,7 +1325,7 @@ __STATIC_INLINE void Cy_SCB_SetMasterInterrupt(CySCB_Type *base, uint32_t interr
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SCB_GetSlaveInterruptStatus(CySCB_Type const *base)
 {
-    return (base->INTR_S & CY_SCB_SLAVE_INTR_MASK);
+    return (SCB_INTR_S(base) & CY_SCB_SLAVE_INTR_MASK);
 }
 
 
@@ -1315,7 +1349,7 @@ __STATIC_INLINE void Cy_SCB_SetSlaveInterruptMask(CySCB_Type *base, uint32_t int
 {
     CY_ASSERT_L2(CY_SCB_IS_INTR_VALID(interruptMask, CY_SCB_SLAVE_INTR_MASK));
 
-    base->INTR_S_MASK = interruptMask;
+    SCB_INTR_S_MASK(base) = interruptMask;
 }
 
 
@@ -1337,7 +1371,7 @@ __STATIC_INLINE void Cy_SCB_SetSlaveInterruptMask(CySCB_Type *base, uint32_t int
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SCB_GetSlaveInterruptMask(CySCB_Type const *base)
 {
-    return (base->INTR_S_MASK);
+    return (SCB_INTR_S_MASK(base));
 }
 
 
@@ -1362,7 +1396,7 @@ __STATIC_INLINE uint32_t Cy_SCB_GetSlaveInterruptMask(CySCB_Type const *base)
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SCB_GetSlaveInterruptStatusMasked(CySCB_Type const *base)
 {
-    return (base->INTR_S_MASKED);
+    return (SCB_INTR_S_MASKED(base));
 }
 
 
@@ -1384,8 +1418,8 @@ __STATIC_INLINE void Cy_SCB_ClearSlaveInterrupt(CySCB_Type *base, uint32_t inter
 {
     CY_ASSERT_L2(CY_SCB_IS_INTR_VALID(interruptMask, CY_SCB_SLAVE_INTR_MASK));
 
-    base->INTR_S = interruptMask;
-    (void) base->INTR_S;
+    SCB_INTR_S(base) = interruptMask;
+    (void) SCB_INTR_S(base);
 }
 
 
@@ -1407,7 +1441,7 @@ __STATIC_INLINE void Cy_SCB_SetSlaveInterrupt(CySCB_Type *base, uint32_t interru
 {
     CY_ASSERT_L2(CY_SCB_IS_INTR_VALID(interruptMask, CY_SCB_SLAVE_INTR_MASK));
 
-    base->INTR_S_SET = interruptMask;
+    SCB_INTR_S_SET(base) = interruptMask;
 }
 
 
@@ -1430,7 +1464,7 @@ __STATIC_INLINE void Cy_SCB_SetSlaveInterrupt(CySCB_Type *base, uint32_t interru
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SCB_GetI2CInterruptStatus(CySCB_Type const *base)
 {
-    return (base->INTR_I2C_EC & CY_SCB_I2C_INTR_MASK);
+    return (SCB_INTR_I2C_EC(base) & CY_SCB_I2C_INTR_MASK);
 }
 
 
@@ -1453,7 +1487,7 @@ __STATIC_INLINE void Cy_SCB_SetI2CInterruptMask(CySCB_Type *base, uint32_t inter
 {
     CY_ASSERT_L2(CY_SCB_IS_INTR_VALID(interruptMask, CY_SCB_I2C_INTR_MASK));
 
-    base->INTR_I2C_EC_MASK = interruptMask;
+    SCB_INTR_I2C_EC_MASK(base) = interruptMask;
 }
 
 
@@ -1474,7 +1508,7 @@ __STATIC_INLINE void Cy_SCB_SetI2CInterruptMask(CySCB_Type *base, uint32_t inter
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SCB_GetI2CInterruptMask(CySCB_Type const *base)
 {
-    return (base->INTR_I2C_EC_MASK);
+    return (SCB_INTR_I2C_EC_MASK(base));
 }
 
 
@@ -1498,7 +1532,7 @@ __STATIC_INLINE uint32_t Cy_SCB_GetI2CInterruptMask(CySCB_Type const *base)
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SCB_GetI2CInterruptStatusMasked(CySCB_Type const *base)
 {
-    return (base->INTR_I2C_EC_MASKED);
+    return (SCB_INTR_I2C_EC_MASKED(base));
 }
 
 
@@ -1520,8 +1554,8 @@ __STATIC_INLINE void Cy_SCB_ClearI2CInterrupt(CySCB_Type *base, uint32_t interru
 {
     CY_ASSERT_L2(CY_SCB_IS_INTR_VALID(interruptMask, CY_SCB_I2C_INTR_MASK));
 
-    base->INTR_I2C_EC = interruptMask;
-    (void) base->INTR_I2C_EC;
+    SCB_INTR_I2C_EC(base) = interruptMask;
+    (void) SCB_INTR_I2C_EC(base);
 }
 
 
@@ -1543,7 +1577,7 @@ __STATIC_INLINE void Cy_SCB_ClearI2CInterrupt(CySCB_Type *base, uint32_t interru
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SCB_GetSpiInterruptStatus(CySCB_Type const *base)
 {
-    return (base->INTR_SPI_EC & CY_SCB_SPI_INTR_MASK);
+    return (SCB_INTR_SPI_EC(base) & CY_SCB_SPI_INTR_MASK);
 }
 
 
@@ -1566,7 +1600,7 @@ __STATIC_INLINE void Cy_SCB_SetSpiInterruptMask(CySCB_Type *base, uint32_t inter
 {
     CY_ASSERT_L2(CY_SCB_IS_INTR_VALID(interruptMask, CY_SCB_SPI_INTR_MASK));
 
-    base->INTR_SPI_EC_MASK = interruptMask;
+    SCB_INTR_SPI_EC_MASK(base) = interruptMask;
 }
 
 
@@ -1587,7 +1621,7 @@ __STATIC_INLINE void Cy_SCB_SetSpiInterruptMask(CySCB_Type *base, uint32_t inter
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SCB_GetSpiInterruptMask(CySCB_Type const *base)
 {
-    return (base->INTR_SPI_EC_MASK);
+    return (SCB_INTR_SPI_EC_MASK(base));
 }
 
 
@@ -1611,7 +1645,7 @@ __STATIC_INLINE uint32_t Cy_SCB_GetSpiInterruptMask(CySCB_Type const *base)
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SCB_GetSpiInterruptStatusMasked(CySCB_Type const *base)
 {
-    return (base->INTR_SPI_EC_MASKED);
+    return (SCB_INTR_SPI_EC_MASKED(base));
 }
 
 
@@ -1633,8 +1667,8 @@ __STATIC_INLINE void Cy_SCB_ClearSpiInterrupt(CySCB_Type *base, uint32_t interru
 {
     CY_ASSERT_L2(CY_SCB_IS_INTR_VALID(interruptMask, CY_SCB_SPI_INTR_MASK));
 
-    base->INTR_SPI_EC = interruptMask;
-    (void) base->INTR_SPI_EC;
+    SCB_INTR_SPI_EC(base) = interruptMask;
+    (void) SCB_INTR_SPI_EC(base);
 }
 
 /** \cond INTERNAL */
@@ -1653,8 +1687,8 @@ __STATIC_INLINE void Cy_SCB_ClearSpiInterrupt(CySCB_Type *base, uint32_t interru
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SCB_GetFifoSize(CySCB_Type const *base)
 {
-    return (_FLD2BOOL(SCB_CTRL_BYTE_MODE, base->CTRL) ?
-                (CY_SCB_FIFO_SIZE(base)) : (CY_SCB_FIFO_SIZE(base) / 2UL));
+    return (_FLD2BOOL(SCB_CTRL_BYTE_MODE, SCB_CTRL(base)) ?
+                (CY_SCB_FIFO_SIZE) : (CY_SCB_FIFO_SIZE / 2UL));
 }
 
 
@@ -1673,7 +1707,7 @@ __STATIC_INLINE uint32_t Cy_SCB_GetFifoSize(CySCB_Type const *base)
 *******************************************************************************/
 __STATIC_INLINE bool Cy_SCB_IsRxDataWidthByte(CySCB_Type const *base)
 {
-    return (_FLD2VAL(SCB_RX_CTRL_DATA_WIDTH, base->RX_CTRL) < CY_SCB_BYTE_WIDTH);
+    return (_FLD2VAL(SCB_RX_CTRL_DATA_WIDTH, SCB_RX_CTRL(base)) < CY_SCB_BYTE_WIDTH);
 }
 
 
@@ -1692,7 +1726,7 @@ __STATIC_INLINE bool Cy_SCB_IsRxDataWidthByte(CySCB_Type const *base)
 *******************************************************************************/
 __STATIC_INLINE bool Cy_SCB_IsTxDataWidthByte(CySCB_Type const *base)
 {
-    return (_FLD2VAL(SCB_TX_CTRL_DATA_WIDTH, base->TX_CTRL) < CY_SCB_BYTE_WIDTH);
+    return (_FLD2VAL(SCB_TX_CTRL_DATA_WIDTH, SCB_TX_CTRL(base)) < CY_SCB_BYTE_WIDTH);
 }
 
 
@@ -1709,15 +1743,15 @@ __STATIC_INLINE bool Cy_SCB_IsTxDataWidthByte(CySCB_Type const *base)
 *******************************************************************************/
 __STATIC_INLINE void Cy_SCB_FwBlockReset(CySCB_Type *base)
 {
-    base->CTRL &= (uint32_t) ~SCB_CTRL_ENABLED_Msk;
+    SCB_CTRL(base) &= (uint32_t) ~SCB_CTRL_ENABLED_Msk;
 
     /* Clean-up command registers */
-    base->I2C_M_CMD = 0UL;
-    base->I2C_S_CMD = 0UL;
+    SCB_I2C_M_CMD(base) = 0UL;
+    SCB_I2C_S_CMD(base) = 0UL;
 
-    base->CTRL |= (uint32_t)  SCB_CTRL_ENABLED_Msk;
+    SCB_CTRL(base) |= (uint32_t)  SCB_CTRL_ENABLED_Msk;
 
-    (void) base->CTRL;
+    (void) SCB_CTRL(base);
 }
 
 
@@ -1737,7 +1771,7 @@ __STATIC_INLINE void Cy_SCB_FwBlockReset(CySCB_Type *base)
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SCB_GetRxFifoLevel(CySCB_Type const *base)
 {
-    return _FLD2VAL(SCB_RX_FIFO_CTRL_TRIGGER_LEVEL, base->RX_FIFO_CTRL);
+    return _FLD2VAL(SCB_RX_FIFO_CTRL_TRIGGER_LEVEL, SCB_RX_FIFO_CTRL(base));
 }
 
 /** \endcond */
@@ -1749,8 +1783,9 @@ __STATIC_INLINE uint32_t Cy_SCB_GetRxFifoLevel(CySCB_Type const *base)
 
 /** \} group_scb_common */
 
-#endif /* (CY_SCB_COMMON_H) */
+#endif /* CY_IP_MXSCB */
 
+#endif /* (CY_SCB_COMMON_H) */
 
 /* [] END OF FILE */
 

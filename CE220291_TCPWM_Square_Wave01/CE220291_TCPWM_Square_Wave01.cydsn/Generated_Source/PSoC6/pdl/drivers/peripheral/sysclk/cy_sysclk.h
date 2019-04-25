@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_sysclk.h
-* \version 1.11
+* \version 1.20
 *
 * Provides an API declaration of the sysclk driver.
 *
@@ -13,11 +13,16 @@
 *******************************************************************************/
 
 /**
-* \defgroup group_sysclk System Clock (SysClk)
+* \addtogroup group_sysclk
 * \{
 * The System Clock (SysClk) driver contains the API for configuring system and
-* peripheral clocks. Firmware uses the API to configure , enable, or disable
-* a clock.
+* peripheral clocks. 
+*
+* The functions and other declarations used in this driver are in cy_sysclk.h. 
+* You can include cy_pdl.h (ModusToolbox only) to get access to all functions 
+* and declarations in the PDL. 
+*
+* Firmware uses the API to configure , enable, or disable a clock.
 * 
 * The clock system includes a variety of resources that can vary per device, including:
 * - Internal clock sources such as internal oscillators
@@ -29,11 +34,12 @@
 *
 * The PDL defines clock system capabilities in:\n
 * devices\<family\>/<series\>/include\<series\>_config.h. (E.g.
-* devices/psoc6/psoc63/include/psoc63_config.h). 
+* devices/psoc6/include/psoc6_01_config.h).
 * User-configurable clock speeds are defined in the file system_<series>.h.
 *
 * As an illustration of the clocking system, the following diagram shows the
 * PSoC 63 series clock tree. The actual tree may vary depending on the device series.
+* Consult the Technical Reference Manual for your device for details.
 * ![](sysclk_tree.png)
 *
 * The sysclk driver supports multiple peripheral clocks, as well as the fast 
@@ -61,80 +67,25 @@
 *     <th>Description of Deviation(s)</th>
 *   </tr>
 *   <tr>
-*     <td>1.2</td>
-*     <td>R</td>
-*     <td>No reliance on undefined behavior.</td>
-*     <td>Calculation of an absolute value in the FLL and PLL configuration.</td>
-*   </tr>
-*   <tr>
-*     <td>5.6</td>
-*     <td>R</td>
-*     <td>No identifier in one name space should have the same spelling as an identifier in another name space, with the
-*         exception of structure member and union member names.</td>
-*     <td>The "mode" and "retval" are used as a structure/union member they are a label, tag or ordinary
-*         identifier.</td>
-*   </tr>
-*   <tr>
-*     <td>10.1</td>
-*     <td>R</td>
-*     <td>The value of an expression of integer type shall not be implicitly converted to a different, underlying type
-*         if the expression is complex.</td>
-*     <td>Use of a Cypress defined macro to access memory mapped objects.
-*         Use of a Cypress defined macro to divide with rounding.</td>
-*   </tr>
-*   <tr>
-*     <td>10.2</td>
-*     <td>R</td>
-*     <td>The value of an expression of floating type shall not be implicitly converted to a different type if:
-*         a) it is not a conversion to a wider floating type, or
-*         b) the expression is complex, or
-*         c) the expression is a function argument, or
-*         d) the expression is a return expression.</td>
-*     <td>The operands of this relational operator are expressions of different "essential type" categories
-*         (enum and unsigned).</td>
-*   </tr>
-*   <tr>
 *     <td>10.3</td>
 *     <td>R</td>
-*     <td>A composite integer expression is being cast to a wider type.</td>
-*     <td>Use of a Cypress defined macro to access memory-mapped objects. Calculating the clock parameters.</td>
+*     <td>A composite expression of the "essentially unsigned" type is being
+*         cast to a different type category.</td>
+*     <td>The value got from the bitfield physically cannot exceed the enumeration
+*         that describes this bitfield. So, the code is safe by design.</td>
 *   </tr>
 *   <tr>
 *     <td>10.4</td>
 *     <td>R</td>
 *     <td>A composite floating point expression is being cast to double, or unsigned.</td>
-*     <td>Use of the C library sqrt() function. Casting a floating-point calculation result to an integer.</td>
-*   </tr>
-*   <tr>
-*     <td>10.5</td>
-*     <td>R</td>
-*     <td>The value of an expression of integer type shall not be implicitly converted to a different, underlying type
-*         if the expression is complex.</td>
-*     <td>Use of a Cypress defined macro to access memory-mapped objects.</td>
-*   </tr>
-*   <tr>
-*     <td>12.1</td>
-*     <td>A</td>
-*     <td>Extra parentheses recommended.</td>
-*     <td>Ternary operator uses constants; extra parentheses not needed.</td>
-*   </tr>
-*   <tr>
-*     <td>12.2</td>
-*     <td>A</td>
-*     <td>The value of an expression must be the same under any order of evaluation that the standard permits.</td>
-*     <td>The "rtnval" is modified more than once between the sequence points - the evaluation order is not specified.</td>
-*   </tr>
-*   <tr>
-*     <td>12.4</td>
-*     <td>A</td>
-*     <td>The right hand operand of a logical && or || operator shall not contain side effects.</td>
-*     <td>No side effect in this case.</td>
+*     <td>Casting a floating-point calculation result to an integer.</td>
 *   </tr>
 *   <tr>
 *     <td>13.4</td>
 *     <td>R</td>
 *     <td>The controlling expression of a for statement shall not contain any objects of floating type.</td>
-*     <td>Scanning through a list of floating point values.</td>
+*     <td>Scanning through a list of floating point values: only greater_than/less_then checks are used 
+*         with floating point numbers, the loop counter is integer. </td>
 *   </tr>
 *   <tr>
 *     <td>16.7</td>
@@ -144,25 +95,36 @@
 *     <td>The callback function for system power management (SysPm) must be of generic callback type that
 *         contains non-const pointer parameter.</td>
 *   </tr>
-*   <tr>
-*     <td>18.4</td>
-*     <td>R</td>
-*     <td>Unions shall not be used.</td>
-*     <td>The clock path in \ref Cy_SysClk_PeriphGetFrequency() uses either FLL or PLL.</td>
-*   </tr>
-*   <tr>
-*     <td>19.4</td>
-*     <td>R</td>
-*     <td>Macros shall only expand to a limited set of constructs.</td>
-*     <td>The macro CY_SYSCLK_CLR_SET uses a concatenate operation,
-*         so one of the macro parameters cannot be enclosed in parentheses.</td>
-*   </tr>
 * </table>
-*
 *
 * \section group_sysclk_changelog Changelog
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
+*   <tr>
+*     <td rowspan="4">1.20</td>
+*     <td>Flattened the organization of the driver source code into the single 
+*         source directory and the single include directory.
+*     </td>
+*     <td>Driver library directory-structure simplification.</td>
+*   </tr>
+*   <tr>
+*     <td>Updated \ref Cy_SysClk_FllLocked function description</td>
+*     <td>The SRSS_ver1 HW details clarification</td>
+*   </tr>
+*   <tr>
+*     <td>Removed the following functions:
+*         - Cy_SysClk_FllLostLock
+*         - Cy_SysClk_WcoConfigureCsv
+*         - Cy_SysClk_ClkHfConfigureCsv
+*     </td>
+*     <td>No hardware support for the removed functions.</td>
+*   </tr>
+*   <tr>
+*     <td>Added register access layer. Use register access macros instead
+*         of direct register access using dereferenced pointers.</td>
+*     <td>Makes register access device-independent, so that the PDL does 
+*         not need to be recompiled for each supported part number.</td>
+*   </tr>
 *   <tr>
 *     <td>1.11</td>
 *     <td>Updated the following functions. Now they use a semaphore when 
@@ -449,6 +411,9 @@
 *   |CLK_HF[4]| Clock output on clk_ext pin (when used as an output)   |
 *
 *   ![](sysclk_hf.png)
+*
+*   Note this is a particular example. The actual tree may vary depending on the device series.
+*   Consult the Technical Reference Manual for your device for details.
 *   
 *   High frequency clocks are sourced by path clocks, which should be configured
 *   first. An exception to this rule is CLK_HF[0], which cannot be disabled. 
@@ -500,6 +465,13 @@
 *   - sixteen 16-bit dividers
 *   - four fractional 16.5-bit dividers (16 integer bits, 5 fractional bits)
 *   - one fractional 24.5-bit divider (24 integer bits, 5 fractional bits)
+*
+*
+*   The 8-bit and 16-bit dividers are integer dividers. A divider value of 1 
+*   means the output frequency matches the input frequency (that is, there is
+*   no change). Otherwise the frequency is divided by the value of the divider.
+*   For example, if the input frequency is 50 MHz, and the divider is value 10,
+*   the output frequency is 5 MHz.
 *
 *   The five fractional bits supports further precision in 1/32nd increments. For
 *   example, a divider with an integer value of 3 and a fractional value of
@@ -562,7 +534,7 @@
 * \defgroup group_sysclk_clk_pump        Pump Clock
 * \{
 *   The pump clock is a clock source used to provide analog precision in low voltage
-*   applications. Depedning on the usage scenario, it may be required to drive the
+*   applications. Depending on the usage scenario, it may be required to drive the
 *   internal voltage pump for the Continuous Time Block mini (CTBm) in the analog 
 *   subsystem. The pump clock is a divided clock of one of the clock paths 
 *   (\ref group_sysclk_path_src).
@@ -578,20 +550,22 @@
 *   \ref group_sysclk_ilo "ILO", \ref group_sysclk_pilo "PILO", or
 *   \ref group_sysclk_wco "WCO". Typically the ILO is not suitable as an RTC source,
 *   because of its low accuracy. However the ILO does operate in hibernate mode and
-*   may be used as an alterative to the WCO with a tradeoff in precision.
+*   may be used as an alternative to the WCO with a tradeoff in precision.
 *
 *   \defgroup group_sysclk_clk_bak_funcs   Functions
 *   \defgroup group_sysclk_clk_bak_enums   Enumerated Types
 * \}
 */
 
-#if !defined(__CY_SYSCLK_H__)
-#define __CY_SYSCLK_H__
+#if !defined(CY_SYSCLK_H)
+#define CY_SYSCLK_H
 
-#include "cy_device_headers.h"
-#include "syslib/cy_syslib.h"
-#include "syspm/cy_syspm.h"
 #include <stdbool.h>
+#include "cy_device.h"
+#include "cy_device_headers.h"
+#include "cy_syslib.h"
+#include "cy_syspm.h"
+
 
 #if defined(__cplusplus)
 extern "C" {
@@ -604,7 +578,7 @@ extern "C" {
 /** Driver major version */
 #define  CY_SYSCLK_DRV_VERSION_MAJOR   1
 /** Driver minor version */
-#define  CY_SYSCLK_DRV_VERSION_MINOR   11
+#define  CY_SYSCLK_DRV_VERSION_MINOR   20
 /** Sysclk driver identifier */
 #define CY_SYSCLK_ID   CY_PDL_DRV_ID(0x12U)
 
@@ -618,19 +592,17 @@ extern "C" {
 typedef enum
 {
     CY_SYSCLK_SUCCESS       = 0u, /**< Command completed with no errors */
-    CY_SYSCLK_BAD_PARAM     = (CY_SYSCLK_ID | CY_PDL_STATUS_ERROR | 1u), /**< Invalid function input parameter */
-    CY_SYSCLK_TIMEOUT       = (CY_SYSCLK_ID | CY_PDL_STATUS_ERROR | 2u), /**< Timeout occurred */
-    CY_SYSCLK_INVALID_STATE = (CY_SYSCLK_ID | CY_PDL_STATUS_ERROR | 3u)  /**< Clock is in an invalid state */
+    CY_SYSCLK_BAD_PARAM     = (CY_SYSCLK_ID | CY_PDL_STATUS_ERROR | 1U), /**< Invalid function input parameter */
+    CY_SYSCLK_TIMEOUT       = (CY_SYSCLK_ID | CY_PDL_STATUS_ERROR | 2U), /**< Timeout occurred */
+    CY_SYSCLK_INVALID_STATE = (CY_SYSCLK_ID | CY_PDL_STATUS_ERROR | 3U)  /**< Clock is in an invalid state */
 } cy_en_sysclk_status_t;
 /** \} group_sysclk_returns */
 
 /** \cond INTERNAL */
-/* Generates shorter code for setting register bitfields */
-#define CY_SYSCLK_CLR_SET(reg, field, value) (reg) = _CLR_SET_FLD32U((reg), field, (value))
 /* Calculate a / b with rounding to the nearest integer. a and b must have the same sign. */
 #define CY_SYSCLK_DIV_ROUND(a, b) (((a) + ((b) / 2u)) / (b))
 /* Calculate a / b with rounding up if remainder != 0. a and b must both be positive. */
-#define CY_SYSCLK_DIV_ROUNDUP(a, b) ((((a) - 1u) / (b)) + 1u)
+#define CY_SYSCLK_DIV_ROUNDUP(a, b) ((((a) - 1U) / (b)) + 1U)
 /** \endcond */
 
 
@@ -655,6 +627,7 @@ typedef enum
 
 /** \} group_sysclk_macros */
 
+
 /**
 * \addtogroup group_sysclk_eco_funcs
 * \{
@@ -672,12 +645,12 @@ __STATIC_INLINE uint32_t Cy_SysClk_EcoGetStatus(void);
 * called if the ECO is sourcing clkHf[0].
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_EcoDisable
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_EcoDisable
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysClk_EcoDisable(void)
 {
-    SRSS->CLK_ECO_CONFIG &= ~_VAL2FLD(SRSS_CLK_ECO_CONFIG_ECO_EN, 1u); /* 0 = disable */
+    SRSS_CLK_ECO_CONFIG &= (uint32_t)~_VAL2FLD(SRSS_CLK_ECO_CONFIG_ECO_EN, 1U); /* 0 = disable */
 }
 
 /*******************************************************************************
@@ -692,14 +665,14 @@ __STATIC_INLINE void Cy_SysClk_EcoDisable(void)
 * CY_SYSCLK_ECOSTAT_STABLE = ECO has fully stabilized
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_EcoGetStatus
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_EcoGetStatus
 *
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SysClk_EcoGetStatus(void)
 {
-    uint32_t retval = (SRSS->CLK_ECO_STATUS & 3ul); /* bit 0 = ECO_OK, bit 1 = ECO_READY */
+    uint32_t retVal = (SRSS_CLK_ECO_STATUS & (SRSS_CLK_ECO_STATUS_ECO_OK_Msk | SRSS_CLK_ECO_STATUS_ECO_READY_Msk));
     /* if ECO is not ready, just report the ECO_OK bit. Otherwise report 2 = ECO ready */
-    return (((retval & 2ul) == 0) ? retval : 2ul);
+    return ((0UL == (retVal & SRSS_CLK_ECO_STATUS_ECO_READY_Msk)) ? retVal : CY_SYSCLK_ECOSTAT_STABLE);
 }
 /** \} group_sysclk_eco_funcs */
 
@@ -716,16 +689,24 @@ __STATIC_INLINE uint32_t Cy_SysClk_EcoGetStatus(void)
 */
 typedef enum
 {
-    CY_SYSCLK_CLKPATH_IN_IMO    =     0u, /**< Select the IMO as the output of the path mux */
-    CY_SYSCLK_CLKPATH_IN_EXT    =     1u, /**< Select the EXT as the output of the path mux */
-    CY_SYSCLK_CLKPATH_IN_ECO    =     2u, /**< Select the ECO as the output of the path mux */
-    CY_SYSCLK_CLKPATH_IN_ALTHF  =     3u, /**< Select the ALTHF as the output of the path mux */
-    CY_SYSCLK_CLKPATH_IN_DSIMUX =     4u, /**< Select the DSI MUX output as the output of the path mux */
-    CY_SYSCLK_CLKPATH_IN_DSI    = 0x100u, /**< Select a DSI signal (0 - 15) as the output of the DSI mux and path mux */
-    CY_SYSCLK_CLKPATH_IN_ILO    = 0x110u, /**< Select the ILO (16) as the output of the DSI mux and path mux */
-    CY_SYSCLK_CLKPATH_IN_WCO    = 0x111u, /**< Select the WCO (17) as the output of the DSI mux and path mux */
-    CY_SYSCLK_CLKPATH_IN_ALTLF  = 0x112u, /**< Select the ALTLF (18) as the output of the DSI mux and path mux */
-    CY_SYSCLK_CLKPATH_IN_PILO   = 0x113u  /**< Select the PILO (19) as the output of the DSI mux and path mux */
+    CY_SYSCLK_CLKPATH_IN_IMO    =     0U, /**< Select the IMO as the output of the path mux */
+    CY_SYSCLK_CLKPATH_IN_EXT    =     1U, /**< Select the EXT as the output of the path mux */
+    CY_SYSCLK_CLKPATH_IN_ECO    =     2U, /**< Select the ECO as the output of the path mux */
+    CY_SYSCLK_CLKPATH_IN_ALTHF  =     3U, /**< Select the ALTHF as the output of the path mux.
+                                           *   Make sure the ALTHF clock source is available on used device.
+                                           */
+    CY_SYSCLK_CLKPATH_IN_DSIMUX =     4U, /**< Select the DSI MUX output as the output of the path mux */
+    CY_SYSCLK_CLKPATH_IN_DSI    = 0x100U, /**< Select a DSI signal (0 - 15) as the output of the DSI mux and path mux.
+                                           *   Make sure the DSI clock sources are available on used device.
+                                           */
+    CY_SYSCLK_CLKPATH_IN_ILO    = 0x110U, /**< Select the ILO (16) as the output of the DSI mux and path mux */
+    CY_SYSCLK_CLKPATH_IN_WCO    = 0x111U, /**< Select the WCO (17) as the output of the DSI mux and path mux */
+    CY_SYSCLK_CLKPATH_IN_ALTLF  = 0x112U, /**< Select the ALTLF (18) as the output of the DSI mux and path mux.
+                                           *   Make sure the ALTLF clock sources in available on used device.
+                                           */
+    CY_SYSCLK_CLKPATH_IN_PILO   = 0x113U  /**< Select the PILO (19) as the output of the DSI mux and path mux.
+                                           *   Make sure the PILO clock sources in available on used device.
+                                           */
 } cy_en_clkpath_in_sources_t;
 /** \} group_sysclk_path_src_enums */
 
@@ -750,10 +731,10 @@ cy_en_clkpath_in_sources_t Cy_SysClk_ClkPathGetSource(uint32_t clkPath);
 */
 typedef enum
 {
-    CY_SYSCLK_FLLPLL_OUTPUT_AUTO   = 0u, /**< Output FLL/PLL input source when not locked, and FLL/PLL output when locked. */
-    CY_SYSCLK_FLLPLL_OUTPUT_AUTO1  = 1u, /**< Same as AUTO */
-    CY_SYSCLK_FLLPLL_OUTPUT_INPUT  = 2u, /**< Output FLL/PLL input source regardless of lock status. */
-    CY_SYSCLK_FLLPLL_OUTPUT_OUTPUT = 3u  /**< Output FLL/PLL output regardless of lock status. This can be dangerous if used to clock clkHf, because FLL/PLL output may be unstable. */
+    CY_SYSCLK_FLLPLL_OUTPUT_AUTO   = 0U, /**< Output FLL/PLL input source when not locked, and FLL/PLL output when locked. */
+    CY_SYSCLK_FLLPLL_OUTPUT_AUTO1  = 1U, /**< Same as AUTO */
+    CY_SYSCLK_FLLPLL_OUTPUT_INPUT  = 2U, /**< Output FLL/PLL input source regardless of lock status. */
+    CY_SYSCLK_FLLPLL_OUTPUT_OUTPUT = 3U  /**< Output FLL/PLL output regardless of lock status. This can be dangerous if used to clock clkHf, because FLL/PLL output may be unstable. */
 } cy_en_fll_pll_output_mode_t;
 
 /** FLL current-controlled oscillator (CCO) frequency ranges.
@@ -799,54 +780,32 @@ cy_en_sysclk_status_t Cy_SysClk_FllManualConfigure(const cy_stc_fll_manual_confi
 void Cy_SysClk_FllGetConfiguration(cy_stc_fll_manual_config_t *config);
 cy_en_sysclk_status_t Cy_SysClk_FllEnable(uint32_t timeoutus);
 __STATIC_INLINE bool Cy_SysClk_FllLocked(void);
-#if (CY_IP_MXS40SRSS_VERSION != 1) || defined(CY_DOXYGEN)
-__STATIC_INLINE bool Cy_SysClk_FllLostLock(void);
-#endif
 __STATIC_INLINE cy_en_sysclk_status_t Cy_SysClk_FllDisable(void);
 
 /*******************************************************************************
 * Function Name: Cy_SysClk_FllLocked
 ****************************************************************************//**
 *
-* Reports whether or not the FLL is locked.
+* Reports whether the FLL is locked first time during FLL starting.
+* Intended to be used with \ref Cy_SysClk_FllEnable with zero timeout.
 *
 * \return 
 * false = not locked<br>
 * true = locked
 *
+* \note
+* The unlock occurrence may appear during FLL normal operation, so this function 
+* is not recommended to check the FLL normal operation stability.
+*
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_FllLocked
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_FllLocked
 *
 *******************************************************************************/
 __STATIC_INLINE bool Cy_SysClk_FllLocked(void)
 {
-    return (bool)(_FLD2VAL(SRSS_CLK_FLL_STATUS_LOCKED, SRSS->CLK_FLL_STATUS));
+    return (_FLD2BOOL(SRSS_CLK_FLL_STATUS_LOCKED, SRSS_CLK_FLL_STATUS));
 }
 
-#if (CY_IP_MXS40SRSS_VERSION != 1) || defined(CY_DOXYGEN)
-/*******************************************************************************
-* Function Name: Cy_SysClk_FllLostLock
-****************************************************************************//**
-*
-* Reports whether or not the FLL lost its lock since the last time this function
-* was called. Clears the lost lock indicator.
-*
-* \return 
-* false = did not lose lock<br>
-* true = lost lock
-*
-* \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_FllLostLock
-*
-*******************************************************************************/
-__STATIC_INLINE bool Cy_SysClk_FllLostLock(void)
-{
-    uint32_t retval = _FLD2VAL(SRSS_CLK_FLL_STATUS_UNLOCK_OCCURRED, SRSS->CLK_FLL_STATUS);
-    /* write a 1 to clear the unlock occurred bit */
-    SRSS->CLK_FLL_STATUS = _VAL2FLD(SRSS_CLK_FLL_STATUS_UNLOCK_OCCURRED, 1u);
-    return ((bool)retval);
-}
-#endif
 
 /*******************************************************************************
 * Function Name: Cy_SysClk_FllDisable
@@ -856,14 +815,23 @@ __STATIC_INLINE bool Cy_SysClk_FllLostLock(void)
 *
 * \return \ref cy_en_sysclk_status_t
 *
+* \note 
+* Call \ref SystemCoreClockUpdate after this function calling 
+* if it affects the CLK_HF0 frequency.
+*
+* \note
+* Call \ref Cy_SysLib_SetWaitStates after calling this function if
+* the FLL is the source of CLK_HF0 and the CLK_HF0 frequency is decreasing.
+*
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_FllDisable
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_FllDisable
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_sysclk_status_t Cy_SysClk_FllDisable(void)
 {
-    SRSS->CLK_FLL_CONFIG  &= ~_VAL2FLD(SRSS_CLK_FLL_CONFIG_FLL_ENABLE,  1u); /* 0 = disable */
-    SRSS->CLK_FLL_CONFIG4 &= ~_VAL2FLD(SRSS_CLK_FLL_CONFIG4_CCO_ENABLE, 1u); /* 0 = disable */
+    CY_REG32_CLR_SET(SRSS_CLK_FLL_CONFIG3, SRSS_CLK_FLL_CONFIG3_BYPASS_SEL, CY_SYSCLK_FLLPLL_OUTPUT_INPUT);
+    SRSS_CLK_FLL_CONFIG  &= ~SRSS_CLK_FLL_CONFIG_FLL_ENABLE_Msk;
+    SRSS_CLK_FLL_CONFIG4 &= ~SRSS_CLK_FLL_CONFIG4_CCO_ENABLE_Msk;
     return CY_SYSCLK_SUCCESS;
 }
 /** \} group_sysclk_fll_funcs */
@@ -923,13 +891,14 @@ __STATIC_INLINE cy_en_sysclk_status_t Cy_SysClk_PllDisable(uint32_t clkPath);
 * true = locked
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_PllLocked
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_PllLocked
 *
 *******************************************************************************/
 __STATIC_INLINE bool Cy_SysClk_PllLocked(uint32_t clkPath)
 {
-    CY_ASSERT_L1((clkPath != 0ul) && (clkPath <= SRSS_NUM_PLL));
-    return (bool)(_FLD2VAL(SRSS_CLK_PLL_STATUS_LOCKED, SRSS->CLK_PLL_STATUS[clkPath - 1ul]));
+    clkPath--; /* to correctly access PLL config and status registers structures */
+    CY_ASSERT_L1(clkPath < CY_SRSS_NUM_PLL);
+    return (_FLD2BOOL(SRSS_CLK_PLL_STATUS_LOCKED, SRSS_CLK_PLL_STATUS[clkPath]));
 }
 
 /*******************************************************************************
@@ -946,19 +915,17 @@ __STATIC_INLINE bool Cy_SysClk_PllLocked(uint32_t clkPath)
 * true = lost lock
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_PllLostLock
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_PllLostLock
 *
 *******************************************************************************/
 __STATIC_INLINE bool Cy_SysClk_PllLostLock(uint32_t clkPath)
 {
-    uint32_t retval = 0ul;
-
-    CY_ASSERT_L1((clkPath != 0ul) && (clkPath <= SRSS_NUM_PLL));
-
-    retval = _FLD2VAL(SRSS_CLK_PLL_STATUS_UNLOCK_OCCURRED, SRSS->CLK_PLL_STATUS[clkPath - 1ul]);
+    clkPath--; /* to correctly access PLL config and status registers structures */
+    CY_ASSERT_L1(clkPath < CY_SRSS_NUM_PLL);
+    bool retVal = _FLD2BOOL(SRSS_CLK_PLL_STATUS_UNLOCK_OCCURRED, SRSS_CLK_PLL_STATUS[clkPath]);
     /* write a 1 to clear the unlock occurred bit */
-    SRSS->CLK_PLL_STATUS[clkPath - 1ul] = _VAL2FLD(SRSS_CLK_PLL_STATUS_UNLOCK_OCCURRED, 1u);
-    return ((bool)retval);
+    SRSS_CLK_PLL_STATUS[clkPath] = SRSS_CLK_PLL_STATUS_UNLOCK_OCCURRED_Msk;
+    return (retVal);
 }
 
 /*******************************************************************************
@@ -973,19 +940,37 @@ __STATIC_INLINE bool Cy_SysClk_PllLostLock(uint32_t clkPath)
 * CY_SYSCLK_SUCCESS - PLL successfully disabled<br>
 * CY_SYSCLK_BAD_PARAM - invalid clock path number
 *
+* \note 
+* Call \ref SystemCoreClockUpdate after this function calling 
+* if it affects the CLK_HF0 frequency.
+*
+* \note
+* Call \ref Cy_SysLib_SetWaitStates before calling this function if
+* the PLL is the source of CLK_HF0 and the CLK_HF0 frequency is increasing.
+*
+* \note
+* Call \ref Cy_SysLib_SetWaitStates after calling this function if
+* the PLL is the source of CLK_HF0 and the CLK_HF0 frequency is decreasing.
+*
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_PllDisable
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_PllDisable
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_sysclk_status_t Cy_SysClk_PllDisable(uint32_t clkPath)
 {
-    cy_en_sysclk_status_t retval = CY_SYSCLK_BAD_PARAM;
-    if ((clkPath != 0ul) && (clkPath <= SRSS_NUM_PLL))
+    cy_en_sysclk_status_t retVal = CY_SYSCLK_BAD_PARAM;
+    clkPath--; /* to correctly access PLL config and status registers structures */
+    if (clkPath < CY_SRSS_NUM_PLL)
     {
-        SRSS->CLK_PLL_CONFIG[clkPath - 1ul] &= ~_VAL2FLD(SRSS_CLK_PLL_CONFIG_ENABLE, 1u); /* 0 = disable */
-        retval = CY_SYSCLK_SUCCESS;
+        /* First bypass PLL */
+        CY_REG32_CLR_SET(SRSS_CLK_PLL_CONFIG[clkPath], SRSS_CLK_PLL_CONFIG_BYPASS_SEL, CY_SYSCLK_FLLPLL_OUTPUT_INPUT);
+        /* Wait at least 6 PLL clock cycles */
+        Cy_SysLib_DelayUs(1U);
+        /* And now disable the PLL itself */
+        SRSS_CLK_PLL_CONFIG[clkPath] &= ~SRSS_CLK_PLL_CONFIG_ENABLE_Msk;
+        retVal = CY_SYSCLK_SUCCESS;
     }
-    return (retval);
+    return (retVal);
 }
 /** \} group_sysclk_pll_funcs */
 
@@ -1010,12 +995,12 @@ __STATIC_INLINE void Cy_SysClk_IloHibernateOn(bool on);
 * \note The watchdog timer (WDT) must be unlocked before calling this function.
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_IloEnable
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_IloEnable
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysClk_IloEnable(void)
 {
-    SRSS->CLK_ILO_CONFIG |= _VAL2FLD(SRSS_CLK_ILO_CONFIG_ENABLE, 1u); /* 1 = enable */
+    SRSS_CLK_ILO_CONFIG |= SRSS_CLK_ILO_CONFIG_ENABLE_Msk;
 }
 
 /*******************************************************************************
@@ -1033,18 +1018,18 @@ __STATIC_INLINE void Cy_SysClk_IloEnable(void)
 * the ILO.
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_IloDisable
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_IloDisable
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_sysclk_status_t Cy_SysClk_IloDisable(void)
 {
-    cy_en_sysclk_status_t retval = CY_SYSCLK_INVALID_STATE;
-    if (_FLD2VAL(SRSS_WDT_CTL_WDT_EN, SRSS->WDT_CTL) == 0ul) /* 0 = disabled */
+    cy_en_sysclk_status_t retVal = CY_SYSCLK_INVALID_STATE;
+    if (!_FLD2BOOL(SRSS_WDT_CTL_WDT_EN, SRSS_WDT_CTL)) /* if disabled */
     {
-        SRSS->CLK_ILO_CONFIG &= ~_VAL2FLD(SRSS_CLK_ILO_CONFIG_ENABLE, 1u); /* 0 = disable */
-        retval = CY_SYSCLK_SUCCESS;
+        SRSS_CLK_ILO_CONFIG &= ~SRSS_CLK_ILO_CONFIG_ENABLE_Msk;
+        retVal = CY_SYSCLK_SUCCESS;
     }
-    return retval;
+    return retVal;
 }
 
 /*******************************************************************************
@@ -1061,12 +1046,12 @@ __STATIC_INLINE cy_en_sysclk_status_t Cy_SysClk_IloDisable(void)
 * \note Writes to the register/bit are ignored if the watchdog (WDT) is locked.
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_IloHibernateOn
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_IloHibernateOn
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysClk_IloHibernateOn(bool on)
 {
-    CY_SYSCLK_CLR_SET(SRSS->CLK_ILO_CONFIG, SRSS_CLK_ILO_CONFIG_ILO_BACKUP, (uint32_t)on);
+    CY_REG32_CLR_SET(SRSS_CLK_ILO_CONFIG, SRSS_CLK_ILO_CONFIG_ILO_BACKUP, (uint32_t)on);
 }
 /** \} group_sysclk_ilo_funcs */
 
@@ -1093,16 +1078,16 @@ __STATIC_INLINE uint32_t Cy_SysClk_PiloGetTrim(void);
 * releasing the PILO reset.
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_PiloEnable
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_PiloEnable
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysClk_PiloEnable(void)
 {
-    SRSS->CLK_PILO_CONFIG |= _VAL2FLD(SRSS_CLK_PILO_CONFIG_PILO_EN, 1u); /* 1 = enable */
-    Cy_SysLib_Delay(1/*msec*/);
+    SRSS_CLK_PILO_CONFIG |= _VAL2FLD(SRSS_CLK_PILO_CONFIG_PILO_EN, 1U); /* 1 = enable */
+    Cy_SysLib_Delay(1U/*msec*/);
     /* release the reset and enable clock output */
-    SRSS->CLK_PILO_CONFIG |= (_VAL2FLD(SRSS_CLK_PILO_CONFIG_PILO_RESET_N, 1u) |
-                              _VAL2FLD(SRSS_CLK_PILO_CONFIG_PILO_CLK_EN, 1u));
+    SRSS_CLK_PILO_CONFIG |= SRSS_CLK_PILO_CONFIG_PILO_RESET_N_Msk |
+                            SRSS_CLK_PILO_CONFIG_PILO_CLK_EN_Msk;
 }
 
 /*******************************************************************************
@@ -1112,16 +1097,16 @@ __STATIC_INLINE void Cy_SysClk_PiloEnable(void)
 * Disables the PILO.
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_PiloDisable
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_PiloDisable
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysClk_PiloDisable(void)
 {
     /* Clear PILO_EN, PILO_RESET_N, and PILO_CLK_EN bitfields. This disables the
        PILO and holds the PILO in a reset state. */
-    SRSS->CLK_PILO_CONFIG &= ~(_VAL2FLD(SRSS_CLK_PILO_CONFIG_PILO_EN, 1u)      |
-                               _VAL2FLD(SRSS_CLK_PILO_CONFIG_PILO_RESET_N, 1u) |
-                               _VAL2FLD(SRSS_CLK_PILO_CONFIG_PILO_CLK_EN, 1u));
+    SRSS_CLK_PILO_CONFIG &= (uint32_t)~(SRSS_CLK_PILO_CONFIG_PILO_EN_Msk      |
+                                        SRSS_CLK_PILO_CONFIG_PILO_RESET_N_Msk |
+                                        SRSS_CLK_PILO_CONFIG_PILO_CLK_EN_Msk);
 }
 
 /*******************************************************************************
@@ -1132,12 +1117,12 @@ __STATIC_INLINE void Cy_SysClk_PiloDisable(void)
 * done after measuring the PILO frequency; see \ref Cy_SysClk_StartClkMeasurementCounters().
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_PiloSetTrim
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_PiloSetTrim
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysClk_PiloSetTrim(uint32_t trimVal)
 {
-    CY_SYSCLK_CLR_SET(SRSS->CLK_PILO_CONFIG, SRSS_CLK_PILO_CONFIG_PILO_FFREQ, trimVal);
+    CY_REG32_CLR_SET(SRSS_CLK_PILO_CONFIG, SRSS_CLK_PILO_CONFIG_PILO_FFREQ, trimVal);
 }
 
 /*******************************************************************************
@@ -1152,7 +1137,7 @@ __STATIC_INLINE void Cy_SysClk_PiloSetTrim(uint32_t trimVal)
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SysClk_PiloGetTrim(void)
 {
-    return (_FLD2VAL(SRSS_CLK_PILO_CONFIG_PILO_FFREQ, SRSS->CLK_PILO_CONFIG));
+    return (_FLD2VAL(SRSS_CLK_PILO_CONFIG_PILO_FFREQ, SRSS_CLK_PILO_CONFIG));
 }
 /** \} group_sysclk_pilo_funcs */
 
@@ -1167,52 +1152,54 @@ __STATIC_INLINE uint32_t Cy_SysClk_PiloGetTrim(void)
 /** Defines all possible clock sources. */
 typedef enum
 {
-    CY_SYSCLK_MEAS_CLK_ILO =           1u,
-    CY_SYSCLK_MEAS_CLK_WCO =           2u,
-    CY_SYSCLK_MEAS_CLK_BAK =           3u,
-    CY_SYSCLK_MEAS_CLK_ALTLF =         4u,
-    CY_SYSCLK_MEAS_CLK_LFCLK =         5u,
-    CY_SYSCLK_MEAS_CLK_IMO =           6u,
-    CY_SYSCLK_MEAS_CLK_PILO =          8u,
-    CY_SYSCLK_MEAS_CLK_FAST_CLKS =     0x100u,
-    CY_SYSCLK_MEAS_CLK_ECO =           0x101u,
-    CY_SYSCLK_MEAS_CLK_EXT =           0x102u,
-    CY_SYSCLK_MEAS_CLK_ALTHF =         0x103u,
-    CY_SYSCLK_MEAS_CLK_PATH_CLKS =     0x500u,
-    CY_SYSCLK_MEAS_CLK_PATH0 =         0x500u,
-    CY_SYSCLK_MEAS_CLK_PATH1 =         0x501u,
-    CY_SYSCLK_MEAS_CLK_PATH2 =         0x502u,
-    CY_SYSCLK_MEAS_CLK_PATH3 =         0x503u,
-    CY_SYSCLK_MEAS_CLK_PATH4 =         0x504u,
-    CY_SYSCLK_MEAS_CLK_PATH5 =         0x505u,
-    CY_SYSCLK_MEAS_CLK_PATH6 =         0x506u,
-    CY_SYSCLK_MEAS_CLK_PATH7 =         0x507u,
-    CY_SYSCLK_MEAS_CLK_PATH8 =         0x508u,
-    CY_SYSCLK_MEAS_CLK_PATH9 =         0x509u,
-    CY_SYSCLK_MEAS_CLK_PATH10 =        0x50Au,
-    CY_SYSCLK_MEAS_CLK_PATH11 =        0x50Bu,
-    CY_SYSCLK_MEAS_CLK_PATH12 =        0x50Cu,
-    CY_SYSCLK_MEAS_CLK_PATH13 =        0x50Du,
-    CY_SYSCLK_MEAS_CLK_PATH14 =        0x50Eu,
-    CY_SYSCLK_MEAS_CLK_PATH15 =        0x50Fu,
-    CY_SYSCLK_MEAS_CLK_CLKHFS =        0x600u,
-    CY_SYSCLK_MEAS_CLK_CLKHF0 =        0x600u,
-    CY_SYSCLK_MEAS_CLK_CLKHF1 =        0x601u,
-    CY_SYSCLK_MEAS_CLK_CLKHF2 =        0x602u,
-    CY_SYSCLK_MEAS_CLK_CLKHF3 =        0x603u,
-    CY_SYSCLK_MEAS_CLK_CLKHF4 =        0x604u,
-    CY_SYSCLK_MEAS_CLK_CLKHF5 =        0x605u,
-    CY_SYSCLK_MEAS_CLK_CLKHF6 =        0x606u,
-    CY_SYSCLK_MEAS_CLK_CLKHF7 =        0x607u,
-    CY_SYSCLK_MEAS_CLK_CLKHF8 =        0x608u,
-    CY_SYSCLK_MEAS_CLK_CLKHF9 =        0x609u,
-    CY_SYSCLK_MEAS_CLK_CLKHF10 =       0x60Au,
-    CY_SYSCLK_MEAS_CLK_CLKHF11 =       0x60Bu,
-    CY_SYSCLK_MEAS_CLK_CLKHF12 =       0x60Cu,
-    CY_SYSCLK_MEAS_CLK_CLKHF13 =       0x60Du,
-    CY_SYSCLK_MEAS_CLK_CLKHF14 =       0x60Eu,
-    CY_SYSCLK_MEAS_CLK_CLKHF15 =       0x60Fu,
-    CY_SYSCLK_MEAS_CLK_LAST_CLK =      0x610u
+    CY_SYSCLK_MEAS_CLK_NC =            0U,
+    CY_SYSCLK_MEAS_CLK_ILO =           1U,
+    CY_SYSCLK_MEAS_CLK_WCO =           2U,
+    CY_SYSCLK_MEAS_CLK_BAK =           3U,
+    CY_SYSCLK_MEAS_CLK_ALTLF =         4U,
+    CY_SYSCLK_MEAS_CLK_LFCLK =         5U,
+    CY_SYSCLK_MEAS_CLK_IMO =           6U,
+    CY_SYSCLK_MEAS_CLK_PILO =          8U,
+    CY_SYSCLK_MEAS_CLK_FAST_CLKS =     0x100U,
+    CY_SYSCLK_MEAS_CLK_ECO =           0x101U,
+    CY_SYSCLK_MEAS_CLK_EXT =           0x102U,
+    CY_SYSCLK_MEAS_CLK_ALTHF =         0x103U,
+    CY_SYSCLK_MEAS_CLK_TIMERCLK =      0x104U,
+    CY_SYSCLK_MEAS_CLK_PATH_CLKS =     0x500U,
+    CY_SYSCLK_MEAS_CLK_PATH0 =         0x500U,
+    CY_SYSCLK_MEAS_CLK_PATH1 =         0x501U,
+    CY_SYSCLK_MEAS_CLK_PATH2 =         0x502U,
+    CY_SYSCLK_MEAS_CLK_PATH3 =         0x503U,
+    CY_SYSCLK_MEAS_CLK_PATH4 =         0x504U,
+    CY_SYSCLK_MEAS_CLK_PATH5 =         0x505U,
+    CY_SYSCLK_MEAS_CLK_PATH6 =         0x506U,
+    CY_SYSCLK_MEAS_CLK_PATH7 =         0x507U,
+    CY_SYSCLK_MEAS_CLK_PATH8 =         0x508U,
+    CY_SYSCLK_MEAS_CLK_PATH9 =         0x509U,
+    CY_SYSCLK_MEAS_CLK_PATH10 =        0x50AU,
+    CY_SYSCLK_MEAS_CLK_PATH11 =        0x50BU,
+    CY_SYSCLK_MEAS_CLK_PATH12 =        0x50CU,
+    CY_SYSCLK_MEAS_CLK_PATH13 =        0x50DU,
+    CY_SYSCLK_MEAS_CLK_PATH14 =        0x50EU,
+    CY_SYSCLK_MEAS_CLK_PATH15 =        0x50FU,
+    CY_SYSCLK_MEAS_CLK_CLKHFS =        0x600U,
+    CY_SYSCLK_MEAS_CLK_CLKHF0 =        0x600U,
+    CY_SYSCLK_MEAS_CLK_CLKHF1 =        0x601U,
+    CY_SYSCLK_MEAS_CLK_CLKHF2 =        0x602U,
+    CY_SYSCLK_MEAS_CLK_CLKHF3 =        0x603U,
+    CY_SYSCLK_MEAS_CLK_CLKHF4 =        0x604U,
+    CY_SYSCLK_MEAS_CLK_CLKHF5 =        0x605U,
+    CY_SYSCLK_MEAS_CLK_CLKHF6 =        0x606U,
+    CY_SYSCLK_MEAS_CLK_CLKHF7 =        0x607U,
+    CY_SYSCLK_MEAS_CLK_CLKHF8 =        0x608U,
+    CY_SYSCLK_MEAS_CLK_CLKHF9 =        0x609U,
+    CY_SYSCLK_MEAS_CLK_CLKHF10 =       0x60AU,
+    CY_SYSCLK_MEAS_CLK_CLKHF11 =       0x60BU,
+    CY_SYSCLK_MEAS_CLK_CLKHF12 =       0x60CU,
+    CY_SYSCLK_MEAS_CLK_CLKHF13 =       0x60DU,
+    CY_SYSCLK_MEAS_CLK_CLKHF14 =       0x60EU,
+    CY_SYSCLK_MEAS_CLK_CLKHF15 =       0x60FU,
+    CY_SYSCLK_MEAS_CLK_LAST_CLK =      0x610U
 } cy_en_meas_clks_t;
 /** \} group_sysclk_calclk_enums */
 
@@ -1241,7 +1228,7 @@ uint32_t Cy_SysClk_ClkMeasurementCountersGetFreq(bool measuredClock, uint32_t re
 *******************************************************************************/
 __STATIC_INLINE bool Cy_SysClk_ClkMeasurementCountersDone(void)
 {
-    return (_FLD2VAL(SRSS_CLK_CAL_CNT1_CAL_COUNTER_DONE, SRSS->CLK_CAL_CNT1)); /* 1 = done */
+    return (_FLD2BOOL(SRSS_CLK_CAL_CNT1_CAL_COUNTER_DONE, SRSS_CLK_CAL_CNT1));
 }
 /** \} group_sysclk_calclk_funcs */
 
@@ -1265,7 +1252,7 @@ int32_t Cy_SysClk_PiloTrim(uint32_t piloFreq);
 * \addtogroup group_sysclk_pm_funcs
 * \{
 */
-cy_en_syspm_status_t Cy_SysClk_DeepSleepCallback(cy_stc_syspm_callback_params_t *callbackParams);
+cy_en_syspm_status_t Cy_SysClk_DeepSleepCallback(cy_stc_syspm_callback_params_t *callbackParams, cy_en_syspm_callback_mode_t mode);
 /** \} group_sysclk_pm_funcs */
 
 
@@ -1280,7 +1267,7 @@ cy_en_syspm_status_t Cy_SysClk_DeepSleepCallback(cy_stc_syspm_callback_params_t 
 typedef enum
 {
     CY_SYSCLK_WCO_NOT_BYPASSED = 0u, /**< WCO is not bypassed crystal is used */
-    CY_SYSCLK_WCO_BYPASSED = 1u      /**< WCO is bypassed external clock must be supplied  on XTAL pin */
+    CY_SYSCLK_WCO_BYPASSED = 1U      /**< WCO is bypassed external clock must be supplied  on XTAL pin */
 } cy_en_wco_bypass_modes_t;
 
 /** WCO CSV supervisor clock selections */
@@ -1299,7 +1286,7 @@ typedef enum
 typedef enum
 {
     CY_SYSCLK_CSV_LOSS_4_CYCLES =   0u, /**< 1 clock must be seen within 4 cycles of the supervising clock. */
-    CY_SYSCLK_CSV_LOSS_8_CYCLES =   1u, /**< 1 clock must be seen within 8 cycles of the supervising clock. */
+    CY_SYSCLK_CSV_LOSS_8_CYCLES =   1U, /**< 1 clock must be seen within 8 cycles of the supervising clock. */
     CY_SYSCLK_CSV_LOSS_16_CYCLES =  2u, /**< 1 clock must be seen within 16 cycles of the supervising clock. */
     CY_SYSCLK_CSV_LOSS_32_CYCLES =  3u, /**< 1 clock must be seen within 32 cycles of the supervising clock. */
     CY_SYSCLK_CSV_LOSS_64_CYCLES =  4u, /**< 1 clock must be seen within 64 cycles of the supervising clock. */
@@ -1314,7 +1301,7 @@ typedef enum
 typedef enum
 {
     CY_SYSCLK_CSV_ERROR_IGNORE = 0u,     /**< Ignore the error reported by the clock supervisor. */
-    CY_SYSCLK_CSV_ERROR_FAULT = 1u,      /**< Trigger a fault when an error is reported by the clock supervisor. */
+    CY_SYSCLK_CSV_ERROR_FAULT = 1U,      /**< Trigger a fault when an error is reported by the clock supervisor. */
     CY_SYSCLK_CSV_ERROR_RESET = 2u,      /**< Trigger a reset when an error is reported by the clock supervisor. */
     CY_SYSCLK_CSV_ERROR_FAULT_RESET = 3u /**< Trigger a fault then reset when an error is reported by the supervisor. */
 } cy_en_csv_error_actions_t;
@@ -1344,9 +1331,6 @@ __STATIC_INLINE cy_en_sysclk_status_t Cy_SysClk_WcoEnable(uint32_t timeoutus);
 __STATIC_INLINE bool Cy_SysClk_WcoOkay(void);
 __STATIC_INLINE void Cy_SysClk_WcoDisable(void);
 __STATIC_INLINE void Cy_SysClk_WcoBypass(cy_en_wco_bypass_modes_t bypass);
-#if (SRSS_WCOCSV_PRESENT != 0) || defined(CY_DOXYGEN)
-    void Cy_SysClk_WcoConfigureCsv(const cy_stc_wco_csv_config_t *config);
-#endif /* (SRSS_WCOCSV_PRESENT != 0) || defined(CY_DOXYGEN) */
 
 
 /*******************************************************************************
@@ -1364,7 +1348,7 @@ __STATIC_INLINE void Cy_SysClk_WcoBypass(cy_en_wco_bypass_modes_t bypass);
 * CY_SYSCLK_TIMEOUT - Timeout waiting for WCO to stabilize
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_WcoEnable
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_WcoEnable
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_sysclk_status_t Cy_SysClk_WcoEnable(uint32_t timeoutus)
@@ -1372,14 +1356,14 @@ __STATIC_INLINE cy_en_sysclk_status_t Cy_SysClk_WcoEnable(uint32_t timeoutus)
     cy_en_sysclk_status_t rtnval = CY_SYSCLK_TIMEOUT;
 
     /* first set the WCO enable bit */
-    BACKUP->CTL |= _VAL2FLD(BACKUP_CTL_WCO_EN, 1u); /* 1 = enable */
+    BACKUP_CTL |= BACKUP_CTL_WCO_EN_Msk;
 
     /* now do the timeout wait for STATUS, bit WCO_OK */
-    for (; (Cy_SysClk_WcoOkay() == false) && (timeoutus != 0ul); timeoutus--)
+    for (; (Cy_SysClk_WcoOkay() == false) && (0UL != timeoutus); timeoutus--)
     {
-        Cy_SysLib_DelayUs(1u);
+        Cy_SysLib_DelayUs(1U);
     }
-    if (timeoutus != 0ul)
+    if (0UL != timeoutus)
     {
         rtnval = CY_SYSCLK_SUCCESS;
     }
@@ -1398,12 +1382,12 @@ __STATIC_INLINE cy_en_sysclk_status_t Cy_SysClk_WcoEnable(uint32_t timeoutus)
 * false = not okay
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_WcoOkay
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_WcoOkay
 *
 *******************************************************************************/
 __STATIC_INLINE bool Cy_SysClk_WcoOkay(void)
 {
-    return (bool)(_FLD2VAL(BACKUP_STATUS_WCO_OK, BACKUP->STATUS));
+    return (_FLD2BOOL(BACKUP_STATUS_WCO_OK, BACKUP_STATUS));
 }
 
 /*******************************************************************************
@@ -1413,12 +1397,12 @@ __STATIC_INLINE bool Cy_SysClk_WcoOkay(void)
 * Disables the WCO.
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_WcoDisable
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_WcoDisable
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysClk_WcoDisable(void)
 {
-    BACKUP->CTL &= ~_VAL2FLD(BACKUP_CTL_WCO_EN, 1u); /* 0 = disable */
+    BACKUP_CTL &= (uint32_t)~BACKUP_CTL_WCO_EN_Msk;
 }
 
 /*******************************************************************************
@@ -1431,12 +1415,12 @@ __STATIC_INLINE void Cy_SysClk_WcoDisable(void)
 * \param bypass \ref cy_en_wco_bypass_modes_t
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_WcoBypass
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_WcoBypass
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysClk_WcoBypass(cy_en_wco_bypass_modes_t bypass)
 {
-    CY_SYSCLK_CLR_SET(BACKUP->CTL, BACKUP_CTL_WCO_BYPASS, bypass);
+    CY_REG32_CLR_SET(BACKUP_CTL, BACKUP_CTL_WCO_BYPASS, bypass);
 }
 /** \} group_sysclk_wco_funcs */
 
@@ -1455,22 +1439,22 @@ __STATIC_INLINE void Cy_SysClk_WcoBypass(cy_en_wco_bypass_modes_t bypass)
 */
 typedef enum
 {
-    CY_SYSCLK_CLKHF_IN_CLKPATH0  = 0u,  /**< clkHf input is Clock Path 0 */
-    CY_SYSCLK_CLKHF_IN_CLKPATH1  = 1u,  /**< clkHf input is Clock Path 1 */
-    CY_SYSCLK_CLKHF_IN_CLKPATH2  = 2u,  /**< clkHf input is Clock Path 2 */
-    CY_SYSCLK_CLKHF_IN_CLKPATH3  = 3u,  /**< clkHf input is Clock Path 3 */
-    CY_SYSCLK_CLKHF_IN_CLKPATH4  = 4u,  /**< clkHf input is Clock Path 4 */
-    CY_SYSCLK_CLKHF_IN_CLKPATH5  = 5u,  /**< clkHf input is Clock Path 5 */
-    CY_SYSCLK_CLKHF_IN_CLKPATH6  = 6u,  /**< clkHf input is Clock Path 6 */
-    CY_SYSCLK_CLKHF_IN_CLKPATH7  = 7u,  /**< clkHf input is Clock Path 7 */
-    CY_SYSCLK_CLKHF_IN_CLKPATH8  = 8u,  /**< clkHf input is Clock Path 8 */
-    CY_SYSCLK_CLKHF_IN_CLKPATH9  = 9u,  /**< clkHf input is Clock Path 9 */
-    CY_SYSCLK_CLKHF_IN_CLKPATH10 = 10u, /**< clkHf input is Clock Path 10 */
-    CY_SYSCLK_CLKHF_IN_CLKPATH11 = 11u, /**< clkHf input is Clock Path 11 */
-    CY_SYSCLK_CLKHF_IN_CLKPATH12 = 12u, /**< clkHf input is Clock Path 12 */
-    CY_SYSCLK_CLKHF_IN_CLKPATH13 = 13u, /**< clkHf input is Clock Path 13 */
-    CY_SYSCLK_CLKHF_IN_CLKPATH14 = 14u, /**< clkHf input is Clock Path 14 */
-    CY_SYSCLK_CLKHF_IN_CLKPATH15 = 15u, /**< clkHf input is Clock Path 15 */
+    CY_SYSCLK_CLKHF_IN_CLKPATH0  = 0U,  /**< clkHf input is Clock Path 0 */
+    CY_SYSCLK_CLKHF_IN_CLKPATH1  = 1U,  /**< clkHf input is Clock Path 1 */
+    CY_SYSCLK_CLKHF_IN_CLKPATH2  = 2U,  /**< clkHf input is Clock Path 2 */
+    CY_SYSCLK_CLKHF_IN_CLKPATH3  = 3U,  /**< clkHf input is Clock Path 3 */
+    CY_SYSCLK_CLKHF_IN_CLKPATH4  = 4U,  /**< clkHf input is Clock Path 4 */
+    CY_SYSCLK_CLKHF_IN_CLKPATH5  = 5U,  /**< clkHf input is Clock Path 5 */
+    CY_SYSCLK_CLKHF_IN_CLKPATH6  = 6U,  /**< clkHf input is Clock Path 6 */
+    CY_SYSCLK_CLKHF_IN_CLKPATH7  = 7U,  /**< clkHf input is Clock Path 7 */
+    CY_SYSCLK_CLKHF_IN_CLKPATH8  = 8U,  /**< clkHf input is Clock Path 8 */
+    CY_SYSCLK_CLKHF_IN_CLKPATH9  = 9U,  /**< clkHf input is Clock Path 9 */
+    CY_SYSCLK_CLKHF_IN_CLKPATH10 = 10U, /**< clkHf input is Clock Path 10 */
+    CY_SYSCLK_CLKHF_IN_CLKPATH11 = 11U, /**< clkHf input is Clock Path 11 */
+    CY_SYSCLK_CLKHF_IN_CLKPATH12 = 12U, /**< clkHf input is Clock Path 12 */
+    CY_SYSCLK_CLKHF_IN_CLKPATH13 = 13U, /**< clkHf input is Clock Path 13 */
+    CY_SYSCLK_CLKHF_IN_CLKPATH14 = 14U, /**< clkHf input is Clock Path 14 */
+    CY_SYSCLK_CLKHF_IN_CLKPATH15 = 15U, /**< clkHf input is Clock Path 15 */
 } cy_en_clkhf_in_sources_t;
 
 
@@ -1480,10 +1464,10 @@ typedef enum
 */
 typedef enum
 {
-    CY_SYSCLK_CLKHF_NO_DIVIDE   = 0u,    /**< don't divide clkHf. */
-    CY_SYSCLK_CLKHF_DIVIDE_BY_2 = 1u,    /**< divide clkHf by 2 */
-    CY_SYSCLK_CLKHF_DIVIDE_BY_4 = 2u,    /**< divide clkHf by 4 */
-    CY_SYSCLK_CLKHF_DIVIDE_BY_8 = 3u     /**< divide clkHf by 8 */
+    CY_SYSCLK_CLKHF_NO_DIVIDE   = 0U,    /**< don't divide clkHf. */
+    CY_SYSCLK_CLKHF_DIVIDE_BY_2 = 1U,    /**< divide clkHf by 2 */
+    CY_SYSCLK_CLKHF_DIVIDE_BY_4 = 2U,    /**< divide clkHf by 4 */
+    CY_SYSCLK_CLKHF_DIVIDE_BY_8 = 3U     /**< divide clkHf by 8 */
 } cy_en_clkhf_dividers_t;
 
 /**
@@ -1491,9 +1475,9 @@ typedef enum
 */
 typedef enum
 {
-    CY_SYSCLK_CLKHF_CSV_SUPERVISOR_IMO   = 0u,  /**< Supervising clock is the IMO. */
-    CY_SYSCLK_CLKHF_CSV_SUPERVISOR_EXT   = 1u,  /**< Supervising clock is the external clock */
-    CY_SYSCLK_CLKHF_CSV_SUPERVISOR_ALTHF = 2u   /**< Supervising clock is clk_althf */
+    CY_SYSCLK_CLKHF_CSV_SUPERVISOR_IMO   = 0U,  /**< Supervising clock is the IMO. */
+    CY_SYSCLK_CLKHF_CSV_SUPERVISOR_EXT   = 1U,  /**< Supervising clock is the external clock */
+    CY_SYSCLK_CLKHF_CSV_SUPERVISOR_ALTHF = 2U   /**< Supervising clock is clk_althf */
 } cy_en_clkhf_csv_supervisor_clock_t;
 /** \} group_sysclk_clk_hf_enums */
 
@@ -1528,9 +1512,6 @@ __STATIC_INLINE cy_en_sysclk_status_t Cy_SysClk_ClkHfSetSource(uint32_t clkHf, c
 __STATIC_INLINE cy_en_clkhf_in_sources_t Cy_SysClk_ClkHfGetSource(uint32_t clkHf);
 __STATIC_INLINE cy_en_sysclk_status_t Cy_SysClk_ClkHfSetDivider(uint32_t clkHf, cy_en_clkhf_dividers_t divider);
 __STATIC_INLINE cy_en_clkhf_dividers_t Cy_SysClk_ClkHfGetDivider(uint32_t clkHf);
-#if (SRSS_MASK_HFCSV != 0)  || defined(CY_DOXYGEN)
-    cy_en_sysclk_status_t Cy_SysClk_ClkHfConfigureCsv(uint32_t clkHf, const cy_stc_clkhf_csv_config_t *config);
-#endif /* (SRSS_MASK_HFCSV != 0)  || defined(CY_DOXYGEN) */
 
 
 /*******************************************************************************
@@ -1544,18 +1525,18 @@ __STATIC_INLINE cy_en_clkhf_dividers_t Cy_SysClk_ClkHfGetDivider(uint32_t clkHf)
 * \return \ref cy_en_sysclk_status_t
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_ClkHfEnable
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_ClkHfEnable
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_sysclk_status_t Cy_SysClk_ClkHfEnable(uint32_t clkHf)
 {
-    cy_en_sysclk_status_t retval = CY_SYSCLK_BAD_PARAM;
-    if (clkHf < SRSS_NUM_HFROOT)
+    cy_en_sysclk_status_t retVal = CY_SYSCLK_BAD_PARAM;
+    if (clkHf < CY_SRSS_NUM_HFROOT)
     {
-        SRSS->CLK_ROOT_SELECT[clkHf] |= _VAL2FLD(SRSS_CLK_ROOT_SELECT_ENABLE, 1ul); /* 1 = enable */
-        retval = CY_SYSCLK_SUCCESS;
+        SRSS_CLK_ROOT_SELECT[clkHf] |= SRSS_CLK_ROOT_SELECT_ENABLE_Msk;
+        retVal = CY_SYSCLK_SUCCESS;
     }
-    return (retval);
+    return (retVal);
 }
 
 /*******************************************************************************
@@ -1571,18 +1552,19 @@ __STATIC_INLINE cy_en_sysclk_status_t Cy_SysClk_ClkHfEnable(uint32_t clkHf)
 * \note clkHf[0] cannot be disabled.
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_ClkHfDisable
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_ClkHfDisable
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_sysclk_status_t Cy_SysClk_ClkHfDisable(uint32_t clkHf)
 {
-    cy_en_sysclk_status_t retval = CY_SYSCLK_BAD_PARAM;
-    if ((0ul < clkHf) && (clkHf < SRSS_NUM_HFROOT))
+    cy_en_sysclk_status_t retVal = CY_SYSCLK_BAD_PARAM;
+    if ((0UL < clkHf) /* prevent CLK_HF0 disabling */
+           && (clkHf < CY_SRSS_NUM_HFROOT))
     {
-        SRSS->CLK_ROOT_SELECT[clkHf] &= ~_VAL2FLD(SRSS_CLK_ROOT_SELECT_ENABLE, 1ul); /* 0 = disable */
-        retval = CY_SYSCLK_SUCCESS;
+        SRSS_CLK_ROOT_SELECT[clkHf] &= ~SRSS_CLK_ROOT_SELECT_ENABLE_Msk;
+        retVal = CY_SYSCLK_SUCCESS;
     }
-    return (retval);
+    return (retVal);
 }
 
 /*******************************************************************************
@@ -1597,19 +1579,31 @@ __STATIC_INLINE cy_en_sysclk_status_t Cy_SysClk_ClkHfDisable(uint32_t clkHf)
 *
 * \return \ref cy_en_sysclk_status_t
 *
+* \note 
+* Call \ref SystemCoreClockUpdate after this function calling 
+* if it affects the CLK_HF0 frequency.
+*
+* \note 
+* Call \ref Cy_SysLib_SetWaitStates before calling this function if
+* CLK_HF0 frequency is increasing.
+*
+* \note
+* Call \ref Cy_SysLib_SetWaitStates after calling this function if
+* CLK_HF0 frequency is decreasing.
+*
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_ClkHfSetSource
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_ClkHfSetSource
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_sysclk_status_t Cy_SysClk_ClkHfSetSource(uint32_t clkHf, cy_en_clkhf_in_sources_t source)
 {
-    cy_en_sysclk_status_t retval = CY_SYSCLK_BAD_PARAM;
-    if ((clkHf < SRSS_NUM_HFROOT) && (source <= CY_SYSCLK_CLKHF_IN_CLKPATH15))
+    cy_en_sysclk_status_t retVal = CY_SYSCLK_BAD_PARAM;
+    if ((clkHf < CY_SRSS_NUM_HFROOT) && (source <= CY_SYSCLK_CLKHF_IN_CLKPATH15))
     {
-        CY_SYSCLK_CLR_SET(SRSS->CLK_ROOT_SELECT[clkHf], SRSS_CLK_ROOT_SELECT_ROOT_MUX, source);
-        retval = CY_SYSCLK_SUCCESS;
+        CY_REG32_CLR_SET(SRSS_CLK_ROOT_SELECT[clkHf], SRSS_CLK_ROOT_SELECT_ROOT_MUX, source);
+        retVal = CY_SYSCLK_SUCCESS;
     }
-    return (retval);
+    return (retVal);
 }
 
 /*******************************************************************************
@@ -1623,13 +1617,13 @@ __STATIC_INLINE cy_en_sysclk_status_t Cy_SysClk_ClkHfSetSource(uint32_t clkHf, c
 * \return \ref cy_en_clkhf_in_sources_t
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_ClkHfSetSource
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_ClkHfSetSource
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_clkhf_in_sources_t Cy_SysClk_ClkHfGetSource(uint32_t clkHf)
 {
-    CY_ASSERT_L1(clkHf < SRSS_NUM_HFROOT);
-    return (cy_en_clkhf_in_sources_t)(_FLD2VAL(SRSS_CLK_ROOT_SELECT_ROOT_MUX, SRSS->CLK_ROOT_SELECT[clkHf]));
+    CY_ASSERT_L1(clkHf < CY_SRSS_NUM_HFROOT);
+    return (cy_en_clkhf_in_sources_t)(_FLD2VAL(SRSS_CLK_ROOT_SELECT_ROOT_MUX, SRSS_CLK_ROOT_SELECT[clkHf]));
 }
 
 /*******************************************************************************
@@ -1646,19 +1640,31 @@ __STATIC_INLINE cy_en_clkhf_in_sources_t Cy_SysClk_ClkHfGetSource(uint32_t clkHf
 *
 * \note Also call \ref Cy_SysClk_ClkHfSetSource to set the clkHf source.
 *
+* \note 
+* Call \ref SystemCoreClockUpdate after this function calling 
+* if it affects the CLK_HF0 frequency.
+*
+* \note 
+* Call \ref Cy_SysLib_SetWaitStates before calling this function if
+* CLK_HF0 frequency is increasing.
+*
+* \note
+* Call \ref Cy_SysLib_SetWaitStates after calling this function if
+* CLK_HF0 frequency is decreasing.
+*
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_ClkHfSetDivider
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_ClkHfSetDivider
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_sysclk_status_t Cy_SysClk_ClkHfSetDivider(uint32_t clkHf, cy_en_clkhf_dividers_t divider)
 {
-    cy_en_sysclk_status_t retval = CY_SYSCLK_BAD_PARAM;
-    if ((clkHf < SRSS_NUM_HFROOT) && (divider <= CY_SYSCLK_CLKHF_DIVIDE_BY_8))
+    cy_en_sysclk_status_t retVal = CY_SYSCLK_BAD_PARAM;
+    if ((clkHf < CY_SRSS_NUM_HFROOT) && (divider <= CY_SYSCLK_CLKHF_DIVIDE_BY_8))
     {
-        CY_SYSCLK_CLR_SET(SRSS->CLK_ROOT_SELECT[clkHf], SRSS_CLK_ROOT_SELECT_ROOT_DIV, divider);
-        retval = CY_SYSCLK_SUCCESS;
+        CY_REG32_CLR_SET(SRSS_CLK_ROOT_SELECT[clkHf], SRSS_CLK_ROOT_SELECT_ROOT_DIV, divider);
+        retVal = CY_SYSCLK_SUCCESS;
     }
-    return (retval);
+    return (retVal);
 }
 
 /*******************************************************************************
@@ -1672,13 +1678,13 @@ __STATIC_INLINE cy_en_sysclk_status_t Cy_SysClk_ClkHfSetDivider(uint32_t clkHf, 
 * \return \ref cy_en_clkhf_dividers_t
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_ClkHfSetDivider
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_ClkHfSetDivider
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_clkhf_dividers_t Cy_SysClk_ClkHfGetDivider(uint32_t clkHf)
 {
-    CY_ASSERT_L1(clkHf < SRSS_NUM_HFROOT);
-    return (cy_en_clkhf_dividers_t)(_FLD2VAL(SRSS_CLK_ROOT_SELECT_ROOT_DIV, SRSS->CLK_ROOT_SELECT[clkHf]));
+    CY_ASSERT_L1(clkHf < CY_SRSS_NUM_HFROOT);
+    return (cy_en_clkhf_dividers_t)(_FLD2VAL(SRSS_CLK_ROOT_SELECT_ROOT_DIV, SRSS_CLK_ROOT_SELECT[clkHf]));
 }
 /** \} group_sysclk_clk_hf_funcs */
 
@@ -1703,13 +1709,24 @@ __STATIC_INLINE uint8_t Cy_SysClk_ClkFastGetDivider(void);
 * \param divider divider value between 0 and 255.
 * Causes integer division of (divider value + 1), or division by 1 to 256.
 *
+* \note 
+* Call \ref SystemCoreClockUpdate after this function calling.
+*
+* \note 
+* Call \ref Cy_SysLib_SetWaitStates before calling this function if
+* CLK_FAST frequency is increasing.
+*
+* \note
+* Call \ref Cy_SysLib_SetWaitStates after calling this function if
+* CLK_FAST frequency is decreasing.
+*
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_ClkFastSetDivider
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_ClkFastSetDivider
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysClk_ClkFastSetDivider(uint8_t divider)
 {
-    CY_SYSCLK_CLR_SET(CPUSS->CM4_CLOCK_CTL, CPUSS_CM4_CLOCK_CTL_FAST_INT_DIV, (uint32_t)divider);
+    CY_REG32_CLR_SET(CPUSS_CM4_CLOCK_CTL, CPUSS_CM4_CLOCK_CTL_FAST_INT_DIV, divider);
 }
 
 /*******************************************************************************
@@ -1722,12 +1739,12 @@ __STATIC_INLINE void Cy_SysClk_ClkFastSetDivider(uint8_t divider)
 * The integer division done is by (divider value + 1), or division by 1 to 256.
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_ClkFastSetDivider
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_ClkFastSetDivider
 *
 *******************************************************************************/
 __STATIC_INLINE uint8_t Cy_SysClk_ClkFastGetDivider(void)
 {
-    return ((uint8_t)_FLD2VAL(CPUSS_CM4_CLOCK_CTL_FAST_INT_DIV, CPUSS->CM4_CLOCK_CTL));
+    return ((uint8_t)_FLD2VAL(CPUSS_CM4_CLOCK_CTL_FAST_INT_DIV, CPUSS_CM4_CLOCK_CTL));
 }
 /** \} group_sysclk_clk_fast_funcs */
 
@@ -1753,13 +1770,16 @@ __STATIC_INLINE uint8_t Cy_SysClk_ClkPeriGetDivider(void);
 * \param divider divider value between 0 and 255
 * Causes integer division of (divider value + 1), or division by 1 to 256.
 *
+* \note 
+* Call \ref SystemCoreClockUpdate after this function calling.
+*
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_ClkPeriSetDivider
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_ClkPeriSetDivider
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysClk_ClkPeriSetDivider(uint8_t divider)
 {
-    CY_SYSCLK_CLR_SET(CPUSS->CM0_CLOCK_CTL, CPUSS_CM0_CLOCK_CTL_PERI_INT_DIV, (uint32_t)divider);
+    CY_REG32_CLR_SET(CPUSS_CM0_CLOCK_CTL, CPUSS_CM0_CLOCK_CTL_PERI_INT_DIV, divider);
 }
 
 /*******************************************************************************
@@ -1772,12 +1792,12 @@ __STATIC_INLINE void Cy_SysClk_ClkPeriSetDivider(uint8_t divider)
 * The integer division done is by (divider value + 1), or division by 1 to 256.
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_ClkPeriSetDivider
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_ClkPeriSetDivider
 *
 *******************************************************************************/
 __STATIC_INLINE uint8_t Cy_SysClk_ClkPeriGetDivider(void)
 {
-    return ((uint8_t)_FLD2VAL(CPUSS_CM0_CLOCK_CTL_PERI_INT_DIV, CPUSS->CM0_CLOCK_CTL));
+    return ((uint8_t)_FLD2VAL(CPUSS_CM0_CLOCK_CTL_PERI_INT_DIV, CPUSS_CM0_CLOCK_CTL));
 }
 /** \} group_sysclk_clk_peri_funcs */
 
@@ -1792,10 +1812,10 @@ __STATIC_INLINE uint8_t Cy_SysClk_ClkPeriGetDivider(void)
 /** Programmable clock divider types */
 typedef enum
 {
-    CY_SYSCLK_DIV_8_BIT    = 0u, /**< Divider Type is an 8 bit divider */
-    CY_SYSCLK_DIV_16_BIT   = 1u, /**< Divider Type is a 16 bit divider */
-    CY_SYSCLK_DIV_16_5_BIT = 2u, /**< Divider Type is a 16.5 bit fractional divider */
-    CY_SYSCLK_DIV_24_5_BIT = 3u  /**< Divider Type is a 24.5 bit fractional divider */
+    CY_SYSCLK_DIV_8_BIT    = 0U, /**< Divider Type is an 8 bit divider */
+    CY_SYSCLK_DIV_16_BIT   = 1U, /**< Divider Type is a 16 bit divider */
+    CY_SYSCLK_DIV_16_5_BIT = 2U, /**< Divider Type is a 16.5 bit fractional divider */
+    CY_SYSCLK_DIV_24_5_BIT = 3U  /**< Divider Type is a 24.5 bit fractional divider */
 } cy_en_divider_types_t;
 /** \} group_sysclk_clk_peripheral_enums */
 
@@ -1822,6 +1842,9 @@ uint32_t Cy_SysClk_PeriphGetFrequency(cy_en_divider_types_t dividerType, uint32_
 * Sets one of the programmable clock dividers. This is only used for integer
 * dividers. Use \ref Cy_SysClk_PeriphSetFracDivider for setting factional dividers.
 *
+* \pre If the specified clock divider is already enabled - it should be disabled
+* prior to use this function by \ref Cy_SysClk_PeriphDisableDivider.
+*
 * \param dividerType specifies which type of divider to use; \ref cy_en_divider_types_t
 *
 * \param dividerNum the divider number.
@@ -1833,21 +1856,21 @@ uint32_t Cy_SysClk_PeriphGetFrequency(cy_en_divider_types_t dividerType, uint32_
 * \return \ref cy_en_sysclk_status_t
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_PeriphSetDivider
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_PeriphSetDivider
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_sysclk_status_t
                 Cy_SysClk_PeriphSetDivider(cy_en_divider_types_t dividerType,
                                            uint32_t dividerNum, uint32_t dividerValue)
 {
-    cy_en_sysclk_status_t retval = CY_SYSCLK_BAD_PARAM;
+    cy_en_sysclk_status_t retVal = CY_SYSCLK_BAD_PARAM;
     if (dividerType == CY_SYSCLK_DIV_8_BIT)
     {
         if ((dividerNum < PERI_DIV_8_NR) &&
             (dividerValue <= (PERI_DIV_8_CTL_INT8_DIV_Msk >> PERI_DIV_8_CTL_INT8_DIV_Pos)))
         {
-            CY_SYSCLK_CLR_SET(PERI->DIV_8_CTL[dividerNum], PERI_DIV_8_CTL_INT8_DIV, dividerValue);
-            retval = CY_SYSCLK_SUCCESS;
+            CY_REG32_CLR_SET(PERI_DIV_8_CTL[dividerNum], PERI_DIV_8_CTL_INT8_DIV, dividerValue);
+            retVal = CY_SYSCLK_SUCCESS;
         }
     }
     else if (dividerType == CY_SYSCLK_DIV_16_BIT)
@@ -1855,14 +1878,14 @@ __STATIC_INLINE cy_en_sysclk_status_t
         if ((dividerNum < PERI_DIV_16_NR) &&
             (dividerValue <= (PERI_DIV_16_CTL_INT16_DIV_Msk >> PERI_DIV_16_CTL_INT16_DIV_Pos)))
         {
-            CY_SYSCLK_CLR_SET(PERI->DIV_16_CTL[dividerNum], PERI_DIV_16_CTL_INT16_DIV, dividerValue);
-            retval = CY_SYSCLK_SUCCESS;
+            CY_REG32_CLR_SET(PERI_DIV_16_CTL[dividerNum], PERI_DIV_16_CTL_INT16_DIV, dividerValue);
+            retVal = CY_SYSCLK_SUCCESS;
         }
     }
     else
     { /* return bad parameter */
     }
-    return (retval);
+    return (retVal);
 }
 
 /*******************************************************************************
@@ -1882,26 +1905,26 @@ __STATIC_INLINE cy_en_sysclk_status_t
 * (8-bit divider) or 1 to 65536 (16-bit divider).
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_PeriphSetDivider
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_PeriphSetDivider
 *
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SysClk_PeriphGetDivider(cy_en_divider_types_t dividerType, uint32_t dividerNum)
 {
-    uint32_t retval;
+    uint32_t retVal;
 
     CY_ASSERT_L1(dividerType <= CY_SYSCLK_DIV_16_BIT);
 
     if (dividerType == CY_SYSCLK_DIV_8_BIT)
     {
         CY_ASSERT_L1(dividerNum < PERI_DIV_8_NR);
-        retval = _FLD2VAL(PERI_DIV_8_CTL_INT8_DIV, PERI->DIV_8_CTL[dividerNum]);
+        retVal = _FLD2VAL(PERI_DIV_8_CTL_INT8_DIV, PERI_DIV_8_CTL[dividerNum]);
     }
     else
     { /* 16-bit divider */
         CY_ASSERT_L1(dividerNum < PERI_DIV_16_NR);
-        retval = _FLD2VAL(PERI_DIV_16_CTL_INT16_DIV, PERI->DIV_16_CTL[dividerNum]);
+        retVal = _FLD2VAL(PERI_DIV_16_CTL_INT16_DIV, PERI_DIV_16_CTL[dividerNum]);
     }
-    return (retval);
+    return (retVal);
 }
 
 /*******************************************************************************
@@ -1910,6 +1933,9 @@ __STATIC_INLINE uint32_t Cy_SysClk_PeriphGetDivider(cy_en_divider_types_t divide
 *
 * Sets one of the programmable clock dividers. This function should only be used
 * for fractional clock dividers.
+*
+* \pre If the specified clock divider is already enabled - it should be disabled
+* prior to use this function by \ref Cy_SysClk_PeriphDisableDivider.
 *
 * \param dividerType specifies which type of divider to use; \ref cy_en_divider_types_t
 *
@@ -1927,23 +1953,23 @@ __STATIC_INLINE uint32_t Cy_SysClk_PeriphGetDivider(cy_en_divider_types_t divide
 * \return \ref cy_en_sysclk_status_t
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_PeriphSetFracDivider
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_PeriphSetFracDivider
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_sysclk_status_t
                 Cy_SysClk_PeriphSetFracDivider(cy_en_divider_types_t dividerType, uint32_t dividerNum,
                                                uint32_t dividerIntValue, uint32_t dividerFracValue)
 {
-    cy_en_sysclk_status_t retval = CY_SYSCLK_BAD_PARAM;
+    cy_en_sysclk_status_t retVal = CY_SYSCLK_BAD_PARAM;
     if (dividerType == CY_SYSCLK_DIV_16_5_BIT)
     {
         if ((dividerNum < PERI_DIV_16_5_NR) &&
             (dividerIntValue <= (PERI_DIV_16_5_CTL_INT16_DIV_Msk >> PERI_DIV_16_5_CTL_INT16_DIV_Pos)) &&
             (dividerFracValue <= (PERI_DIV_16_5_CTL_FRAC5_DIV_Msk >> PERI_DIV_16_5_CTL_FRAC5_DIV_Pos)))
         {
-            CY_SYSCLK_CLR_SET(PERI->DIV_16_5_CTL[dividerNum], PERI_DIV_16_5_CTL_INT16_DIV, dividerIntValue);
-            CY_SYSCLK_CLR_SET(PERI->DIV_16_5_CTL[dividerNum], PERI_DIV_16_5_CTL_FRAC5_DIV, dividerFracValue);
-            retval = CY_SYSCLK_SUCCESS;
+            CY_REG32_CLR_SET(PERI_DIV_16_5_CTL[dividerNum], PERI_DIV_16_5_CTL_INT16_DIV, dividerIntValue);
+            CY_REG32_CLR_SET(PERI_DIV_16_5_CTL[dividerNum], PERI_DIV_16_5_CTL_FRAC5_DIV, dividerFracValue);
+            retVal = CY_SYSCLK_SUCCESS;
         }
     }
     else if (dividerType == CY_SYSCLK_DIV_24_5_BIT)
@@ -1952,15 +1978,15 @@ __STATIC_INLINE cy_en_sysclk_status_t
             (dividerIntValue <= (PERI_DIV_24_5_CTL_INT24_DIV_Msk >> PERI_DIV_24_5_CTL_INT24_DIV_Pos)) &&
             (dividerFracValue <= (PERI_DIV_24_5_CTL_FRAC5_DIV_Msk >> PERI_DIV_24_5_CTL_FRAC5_DIV_Pos)))
         {
-            CY_SYSCLK_CLR_SET(PERI->DIV_24_5_CTL[dividerNum], PERI_DIV_24_5_CTL_INT24_DIV, dividerIntValue);
-            CY_SYSCLK_CLR_SET(PERI->DIV_24_5_CTL[dividerNum], PERI_DIV_24_5_CTL_FRAC5_DIV, dividerFracValue);
-            retval = CY_SYSCLK_SUCCESS;
+            CY_REG32_CLR_SET(PERI_DIV_24_5_CTL[dividerNum], PERI_DIV_24_5_CTL_INT24_DIV, dividerIntValue);
+            CY_REG32_CLR_SET(PERI_DIV_24_5_CTL[dividerNum], PERI_DIV_24_5_CTL_FRAC5_DIV, dividerFracValue);
+            retVal = CY_SYSCLK_SUCCESS;
         }
     }
     else
     { /* return bad parameter */
     }
-    return (retval);
+    return (retVal);
 }
 
 /*******************************************************************************
@@ -1980,7 +2006,7 @@ __STATIC_INLINE cy_en_sysclk_status_t
 * \return None. Loads pointed-to variables.
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_PeriphSetFracDivider
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_PeriphSetFracDivider
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysClk_PeriphGetFracDivider(cy_en_divider_types_t dividerType, uint32_t dividerNum,
@@ -1992,14 +2018,14 @@ __STATIC_INLINE void Cy_SysClk_PeriphGetFracDivider(cy_en_divider_types_t divide
     if (dividerType == CY_SYSCLK_DIV_16_5_BIT)
     {
         CY_ASSERT_L1(dividerNum < PERI_DIV_16_5_NR);
-        *dividerIntValue  = _FLD2VAL(PERI_DIV_16_5_CTL_INT16_DIV, PERI->DIV_16_5_CTL[dividerNum]);
-        *dividerFracValue = _FLD2VAL(PERI_DIV_16_5_CTL_FRAC5_DIV, PERI->DIV_16_5_CTL[dividerNum]);
+        *dividerIntValue  = _FLD2VAL(PERI_DIV_16_5_CTL_INT16_DIV, PERI_DIV_16_5_CTL[dividerNum]);
+        *dividerFracValue = _FLD2VAL(PERI_DIV_16_5_CTL_FRAC5_DIV, PERI_DIV_16_5_CTL[dividerNum]);
     }
     else
     { /* 24.5-bit divider */
         CY_ASSERT_L1(dividerNum < PERI_DIV_24_5_NR);
-        *dividerIntValue  = _FLD2VAL(PERI_DIV_24_5_CTL_INT24_DIV, PERI->DIV_24_5_CTL[dividerNum]);
-        *dividerFracValue = _FLD2VAL(PERI_DIV_24_5_CTL_FRAC5_DIV, PERI->DIV_24_5_CTL[dividerNum]);
+        *dividerIntValue  = _FLD2VAL(PERI_DIV_24_5_CTL_INT24_DIV, PERI_DIV_24_5_CTL[dividerNum]);
+        *dividerFracValue = _FLD2VAL(PERI_DIV_24_5_CTL_FRAC5_DIV, PERI_DIV_24_5_CTL[dividerNum]);
     }
 }
 
@@ -2018,27 +2044,27 @@ __STATIC_INLINE void Cy_SysClk_PeriphGetFracDivider(cy_en_divider_types_t divide
 * \return \ref cy_en_sysclk_status_t
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_PeriphAssignDivider
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_PeriphAssignDivider
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_sysclk_status_t
                 Cy_SysClk_PeriphAssignDivider(en_clk_dst_t ipBlock,
                                               cy_en_divider_types_t dividerType, uint32_t dividerNum)
 {
-    cy_en_sysclk_status_t retval = CY_SYSCLK_BAD_PARAM;
-    if ((ipBlock < PERI_CLOCK_NR) && (dividerType <= CY_SYSCLK_DIV_24_5_BIT))
+    cy_en_sysclk_status_t retVal = CY_SYSCLK_BAD_PARAM;
+    if ((CY_PERI_CLOCK_NR > (uint32_t)ipBlock) && (CY_SYSCLK_DIV_24_5_BIT >= dividerType))
     {
         if (((dividerType == CY_SYSCLK_DIV_8_BIT)    && (dividerNum < PERI_DIV_8_NR))    ||
             ((dividerType == CY_SYSCLK_DIV_16_BIT)   && (dividerNum < PERI_DIV_16_NR))   ||
             ((dividerType == CY_SYSCLK_DIV_16_5_BIT) && (dividerNum < PERI_DIV_16_5_NR)) ||
             ((dividerType == CY_SYSCLK_DIV_24_5_BIT) && (dividerNum < PERI_DIV_24_5_NR)))
         {
-            PERI->CLOCK_CTL[ipBlock] = _VAL2FLD(PERI_CLOCK_CTL_TYPE_SEL, dividerType) |
-                                       _VAL2FLD(PERI_CLOCK_CTL_DIV_SEL,  dividerNum);
-            retval = CY_SYSCLK_SUCCESS;
+            PERI_CLOCK_CTL[ipBlock] = _VAL2FLD(CY_PERI_CLOCK_CTL_TYPE_SEL, dividerType) |
+                                      _VAL2FLD(CY_PERI_CLOCK_CTL_DIV_SEL, dividerNum);
+            retVal = CY_SYSCLK_SUCCESS;
         }
     }
-    return (retval);
+    return (retVal);
 }
 
 /*******************************************************************************
@@ -2053,13 +2079,13 @@ __STATIC_INLINE cy_en_sysclk_status_t
 * number within that type
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_PeriphAssignDivider
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_PeriphAssignDivider
 *
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_SysClk_PeriphGetAssignedDivider(en_clk_dst_t ipBlock)
 {
-    CY_ASSERT_L1(ipBlock < PERI_CLOCK_NR);
-    return PERI->CLOCK_CTL[ipBlock] & 0xFFul; /* bits [7:6] = TYPE_SEL, bits[5:0] = DIV_SEL */
+    CY_ASSERT_L1(CY_PERI_CLOCK_NR > (uint32_t)ipBlock);
+    return (PERI_CLOCK_CTL[ipBlock] & (CY_PERI_CLOCK_CTL_DIV_SEL_Msk | CY_PERI_CLOCK_CTL_TYPE_SEL_Msk));
 }
 
 /*******************************************************************************
@@ -2077,13 +2103,13 @@ __STATIC_INLINE uint32_t Cy_SysClk_PeriphGetAssignedDivider(en_clk_dst_t ipBlock
 * for information on how to phase-align a divider after it is enabled.
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_PeriphEnableDivider
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_PeriphEnableDivider
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_sysclk_status_t
                 Cy_SysClk_PeriphEnableDivider(cy_en_divider_types_t dividerType, uint32_t dividerNum)
 {
-    cy_en_sysclk_status_t retval = CY_SYSCLK_BAD_PARAM;
+    cy_en_sysclk_status_t retVal = CY_SYSCLK_BAD_PARAM;
     if (dividerType <= CY_SYSCLK_DIV_24_5_BIT)
     {
         if (((dividerType == CY_SYSCLK_DIV_8_BIT)    && (dividerNum < PERI_DIV_8_NR))    ||
@@ -2092,16 +2118,16 @@ __STATIC_INLINE cy_en_sysclk_status_t
             ((dividerType == CY_SYSCLK_DIV_24_5_BIT) && (dividerNum < PERI_DIV_24_5_NR)))
         {
             /* specify the divider, make the reference = clk_peri, and enable the divider */
-            PERI->DIV_CMD = PERI_DIV_CMD_ENABLE_Msk                      |
-                            PERI_DIV_CMD_PA_TYPE_SEL_Msk                 |
-                            PERI_DIV_CMD_PA_DIV_SEL_Msk                  |
-                            _VAL2FLD(PERI_DIV_CMD_TYPE_SEL, dividerType) |
-                            _VAL2FLD(PERI_DIV_CMD_DIV_SEL,  dividerNum);
-            (void)PERI->DIV_CMD; /* dummy read to handle buffered writes */
-            retval = CY_SYSCLK_SUCCESS;
+            PERI_DIV_CMD = PERI_DIV_CMD_ENABLE_Msk                         |
+                           CY_PERI_DIV_CMD_PA_TYPE_SEL_Msk                 |
+                           CY_PERI_DIV_CMD_PA_DIV_SEL_Msk                  |
+                           _VAL2FLD(CY_PERI_DIV_CMD_TYPE_SEL, dividerType) |
+                           _VAL2FLD(CY_PERI_DIV_CMD_DIV_SEL,  dividerNum);
+            (void)PERI_DIV_CMD; /* dummy read to handle buffered writes */
+            retVal = CY_SYSCLK_SUCCESS;
         }
     }
-    return (retval);
+    return (retVal);
 }
 
 /*******************************************************************************
@@ -2115,13 +2141,13 @@ __STATIC_INLINE cy_en_sysclk_status_t
 * \param dividerNum specifies which divider of the selected type to configure.
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_PeriphDisableDivider
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_PeriphDisableDivider
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_sysclk_status_t
                 Cy_SysClk_PeriphDisableDivider(cy_en_divider_types_t dividerType, uint32_t dividerNum)
 {
-    cy_en_sysclk_status_t retval = CY_SYSCLK_BAD_PARAM;
+    cy_en_sysclk_status_t retVal = CY_SYSCLK_BAD_PARAM;
     if (dividerType <= CY_SYSCLK_DIV_24_5_BIT)
     {
         if (((dividerType == CY_SYSCLK_DIV_8_BIT)    && (dividerNum < PERI_DIV_8_NR))    ||
@@ -2130,13 +2156,13 @@ __STATIC_INLINE cy_en_sysclk_status_t
             ((dividerType == CY_SYSCLK_DIV_24_5_BIT) && (dividerNum < PERI_DIV_24_5_NR)))
         {
             /* specify the divider and disable it */
-            PERI->DIV_CMD = _VAL2FLD(PERI_DIV_CMD_DISABLE, 1u) /* 1 = disable */ |
-                            _VAL2FLD(PERI_DIV_CMD_TYPE_SEL, dividerType)        |
-                            _VAL2FLD(PERI_DIV_CMD_DIV_SEL,  dividerNum);
-            retval = CY_SYSCLK_SUCCESS;
+            PERI_DIV_CMD = PERI_DIV_CMD_DISABLE_Msk          |
+             _VAL2FLD(CY_PERI_DIV_CMD_TYPE_SEL, dividerType) |
+             _VAL2FLD(CY_PERI_DIV_CMD_DIV_SEL,  dividerNum);
+            retVal = CY_SYSCLK_SUCCESS;
         }
     }
-    return (retval);
+    return (retVal);
 }
 
 /*******************************************************************************
@@ -2161,14 +2187,14 @@ __STATIC_INLINE cy_en_sysclk_status_t
 * to 63.
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_PeriphEnablePhaseAlignDivider
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_PeriphEnablePhaseAlignDivider
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_sysclk_status_t
                 Cy_SysClk_PeriphEnablePhaseAlignDivider(cy_en_divider_types_t dividerType, uint32_t dividerNum,
                                                         cy_en_divider_types_t dividerTypePA, uint32_t dividerNumPA)
 {
-    cy_en_sysclk_status_t retval = CY_SYSCLK_BAD_PARAM;
+    cy_en_sysclk_status_t retVal = CY_SYSCLK_BAD_PARAM;
     if (dividerTypePA <= CY_SYSCLK_DIV_24_5_BIT)
     {
         if (((dividerTypePA == CY_SYSCLK_DIV_8_BIT)    && (dividerNumPA < PERI_DIV_8_NR))    ||
@@ -2179,19 +2205,19 @@ __STATIC_INLINE cy_en_sysclk_status_t
             /* First, disable the divider that is to be phase-aligned.
                The other two parameters are checked in that function;
                if they're not valid, the divider is not disabled. */
-            retval = Cy_SysClk_PeriphDisableDivider(dividerType, dividerNum);
-            if (retval == CY_SYSCLK_SUCCESS)
+            retVal = Cy_SysClk_PeriphDisableDivider(dividerType, dividerNum);
+            if (retVal == CY_SYSCLK_SUCCESS)
             {
                 /* Then, specify the reference divider, and the divider, and enable the divider. */
-                PERI->DIV_CMD = _VAL2FLD(PERI_DIV_CMD_ENABLE, 1u) /* 1 = enable */ |
-                                _VAL2FLD(PERI_DIV_CMD_PA_TYPE_SEL, dividerTypePA)  |
-                                _VAL2FLD(PERI_DIV_CMD_PA_DIV_SEL,  dividerNumPA)   |
-                                _VAL2FLD(PERI_DIV_CMD_TYPE_SEL,    dividerType)    |
-                                _VAL2FLD(PERI_DIV_CMD_DIV_SEL,     dividerNum);
+                PERI_DIV_CMD = PERI_DIV_CMD_ENABLE_Msk             |
+                 _VAL2FLD(CY_PERI_DIV_CMD_PA_TYPE_SEL, dividerTypePA) |
+                 _VAL2FLD(CY_PERI_DIV_CMD_PA_DIV_SEL,  dividerNumPA)  |
+                 _VAL2FLD(CY_PERI_DIV_CMD_TYPE_SEL, dividerType)   |
+                 _VAL2FLD(CY_PERI_DIV_CMD_DIV_SEL,  dividerNum);
             }
         }
     }
-    return (retval);
+    return (retVal);
 }
 
 /*******************************************************************************
@@ -2209,12 +2235,12 @@ __STATIC_INLINE cy_en_sysclk_status_t
 * true = enabled
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_PeriphGetDividerEnabled
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_PeriphGetDividerEnabled
 *
 *******************************************************************************/
 __STATIC_INLINE bool Cy_SysClk_PeriphGetDividerEnabled(cy_en_divider_types_t dividerType, uint32_t dividerNum)
 {
-    uint32_t retval = 0ul;
+    bool retVal = false;
 
     CY_ASSERT_L1(((dividerType == CY_SYSCLK_DIV_8_BIT)    && (dividerNum < PERI_DIV_8_NR))    ||
                  ((dividerType == CY_SYSCLK_DIV_16_BIT)   && (dividerNum < PERI_DIV_16_NR))   ||
@@ -2224,21 +2250,21 @@ __STATIC_INLINE bool Cy_SysClk_PeriphGetDividerEnabled(cy_en_divider_types_t div
     switch(dividerType)
     {
         case CY_SYSCLK_DIV_8_BIT:
-            retval = _FLD2VAL(PERI_DIV_8_CTL_EN, PERI->DIV_8_CTL[dividerNum]);
+            retVal = _FLD2BOOL(PERI_DIV_8_CTL_EN, PERI_DIV_8_CTL[dividerNum]);
             break;
         case CY_SYSCLK_DIV_16_BIT:
-            retval = _FLD2VAL(PERI_DIV_16_CTL_EN, PERI->DIV_16_CTL[dividerNum]);
+            retVal = _FLD2BOOL(PERI_DIV_16_CTL_EN, PERI_DIV_16_CTL[dividerNum]);
             break;
         case CY_SYSCLK_DIV_16_5_BIT:
-            retval = _FLD2VAL(PERI_DIV_16_5_CTL_EN, PERI->DIV_16_5_CTL[dividerNum]);
+            retVal = _FLD2BOOL(PERI_DIV_16_5_CTL_EN, PERI_DIV_16_5_CTL[dividerNum]);
             break;
         case CY_SYSCLK_DIV_24_5_BIT:
-            retval = _FLD2VAL(PERI_DIV_24_5_CTL_EN, PERI->DIV_24_5_CTL[dividerNum]);
+            retVal = _FLD2BOOL(PERI_DIV_24_5_CTL_EN, PERI_DIV_24_5_CTL[dividerNum]);
             break;
         default:
             break;
     }
-    return ((bool)retval);
+    return (retVal);
 }
 /** \} group_sysclk_clk_peripheral_funcs */
 
@@ -2263,13 +2289,16 @@ __STATIC_INLINE uint8_t Cy_SysClk_ClkSlowGetDivider(void);
 * \param divider Divider value between 0 and 255.
 * Causes integer division of (divider value + 1), or division by 1 to 256.
 *
+* \note 
+* Call \ref SystemCoreClockUpdate after this function calling.
+*
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_ClkSlowSetDivider
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_ClkSlowSetDivider
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysClk_ClkSlowSetDivider(uint8_t divider)
 {
-    CY_SYSCLK_CLR_SET(CPUSS->CM0_CLOCK_CTL, CPUSS_CM0_CLOCK_CTL_SLOW_INT_DIV, (uint32_t)divider);
+    CY_REG32_CLR_SET(CPUSS_CM0_CLOCK_CTL, CPUSS_CM0_CLOCK_CTL_SLOW_INT_DIV, divider);
 }
 
 /*******************************************************************************
@@ -2282,12 +2311,12 @@ __STATIC_INLINE void Cy_SysClk_ClkSlowSetDivider(uint8_t divider)
 * The integer division done is by (divider value + 1), or division by 1 to 256.
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_ClkSlowSetDivider
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_ClkSlowSetDivider
 *
 *******************************************************************************/
 __STATIC_INLINE uint8_t Cy_SysClk_ClkSlowGetDivider(void)
 {
-    return ((uint8_t)_FLD2VAL(CPUSS_CM0_CLOCK_CTL_SLOW_INT_DIV, CPUSS->CM0_CLOCK_CTL));
+    return ((uint8_t)_FLD2VAL(CPUSS_CM0_CLOCK_CTL_SLOW_INT_DIV, CPUSS_CM0_CLOCK_CTL));
 }
 /** \} group_sysclk_clk_slow_funcs */
 
@@ -2305,10 +2334,10 @@ __STATIC_INLINE uint8_t Cy_SysClk_ClkSlowGetDivider(void)
 */
 typedef enum
 {
-    CY_SYSCLK_CLKLF_IN_ILO   = 0u, /**< clkLf is sourced by the internal low speed oscillator (ILO) */
-    CY_SYSCLK_CLKLF_IN_WCO   = 1u, /**< clkLf is sourced by the watch crystal oscillator (WCO) */
-    CY_SYSCLK_CLKLF_IN_ALTLF = 2u, /**< clkLf is sourced by the Alternate Low Frequency Clock (ALTLF) */
-    CY_SYSCLK_CLKLF_IN_PILO  = 3u  /**< clkLf is sourced by the precision low speed oscillator (PILO) */
+    CY_SYSCLK_CLKLF_IN_ILO   = 0U, /**< clkLf is sourced by the internal low speed oscillator (ILO) */
+    CY_SYSCLK_CLKLF_IN_WCO   = 1U, /**< clkLf is sourced by the watch crystal oscillator (WCO) */
+    CY_SYSCLK_CLKLF_IN_ALTLF = 2U, /**< clkLf is sourced by the Alternate Low Frequency Clock (ALTLF) */
+    CY_SYSCLK_CLKLF_IN_PILO  = 3U  /**< clkLf is sourced by the precision low speed oscillator (PILO) */
 } cy_en_clklf_in_sources_t;
 /** \} group_sysclk_clk_lf_enums */
 
@@ -2330,13 +2359,13 @@ __STATIC_INLINE cy_en_clklf_in_sources_t Cy_SysClk_ClkLfGetSource(void);
 * \note The watchdog timer (WDT) must be unlocked before calling this function.
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_ClkLfSetSource
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_ClkLfSetSource
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysClk_ClkLfSetSource(cy_en_clklf_in_sources_t source)
 {
     CY_ASSERT_L3(source <= CY_SYSCLK_CLKLF_IN_PILO);
-    CY_SYSCLK_CLR_SET(SRSS->CLK_SELECT, SRSS_CLK_SELECT_LFCLK_SEL, source);
+    CY_REG32_CLR_SET(SRSS_CLK_SELECT, SRSS_CLK_SELECT_LFCLK_SEL, source);
 }
 
 /*******************************************************************************
@@ -2348,12 +2377,12 @@ __STATIC_INLINE void Cy_SysClk_ClkLfSetSource(cy_en_clklf_in_sources_t source)
 * \return \ref cy_en_clklf_in_sources_t
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_ClkLfSetSource
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_ClkLfSetSource
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_clklf_in_sources_t Cy_SysClk_ClkLfGetSource(void)
 {
-    return (cy_en_clklf_in_sources_t)(_FLD2VAL(SRSS_CLK_SELECT_LFCLK_SEL, SRSS->CLK_SELECT));
+    return (cy_en_clklf_in_sources_t)(_FLD2VAL(SRSS_CLK_SELECT_LFCLK_SEL, SRSS_CLK_SELECT));
 }
 /** \} group_sysclk_clk_lf_funcs */
 
@@ -2372,13 +2401,18 @@ __STATIC_INLINE cy_en_clklf_in_sources_t Cy_SysClk_ClkLfGetSource(void)
 */
 typedef enum
 {
-    CY_SYSCLK_CLKTIMER_IN_IMO       =     0u, /**< clk_timer is sourced by the internal main oscillator (IMO) */
-    CY_SYSCLK_CLKTIMER_IN_HF0_NODIV =     1u, /**< clk_timer is sourced by clkHf[0] undivided */
-    CY_SYSCLK_CLKTIMER_IN_HF0_DIV2  = 0x101u, /**< clk_timer is sourced by clkHf[0] divided by 2 */
-    CY_SYSCLK_CLKTIMER_IN_HF0_DIV4  = 0x201u, /**< clk_timer is sourced by clkHf[0] divided by 4 */
-    CY_SYSCLK_CLKTIMER_IN_HF0_DIV8  = 0x301u  /**< clk_timer is sourced by clkHf[0] divided by 8 */
+    CY_SYSCLK_CLKTIMER_IN_IMO       = 0x000U, /**< clk_timer is sourced by the internal main oscillator (IMO) */
+    CY_SYSCLK_CLKTIMER_IN_HF0_NODIV = 0x001U, /**< clk_timer is sourced by clkHf[0] undivided */
+    CY_SYSCLK_CLKTIMER_IN_HF0_DIV2  = 0x101U, /**< clk_timer is sourced by clkHf[0] divided by 2 */
+    CY_SYSCLK_CLKTIMER_IN_HF0_DIV4  = 0x201U, /**< clk_timer is sourced by clkHf[0] divided by 4 */
+    CY_SYSCLK_CLKTIMER_IN_HF0_DIV8  = 0x301U  /**< clk_timer is sourced by clkHf[0] divided by 8 */
 } cy_en_clktimer_in_sources_t;
 /** \} group_sysclk_clk_timer_enums */
+
+/** \cond */
+#define CY_SRSS_CLK_TIMER_CTL_TIMER_Pos (SRSS_CLK_TIMER_CTL_TIMER_SEL_Pos)
+#define CY_SRSS_CLK_TIMER_CTL_TIMER_Msk (SRSS_CLK_TIMER_CTL_TIMER_SEL_Msk | SRSS_CLK_TIMER_CTL_TIMER_HF0_DIV_Msk)
+/** \endcond */
 
 /**
 * \addtogroup group_sysclk_clk_timer_funcs
@@ -2402,16 +2436,14 @@ __STATIC_INLINE void Cy_SysClk_ClkTimerDisable(void);
 * \param source \ref cy_en_clktimer_in_sources_t
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_ClkTimerSetSource
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_ClkTimerSetSource
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysClk_ClkTimerSetSource(cy_en_clktimer_in_sources_t source)
 {
     CY_ASSERT_L3(source <= CY_SYSCLK_CLKTIMER_IN_HF0_DIV8);
     /* set both fields TIMER_SEL and TIMER_HF0_DIV with the same input value */
-    SRSS->CLK_TIMER_CTL =
-        (SRSS->CLK_TIMER_CTL & ~(SRSS_CLK_TIMER_CTL_TIMER_SEL_Msk | SRSS_CLK_TIMER_CTL_TIMER_HF0_DIV_Msk)) |
-        (uint32_t)source;
+    CY_REG32_CLR_SET(SRSS_CLK_TIMER_CTL, CY_SRSS_CLK_TIMER_CTL_TIMER, source);
 }
 
 /*******************************************************************************
@@ -2423,14 +2455,13 @@ __STATIC_INLINE void Cy_SysClk_ClkTimerSetSource(cy_en_clktimer_in_sources_t sou
 * \return \ref cy_en_clktimer_in_sources_t
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_ClkTimerSetSource
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_ClkTimerSetSource
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_clktimer_in_sources_t Cy_SysClk_ClkTimerGetSource(void)
 {
     /* return both fields TIMER_SEL and TIMER_HF0_DIV as a single combined value */
-    return (cy_en_clktimer_in_sources_t)
-           (SRSS->CLK_TIMER_CTL & (SRSS_CLK_TIMER_CTL_TIMER_SEL_Msk | SRSS_CLK_TIMER_CTL_TIMER_HF0_DIV_Msk));
+    return (cy_en_clktimer_in_sources_t)(SRSS_CLK_TIMER_CTL & CY_SRSS_CLK_TIMER_CTL_TIMER_Msk);
 }
 
 /*******************************************************************************
@@ -2446,12 +2477,12 @@ __STATIC_INLINE cy_en_clktimer_in_sources_t Cy_SysClk_ClkTimerGetSource(void)
 * Do not change the divider value while the timer clock is enabled.
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_ClkTimerSetDivider
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_ClkTimerSetDivider
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysClk_ClkTimerSetDivider(uint8_t divider)
 {
-    CY_SYSCLK_CLR_SET(SRSS->CLK_TIMER_CTL, SRSS_CLK_TIMER_CTL_TIMER_DIV, (uint32_t)divider);
+    CY_REG32_CLR_SET(SRSS_CLK_TIMER_CTL, SRSS_CLK_TIMER_CTL_TIMER_DIV, divider);
 }
 
 /*******************************************************************************
@@ -2463,12 +2494,12 @@ __STATIC_INLINE void Cy_SysClk_ClkTimerSetDivider(uint8_t divider)
 * \return The divider value
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_ClkTimerSetDivider
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_ClkTimerSetDivider
 *
 *******************************************************************************/
 __STATIC_INLINE uint8_t Cy_SysClk_ClkTimerGetDivider(void)
 {
-    return ((uint8_t)_FLD2VAL(SRSS_CLK_TIMER_CTL_TIMER_DIV, SRSS->CLK_TIMER_CTL));
+    return ((uint8_t)_FLD2VAL(SRSS_CLK_TIMER_CTL_TIMER_DIV, SRSS_CLK_TIMER_CTL));
 }
 
 /*******************************************************************************
@@ -2479,12 +2510,12 @@ __STATIC_INLINE uint8_t Cy_SysClk_ClkTimerGetDivider(void)
 * for SYSTICK and one or more of the energy profiler counters.
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_ClkTimerEnable
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_ClkTimerEnable
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysClk_ClkTimerEnable(void)
 {
-    SRSS->CLK_TIMER_CTL |= _VAL2FLD(SRSS_CLK_TIMER_CTL_ENABLE, 1ul); /* 1 = enable */
+    SRSS_CLK_TIMER_CTL |= SRSS_CLK_TIMER_CTL_ENABLE_Msk;
 }
 
 /*******************************************************************************
@@ -2494,12 +2525,12 @@ __STATIC_INLINE void Cy_SysClk_ClkTimerEnable(void)
 * Disables the timer clock (clk_timer).
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_ClkTimerDisable
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_ClkTimerDisable
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysClk_ClkTimerDisable(void)
 {
-    SRSS->CLK_TIMER_CTL &= ~_VAL2FLD(SRSS_CLK_TIMER_CTL_ENABLE, 1ul); /* 0 = disable */
+    SRSS_CLK_TIMER_CTL &= ~SRSS_CLK_TIMER_CTL_ENABLE_Msk;
 }
 /** \} group_sysclk_clk_timer_funcs */
 
@@ -2543,13 +2574,21 @@ typedef enum
 */
 typedef enum
 {
-    CY_SYSCLK_PUMP_NO_DIV, /**< No division on pump clock */
-    CY_SYSCLK_PUMP_DIV_2,  /**< Pump clock divided by 2 */
-    CY_SYSCLK_PUMP_DIV_4,  /**< Pump clock divided by 4 */
-    CY_SYSCLK_PUMP_DIV_8,  /**< Pump clock divided by 8 */
-    CY_SYSCLK_PUMP_DIV_16  /**< Pump clock divided by 16 */
+    CY_SYSCLK_PUMP_NO_DIV = 0U, /**< No division on pump clock */
+    CY_SYSCLK_PUMP_DIV_2  = 1U, /**< Pump clock divided by 2 */
+    CY_SYSCLK_PUMP_DIV_4  = 2U, /**< Pump clock divided by 4 */
+    CY_SYSCLK_PUMP_DIV_8  = 3U, /**< Pump clock divided by 8 */
+    CY_SYSCLK_PUMP_DIV_16 = 4U  /**< Pump clock divided by 16 */
 } cy_en_clkpump_divide_t;
 /** \} group_sysclk_clk_pump_enums */
+
+/** \cond */
+#define  CY_SYSCLK_FLL_IS_DIVIDER_VALID(div) (((div) == CY_SYSCLK_PUMP_NO_DIV) || \
+                                              ((div) == CY_SYSCLK_PUMP_DIV_2)  || \
+                                              ((div) == CY_SYSCLK_PUMP_DIV_4)  || \
+                                              ((div) == CY_SYSCLK_PUMP_DIV_8)  || \
+                                              ((div) == CY_SYSCLK_PUMP_DIV_16))
+/** \endcond */
 
 /**
 * \addtogroup group_sysclk_clk_pump_funcs
@@ -2575,13 +2614,13 @@ __STATIC_INLINE void Cy_SysClk_ClkPumpDisable(void);
 * Do not change the source while the pump clock is enabled.
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_ClkPumpSetSource
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_ClkPumpSetSource
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysClk_ClkPumpSetSource(cy_en_clkpump_in_sources_t source)
 {
     CY_ASSERT_L3(source <= CY_SYSCLK_PUMP_IN_CLKPATH15);
-    CY_SYSCLK_CLR_SET(SRSS->CLK_SELECT, SRSS_CLK_SELECT_PUMP_SEL, source);
+    CY_REG32_CLR_SET(SRSS_CLK_SELECT, SRSS_CLK_SELECT_PUMP_SEL, source);
 }
 
 /*******************************************************************************
@@ -2593,12 +2632,12 @@ __STATIC_INLINE void Cy_SysClk_ClkPumpSetSource(cy_en_clkpump_in_sources_t sourc
 * \return \ref cy_en_clkpump_in_sources_t
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_ClkPumpSetSource
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_ClkPumpSetSource
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_clkpump_in_sources_t Cy_SysClk_ClkPumpGetSource(void)
 {
-    return (cy_en_clkpump_in_sources_t)_FLD2VAL(SRSS_CLK_SELECT_PUMP_SEL, SRSS->CLK_SELECT);
+    return (cy_en_clkpump_in_sources_t)_FLD2VAL(SRSS_CLK_SELECT_PUMP_SEL, SRSS_CLK_SELECT);
 }
 
 /*******************************************************************************
@@ -2613,13 +2652,13 @@ __STATIC_INLINE cy_en_clkpump_in_sources_t Cy_SysClk_ClkPumpGetSource(void)
 * Do not change the divider value while the pump clock is enabled.
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_ClkPumpSetDivider
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_ClkPumpSetDivider
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysClk_ClkPumpSetDivider(cy_en_clkpump_divide_t divider)
 {
-    CY_ASSERT_L3(divider <= (SRSS_CLK_SELECT_PUMP_DIV_Msk >> SRSS_CLK_SELECT_PUMP_DIV_Pos));
-    CY_SYSCLK_CLR_SET(SRSS->CLK_SELECT, SRSS_CLK_SELECT_PUMP_DIV, divider);
+    CY_ASSERT_L3(CY_SYSCLK_FLL_IS_DIVIDER_VALID(divider));
+    CY_REG32_CLR_SET(SRSS_CLK_SELECT, SRSS_CLK_SELECT_PUMP_DIV, divider);
 }
 
 /*******************************************************************************
@@ -2631,12 +2670,12 @@ __STATIC_INLINE void Cy_SysClk_ClkPumpSetDivider(cy_en_clkpump_divide_t divider)
 * \return \ref cy_en_clkpump_divide_t
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_ClkPumpSetDivider
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_ClkPumpSetDivider
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_clkpump_divide_t Cy_SysClk_ClkPumpGetDivider(void)
 {
-    return (cy_en_clkpump_divide_t)_FLD2VAL(SRSS_CLK_SELECT_PUMP_DIV, SRSS->CLK_SELECT);
+    return (cy_en_clkpump_divide_t)_FLD2VAL(SRSS_CLK_SELECT_PUMP_DIV, SRSS_CLK_SELECT);
 }
 
 /*******************************************************************************
@@ -2647,12 +2686,12 @@ __STATIC_INLINE cy_en_clkpump_divide_t Cy_SysClk_ClkPumpGetDivider(void)
 * pumps in the CTBm block.
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_ClkPumpEnable
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_ClkPumpEnable
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysClk_ClkPumpEnable(void)
 {
-    SRSS->CLK_SELECT |= _VAL2FLD(SRSS_CLK_SELECT_PUMP_ENABLE, 1ul); /* 1 = enable */
+    SRSS_CLK_SELECT |= SRSS_CLK_SELECT_PUMP_ENABLE_Msk;
 }
 
 /*******************************************************************************
@@ -2662,12 +2701,12 @@ __STATIC_INLINE void Cy_SysClk_ClkPumpEnable(void)
 * Disables the pump clock (clk_pump).
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_ClkPumpDisable
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_ClkPumpDisable
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysClk_ClkPumpDisable(void)
 {
-    SRSS->CLK_SELECT &= ~_VAL2FLD(SRSS_CLK_SELECT_PUMP_ENABLE, 1ul); /* 0 = disable */
+    SRSS_CLK_SELECT &= ~SRSS_CLK_SELECT_PUMP_ENABLE_Msk;
 }
 /** \} group_sysclk_clk_pump_funcs */
 
@@ -2712,13 +2751,13 @@ __STATIC_INLINE cy_en_clkbak_in_sources_t Cy_SysClk_ClkBakGetSource(void);
 * (see \ref Cy_SysClk_ClkLfSetSource), select WCO directly - do not select clkLf.
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_ClkBakSetSource
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_ClkBakSetSource
 *
 *******************************************************************************/
 __STATIC_INLINE void Cy_SysClk_ClkBakSetSource(cy_en_clkbak_in_sources_t source)
 {
     CY_ASSERT_L3(source <= CY_SYSCLK_BAK_IN_CLKLF);
-    CY_SYSCLK_CLR_SET(BACKUP->CTL, BACKUP_CTL_CLK_SEL, source);
+    CY_REG32_CLR_SET(BACKUP_CTL, BACKUP_CTL_CLK_SEL, source);
 }
 
 /*******************************************************************************
@@ -2730,12 +2769,12 @@ __STATIC_INLINE void Cy_SysClk_ClkBakSetSource(cy_en_clkbak_in_sources_t source)
 * \return \ref cy_en_clkbak_in_sources_t
 *
 * \funcusage
-* \snippet sysclk/sysclk_v1_10_sut_01.cydsn/main_cm4.c snippet_Cy_SysClk_ClkBakSetSource
+* \snippet sysclk/1.20/snippet/main.c snippet_Cy_SysClk_ClkBakSetSource
 *
 *******************************************************************************/
 __STATIC_INLINE cy_en_clkbak_in_sources_t Cy_SysClk_ClkBakGetSource(void)
 {
-    return (cy_en_clkbak_in_sources_t)_FLD2VAL(BACKUP_CTL_CLK_SEL, BACKUP->CTL);
+    return (cy_en_clkbak_in_sources_t)_FLD2VAL(BACKUP_CTL_CLK_SEL, BACKUP_CTL);
 }
 /** \} group_sysclk_clk_bak_funcs */
 
@@ -2743,7 +2782,7 @@ __STATIC_INLINE cy_en_clkbak_in_sources_t Cy_SysClk_ClkBakGetSource(void)
 }
 #endif /* __cplusplus */
 
-#endif /* __CY_SYSCLK_H__ */
+#endif /* CY_SYSCLK_H */
 
 /** \} group_sysclk */
 

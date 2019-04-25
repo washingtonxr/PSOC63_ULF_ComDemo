@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_lvd.h
-* \version 1.0.1
+* \version 1.10
 * 
 * The header file of the LVD driver.
 *
@@ -15,7 +15,12 @@
 /**
 * \addtogroup group_lvd
 * \{
-* The LVD driver provides an API to manage the Low Voltage Detection block. 
+* The LVD driver provides an API to manage the Low Voltage Detection block.
+*
+* The functions and other declarations used in this driver are in cy_lvd.h. 
+* You can include cy_pdl.h (ModusToolbox only) to get access to all functions 
+* and declarations in the PDL. 
+* 
 * The LVD block provides a status of currently observed VDDD voltage 
 * and triggers an interrupt when the observed voltage crosses an adjusted
 * threshold.
@@ -27,7 +32,7 @@
 * \ref Cy_LVD_ClearInterruptMask functions correspondingly) before changing the
 * threshold to prevent propagating a false interrupt. 
 * Then configure interrupts by the \ref Cy_LVD_SetInterruptConfig function, do
-* not forget to initialise an interrupt handler (the interrupt source number 
+* not forget to initialize an interrupt handler (the interrupt source number 
 * is srss_interrupt_IRQn).
 * Then enable LVD by the \ref Cy_LVD_Enable function, then wait for at least 20us
 * to get the circuit stabilized and clear the possible false interrupts by the
@@ -37,11 +42,11 @@
 * For example:
 * \snippet lvd_1_0_sut_00.cydsn/main_cm4.c Cy_LVD_Snippet
 *
-* Note that the LVD circuit is available only in Active, LPACTIVE, Sleep, and
-* LPSLEEP power modes. If an LVD is required in Deep-Sleep mode, then the device
-* should be configured to periodically wake up from deep sleep using a
-* Deep-Sleep wakeup source. This makes sure a LVD check is performed during
-* Active/LPACTIVE mode.
+* Note that the LVD circuit is available only in Low Power and Ultra Low Power 
+* modes. If an LVD is required in Deep Sleep mode, then the device
+* should be configured to periodically wake up from Deep Sleep using a
+* Deep Sleep wakeup source. This makes sure a LVD check is performed during
+* Low Power or Ultra Low Power modes.
 *
 * \section group_lvd_more_information More Information
 * See the LVD chapter of the device technical reference manual (TRM).
@@ -84,6 +89,19 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason of Change</th></tr>
 *   <tr>
+*     <td rowspan="2">1.10</td>
+*     <td>Flattened the organization of the driver source code into the single 
+*         source directory and the single include directory.
+*     </td>
+*     <td>Driver library directory-structure simplification.</td>
+*   </tr>
+*   <tr>
+*     <td>Added register access layer. Use register access macros instead
+*         of direct register access using dereferenced pointers.</td>
+*     <td>Makes register access device-independent, so that the PDL does 
+*         not need to be recompiled for each supported part number.</td>
+*   </tr>
+*   <tr>
 *     <td>1.0.1</td>
 *     <td>Added Low Power Callback section</td>
 *     <td>Documentation update and clarification</td>
@@ -107,7 +125,8 @@
 #if !defined CY_LVD_H
 #define CY_LVD_H
     
-#include "syspm/cy_syspm.h"
+#include "cy_syspm.h"
+#include "cy_device.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -121,7 +140,7 @@ extern "C" {
 #define CY_LVD_DRV_VERSION_MAJOR       1
 
 /** The driver minor version */
-#define CY_LVD_DRV_VERSION_MINOR       0
+#define CY_LVD_DRV_VERSION_MINOR       10
 
 /** The LVD driver identifier */
 #define CY_LVD_ID                      (CY_PDL_DRV_ID(0x39U))
@@ -206,7 +225,8 @@ typedef enum
 #define CY_LVD_CHECK_INTR_CFG(intrCfg)   (((intrCfg) == CY_LVD_INTR_DISABLE) || \
                                           ((intrCfg) == CY_LVD_INTR_RISING) || \
                                           ((intrCfg) == CY_LVD_INTR_FALLING) || \
-                                          ((intrCfg) == CY_LVD_INTR_BOTH))                                      
+                                          ((intrCfg) == CY_LVD_INTR_BOTH))
+
 /** \endcond */
 
 /**
@@ -229,7 +249,7 @@ __STATIC_INLINE void Cy_LVD_SetInterruptConfig(cy_en_lvd_intr_config_t lvdInterr
 * The driver supports SysPm callback for Deep Sleep transition.
 * \{
 */
-cy_en_syspm_status_t Cy_LVD_DeepSleepCallback(cy_stc_syspm_callback_params_t * callbackParams);
+cy_en_syspm_status_t Cy_LVD_DeepSleepCallback(cy_stc_syspm_callback_params_t * callbackParams, cy_en_syspm_callback_mode_t mode);
 /** \} */
 
 /*******************************************************************************
@@ -243,7 +263,7 @@ cy_en_syspm_status_t Cy_LVD_DeepSleepCallback(cy_stc_syspm_callback_params_t * c
 *******************************************************************************/
 __STATIC_INLINE void Cy_LVD_Enable(void)
 {
-    SRSS->PWR_LVD_CTL |= SRSS_PWR_LVD_CTL_HVLVD1_EN_Msk;
+    SRSS_PWR_LVD_CTL |= SRSS_PWR_LVD_CTL_HVLVD1_EN_Msk;
 }
 
 
@@ -256,7 +276,7 @@ __STATIC_INLINE void Cy_LVD_Enable(void)
 *******************************************************************************/
 __STATIC_INLINE void Cy_LVD_Disable(void)
 {
-    SRSS->PWR_LVD_CTL &= (uint32_t) ~SRSS_PWR_LVD_CTL_HVLVD1_EN_Msk;
+    SRSS_PWR_LVD_CTL &= (uint32_t) ~SRSS_PWR_LVD_CTL_HVLVD1_EN_Msk;
 }
 
 
@@ -277,7 +297,7 @@ __STATIC_INLINE void Cy_LVD_Disable(void)
 __STATIC_INLINE void Cy_LVD_SetThreshold(cy_en_lvd_tripsel_t threshold)
 {
     CY_ASSERT_L3(CY_LVD_CHECK_TRIPSEL(threshold));
-    SRSS->PWR_LVD_CTL = _CLR_SET_FLD32U(SRSS->PWR_LVD_CTL, SRSS_PWR_LVD_CTL_HVLVD1_TRIPSEL, threshold);
+    SRSS_PWR_LVD_CTL = _CLR_SET_FLD32U(SRSS_PWR_LVD_CTL, SRSS_PWR_LVD_CTL_HVLVD1_TRIPSEL, threshold);
 }
 
 
@@ -293,7 +313,7 @@ __STATIC_INLINE void Cy_LVD_SetThreshold(cy_en_lvd_tripsel_t threshold)
 *******************************************************************************/
 __STATIC_INLINE cy_en_lvd_status_t Cy_LVD_GetStatus(void)
 {
-    return ((cy_en_lvd_status_t) _FLD2VAL(SRSS_PWR_LVD_STATUS_HVLVD1_OK, SRSS->PWR_LVD_STATUS));
+    return ((cy_en_lvd_status_t) _FLD2VAL(SRSS_PWR_LVD_STATUS_HVLVD1_OK, SRSS_PWR_LVD_STATUS));
 }
 
 
@@ -309,7 +329,7 @@ __STATIC_INLINE cy_en_lvd_status_t Cy_LVD_GetStatus(void)
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_LVD_GetInterruptStatus(void)
 {
-    return (SRSS->SRSS_INTR & SRSS_SRSS_INTR_HVLVD1_Msk);
+    return (SRSS_SRSS_INTR & SRSS_SRSS_INTR_HVLVD1_Msk);
 }
 
 
@@ -323,8 +343,8 @@ __STATIC_INLINE uint32_t Cy_LVD_GetInterruptStatus(void)
 *******************************************************************************/
 __STATIC_INLINE void Cy_LVD_ClearInterrupt(void)
 {
-    SRSS->SRSS_INTR = SRSS_SRSS_INTR_HVLVD1_Msk;
-    (void) SRSS->SRSS_INTR;
+    SRSS_SRSS_INTR = SRSS_SRSS_INTR_HVLVD1_Msk;
+    (void) SRSS_SRSS_INTR;
 }
 
 
@@ -338,7 +358,7 @@ __STATIC_INLINE void Cy_LVD_ClearInterrupt(void)
 *******************************************************************************/
 __STATIC_INLINE void Cy_LVD_SetInterrupt(void)
 {
-    SRSS->SRSS_INTR_SET = SRSS_SRSS_INTR_SET_HVLVD1_Msk;
+    SRSS_SRSS_INTR_SET = SRSS_SRSS_INTR_SET_HVLVD1_Msk;
 }
 
 
@@ -354,7 +374,7 @@ __STATIC_INLINE void Cy_LVD_SetInterrupt(void)
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_LVD_GetInterruptMask(void)
 { 
-    return (SRSS->SRSS_INTR_MASK & SRSS_SRSS_INTR_MASK_HVLVD1_Msk);
+    return (SRSS_SRSS_INTR_MASK & SRSS_SRSS_INTR_MASK_HVLVD1_Msk);
 }
 
 
@@ -368,7 +388,7 @@ __STATIC_INLINE uint32_t Cy_LVD_GetInterruptMask(void)
 *******************************************************************************/
 __STATIC_INLINE void Cy_LVD_SetInterruptMask(void)
 {
-    SRSS->SRSS_INTR_MASK |= SRSS_SRSS_INTR_MASK_HVLVD1_Msk;
+    SRSS_SRSS_INTR_MASK |= SRSS_SRSS_INTR_MASK_HVLVD1_Msk;
 }
 
 
@@ -382,7 +402,7 @@ __STATIC_INLINE void Cy_LVD_SetInterruptMask(void)
 *******************************************************************************/
 __STATIC_INLINE void Cy_LVD_ClearInterruptMask(void)
 {
-    SRSS->SRSS_INTR_MASK &= (uint32_t) ~SRSS_SRSS_INTR_MASK_HVLVD1_Msk;
+    SRSS_SRSS_INTR_MASK &= (uint32_t) ~SRSS_SRSS_INTR_MASK_HVLVD1_Msk;
 }
 
 
@@ -399,7 +419,7 @@ __STATIC_INLINE void Cy_LVD_ClearInterruptMask(void)
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_LVD_GetInterruptStatusMasked(void)
 {
-    return (SRSS->SRSS_INTR_MASKED & SRSS_SRSS_INTR_MASKED_HVLVD1_Msk);
+    return (SRSS_SRSS_INTR_MASKED & SRSS_SRSS_INTR_MASKED_HVLVD1_Msk);
 }
 
 
@@ -416,7 +436,7 @@ __STATIC_INLINE uint32_t Cy_LVD_GetInterruptStatusMasked(void)
 __STATIC_INLINE void Cy_LVD_SetInterruptConfig(cy_en_lvd_intr_config_t lvdInterruptConfig)
 {
     CY_ASSERT_L3(CY_LVD_CHECK_INTR_CFG(lvdInterruptConfig));
-    SRSS->SRSS_INTR_CFG = _CLR_SET_FLD32U(SRSS->SRSS_INTR_CFG, SRSS_SRSS_INTR_CFG_HVLVD1_EDGE_SEL, lvdInterruptConfig);
+    SRSS_SRSS_INTR_CFG = _CLR_SET_FLD32U(SRSS_SRSS_INTR_CFG, SRSS_SRSS_INTR_CFG_HVLVD1_EDGE_SEL, lvdInterruptConfig);
 }
 
 

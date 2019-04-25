@@ -1,6 +1,6 @@
 /***************************************************************************//** 
 * \file cy_profile.c
-* \version 1.0
+* \version 1.10
 * 
 * Provides an API declaration of the energy profiler (EP) driver. 
 *
@@ -15,6 +15,8 @@
 #include "cy_profile.h"
 #include <string.h>
 
+#ifdef CY_IP_MXPROFILE
+
 #if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
@@ -25,7 +27,7 @@ extern "C" {
 static cy_en_profile_status_t Cy_Profile_IsPtrValid(const cy_stc_profile_ctr_ptr_t ctrAddr);
 
 /* Internal structure - Control and status information for each counter */
-static cy_stc_profile_ctr_t cy_ep_ctrs[PROFILE_PRFL_CNT_NR];
+static cy_stc_profile_ctr_t cy_ep_ctrs[CY_PROFILE_PRFL_CNT_NR];
 
 
 /* ========================================================================== */
@@ -85,15 +87,15 @@ void Cy_Profile_ISR(void)
 
     /* Grab a copy of the overflow register. Each bit in the register indicates
        whether or not the respective counter has overflowed. */
-    uint32_t ovflowBits = _FLD2VAL(PROFILE_INTR_MASKED_CNT_OVFLW, PROFILE->INTR_MASKED);
+    uint32_t ovflowBits = _FLD2VAL(PROFILE_INTR_MASKED_CNT_OVFLW, PROFILE_INTR_MASKED);
 
-    PROFILE->INTR = ovflowBits; /* clear the sources of the interrupts */
+    PROFILE_INTR = ovflowBits; /* clear the sources of the interrupts */
 
     /* scan through the overflow bits, i.e., for each counter */
-    for (ctr = 0UL; (ctr < (uint32_t)(PROFILE_PRFL_CNT_NR)) && (ovflowBits != 0UL); ctr++)
+    for (ctr = 0UL; (ctr < (uint32_t)(CY_PROFILE_PRFL_CNT_NR)) && (ovflowBits != 0UL); ctr++)
     {
         /* Increment the overflow bit only if the counter is being used.
-           (Which should always be the case.) */
+           (which should always be the case.) */
         if (((ovflowBits & 1UL) != 0UL) && (cy_ep_ctrs[ctr].used != 0u))
         {
             cy_ep_ctrs[ctr].overflow++;
@@ -115,7 +117,7 @@ void Cy_Profile_ISR(void)
 * This operation allows the enabled profile counters to start counting.
 *
 * \note The profile interrupt should be enabled before calling this function
-* in order for the firmware to be notified when a counter overflow occurs.
+* for the firmware to be notified when a counter overflow occurs.
 *
 * \funcusage
 * \snippet profile/profile_v1_0_sut_01.cydsn/main_cm4.c snippet_Cy_Profile_StartProfiling
@@ -128,7 +130,7 @@ void Cy_Profile_StartProfiling(void)
     /* clear all of the counter array overflow variables */
     for (i = 0UL; i < CY_N_ELMTS(cy_ep_ctrs); cy_ep_ctrs[i++].overflow = 0UL){}
     /* send the hardware command */
-    PROFILE->CMD = CY_PROFILE_START_TR;
+    PROFILE_CMD = CY_PROFILE_START_TR;
 }
 
 
@@ -183,21 +185,26 @@ void Cy_Profile_ClearConfiguration(void)
 cy_stc_profile_ctr_ptr_t Cy_Profile_ConfigureCounter(en_ep_mon_sel_t monitor, cy_en_profile_duration_t duration,
                                                      cy_en_profile_ref_clk_t refClk,  uint32_t weight)
 {
+    CY_ASSERT_L1(CY_PROFILE_IS_MONITOR_VALID(monitor));
+    CY_ASSERT_L3(CY_PROFILE_IS_DURATION_VALID(duration));
+    CY_ASSERT_L3(CY_PROFILE_IS_REFCLK_VALID(refClk));
+    
     cy_stc_profile_ctr_ptr_t retVal = NULL; /* error value if no counter is available */
     volatile uint8_t i;
-    /* scan through the counters for an unused one */
-    for (i = 0u; (cy_ep_ctrs[i].used != 0u) && (i < CY_N_ELMTS(cy_ep_ctrs)); i++){}
+    
+    /* Scan through the counters for an unused one */
+    for (i = 0u; (cy_ep_ctrs[i].used != 0u) && (i < (CY_N_ELMTS(cy_ep_ctrs))); i++){}
     if (i < CY_N_ELMTS(cy_ep_ctrs))
     { /* found one, fill in its data structure */
         cy_ep_ctrs[i].ctrNum = i;
         cy_ep_ctrs[i].used = 1u;
-        cy_ep_ctrs[i].cntAddr = (PROFILE_CNT_STRUCT_Type *)&(PROFILE->CNT_STRUCT[i]);
+        cy_ep_ctrs[i].cntAddr = (PROFILE_CNT_STRUCT_Type *)&(PROFILE_CNT_STRUCT[i]);
         cy_ep_ctrs[i].ctlRegVals.cntDuration = duration;
         cy_ep_ctrs[i].ctlRegVals.refClkSel = refClk;
         cy_ep_ctrs[i].ctlRegVals.monSel = monitor;
         cy_ep_ctrs[i].overflow = 0UL;
         cy_ep_ctrs[i].weight = weight;
-        /* pass back the handle to (address of) the counter data structure */
+        /* Pass back the handle to (address of) the counter data structure */
         retVal = &cy_ep_ctrs[i];
         
         /* Load the CTL register bitfields of the assigned counter. */
@@ -266,16 +273,16 @@ cy_en_profile_status_t Cy_Profile_FreeCounter(cy_stc_profile_ctr_ptr_t ctrAddr)
 *******************************************************************************/
 cy_en_profile_status_t Cy_Profile_EnableCounter(cy_stc_profile_ctr_ptr_t ctrAddr)
 {
-    cy_en_profile_status_t retStatus = CY_PROFILE_BAD_PARAM;
+    cy_en_profile_status_t retStatus = Cy_Profile_IsPtrValid(ctrAddr);
     
-    retStatus = Cy_Profile_IsPtrValid(ctrAddr);
-    if (retStatus == CY_PROFILE_SUCCESS)
+    if (CY_PROFILE_SUCCESS == retStatus)
     {
         /* set the ENABLED bit */
         ctrAddr->cntAddr->CTL |= _VAL2FLD(PROFILE_CNT_STRUCT_CTL_ENABLED, 1UL);
         /* set the INTR_MASK bit for the counter being used */
-        PROFILE->INTR_MASK |= (1UL << (ctrAddr->ctrNum));
+        PROFILE_INTR_MASK |= (1UL << (ctrAddr->ctrNum));
     }
+    
     return (retStatus);
 }
 
@@ -302,13 +309,15 @@ cy_en_profile_status_t Cy_Profile_EnableCounter(cy_stc_profile_ctr_ptr_t ctrAddr
 cy_en_profile_status_t Cy_Profile_DisableCounter(cy_stc_profile_ctr_ptr_t ctrAddr)
 {
     cy_en_profile_status_t retStatus = Cy_Profile_IsPtrValid(ctrAddr);
-    if (retStatus == CY_PROFILE_SUCCESS)
+    
+    if (CY_PROFILE_SUCCESS == retStatus)
     {
         /* clear the ENABLED bit */
         ctrAddr->cntAddr->CTL &= ~(_VAL2FLD(PROFILE_CNT_STRUCT_CTL_ENABLED, 1UL));
         /* clear the INTR_MASK bit for the counter being used */
-        PROFILE->INTR_MASK &= ~(1UL << (ctrAddr->ctrNum));
+        PROFILE_INTR_MASK &= ~(1UL << (ctrAddr->ctrNum));
     }
+    
     return (retStatus);
 }
 
@@ -337,7 +346,8 @@ cy_en_profile_status_t Cy_Profile_DisableCounter(cy_stc_profile_ctr_ptr_t ctrAdd
 cy_en_profile_status_t Cy_Profile_GetRawCount(cy_stc_profile_ctr_ptr_t ctrAddr, uint64_t *result)
 {
     cy_en_profile_status_t retStatus = Cy_Profile_IsPtrValid(ctrAddr);
-    if (retStatus == CY_PROFILE_SUCCESS)
+    
+    if ((result != NULL) && (CY_PROFILE_SUCCESS == retStatus))
     {
         /* read the counter control register, and the counter current value */
         ctrAddr->ctlReg = ctrAddr->cntAddr->CTL;
@@ -346,6 +356,7 @@ cy_en_profile_status_t Cy_Profile_GetRawCount(cy_stc_profile_ctr_ptr_t ctrAddr, 
         /* report the count with overflow */
         *result = ((uint64_t)(ctrAddr->overflow) << 32) | (uint64_t)(ctrAddr->cntReg);
     }
+    
     return (retStatus);
 }
 
@@ -372,11 +383,13 @@ cy_en_profile_status_t Cy_Profile_GetWeightedCount(cy_stc_profile_ctr_ptr_t ctrA
 {
     uint64_t temp;
     cy_en_profile_status_t retStatus = Cy_Profile_GetRawCount(ctrAddr, &temp);
-    if (retStatus == CY_PROFILE_SUCCESS)
+    
+    if ((result != NULL) && (CY_PROFILE_SUCCESS == retStatus))
     {
         /* calculate weighted count */
         *result = temp * (uint64_t)(ctrAddr->weight);
     }
+    
     return (retStatus);
 }
 
@@ -404,16 +417,22 @@ cy_en_profile_status_t Cy_Profile_GetWeightedCount(cy_stc_profile_ctr_ptr_t ctrA
 uint64_t Cy_Profile_GetSumWeightedCounts(cy_stc_profile_ctr_ptr_t ptrsArray[],
                                     uint32_t numCounters)
 {
-    uint64_t daSum = (uint64_t)0ul;
-    uint64_t num;
-    uint32_t i;
-
-    for (i = 0ul; i < numCounters; i++)
+    uint64_t daSum = (uint64_t)0UL;
+    
+    CY_ASSERT_L2(CY_PROFILE_IS_CNT_VALID(numCounters));
+    
+    if(ptrsArray != NULL)
     {
-        /* ignore error reported by Ep_GetWeightedCount() */
-        if (Cy_Profile_GetWeightedCount(ptrsArray[i], &num) == CY_PROFILE_SUCCESS)
+        uint64_t num;
+        uint32_t i;
+
+        for (i = 0UL; i < numCounters; i++)
         {
-            daSum += num;
+            /* ignore error reported by Ep_GetWeightedCount() */
+            if (CY_PROFILE_SUCCESS == Cy_Profile_GetWeightedCount(ptrsArray[i], &num))
+            {
+                daSum += num;
+            }
         }
     }
     
@@ -424,5 +443,6 @@ uint64_t Cy_Profile_GetSumWeightedCounts(cy_stc_profile_ctr_ptr_t ptrsArray[],
 }
 #endif /* __cplusplus */
 
+#endif /* CY_IP_MXPROFILE */
 
 /* [] END OF FILE */

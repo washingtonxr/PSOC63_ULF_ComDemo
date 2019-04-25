@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_ipc_sema.c
-* \version 1.20
+* \version 1.30
 *
 *  Description:
 *   IPC Semaphore Driver - This source file contains the source code for the
@@ -13,9 +13,9 @@
 * the software package with which this file was provided.
 *******************************************************************************/
 
-#include "ipc/cy_ipc_drv.h"
-#include "ipc/cy_ipc_sema.h"
-#include "syslib/cy_syslib.h"
+#include "cy_ipc_drv.h"
+#include "cy_ipc_sema.h"
+#include "cy_syslib.h"
 #include <string.h> /* The memset() definition */
 
 /* Defines a mask to Check if semaphore count is a multiple of 32 */
@@ -24,14 +24,6 @@
 /* Pointer to IPC structure used for semaphores */
 static IPC_STRUCT_Type* cy_semaIpcStruct;
 
-/*
-* Internal IPC semaphore control data structure.
-*/
-typedef struct
-{
-    uint32_t maxSema;      /* Maximum semaphores in system */
-    uint32_t *arrayPtr;    /* Pointer to semaphores array  */
-} cy_stc_ipc_sema_t;
 
 /*******************************************************************************
 * Function Name: Cy_IPC_Sema_Init
@@ -75,39 +67,85 @@ cy_en_ipcsema_status_t Cy_IPC_Sema_Init(uint32_t ipcChannel,
 
     cy_en_ipcsema_status_t retStatus = CY_IPC_SEMA_BAD_PARAM;
 
+    if( (NULL == memPtr) && (0u == count))
+    {
+        cy_semaIpcStruct = Cy_IPC_Drv_GetIpcBaseAddress(ipcChannel);
+
+        retStatus = CY_IPC_SEMA_SUCCESS;
+    }
+
+    /* Check for non Null pointers and count value */
+    else if ((NULL != memPtr) && (0u != count))
+    {
+        cy_semaData.maxSema  = count;
+        cy_semaData.arrayPtr = memPtr;
+
+        retStatus = Cy_IPC_Sema_InitExt(ipcChannel, &cy_semaData);
+    }
+    
+    else
+    {
+        retStatus = CY_IPC_SEMA_BAD_PARAM;
+    }
+
+    return(retStatus);
+}
+
+
+/*******************************************************************************
+* Function Name: Cy_IPC_Sema_InitExt
+****************************************************************************//**
+* This function initializes the semaphores subsystem. The user must create an
+* array of unsigned 32-bit words to hold the semaphore bits. The number
+* of semaphores will be the size of the array * 32. The total semaphores count
+* will always be a multiple of 32.
+*
+* \note In a multi-CPU system this init function should be called with all
+* initialized parameters on one CPU only to provide a pointer to SRAM that can
+* be shared between all the CPUs in the system that will use semaphores.
+* On other CPUs user must specify the IPC semaphores channel and pass 0 / NULL
+* to count and memPtr parameters correspondingly.
+*
+* \param ipcChannel
+* The IPC channel number used for semaphores
+*
+* \param ipcSema
+*  This is configuration structure of the IPC semaphore. 
+*  See \ref cy_stc_ipc_sema_t.
+*
+* \return Status of the operation
+*    \retval CY_IPC_SEMA_SUCCESS: Successfully initialized
+*    \retval CY_IPC_SEMA_BAD_PARAM:     Memory pointer is NULL and count is not zero,
+*                             or count not multiple of 32
+*    \retval CY_IPC_SEMA_ERROR_LOCKED:  Could not acquire semaphores IPC channel
+* 
+*******************************************************************************/
+cy_en_ipcsema_status_t Cy_IPC_Sema_InitExt(uint32_t ipcChannel, cy_stc_ipc_sema_t *ipcSema)
+{
+    cy_en_ipcsema_status_t retStatus = CY_IPC_SEMA_BAD_PARAM;
+
     if (ipcChannel >= CY_IPC_CHANNELS)
     {
         retStatus = CY_IPC_SEMA_BAD_PARAM;
     }
     else
     {
-        if( (NULL == memPtr) && (0u == count))
-        {
-            cy_semaIpcStruct = Cy_IPC_Drv_GetIpcBaseAddress(ipcChannel);
-
-            retStatus = CY_IPC_SEMA_SUCCESS;
-        }
-
-        /* Check for non Null pointers and count value */
-        else if ((NULL != memPtr) && (0u != count))
+        if(NULL != ipcSema)
         {
             /* Check if semaphore count is a multiple of 32 */
-            if( 0ul == (count & CY_IPC_SEMA_PER_WORD_MASK))
+            if( 0ul == (ipcSema->maxSema & CY_IPC_SEMA_PER_WORD_MASK))
             {
                 cy_semaIpcStruct = Cy_IPC_Drv_GetIpcBaseAddress(ipcChannel);
 
-                cy_semaData.maxSema  = count;
-                cy_semaData.arrayPtr = memPtr;
-
                 /* Initialize all semaphores to released */
-                (void)memset(cy_semaData.arrayPtr, 0, (count /8u));
+                (void)memset(ipcSema->arrayPtr, 0, (ipcSema->maxSema /8u));
 
                 /* Make sure semaphores start out released.  */
                 /* Ignore the return value since it is OK if it was already released. */
                 (void) Cy_IPC_Drv_LockRelease (cy_semaIpcStruct, CY_IPC_NO_NOTIFICATION);
 
                  /* Set the IPC Data with the pointer to the array. */
-                if( CY_IPC_DRV_SUCCESS == Cy_IPC_Drv_SendMsgPtr (cy_semaIpcStruct, CY_IPC_NO_NOTIFICATION, &cy_semaData))
+                if( CY_IPC_DRV_SUCCESS == Cy_IPC_Drv_SendMsgPtr (cy_semaIpcStruct, CY_IPC_NO_NOTIFICATION, ipcSema))
                 {
                     if(CY_IPC_DRV_SUCCESS == Cy_IPC_Drv_LockRelease (cy_semaIpcStruct, CY_IPC_NO_NOTIFICATION))
                     {
@@ -139,6 +177,7 @@ cy_en_ipcsema_status_t Cy_IPC_Sema_Init(uint32_t ipcChannel,
     return(retStatus);
 }
 
+
 /*******************************************************************************
 * Function Name: Cy_IPC_Sema_Set
 ****************************************************************************//**
@@ -162,7 +201,7 @@ cy_en_ipcsema_status_t Cy_IPC_Sema_Init(uint32_t ipcChannel,
 *  If <b>preemptable</b> is enabled (true), the user must ensure that there are
 *  no deadlocks in the system, which can be caused by an interrupt that occurs
 *  after the IPC channel is locked. Unless the user is ready to handle IPC
-*  channel locks correctly at the application level, set <b>premptable</b> to
+*  channel locks correctly at the application level, set <b>preemptable</b> to
 *  false.
 *
 * \return Status of the operation
@@ -251,7 +290,7 @@ cy_en_ipcsema_status_t Cy_IPC_Sema_Set(uint32_t semaNumber, bool preemptable)
 *  If <b>preemptable</b> is enabled (true), the user must ensure that there are
 *  no deadlocks in the system, which can be caused by an interrupt that occurs
 *  after the IPC channel is locked. Unless the user is ready to handle IPC
-*  channel locks correctly at the application level, set <b>premptable</b> to
+*  channel locks correctly at the application level, set <b>preemptable</b> to
 *  false.
 *
 * \return Status of the operation
@@ -315,6 +354,7 @@ cy_en_ipcsema_status_t Cy_IPC_Sema_Clear(uint32_t semaNumber, bool preemptable)
     }
     return(retStatus);
 }
+
 
 /*******************************************************************************
 * Function Name: Cy_IPC_Sema_Status
@@ -389,5 +429,6 @@ uint32_t Cy_IPC_Sema_GetMaxSems(void)
 
     return (semaStruct->maxSema);
 }
+
 
 /* [] END OF FILE */

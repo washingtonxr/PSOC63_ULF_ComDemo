@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_ipc_drv.h
-* \version 1.20
+* \version 1.30
 *
 * Provides an API declaration of the IPC driver.
 *
@@ -17,12 +17,15 @@
 
 
 /**
-* \defgroup group_ipc Inter Process Communication (IPC)
+* \addtogroup group_ipc
 * \{
 * The inter-processor communication (IPC) driver provides a safe and reliable
 * method to transfer data between CPUs. Hardware locking ensures that only one
 * device can acquire and transfer data at a time so no data is lost or
 * overwritten by asynchronous processes or CPUs.
+*
+* Include either cy_ipc_pipe.h or cy_ipc_sema.h. Alternatively include cy_pdl.h 
+* (ModusToolbox only) to get access to all functions and declarations in the PDL.
 *
 * There are three parts to the API:
 *     - Driver-level (DRV) API - used internally by Semaphore and Pipe levels
@@ -92,11 +95,11 @@
 * The application can use semaphores to control access to shared resources, as
 * required by the application's logic.
 *
-* The PDL provides two specific files that set up default IPC functionality.
-* They are cy_ipc_config.h and cy_ipc_config.c. You can modify these files based
-* on the requirements of your design. If you use PSoC Creator as a development
-* environment, it will not overwrite your changes when you generate the
-* application or build your code.
+* The PDL provides specific files that set up default IPC functionality.
+* They are system_psoc6.h, system_psoc6_cm0plus.c and system_psoc6_cm4.c. You 
+* can modify these files based on the requirements of your design. 
+* If you use PSoC Creator as a development environment, it will not overwrite 
+* your changes when you generate the application or build your code.
 *
 * \section group_ipc_pipe_layer PIPE layer
 *
@@ -159,52 +162,47 @@
 *
 * \section group_ipc_configuration_cypipe Configuration Considerations - CYPIPE
 *
-* There are none. The cy_ipc_config files set up the required CYPIPE for system
+* There are none. The startup files set up the required CYPIPE for system
 * use. Do not modify the CYPIPE. It uses IPC channels 5 and 6 to implement full
-* duplex communication between cores. On the CM0+ the notify interrupt is
-* assigned to NVIC IRQn 27. See System Interrupt (SysInt) for background.
+* duplex communication between cores. See System Interrupt (SysInt) for background.
 *
-* To create your own pipe (<b>USRPIPE</b>) you should edit cy_ipc_config files
+* To create your own pipe (<b>USRPIPE</b>) you should edit startup files
 * and take 4 steps:
 *   -# Define a pipe callbacks processing interrupt handler
-*      (similar to <b>Cy_IPC_SystemPipeIsr</b>)
-*   -# Define a callbacks array (similar to <b>cy_ipc_pipe_sysCbArray</b>)
+*      (similar to <b>Cy_SysIpcPipeIsrCm0</b> or <b>Cy_SysIpcPipeIsrCm4</b>)
+*   -# Define a callbacks array (similar to <b>systemIpcPipeSysCbArray</b>)
 *   -# Define your pipe configuration with a cy_stc_ipc_pipe_config_t type structure
-*      (similar to <b>systemPipeConfig</b> and <b>CY_CYPIPE_DEFAULT_CONFIG</b>)
+*      (similar to <b>systemIpcPipeConfigCm0</b> and <b>systemIpcPipeConfigCm4</b>)
 *   -# Call Cy_IPC_Pipe_Init() from each core to initialize your pipe (similar
-*      to call in the <b>Cy_IPC_SystemPipeInit</b>)
+*      to call in the <b>SystemInit</b>)
 *
 * \section group_ipc_configuration_sema Configuration Considerations - SEMA
 *
-* Startup code calls Cy_IPC_SystemSemaInit() (in cy_ipc_config.c) to set up
-* semaphore functionality. This function calls the PDL init function
-* Cy_IPC_Sema_Init() with default values. By default the semaphore system
-* uses IPC channel 4, and creates 128 semaphores. Do <b>not</b> change the IPC
-* channel. You can change the number of semaphores.
+* Startup code calls Cy_IPC_Sema_Init() with default values to set up semaphore 
+* functionality. By default the semaphore system uses IPC channel 4, and 
+* creates 128 semaphores. Do <b>not</b> change the IPC channel. 
+* You can change the number of semaphores.
 *
-* To change the number of semaphores, modify this line of code in cy_ipc_config.h.
+* To change the number of semaphores, modify this line of code in system_psoc6.h.
 *
 * \code
 * #define CY_IPC_SEMA_COUNT               (uint32_t)(128u)
 * \endcode
 *
-* The file cy_ipc_config.c declares array ipcSemaArray to hold the semaphore
+* Startup also declares array ipcSemaArray to hold the semaphore
 * flags based on the size defined for this symbol. Use increments of 32. You
 * must have at least 32 semaphores. Semaphores 0-15 are reserved for
 * system use. Your application can use semaphores greater than 15.
 *
 * \section group_ipc_more_information More Information
 *
-* Cy_IPC_SystemSemaInit() and Cy_IPC_SystemPipeInit() functions are called in the
-* SystemInit function. If the default startup file is not used, or SystemInit is
-* not called in your project, call the following three functions prior to
-* executing any flash or EmEEPROM write or erase operation. For example:
-*  -# Cy_IPC_SystemSemaInit()
-*  -# Cy_IPC_SystemPipeInit()
+* If the default startup file is not used, or SystemInit() is not called in your 
+* project, call the following three functions prior to executing any flash or 
+* EmEEPROM write or erase operation:
+*  -# Cy_IPC_Sema_Init()
+*  -# Cy_IPC_Pipe_Config()
+*  -# Cy_IPC_Pipe_Init()
 *  -# Cy_Flash_Init()
-*
-* Also Cy_IPC_SystemPipeInit function is called to support BLE host/controller
-* communication.
 *
 * See the technical reference manual(TRM) for more information on the IPC.
 *
@@ -243,6 +241,21 @@
 * <table class="doxtable">
 *   <tr><th>Version</th><th>Changes</th><th>Reason for Change</th></tr>
 *   <tr>
+*     <td rowspan="3">1.30</td>
+*     <td>Flattened the organization of the driver source code into the single source directory and the single include directory.</td>
+*     <td>Driver library directory-structure simplification.</td>
+*   </tr>
+*   <tr>
+*     <td>Moved the Cy_IPC_SystemSemaInit(), Cy_IPC_SystemPipeInit() functions implementation from IPC to Startup, removed cy_ipc_config.c and cy_ipc_config.h files.</td>
+*     <td>Changed IPC driver configuration method from compile time to run time.</td>
+*   </tr>
+*   <tr>
+*     <td>Added register access layer. Use register access macros instead
+*         of direct register access using dereferenced pointers.</td>
+*     <td>Makes register access device-independent, so that the PDL does 
+*         not need to be recompiled for each supported part number.</td>
+*   </tr>
+*   <tr>
 *     <td>1.20</td>
 *     <td>Added \ref Cy_IPC_Pipe_ExecuteCallback function.
 *         Updated documentation about user pipe initialization.
@@ -273,7 +286,9 @@
 * \{
 *   The functions of this layer are used in the higher IPC levels
 *   (Semaphores and Pipes).
-*   Users should not call any of these IPC functions directly.
+*   Users are not expected to call any of these IPC functions directly (cy_ipc_drv.h). 
+*   Instead include either of cy_ipc_sema.h or cy_ipc_pipe.h. 
+*   Alternatively include cy_pdl.h to get access to all functions and declarations in the PDL.
 *
 *   \defgroup group_ipc_macros Macros
 *       Macro definitions are used in the driver
@@ -293,13 +308,16 @@
 *
 */
 
+
 /******************************************************************************/
 /* Include files                                                              */
 /******************************************************************************/
-#include "syslib/cy_syslib.h"
+
+#include "cy_device.h"
 #include "cy_device_headers.h"
-#include "cy_ipc_config.h"
+#include "cy_syslib.h"
 #include <stddef.h>
+
 
 /**
 * \addtogroup group_ipc_macros
@@ -310,7 +328,7 @@
 #define CY_IPC_DRV_VERSION_MAJOR       1
 
 /** Driver minor version */
-#define CY_IPC_DRV_VERSION_MINOR       20
+#define CY_IPC_DRV_VERSION_MINOR       30
 
 /** Defines a value to indicate that no notification events are needed */
 #define CY_IPC_NO_NOTIFICATION         (uint32_t)(0x00000000ul)
@@ -326,12 +344,19 @@
 #define CY_IPC_ID_ERROR   (uint32_t)( CY_IPC_ID | CY_PDL_STATUS_ERROR)
 
 /** Converts the IPC interrupt channel number to interrupt vector */
-#define CY_IPC_INTR_NUM_TO_VECT(x)         ((int32_t)cpuss_interrupts_ipc_0_IRQn + (x))
+#define CY_IPC_INTR_NUM_TO_VECT(x)         ((int32_t) cy_device->cpussIpc0Irq + (x))
 
 /** \} group_ipc_macros */
 
 /* end of definition in device.h */
 
+/** \cond INTERNAL */
+#if (CY_CPU_CORTEX_M0P)
+    #define CY_IPC_CHAN_SYSCALL         CY_IPC_CHAN_SYSCALL_CM0
+#else
+    #define CY_IPC_CHAN_SYSCALL         CY_IPC_CHAN_SYSCALL_CM4
+#endif  /* (CY_CPU_CORTEX_M0P) */
+/** \endcond */
 
 /**
 * \addtogroup group_ipc_enums
@@ -399,6 +424,7 @@ __STATIC_INLINE void     Cy_IPC_Drv_SetInterrupt (IPC_INTR_STRUCT_Type * base,
 __STATIC_INLINE void     Cy_IPC_Drv_ClearInterrupt (IPC_INTR_STRUCT_Type * base,
                                                       uint32_t ipcReleaseMask, uint32_t ipcAcquireMask);
 
+
 /*******************************************************************************
 * Function Name: Cy_IPC_Drv_GetIpcBaseAddress
 ****************************************************************************//**
@@ -422,9 +448,10 @@ __STATIC_INLINE void     Cy_IPC_Drv_ClearInterrupt (IPC_INTR_STRUCT_Type * base,
 *******************************************************************************/
 __STATIC_INLINE IPC_STRUCT_Type* Cy_IPC_Drv_GetIpcBaseAddress (uint32_t ipcIndex)
 {
-    CY_ASSERT_L1((uint32_t)CY_IPC_CHANNELS > ipcIndex);
-    return ( (IPC_STRUCT_Type*) ( &IPC->STRUCT[ipcIndex] ) );
+    CY_ASSERT_L1(CY_IPC_CHANNELS > ipcIndex);
+    return ( (IPC_STRUCT_Type*) CY_IPC_STRUCT_PTR(ipcIndex));
 }
+
 
 /*******************************************************************************
 * Function Name: Cy_IPC_Drv_GetIntrBaseAddr
@@ -449,9 +476,10 @@ __STATIC_INLINE IPC_STRUCT_Type* Cy_IPC_Drv_GetIpcBaseAddress (uint32_t ipcIndex
 *******************************************************************************/
 __STATIC_INLINE IPC_INTR_STRUCT_Type* Cy_IPC_Drv_GetIntrBaseAddr (uint32_t ipcIntrIndex)
 {
-    CY_ASSERT_L1((uint32_t)CY_IPC_INTERRUPTS > ipcIntrIndex);
-    return ( (IPC_INTR_STRUCT_Type*) ( &IPC->INTR_STRUCT[ipcIntrIndex] ) );
+    CY_ASSERT_L1(CY_IPC_INTERRUPTS > ipcIntrIndex);
+    return ( (IPC_INTR_STRUCT_Type*) &(((IPC_Type *)cy_device->ipcBase)->INTR_STRUCT[ipcIntrIndex]) );
 }
+
 
 /*******************************************************************************
 * Function Name: Cy_IPC_Drv_SetInterruptMask
@@ -479,9 +507,9 @@ __STATIC_INLINE IPC_INTR_STRUCT_Type* Cy_IPC_Drv_GetIntrBaseAddr (uint32_t ipcIn
 __STATIC_INLINE void  Cy_IPC_Drv_SetInterruptMask (IPC_INTR_STRUCT_Type* base,
                                               uint32_t ipcReleaseMask, uint32_t ipcAcquireMask)
 {
-    CY_ASSERT_L1(0ul == (ipcAcquireMask  & ~(uint32_t)(IPC_STRUCT_NOTIFY_INTR_NOTIFY_Msk)));
+    CY_ASSERT_L1(0ul == (ipcAcquireMask & ~(uint32_t)(IPC_STRUCT_NOTIFY_INTR_NOTIFY_Msk)));
     CY_ASSERT_L1(0ul == (ipcReleaseMask & ~(uint32_t)(IPC_STRUCT_RELEASE_INTR_RELEASE_Msk)));
-    base->INTR_MASK = _VAL2FLD( IPC_INTR_STRUCT_INTR_MASK_NOTIFY,  ipcAcquireMask) |
+    REG_IPC_INTR_STRUCT_INTR_MASK(base) = _VAL2FLD( IPC_INTR_STRUCT_INTR_MASK_NOTIFY,  ipcAcquireMask) |
                       _VAL2FLD( IPC_INTR_STRUCT_INTR_MASK_RELEASE, ipcReleaseMask);
 }
 
@@ -510,8 +538,9 @@ __STATIC_INLINE void  Cy_IPC_Drv_SetInterruptMask (IPC_INTR_STRUCT_Type* base,
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_IPC_Drv_GetInterruptMask(IPC_INTR_STRUCT_Type const * base)
 {
-    return (base->INTR_MASK);
+    return REG_IPC_INTR_STRUCT_INTR_MASK(base);
 }
+
 
 /*******************************************************************************
 * Function Name: Cy_IPC_Drv_GetInterruptStatusMasked
@@ -539,8 +568,9 @@ __STATIC_INLINE uint32_t Cy_IPC_Drv_GetInterruptMask(IPC_INTR_STRUCT_Type const 
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_IPC_Drv_GetInterruptStatusMasked (IPC_INTR_STRUCT_Type const * base)
 {
-    return (base->INTR_MASKED);
+    return REG_IPC_INTR_STRUCT_INTR_MASKED(base);
 }
+
 
 /*******************************************************************************
 * Function Name: Cy_IPC_Drv_GetInterruptStatus
@@ -568,8 +598,9 @@ __STATIC_INLINE uint32_t Cy_IPC_Drv_GetInterruptStatusMasked (IPC_INTR_STRUCT_Ty
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_IPC_Drv_GetInterruptStatus(IPC_INTR_STRUCT_Type const * base)
 {
-    return (base->INTR);
+    return REG_IPC_INTR_STRUCT_INTR(base);
 }
+
 
 /*******************************************************************************
 * Function Name: Cy_IPC_Drv_SetInterrupt
@@ -600,9 +631,10 @@ __STATIC_INLINE void  Cy_IPC_Drv_SetInterrupt(IPC_INTR_STRUCT_Type* base, uint32
 {
     CY_ASSERT_L1(0ul == (ipcAcquireMask  & ~(uint32_t)(IPC_STRUCT_NOTIFY_INTR_NOTIFY_Msk)));
     CY_ASSERT_L1(0ul == (ipcReleaseMask & ~(uint32_t)(IPC_STRUCT_RELEASE_INTR_RELEASE_Msk)));
-    base->INTR_SET =  _VAL2FLD( IPC_INTR_STRUCT_INTR_NOTIFY,  ipcAcquireMask )  |
+    REG_IPC_INTR_STRUCT_INTR_SET(base) =  _VAL2FLD( IPC_INTR_STRUCT_INTR_NOTIFY,  ipcAcquireMask )  |
                       _VAL2FLD( IPC_INTR_STRUCT_INTR_RELEASE, ipcReleaseMask );
 }
+
 
 /*******************************************************************************
 * Function Name: Cy_IPC_Drv_ClearInterrupt
@@ -631,20 +663,21 @@ __STATIC_INLINE void  Cy_IPC_Drv_ClearInterrupt(IPC_INTR_STRUCT_Type* base, uint
 {
     CY_ASSERT_L1(0ul == (ipcAcquireMask  & ~(uint32_t)(IPC_STRUCT_NOTIFY_INTR_NOTIFY_Msk)));
     CY_ASSERT_L1(0ul == (ipcReleaseMask & ~(uint32_t)(IPC_STRUCT_RELEASE_INTR_RELEASE_Msk)));
-    base->INTR =  _VAL2FLD(IPC_INTR_STRUCT_INTR_NOTIFY,  ipcAcquireMask) |
+    REG_IPC_INTR_STRUCT_INTR(base) =  _VAL2FLD(IPC_INTR_STRUCT_INTR_NOTIFY,  ipcAcquireMask) |
                   _VAL2FLD(IPC_INTR_STRUCT_INTR_RELEASE, ipcReleaseMask);
-    (void)base->INTR;  /* Read the register to flush the cache */
+    (void)REG_IPC_INTR_STRUCT_INTR(base);  /* Read the register to flush the cache */
 }
 
 /** \} group_ipc_functions */
 
 /** \} group_ipc */
 
+
 /*******************************************************************************
 * Function Name: Cy_IPC_Drv_AcquireNotify
 ****************************************************************************//**
 *
-* The function generates a aquire notification event by IPC interrupt structure.
+* The function generates a acquire notification event by IPC interrupt structure.
 *
 * \param base
 * This parameter is a handle that represents the base address of the registers
@@ -664,8 +697,9 @@ __STATIC_INLINE void  Cy_IPC_Drv_ClearInterrupt(IPC_INTR_STRUCT_Type* base, uint
 __STATIC_INLINE void  Cy_IPC_Drv_AcquireNotify (IPC_STRUCT_Type* base, uint32_t notifyEventIntr)
 {
     CY_ASSERT_L1(0ul == (notifyEventIntr  & ~(uint32_t)(IPC_STRUCT_NOTIFY_INTR_NOTIFY_Msk)));
-    base->NOTIFY = _VAL2FLD(IPC_STRUCT_NOTIFY_INTR_NOTIFY, notifyEventIntr);
+    REG_IPC_STRUCT_NOTIFY(base) = _VAL2FLD(IPC_STRUCT_NOTIFY_INTR_NOTIFY, notifyEventIntr);
 }
+
 
 /*******************************************************************************
 * Function Name: Cy_IPC_Drv_ReleaseNotify
@@ -689,8 +723,9 @@ __STATIC_INLINE void  Cy_IPC_Drv_AcquireNotify (IPC_STRUCT_Type* base, uint32_t 
 __STATIC_INLINE void  Cy_IPC_Drv_ReleaseNotify (IPC_STRUCT_Type* base, uint32_t notifyEventIntr)
 {
     CY_ASSERT_L1(0ul == (notifyEventIntr  & ~(uint32_t)(IPC_INTR_STRUCT_INTR_RELEASE_Msk)));
-    base->RELEASE = _VAL2FLD(IPC_INTR_STRUCT_INTR_RELEASE, notifyEventIntr);
+    REG_IPC_STRUCT_RELEASE(base) = _VAL2FLD(IPC_INTR_STRUCT_INTR_RELEASE, notifyEventIntr);
 }
+
 
 /*******************************************************************************
 * Function Name: Cy_IPC_Drv_WriteDataValue
@@ -713,8 +748,9 @@ __STATIC_INLINE void  Cy_IPC_Drv_ReleaseNotify (IPC_STRUCT_Type* base, uint32_t 
 *******************************************************************************/
 __STATIC_INLINE void     Cy_IPC_Drv_WriteDataValue (IPC_STRUCT_Type* base, uint32_t dataValue)
 {
-      base->DATA = dataValue;
+    REG_IPC_STRUCT_DATA(base) = dataValue;
 }
+
 
 /*******************************************************************************
 * Function Name: Cy_IPC_Drv_ReadDataValue
@@ -737,8 +773,9 @@ __STATIC_INLINE void     Cy_IPC_Drv_WriteDataValue (IPC_STRUCT_Type* base, uint3
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_IPC_Drv_ReadDataValue (IPC_STRUCT_Type const * base)
 {
-    return (base->DATA);
+    return REG_IPC_STRUCT_DATA(base);
 }
+
 
 /*******************************************************************************
 * Function Name: Cy_IPC_Drv_IsLockAcquired
@@ -764,8 +801,9 @@ __STATIC_INLINE uint32_t Cy_IPC_Drv_ReadDataValue (IPC_STRUCT_Type const * base)
 *******************************************************************************/
 __STATIC_INLINE bool Cy_IPC_Drv_IsLockAcquired (IPC_STRUCT_Type const * base)
 {
-    return ( 0u != _FLD2VAL(IPC_STRUCT_ACQUIRE_SUCCESS, base->LOCK_STATUS) );
+    return ( 0u != _FLD2VAL(IPC_STRUCT_ACQUIRE_SUCCESS, REG_IPC_STRUCT_LOCK_STATUS(base)) );
 }
+
 
 /*******************************************************************************
 * Function Name: Cy_IPC_Drv_GetLockStatus
@@ -788,8 +826,9 @@ __STATIC_INLINE bool Cy_IPC_Drv_IsLockAcquired (IPC_STRUCT_Type const * base)
 *******************************************************************************/
 __STATIC_INLINE uint32_t Cy_IPC_Drv_GetLockStatus (IPC_STRUCT_Type const * base)
 {
-    return (base->LOCK_STATUS);
+    return REG_IPC_STRUCT_LOCK_STATUS(base);
 }
+
 
 /*******************************************************************************
 * Function Name: Cy_IPC_Drv_ExtractAcquireMask
@@ -812,6 +851,7 @@ __STATIC_INLINE uint32_t Cy_IPC_Drv_ExtractAcquireMask (uint32_t intMask)
     return _FLD2VAL(IPC_INTR_STRUCT_INTR_MASK_NOTIFY, intMask);
 }
 
+
 /*******************************************************************************
 * Function Name: Cy_IPC_Drv_ExtractReleaseMask
 ****************************************************************************//**
@@ -832,6 +872,7 @@ __STATIC_INLINE uint32_t Cy_IPC_Drv_ExtractReleaseMask (uint32_t intMask)
 {
     return _FLD2VAL(IPC_INTR_STRUCT_INTR_MASK_RELEASE, intMask);
 }
+
 
 /*******************************************************************************
 * Function Name: Cy_IPC_Drv_SendMsgPtr
@@ -875,6 +916,7 @@ __STATIC_INLINE cy_en_ipcdrv_status_t  Cy_IPC_Drv_SendMsgPtr(IPC_STRUCT_Type* ba
     return Cy_IPC_Drv_SendMsgWord(base, notifyEventIntr, (uint32_t)msgPtr);
 }
 
+
 /*******************************************************************************
 * Function Name: Cy_IPC_Drv_ReadMsgPtr
 ****************************************************************************//**
@@ -909,6 +951,7 @@ __STATIC_INLINE  cy_en_ipcdrv_status_t  Cy_IPC_Drv_ReadMsgPtr (IPC_STRUCT_Type c
     return Cy_IPC_Drv_ReadMsgWord(base, (uint32_t *)msgPtr);
 }
 
+
 /*******************************************************************************
 * Function Name: Cy_IPC_Drv_LockAcquire
 ****************************************************************************//**
@@ -932,7 +975,7 @@ __STATIC_INLINE  cy_en_ipcdrv_status_t  Cy_IPC_Drv_ReadMsgPtr (IPC_STRUCT_Type c
 *******************************************************************************/
 __STATIC_INLINE cy_en_ipcdrv_status_t Cy_IPC_Drv_LockAcquire (IPC_STRUCT_Type const * base)
 {
-    return ( 0ul != _FLD2VAL(IPC_STRUCT_ACQUIRE_SUCCESS, base->ACQUIRE)) ? CY_IPC_DRV_SUCCESS : CY_IPC_DRV_ERROR;
+    return ( 0ul != _FLD2VAL(IPC_STRUCT_ACQUIRE_SUCCESS, REG_IPC_STRUCT_ACQUIRE(base))) ? CY_IPC_DRV_SUCCESS : CY_IPC_DRV_ERROR;
 }
 
 #ifdef __cplusplus

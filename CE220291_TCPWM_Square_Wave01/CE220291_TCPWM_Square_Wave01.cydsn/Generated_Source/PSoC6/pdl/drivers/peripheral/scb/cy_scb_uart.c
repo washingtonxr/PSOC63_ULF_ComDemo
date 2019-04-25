@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_scb_uart.c
-* \version 2.10
+* \version 2.20
 *
 * Provides UART API implementation of the SCB driver.
 *
@@ -13,6 +13,8 @@
 *******************************************************************************/
 
 #include "cy_scb_uart.h"
+
+#ifdef CY_IP_MXSCB
 
 #if defined(__cplusplus)
 extern "C" {
@@ -41,8 +43,8 @@ static void HandleDataTransmit(CySCB_Type *base, cy_stc_scb_uart_context_t *cont
 * by the user. The structure is used during the UART operation for internal
 * configuration and data retention. The user must not modify anything
 * in this structure.
-* If only UART functions which do not require context will be used pass NULL
-* as pointer to context.
+* If only UART \ref group_scb_uart_ll will be used pass NULL as pointer to 
+* context.
 *
 * \return
 * \ref cy_en_scb_uart_status_t
@@ -54,11 +56,6 @@ static void HandleDataTransmit(CySCB_Type *base, cy_stc_scb_uart_context_t *cont
 cy_en_scb_uart_status_t Cy_SCB_UART_Init(CySCB_Type *base, cy_stc_scb_uart_config_t const *config, cy_stc_scb_uart_context_t *context)
 {
     if ((NULL == base) || (NULL == config))
-    {
-        return CY_SCB_UART_BAD_PARAM;
-    }
-
-    if (!SCB_IS_UART_CAPABLE(base))
     {
         return CY_SCB_UART_BAD_PARAM;
     }
@@ -92,7 +89,7 @@ cy_en_scb_uart_status_t Cy_SCB_UART_Init(CySCB_Type *base, cy_stc_scb_uart_confi
     }
 
     /* Configure the UART interface */
-    base->CTRL = _BOOL2FLD(SCB_CTRL_ADDR_ACCEPT, config->acceptAddrInFifo)               |
+    SCB_CTRL(base) = _BOOL2FLD(SCB_CTRL_ADDR_ACCEPT, config->acceptAddrInFifo)               |
                  _BOOL2FLD(SCB_CTRL_BYTE_MODE, (config->dataWidth <= CY_SCB_BYTE_WIDTH)) |
                  _VAL2FLD(SCB_CTRL_OVS, ovs)                                             |
                  _VAL2FLD(SCB_CTRL_MODE, CY_SCB_CTRL_MODE_UART);
@@ -102,10 +99,10 @@ cy_en_scb_uart_status_t Cy_SCB_UART_Init(CySCB_Type *base, cy_stc_scb_uart_confi
     CY_ASSERT_L2(CY_SCB_IS_TRIGGER_LEVEL_VALID(base, config->txFifoTriggerLevel));
     CY_ASSERT_L2(CY_SCB_IS_TRIGGER_LEVEL_VALID(base, config->rtsRxFifoLevel));
 
-    base->UART_CTRL = _VAL2FLD(SCB_UART_CTRL_MODE, (uint32_t) config->uartMode);
+    SCB_UART_CTRL(base) = _VAL2FLD(SCB_UART_CTRL_MODE, (uint32_t) config->uartMode);
 
     /* Configure the RX direction */
-    base->UART_RX_CTRL = _BOOL2FLD(SCB_UART_RX_CTRL_POLARITY, config->irdaInvertRx)                  |
+    SCB_UART_RX_CTRL(base) = _BOOL2FLD(SCB_UART_RX_CTRL_POLARITY, config->irdaInvertRx)                  |
                          _BOOL2FLD(SCB_UART_RX_CTRL_MP_MODE, config->enableMutliProcessorMode)       |
                          _BOOL2FLD(SCB_UART_RX_CTRL_DROP_ON_PARITY_ERROR, config->dropOnParityError) |
                          _BOOL2FLD(SCB_UART_RX_CTRL_DROP_ON_FRAME_ERROR, config->dropOnFrameError)   |
@@ -113,40 +110,40 @@ cy_en_scb_uart_status_t Cy_SCB_UART_Init(CySCB_Type *base, cy_stc_scb_uart_confi
                          _VAL2FLD(SCB_UART_RX_CTRL_STOP_BITS,   ((uint32_t) config->stopBits) - 1UL) |
                          _VAL2FLD(CY_SCB_UART_RX_CTRL_SET_PARITY, (uint32_t) config->parity);
 
-    base->RX_CTRL = _BOOL2FLD(SCB_RX_CTRL_MSB_FIRST, config->enableMsbFirst)          |
+    SCB_RX_CTRL(base) = _BOOL2FLD(SCB_RX_CTRL_MSB_FIRST, config->enableMsbFirst)          |
                     _BOOL2FLD(SCB_RX_CTRL_MEDIAN, ((config->enableInputFilter) || \
                                              (config->uartMode == CY_SCB_UART_IRDA))) |
                     _VAL2FLD(SCB_RX_CTRL_DATA_WIDTH, (config->dataWidth - 1UL));
 
-    base->RX_MATCH = _VAL2FLD(SCB_RX_MATCH_ADDR, config->receiverAddress) |
+    SCB_RX_MATCH(base) = _VAL2FLD(SCB_RX_MATCH_ADDR, config->receiverAddress) |
                      _VAL2FLD(SCB_RX_MATCH_MASK, config->receiverAddressMask);
 
     /* Configure SCB_CTRL.RX_CTRL then verify break width */
     CY_ASSERT_L2(CY_SCB_UART_IS_RX_BREAK_WIDTH_VALID(base, config->breakWidth));
 
     /* Configure the TX direction */
-    base->UART_TX_CTRL = _BOOL2FLD(SCB_UART_TX_CTRL_RETRY_ON_NACK, ((config->smartCardRetryOnNack) && \
+    SCB_UART_TX_CTRL(base) = _BOOL2FLD(SCB_UART_TX_CTRL_RETRY_ON_NACK, ((config->smartCardRetryOnNack) && \
                                                               (config->uartMode == CY_SCB_UART_SMARTCARD))) |
                          _VAL2FLD(SCB_UART_TX_CTRL_STOP_BITS, ((uint32_t) config->stopBits) - 1UL)          |
                          _VAL2FLD(CY_SCB_UART_TX_CTRL_SET_PARITY, (uint32_t) config->parity);
 
-    base->TX_CTRL  = _BOOL2FLD(SCB_TX_CTRL_MSB_FIRST,  config->enableMsbFirst)    |
+    SCB_TX_CTRL(base)  = _BOOL2FLD(SCB_TX_CTRL_MSB_FIRST,  config->enableMsbFirst)    |
                      _VAL2FLD(SCB_TX_CTRL_DATA_WIDTH,  (config->dataWidth - 1UL)) |
                      _BOOL2FLD(SCB_TX_CTRL_OPEN_DRAIN, (config->uartMode == CY_SCB_UART_SMARTCARD));
 
-    base->RX_FIFO_CTRL = _VAL2FLD(SCB_RX_FIFO_CTRL_TRIGGER_LEVEL, config->rxFifoTriggerLevel);
+    SCB_RX_FIFO_CTRL(base) = _VAL2FLD(SCB_RX_FIFO_CTRL_TRIGGER_LEVEL, config->rxFifoTriggerLevel);
 
     /* Configure the flow control */
-    base->UART_FLOW_CTRL = _BOOL2FLD(SCB_UART_FLOW_CTRL_CTS_ENABLED, config->enableCts) |
+    SCB_UART_FLOW_CTRL(base) = _BOOL2FLD(SCB_UART_FLOW_CTRL_CTS_ENABLED, config->enableCts) |
                            _BOOL2FLD(SCB_UART_FLOW_CTRL_CTS_POLARITY, (CY_SCB_UART_ACTIVE_HIGH == config->ctsPolarity)) |
                            _BOOL2FLD(SCB_UART_FLOW_CTRL_RTS_POLARITY, (CY_SCB_UART_ACTIVE_HIGH == config->rtsPolarity)) |
                            _VAL2FLD(SCB_UART_FLOW_CTRL_TRIGGER_LEVEL, config->rtsRxFifoLevel);
 
-    base->TX_FIFO_CTRL = _VAL2FLD(SCB_TX_FIFO_CTRL_TRIGGER_LEVEL, config->txFifoTriggerLevel);
+    SCB_TX_FIFO_CTRL(base) = _VAL2FLD(SCB_TX_FIFO_CTRL_TRIGGER_LEVEL, config->txFifoTriggerLevel);
 
     /* Set up interrupt sources */
-    base->INTR_RX_MASK = (config->rxFifoIntEnableMask & CY_SCB_UART_RX_INTR_MASK);
-    base->INTR_TX_MASK = (config->txFifoIntEnableMask & CY_SCB_UART_TX_INTR_MASK);
+    SCB_INTR_RX_MASK(base) = (config->rxFifoIntEnableMask & CY_SCB_UART_RX_INTR_MASK);
+    SCB_INTR_TX_MASK(base) = (config->txFifoIntEnableMask & CY_SCB_UART_TX_INTR_MASK);
 
     /* Initialize context */
     if (NULL != context)
@@ -190,30 +187,30 @@ cy_en_scb_uart_status_t Cy_SCB_UART_Init(CySCB_Type *base, cy_stc_scb_uart_confi
 void Cy_SCB_UART_DeInit(CySCB_Type *base)
 {
     /* De-initialize the UART interface */
-    base->CTRL      = CY_SCB_CTRL_DEF_VAL;
-    base->UART_CTRL = CY_SCB_UART_CTRL_DEF_VAL;
+    SCB_CTRL(base)      = CY_SCB_CTRL_DEF_VAL;
+    SCB_UART_CTRL(base) = CY_SCB_UART_CTRL_DEF_VAL;
 
     /* De-initialize the RX direction */
-    base->UART_RX_CTRL = 0UL;
-    base->RX_CTRL      = CY_SCB_RX_CTRL_DEF_VAL;
-    base->RX_FIFO_CTRL = 0UL;
-    base->RX_MATCH     = 0UL;
+    SCB_UART_RX_CTRL(base) = 0UL;
+    SCB_RX_CTRL(base)      = CY_SCB_RX_CTRL_DEF_VAL;
+    SCB_RX_FIFO_CTRL(base) = 0UL;
+    SCB_RX_MATCH(base)     = 0UL;
 
     /* De-initialize the TX direction */
-    base->UART_TX_CTRL = 0UL;
-    base->TX_CTRL      = CY_SCB_TX_CTRL_DEF_VAL;
-    base->TX_FIFO_CTRL = 0UL;
+    SCB_UART_TX_CTRL(base) = 0UL;
+    SCB_TX_CTRL(base)      = CY_SCB_TX_CTRL_DEF_VAL;
+    SCB_TX_FIFO_CTRL(base) = 0UL;
 
     /* De-initialize the flow control */
-    base->UART_FLOW_CTRL = 0UL;
+    SCB_UART_FLOW_CTRL(base) = 0UL;
 
     /* De-initialize the interrupt sources */
-    base->INTR_SPI_EC_MASK = 0UL;
-    base->INTR_I2C_EC_MASK = 0UL;
-    base->INTR_RX_MASK     = 0UL;
-    base->INTR_TX_MASK     = 0UL;
-    base->INTR_M_MASK      = 0UL;
-    base->INTR_S_MASK      = 0UL;
+    SCB_INTR_SPI_EC_MASK(base) = 0UL;
+    SCB_INTR_I2C_EC_MASK(base) = 0UL;
+    SCB_INTR_RX_MASK(base)     = 0UL;
+    SCB_INTR_TX_MASK(base)     = 0UL;
+    SCB_INTR_M_MASK(base)      = 0UL;
+    SCB_INTR_S_MASK(base)      = 0UL;
 }
 
 
@@ -224,8 +221,9 @@ void Cy_SCB_UART_DeInit(CySCB_Type *base)
 * Disables the SCB block and clears context statuses.
 * Note that after the block is disabled, the TX and RX FIFOs and
 * hardware statuses are cleared. Also, the hardware stops driving the
-* output and ignores the input.
-*
+* output and ignores the input. Refer to section \ref group_scb_uart_lp for more 
+* information about UART pins when SCB disabled.
+
 * \param base
 * The pointer to the UART SCB instance.
 *
@@ -247,7 +245,7 @@ void Cy_SCB_UART_DeInit(CySCB_Type *base)
 *******************************************************************************/
 void Cy_SCB_UART_Disable(CySCB_Type *base, cy_stc_scb_uart_context_t *context)
 {
-    base->CTRL &= (uint32_t) ~SCB_CTRL_ENABLED_Msk;
+    SCB_CTRL(base) &= (uint32_t) ~SCB_CTRL_ENABLED_Msk;
 
     if (NULL != context)
     {
@@ -270,29 +268,33 @@ void Cy_SCB_UART_Disable(CySCB_Type *base, cy_stc_scb_uart_context_t *context)
 * UART is ready to enter Deep Sleep mode, it is disabled. The UART is enabled
 * when the device fails to enter Deep Sleep mode or it is awakened from
 * Deep Sleep mode. While the UART is disabled, it stops driving the outputs
-* and ignores the inputs. Any incoming data is ignored.
+* and ignores the inputs. Any incoming data is ignored. Refer to section 
+* \ref group_scb_uart_lp for more information about UART pins when SCB disabled.
 *
-* This function must be called during execution of \ref Cy_SysPm_DeepSleep,
+* This function must be called during execution of \ref Cy_SysPm_CpuEnterDeepSleep,
 * to do it, register this function as a callback before calling
-* \ref Cy_SysPm_DeepSleep : specify \ref CY_SYSPM_DEEPSLEEP as the callback
+* \ref Cy_SysPm_CpuEnterDeepSleep : specify \ref CY_SYSPM_DEEPSLEEP as the callback
 * type and call \ref Cy_SysPm_RegisterCallback.
 *
 * \param callbackParams
 * The pointer to the callback parameters structure
 * \ref cy_stc_syspm_callback_params_t.
 *
+* \param mode
+* Callback mode, see \ref cy_en_syspm_callback_mode_t
+*
 * \return
 * \ref cy_en_syspm_status_t
 *
 *******************************************************************************/
-cy_en_syspm_status_t Cy_SCB_UART_DeepSleepCallback(cy_stc_syspm_callback_params_t *callbackParams)
+cy_en_syspm_status_t Cy_SCB_UART_DeepSleepCallback(cy_stc_syspm_callback_params_t *callbackParams, cy_en_syspm_callback_mode_t mode)
 {
     cy_en_syspm_status_t retStatus = CY_SYSPM_FAIL;
 
     CySCB_Type *locBase = (CySCB_Type *) callbackParams->base;
     cy_stc_scb_uart_context_t *locContext = (cy_stc_scb_uart_context_t *) callbackParams->context;
 
-    switch(callbackParams->mode)
+    switch(mode)
     {
         case CY_SYSPM_CHECK_READY:
         {
@@ -371,23 +373,28 @@ cy_en_syspm_status_t Cy_SCB_UART_DeepSleepCallback(cy_stc_syspm_callback_params_
 * to enter Hibernate mode, it is disabled. If the device fails to enter
 * Hibernate mode, the UART is enabled. While the UART is disabled, it stops
 * driving the outputs and ignores the inputs. Any incoming data is ignored.
+* Refer to section \ref group_scb_uart_lp for more information about UART pins 
+* when SCB disabled.
 *
-* This function must be called during execution of \ref Cy_SysPm_Hibernate.
+* This function must be called during execution of \ref Cy_SysPm_SystemEnterHibernate.
 * To do it, register this function as a callback before calling
-* \ref Cy_SysPm_Hibernate : specify \ref CY_SYSPM_HIBERNATE as the callback type
+* \ref Cy_SysPm_SystemEnterHibernate : specify \ref CY_SYSPM_HIBERNATE as the callback type
 * and call \ref Cy_SysPm_RegisterCallback.
 *
 * \param callbackParams
 * The pointer to the callback parameters structure
 * \ref cy_stc_syspm_callback_params_t.
 *
+* \param mode
+* Callback mode, see \ref cy_en_syspm_callback_mode_t
+*
 * \return
 * \ref cy_en_syspm_status_t
 *
 *******************************************************************************/
-cy_en_syspm_status_t Cy_SCB_UART_HibernateCallback(cy_stc_syspm_callback_params_t *callbackParams)
+cy_en_syspm_status_t Cy_SCB_UART_HibernateCallback(cy_stc_syspm_callback_params_t *callbackParams, cy_en_syspm_callback_mode_t mode)
 {
-    return Cy_SCB_UART_DeepSleepCallback(callbackParams);
+    return Cy_SCB_UART_DeepSleepCallback(callbackParams, mode);
 }
 
 
@@ -405,14 +412,14 @@ cy_en_syspm_status_t Cy_SCB_UART_HibernateCallback(cy_stc_syspm_callback_params_
 *
 * Starts the receive ring buffer operation.
 * The RX interrupt source is configured to get data from the RX
-* FIFO and put into the ring buffer.
+* FIFO and put into the ring buffer. 
 *
 * \param base
 * The pointer to the UART SCB instance.
 *
 * \param buffer
 * Pointer to the user defined ring buffer.
-* The item size is defined by the data type, which depends on the configured
+* The element size is defined by the data type, which depends on the configured
 * data width.
 *
 * \param size
@@ -573,7 +580,7 @@ void Cy_SCB_UART_ClearRingBuffer(CySCB_Type const *base, cy_stc_scb_uart_context
 *
 * \param buffer
 * Pointer to buffer to store received data.
-* The item size is defined by the data type, which depends on the configured
+* The element size is defined by the data type, which depends on the configured
 * data width.
 *
 * \param size
@@ -831,7 +838,7 @@ uint32_t Cy_SCB_UART_GetReceiveStatus(CySCB_Type const *base, cy_stc_scb_uart_co
 *
 * \param buffer
 * Pointer to user data to place in transmit buffer.
-* The item size is defined by the data type, which depends on the configured
+* The element size is defined by the data type, which depends on the configured
 * data width.
 *
 * \param size
@@ -874,7 +881,7 @@ cy_en_scb_uart_status_t Cy_SCB_UART_Transmit(CySCB_Type *base, void *buffer, uin
         Cy_SCB_SetTxFifoLevel(base, (Cy_SCB_GetFifoSize(base) / 2UL));
 
         /* Enable the interrupt sources */
-        if (((uint32_t) CY_SCB_UART_SMARTCARD) == _FLD2VAL(SCB_UART_CTRL_MODE, base->UART_CTRL))
+        if (((uint32_t) CY_SCB_UART_SMARTCARD) == _FLD2VAL(SCB_UART_CTRL_MODE, SCB_UART_CTRL(base)))
         {
             /* Transfer data into TX FIFO and track SmartCard-specific errors */
             Cy_SCB_SetTxInterruptMask(base, CY_SCB_UART_TX_INTR);
@@ -1027,10 +1034,10 @@ void Cy_SCB_UART_SendBreakBlocking(CySCB_Type *base, uint32_t breakWidth)
     Cy_SCB_ClearTxInterrupt(base, CY_SCB_TX_INTR_UART_DONE);
 
     /* Store TX_CTRL configuration */
-    txCtrlReg = base->TX_CTRL;
+    txCtrlReg = SCB_TX_CTRL(base);
 
     /* Set break width: start bit adds one 0 bit */
-    base->TX_CTRL = _CLR_SET_FLD32U(base->TX_CTRL, SCB_TX_CTRL_DATA_WIDTH, (breakWidth - 1UL));
+    CY_REG32_CLR_SET(SCB_TX_CTRL(base), SCB_TX_CTRL_DATA_WIDTH, (breakWidth - 1UL));
 
     /* Generate break */
     Cy_SCB_WriteTxFifo(base, 0UL);
@@ -1044,7 +1051,7 @@ void Cy_SCB_UART_SendBreakBlocking(CySCB_Type *base, uint32_t breakWidth)
     Cy_SCB_ClearTxInterrupt(base, CY_SCB_TX_INTR_MASK);
 
     /* Restore TX data width and interrupt sources */
-    base->TX_CTRL = txCtrlReg;
+    SCB_TX_CTRL(base) = txCtrlReg;
     Cy_SCB_SetTxInterruptMask(base, txIntrReg);
 }
 
@@ -1056,7 +1063,8 @@ void Cy_SCB_UART_SendBreakBlocking(CySCB_Type *base, uint32_t breakWidth)
 * This is the interrupt function for the SCB configured in the UART mode.
 * This function must be called inside a user-defined interrupt service
 * routine to make \ref Cy_SCB_UART_Transmit and \ref Cy_SCB_UART_Receive
-* work.
+* work. The ring buffer operation that enabled by calling \ref Cy_SCB_UART_StartRingBuffer 
+* also requires interrupt processing.
 *
 * \param base
 * The pointer to the UART SCB instance.
@@ -1389,6 +1397,7 @@ static void HandleDataTransmit(CySCB_Type *base, cy_stc_scb_uart_context_t *cont
 }
 #endif
 
+#endif /* CY_IP_MXSCB */
 
 /* [] END OF FILE */
 

@@ -1,8 +1,8 @@
 /***************************************************************************//**
 * \file cy_ipc_drv.c
-* \version 1.20
+* \version 1.30
 *
-*  \breif
+*  \brief
 *   IPC Driver - This source file contains the low-level driver code for
 *   the IPC hardware.
 *

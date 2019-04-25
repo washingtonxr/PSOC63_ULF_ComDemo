@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_wdt.c
-* \version 1.0.2
+* \version 1.10
 *
 *  This file provides the source code to the API for the WDT driver.
 *
@@ -13,7 +13,7 @@
 *******************************************************************************/
 
 #include "cy_wdt.h"
-#include "syslib/cy_syslib.h"
+#include "cy_syslib.h"
 
 #if defined(__cplusplus)
 extern "C" {
@@ -34,24 +34,20 @@ static bool Cy_WDT_Locked(void);
 * None of ignore bits are set: the whole WDT counter bits are checked against 
 * the match value.
 *
+* \sideeffect
+* This function clears the WDT interrupt.
+*
 *******************************************************************************/
 void Cy_WDT_Init(void)
 {
-    uint32_t interruptState;
-    interruptState = Cy_SysLib_EnterCriticalSection();
-
     /* Unlock the WDT by two writes */
-    SRSS->WDT_CTL = ((SRSS->WDT_CTL & (uint32_t)(~SRSS_WDT_CTL_WDT_LOCK_Msk)) | CY_SRSS_WDT_LOCK_BIT0);
-
-    SRSS->WDT_CTL |= CY_SRSS_WDT_LOCK_BIT1;
+    SRSS_WDT_CTL = ((SRSS_WDT_CTL & (uint32_t)(~SRSS_WDT_CTL_WDT_LOCK_Msk)) | CY_SRSS_WDT_LOCK_BIT0);
+    SRSS_WDT_CTL |= CY_SRSS_WDT_LOCK_BIT1;
 
     Cy_WDT_Disable();
-
     Cy_WDT_SetMatch(CY_SRSS_WDT_DEFAULT_MATCH_VALUE);
-
     Cy_WDT_SetIgnoreBits(CY_SRSS_WDT_DEFAULT_IGNORE_BITS);
-
-    Cy_SysLib_ExitCriticalSection(interruptState);
+    Cy_WDT_ClearInterrupt();
 }
 
 
@@ -67,28 +63,25 @@ void Cy_WDT_Init(void)
 *******************************************************************************/
 void Cy_WDT_Lock(void)
 {
-    uint32_t interruptState;
-    interruptState = Cy_SysLib_EnterCriticalSection();
-
-    SRSS->WDT_CTL |= _VAL2FLD(SRSS_WDT_CTL_WDT_LOCK, CY_SRSS_WDT_LOCK_BITS);
-
-    Cy_SysLib_ExitCriticalSection(interruptState);
+    SRSS_WDT_CTL |= _VAL2FLD(SRSS_WDT_CTL_WDT_LOCK, CY_SRSS_WDT_LOCK_BITS);
 }
 
 
 /*******************************************************************************
 * Function Name: Cy_WDT_Locked
 ****************************************************************************//**
-* \internal
-* Reports the WDT lock state.
+* 
+* Internal function that returns the WDT lock state.
 *
-* \return true - if WDT is locked, and false - if WDT is unlocked.
-* \endinternal
+* \return
+* True - if WDT is locked.
+* False - if WDT is unlocked.
+* 
 *******************************************************************************/
 static bool Cy_WDT_Locked(void)
 {
-    /* Prohibits writing to the WDT registers and LFCLK */
-    return (0u != _FLD2VAL(SRSS_WDT_CTL_WDT_LOCK, SRSS->WDT_CTL));
+    /* Prohibits writing to the WDT registers and other CLK_LF */
+    return (0u != _FLD2VAL(SRSS_WDT_CTL_WDT_LOCK, SRSS_WDT_CTL));
 }
 
 
@@ -101,15 +94,10 @@ static bool Cy_WDT_Locked(void)
 *******************************************************************************/
 void Cy_WDT_Unlock(void)
 {
-    uint32_t interruptState;
-    interruptState = Cy_SysLib_EnterCriticalSection();
-
     /* The WDT lock is to be removed by two writes */
-    SRSS->WDT_CTL = ((SRSS->WDT_CTL & (uint32_t)(~SRSS_WDT_CTL_WDT_LOCK_Msk)) | CY_SRSS_WDT_LOCK_BIT0);
+    SRSS_WDT_CTL = ((SRSS_WDT_CTL & (uint32_t)(~SRSS_WDT_CTL_WDT_LOCK_Msk)) | CY_SRSS_WDT_LOCK_BIT0);
 
-    SRSS->WDT_CTL |= CY_SRSS_WDT_LOCK_BIT1;
-
-    Cy_SysLib_ExitCriticalSection(interruptState);
+    SRSS_WDT_CTL |= CY_SRSS_WDT_LOCK_BIT1;
 }
 
 
@@ -128,9 +116,11 @@ void Cy_WDT_Unlock(void)
 *******************************************************************************/
 void Cy_WDT_SetMatch(uint32_t match)
 {
+    CY_ASSERT_L2(CY_WDT_IS_MATCH_VAL_VALID(match));
+    
     if (false == Cy_WDT_Locked())
     {
-        SRSS->WDT_MATCH = _CLR_SET_FLD32U((SRSS->WDT_MATCH), SRSS_WDT_MATCH_MATCH, match);
+        SRSS_WDT_MATCH = _CLR_SET_FLD32U((SRSS_WDT_MATCH), SRSS_WDT_MATCH_MATCH, match);
     }
 }
 
@@ -157,9 +147,11 @@ void Cy_WDT_SetMatch(uint32_t match)
 *******************************************************************************/
 void Cy_WDT_SetIgnoreBits(uint32_t bitsNum)
 {
+    CY_ASSERT_L2(CY_WDT_IS_IGNORE_BITS_VALID(bitsNum));
+
     if (false == Cy_WDT_Locked())
     {
-        SRSS->WDT_MATCH = _CLR_SET_FLD32U((SRSS->WDT_MATCH), SRSS_WDT_MATCH_IGNORE_BITS, bitsNum);
+        SRSS_WDT_MATCH = _CLR_SET_FLD32U((SRSS_WDT_MATCH), SRSS_WDT_MATCH_IGNORE_BITS, bitsNum);
     }
 }
 
@@ -175,12 +167,12 @@ void Cy_WDT_SetIgnoreBits(uint32_t bitsNum)
 *******************************************************************************/
 void Cy_WDT_ClearInterrupt(void)
 {
-    SRSS->SRSS_INTR = _VAL2FLD(SRSS_SRSS_INTR_WDT_MATCH, 1u);
+    SRSS_SRSS_INTR = _VAL2FLD(SRSS_SRSS_INTR_WDT_MATCH, 1U);
 
     /* Read the interrupt register to ensure that the initial clearing write has
     * been flushed out to the hardware.
     */
-    (void) SRSS->SRSS_INTR;
+    (void) SRSS_SRSS_INTR;
 }
 
 

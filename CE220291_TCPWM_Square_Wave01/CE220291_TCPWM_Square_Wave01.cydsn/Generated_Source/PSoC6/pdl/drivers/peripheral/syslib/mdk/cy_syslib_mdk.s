@@ -1,8 +1,8 @@
 ;-------------------------------------------------------------------------------
-; \file CyBootAsmRv.s
-; \version 2.0.1
+; \file cy_syslib_mdk.s
+; \version 2.10.1
 ;
-;  \brief Assembly routines for RealView.
+;  \brief Assembly routines for ARMCC.
 ;
 ;-------------------------------------------------------------------------------
 ; Copyright 2016-2018, Cypress Semiconductor Corporation.  All rights reserved.
@@ -37,7 +37,7 @@ Cy_SysLib_DelayCycles FUNCTION
 Cy_DelayCycles_loop
     ADDS r0, r0, #1         ;    1    2    Increment the counter.
     SUBS r0, r0, #2         ;    1    2    Decrement the counter by 2.
-    BNE Cy_DelayCycles_loop ;    2    2    2 CPU cycles (if branch is taken).
+    BNE Cy_DelayCycles_loop ;   (1)2  2    2 CPU cycles (if branch is taken).
     NOP                     ;    1    2    Loop alignment padding.
 Cy_DelayCycles_done
     BX lr                   ;    3    2

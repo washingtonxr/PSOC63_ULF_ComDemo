@@ -1,5 +1,5 @@
 -- Project:   CE220291_TCPWM_Square_Wave01
--- Generated: 03/27/2019 10:14:12
+-- Generated: 04/25/2019 14:17:34
 -- PSoC Creator  4.2
 
 ENTITY CE220291_TCPWM_Square_Wave01 IS
@@ -27,6 +27,7 @@ ENTITY CE220291_TCPWM_Square_Wave01 IS
     ATTRIBUTE voltage_VDDIO_1 OF __DEFAULT__ : ENTITY IS 3.3e0;
     ATTRIBUTE voltage_VDDR_HVL_2 OF __DEFAULT__ : ENTITY IS 3.3e0;
     ATTRIBUTE voltage_VDDR_HVL_3 OF __DEFAULT__ : ENTITY IS 3.3e0;
+    ATTRIBUTE voltage_VDDUSB OF __DEFAULT__ : ENTITY IS 3.3e0;
     ATTRIBUTE voltage_vddd OF __DEFAULT__ : ENTITY IS 3.3e0;
 END CE220291_TCPWM_Square_Wave01;
 
@@ -124,27 +125,24 @@ ARCHITECTURE __DEFAULT__ OF CE220291_TCPWM_Square_Wave01 IS
     ATTRIBUTE lib_model OF CY_CPUSS_SWJ_SWDIO_TMS(0) : LABEL IS "iocell2";
     ATTRIBUTE Location OF CY_CPUSS_SWJ_SWDIO_TMS(0) : LABEL IS "P6[6]";
     ATTRIBUTE lib_model OF ULF_OUT(0) : LABEL IS "iocell3";
-    ATTRIBUTE Location OF ULF_OUT(0) : LABEL IS "P6[2]";
+    ATTRIBUTE Location OF ULF_OUT(0) : LABEL IS "P1[0]";
     ATTRIBUTE lib_model OF ULF_IN(0) : LABEL IS "iocell4";
-    ATTRIBUTE Location OF ULF_IN(0) : LABEL IS "P13[6]";
+    ATTRIBUTE Location OF ULF_IN(0) : LABEL IS "P1[1]";
     ATTRIBUTE lib_model OF ULF_BB(0) : LABEL IS "iocell5";
-    ATTRIBUTE Location OF ULF_BB(0) : LABEL IS "P6[3]";
     ATTRIBUTE lib_model OF SW2(0) : LABEL IS "iocell6";
-    ATTRIBUTE Location OF SW2(0) : LABEL IS "P0[4]";
     ATTRIBUTE lib_model OF Red_LED(0) : LABEL IS "iocell7";
-    ATTRIBUTE Location OF Red_LED(0) : LABEL IS "P13[7]";
+    ATTRIBUTE Location OF Red_LED(0) : LABEL IS "P5[0]";
     ATTRIBUTE lib_model OF Orange_LED(0) : LABEL IS "iocell8";
-    ATTRIBUTE Location OF Orange_LED(0) : LABEL IS "P1[5]";
     ATTRIBUTE lib_model OF \UART_DEBUG:tx(0)\ : LABEL IS "iocell9";
-    ATTRIBUTE Location OF \UART_DEBUG:tx(0)\ : LABEL IS "P5[1]";
+    ATTRIBUTE Location OF \UART_DEBUG:tx(0)\ : LABEL IS "P13[1]";
     ATTRIBUTE lib_model OF \UART_DEBUG:rx(0)\ : LABEL IS "iocell10";
-    ATTRIBUTE Location OF \UART_DEBUG:rx(0)\ : LABEL IS "P5[0]";
+    ATTRIBUTE Location OF \UART_DEBUG:rx(0)\ : LABEL IS "P13[0]";
     ATTRIBUTE lib_model OF ULF_BO(0) : LABEL IS "iocell11";
-    ATTRIBUTE Location OF ULF_BO(0) : LABEL IS "P10[6]";
+    ATTRIBUTE Location OF ULF_BO(0) : LABEL IS "P1[5]";
     ATTRIBUTE lib_model OF ULF_TXen(0) : LABEL IS "iocell12";
-    ATTRIBUTE Location OF ULF_TXen(0) : LABEL IS "P10[5]";
+    ATTRIBUTE Location OF ULF_TXen(0) : LABEL IS "P5[1]";
     ATTRIBUTE lib_model OF SW3(0) : LABEL IS "iocell13";
-    ATTRIBUTE Location OF SW3(0) : LABEL IS "P10[4]";
+    ATTRIBUTE Location OF SW3(0) : LABEL IS "P1[4]";
     ATTRIBUTE lib_model OF Net_276 : LABEL IS "macrocell1";
     COMPONENT CLK_GEN
         PORT (

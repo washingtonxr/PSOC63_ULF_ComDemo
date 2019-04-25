@@ -1,8 +1,8 @@
 /***************************************************************************//**
-* \file cy_syslib_core_armcc.s
-* \version 2.0.1
+* \file cy_syslib_gcc.S
+* \version 2.10.1
 *
-* \brief Assembly routines for GNU as.
+* \brief Assembly routines for GNU GCC.
 *
 ********************************************************************************
 * \copyright
@@ -28,25 +28,41 @@
 *******************************************************************************/
 /* void Cy_SysLib_DelayCycles(uint32_t cycles) */
 .align 3                    /* Align to 8 byte boundary (2^n) */
+#ifndef __clang__
 .global Cy_SysLib_DelayCycles
 .func Cy_SysLib_DelayCycles, Cy_SysLib_DelayCycles
 .type Cy_SysLib_DelayCycles, %function
 .thumb_func
 Cy_SysLib_DelayCycles:      /* cycles bytes */
+
+#else
+.global _Cy_SysLib_DelayCycles
+.thumb_func
+
+_Cy_SysLib_DelayCycles:      /* cycles bytes */
+#endif
+
     ADDS r0, r0, #2         /*    1    2    Round to nearest multiple of 4 */
     LSRS r0, r0, #2         /*    1    2    Divide by 4 and set flags */
     BEQ Cy_DelayCycles_done /*    2    2    Skip if 0 */
+#ifdef __clang__
+    .align 2                    /* Align to 8 byte boundary (2^n) */
+#endif
 Cy_DelayCycles_loop:
-/* For CM0+ branch instruction takes 2 CPU cycles */
     ADDS r0, r0, #1         /*    1    2    Increment counter */
     SUBS r0, r0, #2         /*    1    2    Decrement counter by 2 */
-    BNE Cy_DelayCycles_loop /*    2    2    2 CPU cycles (if branch is taken)*/
+    BNE Cy_DelayCycles_loop /*   (1)2  2    2 CPU cycles (if branch is taken) */
     NOP                     /*    1    2    Loop alignment padding */
+#ifdef __clang__
+    .align 2                    /* Align to 8 byte boundary (2^n) */
+#endif
 Cy_DelayCycles_done:
     NOP                     /*    1    2    Loop alignment padding */
     BX lr                   /*    3    2 */
-.endfunc
 
+#ifndef __clang__    
+.endfunc
+#endif
 
 /*******************************************************************************
 * Function Name: Cy_SysLib_EnterCriticalSection
@@ -63,15 +79,27 @@ Cy_DelayCycles_done:
 *
 *******************************************************************************/
 /* uint8_t Cy_SysLib_EnterCriticalSection(void) */
+#ifndef __clang__
 .global Cy_SysLib_EnterCriticalSection
 .func Cy_SysLib_EnterCriticalSection, Cy_SysLib_EnterCriticalSection
 .type Cy_SysLib_EnterCriticalSection, %function
 .thumb_func
+
 Cy_SysLib_EnterCriticalSection:
+#else
+.global _Cy_SysLib_EnterCriticalSection
+.thumb_func
+
+_Cy_SysLib_EnterCriticalSection:
+#endif
+
     MRS r0, PRIMASK         /* Save and return interrupt state */
-    CPSID I                 /* Disable interrupts */
+    cpsid i                 /* Disable interrupts */
     BX lr
+
+#ifndef __clang__
 .endfunc
+#endif
 
 
 /*******************************************************************************
@@ -87,14 +115,25 @@ Cy_SysLib_EnterCriticalSection:
 *
 *******************************************************************************/
 /* void Cy_SysLib_ExitCriticalSection(uint8_t savedIntrStatus) */
+#ifndef __clang__
 .global Cy_SysLib_ExitCriticalSection
 .func Cy_SysLib_ExitCriticalSection, Cy_SysLib_ExitCriticalSection
 .type Cy_SysLib_ExitCriticalSection, %function
 .thumb_func
 Cy_SysLib_ExitCriticalSection:
+#else
+.global _Cy_SysLib_ExitCriticalSection
+.thumb_func
+
+_Cy_SysLib_ExitCriticalSection:
+#endif
+
     MSR PRIMASK, r0         /* Restore interrupt state */
     BX lr
+
+#ifndef __clang__
 .endfunc
+#endif
 
 .end
 

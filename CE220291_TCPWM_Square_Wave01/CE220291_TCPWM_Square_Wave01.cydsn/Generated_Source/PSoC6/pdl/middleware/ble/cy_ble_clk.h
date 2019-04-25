@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_ble_clk.h
-* \version 2.20
+* \version 2.30
 *
 * \brief
 *  Contains the function prototypes and constants for the BLE clock.
