@@ -1,2 +1,9 @@
 New Pin map:
+P1-0  MCU_125k   125k载波输出
+P1-1 MCU_DECODE  125K解码输出
+P1-4 MCU_CHECK   125K场域检测
+P1-5 MCU_CARD   125K卡模拟信号
+P5_0 LED_EN    灯使能信号，高有效
+P5_1 MCU_EN  预留的卡模拟使能脚，高有效。
+
 Chip:CY8C6347FMI-BUD53
