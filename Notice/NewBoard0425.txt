@@ -1,0 +1,2 @@
+New Pin map:
+Chip:CY8C6347FMI-BUD53
