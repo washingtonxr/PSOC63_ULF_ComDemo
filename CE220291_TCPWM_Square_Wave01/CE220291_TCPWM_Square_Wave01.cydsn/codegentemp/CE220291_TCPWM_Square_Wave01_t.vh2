@@ -1,5 +1,5 @@
 -- Project:   D:\Work\Git_repoes\LD_PSOC63_ULF_ComDemo\CE220291_TCPWM_Square_Wave01\CE220291_TCPWM_Square_Wave01.cydsn\CE220291_TCPWM_Square_Wave01.cyprj
--- Generated: 04/25/2019 14:17:44
+-- Generated: 04/30/2019 16:38:40
 -- PSoC Creator  4.2
 
 ENTITY CE220291_TCPWM_Square_Wave01 IS
@@ -54,8 +54,6 @@ ARCHITECTURE __DEFAULT__ OF CE220291_TCPWM_Square_Wave01 IS
     ATTRIBUTE global_signal OF ClockBlock_PeriClk : SIGNAL IS true;
     SIGNAL ClockBlock_SlowClk : bit;
     SIGNAL ClockBlock_WCO : bit;
-    SIGNAL INDIVIDUAL_PICU_OUT_0 : bit;
-    SIGNAL INDIVIDUAL_PICU_OUT_10 : bit;
     SIGNAL Net_106 : bit;
     SIGNAL Net_107 : bit;
     SIGNAL Net_108 : bit;
@@ -82,6 +80,8 @@ ARCHITECTURE __DEFAULT__ OF CE220291_TCPWM_Square_Wave01 IS
     SIGNAL Net_274 : bit;
     SIGNAL Net_276 : bit;
     ATTRIBUTE placement_force OF Net_276 : SIGNAL IS "U(1,4,A)0";
+    SIGNAL Net_278 : bit;
+    SIGNAL Net_280 : bit;
     SIGNAL Net_32 : bit;
     SIGNAL Net_90 : bit;
     SIGNAL Net_91 : bit;
@@ -132,23 +132,23 @@ ARCHITECTURE __DEFAULT__ OF CE220291_TCPWM_Square_Wave01 IS
     ATTRIBUTE lib_model OF ULF_IN(0) : LABEL IS "iocell4";
     ATTRIBUTE Location OF ULF_IN(0) : LABEL IS "P1[1]";
     ATTRIBUTE lib_model OF ULF_BB(0) : LABEL IS "iocell5";
-    ATTRIBUTE Location OF ULF_BB(0) : LABEL IS "P0[1]";
+    ATTRIBUTE Location OF ULF_BB(0) : LABEL IS "P0[0]";
     ATTRIBUTE lib_model OF SW2(0) : LABEL IS "iocell6";
-    ATTRIBUTE Location OF SW2(0) : LABEL IS "P0[0]";
+    ATTRIBUTE Location OF SW2(0) : LABEL IS "P13[0]";
     ATTRIBUTE lib_model OF Red_LED(0) : LABEL IS "iocell7";
     ATTRIBUTE Location OF Red_LED(0) : LABEL IS "P5[0]";
     ATTRIBUTE lib_model OF Orange_LED(0) : LABEL IS "iocell8";
-    ATTRIBUTE Location OF Orange_LED(0) : LABEL IS "P0[2]";
+    ATTRIBUTE Location OF Orange_LED(0) : LABEL IS "P0[1]";
     ATTRIBUTE lib_model OF \UART_DEBUG:tx(0)\ : LABEL IS "iocell9";
-    ATTRIBUTE Location OF \UART_DEBUG:tx(0)\ : LABEL IS "P13[1]";
+    ATTRIBUTE Location OF \UART_DEBUG:tx(0)\ : LABEL IS "P0[3]";
     ATTRIBUTE lib_model OF \UART_DEBUG:rx(0)\ : LABEL IS "iocell10";
-    ATTRIBUTE Location OF \UART_DEBUG:rx(0)\ : LABEL IS "P13[0]";
+    ATTRIBUTE Location OF \UART_DEBUG:rx(0)\ : LABEL IS "P0[2]";
     ATTRIBUTE lib_model OF ULF_BO(0) : LABEL IS "iocell11";
     ATTRIBUTE Location OF ULF_BO(0) : LABEL IS "P1[5]";
     ATTRIBUTE lib_model OF ULF_TXen(0) : LABEL IS "iocell12";
     ATTRIBUTE Location OF ULF_TXen(0) : LABEL IS "P5[1]";
     ATTRIBUTE lib_model OF SW3(0) : LABEL IS "iocell13";
-    ATTRIBUTE Location OF SW3(0) : LABEL IS "P1[4]";
+    ATTRIBUTE Location OF SW3(0) : LABEL IS "P13[1]";
     ATTRIBUTE lib_model OF Net_276 : LABEL IS "macrocell1";
     ATTRIBUTE Location OF Net_276 : LABEL IS "U(1,4)";
     ATTRIBUTE Location OF \ULF_Carrier:TCPWM\ : LABEL IS "F(TCPWM,0)";
@@ -157,13 +157,12 @@ ARCHITECTURE __DEFAULT__ OF CE220291_TCPWM_Square_Wave01 IS
     ATTRIBUTE Location OF SysInt_ULFMainCnt : LABEL IS "[IntrContainer=(0)][IntrId=(93)]";
     ATTRIBUTE Location OF \System_Tick:TCPWM\ : LABEL IS "F(TCPWM,1)";
     ATTRIBUTE Location OF SysInt_Tick : LABEL IS "[IntrContainer=(0)][IntrId=(91)]";
-    ATTRIBUTE Location OF \UART_DEBUG:SCB_IRQ\ : LABEL IS "[IntrContainer=(0)][IntrId=(47)]";
-    ATTRIBUTE Location OF \UART_DEBUG:SCB\ : LABEL IS "F(SCB,6)";
+    ATTRIBUTE Location OF \UART_DEBUG:SCB_IRQ\ : LABEL IS "[IntrContainer=(0)][IntrId=(41)]";
+    ATTRIBUTE Location OF \UART_DEBUG:SCB\ : LABEL IS "F(SCB,0)";
     ATTRIBUTE Location OF \ULF_Capture:TCPWM\ : LABEL IS "F(TCPWM,2)";
     ATTRIBUTE Location OF SysInt_ULFBasebandCnt : LABEL IS "[IntrContainer=(0)][IntrId=(92)]";
-    ATTRIBUTE Location OF SysInt_SW3 : LABEL IS "[IntrContainer=(0)][IntrId=(10)]";
-    ATTRIBUTE Location OF SysInt_SW : LABEL IS "[IntrContainer=(0)][IntrId=(0)]";
-    ATTRIBUTE Location OF IOSS : LABEL IS "F(IOSS,0)";
+    ATTRIBUTE Location OF SysInt_SW3 : LABEL IS "[IntrContainer=(0)][IntrId=(123)]";
+    ATTRIBUTE Location OF SysInt_SW : LABEL IS "[IntrContainer=(0)][IntrId=(122)]";
     COMPONENT CLK_GEN
         PORT (
             gen_clk_in_0 : IN std_ulogic;
@@ -482,26 +481,6 @@ ARCHITECTURE __DEFAULT__ OF CE220291_TCPWM_Square_Wave01 IS
             out_clock_en : IN std_ulogic;
             out_reset : IN std_ulogic);
     END COMPONENT;
-    COMPONENT IOSS
-        PORT (
-            interrupt_gpio : OUT std_ulogic;
-            interrupt_vdd : OUT std_ulogic;
-            interrupt_port_0 : OUT std_ulogic;
-            interrupt_port_1 : OUT std_ulogic;
-            interrupt_port_2 : OUT std_ulogic;
-            interrupt_port_3 : OUT std_ulogic;
-            interrupt_port_4 : OUT std_ulogic;
-            interrupt_port_5 : OUT std_ulogic;
-            interrupt_port_6 : OUT std_ulogic;
-            interrupt_port_7 : OUT std_ulogic;
-            interrupt_port_8 : OUT std_ulogic;
-            interrupt_port_9 : OUT std_ulogic;
-            interrupt_port_10 : OUT std_ulogic;
-            interrupt_port_11 : OUT std_ulogic;
-            interrupt_port_12 : OUT std_ulogic;
-            interrupt_port_13 : OUT std_ulogic;
-            interrupt_port_14 : OUT std_ulogic);
-    END COMPONENT;
     COMPONENT logicalport
         PORT (
             interrupt : OUT std_ulogic;
@@ -619,12 +598,11 @@ BEGIN
             ilo => ClockBlock_ILO,
             wco => ClockBlock_WCO,
             lfclk => ClockBlock_LFClk,
-            ff_div_0 => open,
+            ff_div_0 => \UART_DEBUG:Net_847_ff0\,
             ff_div_11 => Net_10_ff12,
             ff_div_12 => Net_109_ff14,
             ff_div_13 => Net_140_ff11,
             ff_div_14 => Net_10_ff13,
-            ff_div_6 => \UART_DEBUG:Net_847_ff0\,
             periclk_App => periclk_App);
 
     CPUSS:CPUSS
@@ -945,10 +923,11 @@ BEGIN
             oe_sync_mode => 0,
             logicalport => "SW2",
             logicalport_pin_id => 0,
-            io_capabilities => "0000000000000000000000000000000000000000000000000000000000000001")
+            io_capabilities => "0000000000000000000000000000000000000000000000000000000000000101")
         PORT MAP(
             pa_out => SW2(0)__PA,
             oe => open,
+            fb => Net_278,
             pad_in => SW2(0)_PAD,
             in_clock => open,
             in_clock_en => open,
@@ -1295,7 +1274,7 @@ BEGIN
             id => "a953aec0-263b-4feb-91da-793994dce3e5",
             init_dr_st => "1",
             input_sync => "0",
-            intr_mode => "11",
+            intr_mode => "10",
             io_voltage => "",
             max_frequency => "100",
             oe_conn => "0",
@@ -1326,10 +1305,11 @@ BEGIN
             oe_sync_mode => 0,
             logicalport => "SW3",
             logicalport_pin_id => 0,
-            io_capabilities => "0000000000000000000000000000000000000000000000000000000000000001")
+            io_capabilities => "0000000000000000000000000000000000000000000000000000000000000101")
         PORT MAP(
             pa_out => SW3(0)__PA,
             oe => open,
+            fb => Net_280,
             pad_in => SW3(0)_PAD,
             in_clock => open,
             in_clock_en => open,
@@ -1498,7 +1478,7 @@ BEGIN
             deepsleep_required => 0,
             int_type => "10")
         PORT MAP(
-            interrupt => INDIVIDUAL_PICU_OUT_10,
+            interrupt => Net_280,
             clock => ClockBlock_PeriClk);
 
     SysInt_SW:interrupt
@@ -1507,12 +1487,7 @@ BEGIN
             deepsleep_required => 0,
             int_type => "10")
         PORT MAP(
-            interrupt => INDIVIDUAL_PICU_OUT_0,
+            interrupt => Net_278,
             clock => ClockBlock_PeriClk);
-
-    IOSS:IOSS
-        PORT MAP(
-            interrupt_port_0 => INDIVIDUAL_PICU_OUT_0,
-            interrupt_port_10 => INDIVIDUAL_PICU_OUT_10);
 
 END __DEFAULT__;

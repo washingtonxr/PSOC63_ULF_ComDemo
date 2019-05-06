@@ -1,6 +1,6 @@
 -- ======================================================================
 -- CE220291_TCPWM_Square_Wave01.ctl generated from CE220291_TCPWM_Square_Wave01
--- 04/25/2019 at 14:17
+-- 04/30/2019 at 16:38
 -- This file is auto generated. ANY EDITS YOU MAKE MAY BE LOST WHEN THIS FILE IS REGENERATED!!!
 -- ======================================================================
 

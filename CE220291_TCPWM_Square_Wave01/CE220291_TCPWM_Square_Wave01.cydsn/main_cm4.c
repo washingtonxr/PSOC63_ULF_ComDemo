@@ -126,8 +126,11 @@ void SW2_ISR(void)
     if(Cy_GPIO_GetInterruptStatus(SW2_PORT, SW2_NUM) == CY_GPIO_INTR_STATUS_MASK){
         /* Transmit interrupt disable. */
         ULF_FiledDetectInt_Disable();
-
+#if 0   /* Eld version. */
         Orange_LED.sw = 1;
+#else
+        //Red_LED.sw = 1;
+#endif  
         ULF_Receive(&USER_DB_1, 32);
 #if 0
         Cy_GPIO_Set(ULF_BB_PORT, ULF_BB_NUM);
@@ -165,7 +168,11 @@ void SW3_ISR(void)
             ULF_Transmit_Exit();
         }else{
             if(ULF_FieldDet_EN){
+#if 0   /* Eld version. */
                 Orange_LED.sw = 1;
+#else
+                Red_LED.sw = 1;
+#endif  
                 ULF_Transmit(&USER_DB_1, 128);
                 //ULF_FiledDetectInt_Disable();
             }
@@ -295,6 +302,11 @@ int main(void)
     USER_DB_1.option = 1;
 
     ULF_Init();        /* Initialize ULF functions.  */
+    
+    for(unsigned int i = 0; i <10; i++){
+        Red_LED.sw = 1;
+        Cy_SysLib_Delay(300);
+    }
     
     /* Infinite loop */
     for(;;)

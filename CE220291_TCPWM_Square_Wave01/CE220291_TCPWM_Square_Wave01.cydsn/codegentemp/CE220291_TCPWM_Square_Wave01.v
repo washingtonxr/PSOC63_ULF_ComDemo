@@ -1,6 +1,6 @@
 // ======================================================================
 // CE220291_TCPWM_Square_Wave01.v generated from TopDesign.cysch
-// 04/25/2019 at 14:17
+// 04/30/2019 at 16:38
 // This file is auto generated. ANY EDITS YOU MAKE MAY BE LOST WHEN THIS FILE IS REGENERATED!!!
 // ======================================================================
 
@@ -533,6 +533,9 @@ endmodule
 // top
 module top ;
 
+          wire  Net_269;
+          wire  Net_272;
+          wire  Net_280;
           wire  Net_248;
           wire  Net_247;
           wire  Net_246;
@@ -560,6 +563,7 @@ module top ;
           wire  Net_102;
           wire  Net_101;
           wire  Net_100;
+          wire  Net_278;
           wire  Net_92;
           wire  Net_91;
           wire  Net_90;
@@ -580,8 +584,6 @@ module top ;
           wire  Net_260;
           wire  Net_259;
           wire  Net_258;
-          wire  Net_272;
-          wire  Net_269;
           wire  Net_32;
           wire  Net_140;
           wire  Net_149;
@@ -745,7 +747,6 @@ module top ;
         .compare(Net_92),
         .clock(Net_10));
 
-	wire [0:0] tmpFB_0__SW2_net;
 	wire [0:0] tmpIO_0__SW2_net;
 	electrical [0:0] tmpSIOVREF__SW2_net;
 
@@ -776,7 +777,7 @@ module top ;
 		SW2
 		 (.oe({1'b1}),
 		  .y({1'b0}),
-		  .fb({tmpFB_0__SW2_net[0:0]}),
+		  .fb({Net_278}),
 		  .io({tmpIO_0__SW2_net[0:0]}),
 		  .siovref(tmpSIOVREF__SW2_net));
 
@@ -1009,7 +1010,6 @@ module top ;
 		  .siovref(tmpSIOVREF__ULF_TXen_net));
 
 
-	wire [0:0] tmpFB_0__SW3_net;
 	wire [0:0] tmpIO_0__SW3_net;
 	electrical [0:0] tmpSIOVREF__SW3_net;
 
@@ -1021,7 +1021,7 @@ module top ;
 		  .ibuf_enabled("1"),
 		  .init_dr_st("1"),
 		  .input_sync("0"),
-		  .intr_mode("3"),
+		  .intr_mode("2"),
 		  .io_voltage(""),
 		  .output_conn("0"),
 		  .oe_conn("0"),
@@ -1040,7 +1040,7 @@ module top ;
 		SW3
 		 (.oe({1'b1}),
 		  .y({1'b0}),
-		  .fb({tmpFB_0__SW3_net[0:0]}),
+		  .fb({Net_280}),
 		  .io({tmpIO_0__SW3_net[0:0]}),
 		  .siovref(tmpSIOVREF__SW3_net));
 
@@ -1050,7 +1050,7 @@ module top ;
 		#(.deepsleep_required(0),
 		  .int_type(2'b10))
 		SysInt_SW3
-		 (.int_signal(Net_269));
+		 (.int_signal(Net_280));
 
 
 
@@ -1058,21 +1058,7 @@ module top ;
 		#(.deepsleep_required(0),
 		  .int_type(2'b10))
 		SysInt_SW
-		 (.int_signal(Net_272));
-
-
-
-	cy_gsref_v1_0
-		#(.guid("8C3B410E-0600-5ECF-95DD-0AF91BF8D8A7"))
-		GS4SW2
-		 (.sig_out(Net_272));
-
-
-
-	cy_gsref_v1_0
-		#(.guid("C752BC24-D910-59DF-BA09-8582177BFFE2"))
-		GS4SW3
-		 (.sig_out(Net_269));
+		 (.int_signal(Net_278));
 
 
 

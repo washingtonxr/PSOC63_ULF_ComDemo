@@ -1,6 +1,6 @@
-D:\Work\Git_repoes\LD_PSOC63_ULF_ComDemo\CE220291_TCPWM_Square_Wave01\CE220291_TCPWM_Square_Wave01.cydsn\CE220291_TCPWM_Square_Wave01.cyprj|adc77ba1-fb08-49ba-b3b1-64b27c55d40f
-C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|00000083-9102-43cb-be02-627c953345db
-C:\Users\Tornado\Documents\PSoC Creator\4.2\Downloads ( 4.2).cylib\Downloads ( 4.2).cyprj|bb791c30-94a6-4e5f-88ff-8cfc2333558a
-C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|90649a17-918f-4ee2-9e61-40d57eb6b829
-C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|8391c7f3-65a1-46bd-879d-460cc0864d61
-C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|e1d7b5e8-200c-4468-8b9c-35a7121c49d3
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|c35930fe-ef6e-4667-ae83-46f1dec1c5a7
+C:\Users\Tornado\Documents\PSoC Creator\4.2\Downloads ( 4.2).cylib\Downloads ( 4.2).cyprj|021bb47b-76a5-489c-a83a-fe03134d607b
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|4dcebe9c-57e9-4e46-b7b4-347fe70fe7dd
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|ec445683-1a90-4ba9-87a5-039247debe95
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|d04fc991-76d6-4fc9-b0b3-01ec2b84d012
+D:\Work\Git_repoes\LD_PSOC63_ULF_ComDemo\CE220291_TCPWM_Square_Wave01\CE220291_TCPWM_Square_Wave01.cydsn\CE220291_TCPWM_Square_Wave01.cyprj|d8759d5a-6f56-4e40-bef6-79c3dc557513

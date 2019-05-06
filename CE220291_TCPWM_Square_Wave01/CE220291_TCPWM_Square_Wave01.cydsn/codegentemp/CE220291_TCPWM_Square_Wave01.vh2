@@ -2,7 +2,7 @@
 --	Conversion of CE220291_TCPWM_Square_Wave01.v to vh2:
 --
 --	Cypress Semiconductor - WARP Version 6.3 IR 41
---	Thu Apr 25 14:17:28 2019
+--	Tue Apr 30 16:38:24 2019
 --
 
 USE cypress.cypress.all;
@@ -47,7 +47,7 @@ SIGNAL Net_90 : bit;
 SIGNAL \ULF_Counter:Net_1\ : bit;
 SIGNAL \ULF_Counter:Net_2\ : bit;
 SIGNAL Net_97 : bit;
-SIGNAL tmpFB_0__SW2_net_0 : bit;
+SIGNAL Net_278 : bit;
 SIGNAL tmpIO_0__SW2_net_0 : bit;
 TERMINAL tmpSIOVREF__SW2_net_0 : bit;
 SIGNAL tmpFB_0__Red_LED_net_0 : bit;
@@ -118,11 +118,9 @@ TERMINAL tmpSIOVREF__ULF_BO_net_0 : bit;
 SIGNAL tmpFB_0__ULF_TXen_net_0 : bit;
 SIGNAL tmpIO_0__ULF_TXen_net_0 : bit;
 TERMINAL tmpSIOVREF__ULF_TXen_net_0 : bit;
-SIGNAL tmpFB_0__SW3_net_0 : bit;
+SIGNAL Net_280 : bit;
 SIGNAL tmpIO_0__SW3_net_0 : bit;
 TERMINAL tmpSIOVREF__SW3_net_0 : bit;
-SIGNAL Net_269 : bit;
-SIGNAL Net_272 : bit;
 BEGIN
 
 one <=  ('1') ;
@@ -301,7 +299,7 @@ SW2:cy_mxs40_gpio_v1_0
 		hotswap_needed=>"0")
 	PORT MAP(oe=>(one),
 		y=>(zero),
-		fb=>(tmpFB_0__SW2_net_0),
+		fb=>Net_278,
 		analog=>(open),
 		io=>(tmpIO_0__SW2_net_0),
 		annotation=>(open),
@@ -614,7 +612,7 @@ SW3:cy_mxs40_gpio_v1_0
 		ibuf_enabled=>"1",
 		init_dr_st=>"1",
 		input_sync=>"0",
-		intr_mode=>"3",
+		intr_mode=>"2",
 		io_voltage=>"",
 		output_conn=>"0",
 		oe_conn=>"0",
@@ -632,7 +630,7 @@ SW3:cy_mxs40_gpio_v1_0
 		hotswap_needed=>"0")
 	PORT MAP(oe=>(one),
 		y=>(zero),
-		fb=>(tmpFB_0__SW3_net_0),
+		fb=>Net_280,
 		analog=>(open),
 		io=>(tmpIO_0__SW3_net_0),
 		annotation=>(open),
@@ -641,17 +639,11 @@ SysInt_SW3:cy_mxs40_isr_v1_0
 	GENERIC MAP(cy_registers=>"",
 		deepsleep_required=>'0',
 		int_type=>"10")
-	PORT MAP(int_signal=>Net_269);
+	PORT MAP(int_signal=>Net_280);
 SysInt_SW:cy_mxs40_isr_v1_0
 	GENERIC MAP(cy_registers=>"",
 		deepsleep_required=>'0',
 		int_type=>"10")
-	PORT MAP(int_signal=>Net_272);
-GS4SW2:cy_gsref_v1_0
-	GENERIC MAP(guid=>"8C3B410E-0600-5ECF-95DD-0AF91BF8D8A7")
-	PORT MAP(sig_out=>Net_272);
-GS4SW3:cy_gsref_v1_0
-	GENERIC MAP(guid=>"C752BC24-D910-59DF-BA09-8582177BFFE2")
-	PORT MAP(sig_out=>Net_269);
+	PORT MAP(int_signal=>Net_278);
 
 END R_T_L;
